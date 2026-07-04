@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --gold: #f5a623;
+    --deep-gold: #e08a00;
+    --saffron: #ff6b2b;
+  }
+
+  body {
+    @apply bg-slate-50 text-slate-900 font-sans antialiased selection:bg-amber-100 selection:text-amber-900;
+  }
+}
+
+.glass-card {
+  @apply bg-white/80 backdrop-blur-md border border-amber-500/10 shadow-xl shadow-amber-500/5 rounded-2xl;
+}
+
+.gradient-button {
+  @apply bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold transition-all duration-200 shadow-md shadow-amber-500/25 active:scale-[0.98];
+}

@@ -1,0 +1,48 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String   // Hash via bcrypt
+  phone     String?
+  role      String   @default("ADMIN") // "SUPER_ADMIN" | "ADMIN"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Lead {
+  id           String    @id @default(cuid())
+  name         String
+  phone        String
+  email        String?
+  eventType    String
+  service      String?
+  eventDate    DateTime?
+  guestCount   Int?
+  message      String?
+  status       String    @default("NEW") // "NEW" | "CONTACTED" | "QUOTATION_SENT" | "BOOKED" | "COMPLETED" | "CANCELLED"
+  notes        String?
+  assignedTo   String?   // User ID or name
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Package {
+  id             String   @id @default(cuid())
+  name           String
+  category       String   // e.g. Wedding, Birthday, Corporate
+  pricePerPerson Float
+  description    String
+  features       String   // Comma-separated list or details
+  isFeatured     Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
