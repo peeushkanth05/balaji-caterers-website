@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { PublicForm } from "@/components/PublicForm";
+import { FrontendGallery } from "@/components/FrontendGallery";
 import {
   Phone,
   MessageSquare,
@@ -37,7 +38,6 @@ export default async function HomePage() {
     galleryItems = await prisma.galleryItem.findMany({
       where: { isActive: true },
       orderBy: { createdAt: "desc" },
-      take: 8,
     });
 
     settings = await prisma.siteSetting.findUnique({
@@ -51,7 +51,6 @@ export default async function HomePage() {
   const whatsapp = settings?.whatsapp || "919810483544";
   const email = settings?.email || "vermasandeep124@gmail.com";
   const address = settings?.address || "Dwarka Sector 5, Madhu Vihar, New Delhi";
-  const mapsUrl = settings?.mapsUrl || "https://www.google.com/maps";
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
@@ -261,34 +260,18 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* Dynamic Gallery Showcase */}
+      {/* Dynamic Gallery Showcase with Filter & Lightbox */}
       {galleryItems.length > 0 && (
         <section id="portfolio" className="bg-slate-900 text-white py-20 px-6">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center max-w-2xl mx-auto mb-16">
+          <div className="max-w-7xl mx-auto space-y-12">
+            <div className="text-center max-w-2xl mx-auto">
               <span className="text-xs font-bold uppercase tracking-wider text-amber-400">Portfolio</span>
               <h2 className="text-3xl sm:text-4xl font-serif font-bold mt-1">
                 Recent Event Decorations & Setups
               </h2>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-              {galleryItems.map((item) => (
-                <div key={item.id} className="rounded-3xl overflow-hidden relative group h-64 bg-slate-800">
-                  <img
-                    src={item.imageUrl.startsWith("http") ? item.imageUrl : `/${item.imageUrl}`}
-                    alt={item.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent p-6 flex flex-col justify-end">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-amber-400">
-                      {item.category}
-                    </span>
-                    <h4 className="font-bold text-sm text-white">{item.title}</h4>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <FrontendGallery items={galleryItems} />
           </div>
         </section>
       )}
