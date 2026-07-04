@@ -2414,7 +2414,8 @@
 *Name:* ${name}
 *Phone:* ${phone}
 ${email ? '*Email:* ' + email + '\n' : ''}*Event:* ${eventType}
-${serviceNeeded ? '*Service:* ' + serviceNeeded + '\n' : ''}${eventDate ? '*Date:* ' + eventDate + '\n' : ''}${guestCount ? '*Guests:* ' + guestCount + '\n' : ''}${message ? '*Details:* ' + message : ''}`;
+${serviceNeeded ? '*Service:* ' + serviceNeeded + '\n' : ''}${eventDate ? '*Event Date:* ' + eventDate + '\n' : ''}*Expected Guests:* ${guestCount || 'Not specified'}
+${message ? '*Details:* ' + message : ''}`.trim();
 
                 try {
                     const response = await fetch('https://api.web3forms.com/submit', {
