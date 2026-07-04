@@ -48,15 +48,15 @@ model Package {
 }
 
 model Service {
-  id          String   @id @default(cuid())
-  title       String
-  icon        String   // Emoji or icon name (e.g. 🍽️)
-  description String
-  tag         String   // e.g. "Veg & Non-Veg", "Custom Themes"
-  displayOrder Int     @default(0)
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           String   @id @default(cuid())
+  title        String
+  icon         String   // Emoji or icon name (e.g. 🍽️)
+  description  String
+  tag          String   // e.g. "Veg & Non-Veg", "Custom Themes"
+  displayOrder Int      @default(0)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 model GalleryItem {
@@ -70,12 +70,34 @@ model GalleryItem {
 }
 
 model SiteSetting {
-  id          String   @id @default("default")
-  phone       String   @default("+919810483544")
-  whatsapp    String   @default("919810483544")
-  email       String   @default("vermasandeep124@gmail.com")
-  ownerName   String   @default("Sandeep Verma")
-  address     String   @default("Dwarka Sector 5, Madhu Vihar, New Delhi")
-  mapsUrl     String   @default("https://www.google.com/maps/search/?api=1&query=28.5921,77.0460&query_place_id=Dwarka+Sector+5+New+Delhi")
-  updatedAt   DateTime @updatedAt
+  id            String   @id @default("default")
+  // Business Info
+  phone         String   @default("+91 98104 83544")
+  whatsapp      String   @default("919810483544")
+  email         String   @default("vermasandeep124@gmail.com")
+  ownerName     String   @default("Sandeep Verma")
+  address       String   @default("Dwarka Sector 5, Madhu Vihar, New Delhi")
+  mapsUrl       String   @default("https://www.google.com/maps/search/?api=1&query=28.5921,77.0460&query_place_id=Dwarka+Sector+5+New+Delhi")
+  
+  // Editable Hero Section Content
+  heroBadge     String   @default("Delhi NCR's Premier Event Partner")
+  heroTitle     String   @default("Every Celebration, Perfectly Crafted.")
+  heroSubtitle  String   @default("From grand weddings to intimate family gatherings — Shree Balaji Caterers brings you world-class catering, stunning floral décor, seamless sound, and complete event management.")
+  
+  // Editable Stats Bar Numbers
+  stat1Number   String   @default("500+")
+  stat1Label    String   @default("Events Managed")
+  stat2Number   String   @default("15+")
+  stat2Label    String   @default("Years Experience")
+  stat3Number   String   @default("1000+")
+  stat3Label    String   @default("Happy Families")
+  stat4Number   String   @default("100%")
+  stat4Label    String   @default("Satisfaction")
+
+  // Editable About Us Content
+  aboutTag      String   @default("Why Us")
+  aboutTitle    String   @default("Why Choose Shree Balaji Caterers")
+  aboutSubtitle String   @default("With 15+ years of experience and 500+ successful events in Delhi NCR, we bring passion, precision, and a personal touch to every celebration.")
+
+  updatedAt     DateTime @updatedAt
 }

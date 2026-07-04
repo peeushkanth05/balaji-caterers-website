@@ -52,6 +52,23 @@ export default async function HomePage() {
   const email = settings?.email || "vermasandeep124@gmail.com";
   const address = settings?.address || "Dwarka Sector 5, Madhu Vihar, New Delhi";
 
+  const heroBadge = settings?.heroBadge || "Delhi NCR's Premier Event Partner";
+  const heroTitle = settings?.heroTitle || "Every Celebration, Perfectly Crafted.";
+  const heroSubtitle = settings?.heroSubtitle || "From grand weddings to intimate family gatherings — Shree Balaji Caterers brings you world-class catering, stunning floral décor, seamless sound, and complete event management.";
+
+  const stat1Number = settings?.stat1Number || "500+";
+  const stat1Label = settings?.stat1Label || "Events Managed";
+  const stat2Number = settings?.stat2Number || "15+";
+  const stat2Label = settings?.stat2Label || "Years Experience";
+  const stat3Number = settings?.stat3Number || "1000+";
+  const stat3Label = settings?.stat3Label || "Happy Families";
+  const stat4Number = settings?.stat4Number || "100%";
+  const stat4Label = settings?.stat4Label || "Satisfaction";
+
+  const aboutTag = settings?.aboutTag || "Why Us";
+  const aboutTitle = settings?.aboutTitle || "Why Choose Shree Balaji Caterers";
+  const aboutSubtitle = settings?.aboutSubtitle || "With 15+ years of experience and 500+ successful events in Delhi NCR, we bring passion, precision, and a personal touch to every celebration.";
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
       {/* Floating Action Buttons */}
@@ -137,15 +154,15 @@ export default async function HomePage() {
       <section className="pt-32 pb-20 px-6 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         <div className="space-y-6">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-700 text-xs font-bold uppercase tracking-wider">
-            <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" /> Delhi NCR's Premier Event Partner
+            <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" /> {heroBadge}
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-slate-900 leading-[1.15]">
-            Every <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-orange-500">Celebration</span>, Perfectly Crafted.
+            {heroTitle}
           </h1>
 
           <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
-            From grand weddings to intimate family gatherings — Shree Balaji Caterers brings you world-class catering, stunning floral décor, seamless sound, and complete event management.
+            {heroSubtitle}
           </p>
 
           <div className="flex flex-wrap items-center gap-4 pt-2">
@@ -185,6 +202,83 @@ export default async function HomePage() {
             <div className="text-4xl mb-2">🎉</div>
             <h3 className="font-bold text-slate-900">Full Events</h3>
             <p className="text-xs text-slate-500 mt-1">End-to-End Execution</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Dynamic Stats Bar */}
+      <section className="bg-slate-900 text-white py-12 border-y border-slate-800">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          <div>
+            <div className="text-3xl sm:text-4xl font-bold text-amber-400">{stat1Number}</div>
+            <div className="text-xs text-slate-400 font-medium mt-1">{stat1Label}</div>
+          </div>
+          <div>
+            <div className="text-3xl sm:text-4xl font-bold text-amber-400">{stat2Number}</div>
+            <div className="text-xs text-slate-400 font-medium mt-1">{stat2Label}</div>
+          </div>
+          <div>
+            <div className="text-3xl sm:text-4xl font-bold text-amber-400">{stat3Number}</div>
+            <div className="text-xs text-slate-400 font-medium mt-1">{stat3Label}</div>
+          </div>
+          <div>
+            <div className="text-3xl sm:text-4xl font-bold text-amber-400">{stat4Number}</div>
+            <div className="text-xs text-slate-400 font-medium mt-1">{stat4Label}</div>
+          </div>
+        </div>
+      </section>
+
+      {/* Dynamic About Us Section */}
+      <section id="about" className="py-20 px-6 max-w-7xl mx-auto">
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <span className="text-xs font-bold uppercase tracking-wider text-amber-600">{aboutTag}</span>
+          <h2 className="text-3xl sm:text-4xl font-serif font-bold text-slate-900 mt-1">
+            {aboutTitle}
+          </h2>
+          <p className="text-slate-600 text-sm mt-2">
+            {aboutSubtitle}
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm text-center space-y-3">
+            <div className="w-12 h-12 bg-amber-100 rounded-2xl flex items-center justify-center mx-auto text-amber-600">
+              <Award className="w-6 h-6" />
+            </div>
+            <h3 className="font-bold text-lg text-slate-900">15+ Years Trust</h3>
+            <p className="text-xs text-slate-500 leading-relaxed">
+              Over a decade of serving Delhi NCR families with reliable, high-quality event services.
+            </p>
+          </div>
+
+          <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm text-center space-y-3">
+            <div className="w-12 h-12 bg-orange-100 rounded-2xl flex items-center justify-center mx-auto text-orange-600">
+              <ShieldCheck className="w-6 h-6" />
+            </div>
+            <h3 className="font-bold text-lg text-slate-900">One-Stop Solution</h3>
+            <p className="text-xs text-slate-500 leading-relaxed">
+              Catering, décor, sound, lighting, mattress & cooler rental — everything under one roof.
+            </p>
+          </div>
+
+          <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm text-center space-y-3">
+            <div className="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center mx-auto text-emerald-600">
+              <HeartHandshake className="w-6 h-6" />
+            </div>
+            <h3 className="font-bold text-lg text-slate-900">Customized Menus</h3>
+            <p className="text-xs text-slate-500 leading-relaxed">
+              Tailored to your specific theme, budget, guest count, and dietary preferences.
+            </p>
+          </div>
+
+          <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm text-center space-y-3">
+            <div className="w-12 h-12 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto text-purple-600">
+              <CheckCircle2 className="w-6 h-6" />
+            </div>
+            <h3 className="font-bold text-lg text-slate-900">Owner Direct</h3>
+            <p className="text-xs text-slate-500 leading-relaxed">
+              Owned & directed by Sandeep Verma — personal attention for every event.
+            </p>
           </div>
         </div>
       </section>
@@ -260,7 +354,7 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* Dynamic Gallery Showcase with Filter & Lightbox */}
+      {/* Dynamic Gallery Showcase */}
       {galleryItems.length > 0 && (
         <section id="portfolio" className="bg-slate-900 text-white py-20 px-6">
           <div className="max-w-7xl mx-auto space-y-12">
