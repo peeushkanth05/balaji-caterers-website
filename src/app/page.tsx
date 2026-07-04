@@ -330,15 +330,18 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* Dynamic Gallery Showcase */}
+      {/* Dynamic Gallery Showcase — Bento Grid */}
       {galleryItems.length > 0 && (
-        <section id="portfolio" className="bg-slate-900 text-white py-20 px-6">
-          <div className="max-w-7xl mx-auto space-y-12">
+        <section id="portfolio" className="bg-gradient-to-b from-amber-50/80 via-white to-orange-50/60 py-24 px-6">
+          <div className="max-w-7xl mx-auto space-y-14">
             <div className="text-center max-w-2xl mx-auto">
-              <span className="text-xs font-bold uppercase tracking-wider text-amber-400">Portfolio</span>
-              <h2 className="text-3xl sm:text-4xl font-serif font-bold mt-1">
-                Recent Event Decorations & Setups
+              <span className="text-sm font-extrabold uppercase tracking-[3px] text-amber-500">Our Portfolio</span>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-black text-slate-900 mt-3 leading-tight">
+                Moments We've Created
               </h2>
+              <p className="text-slate-500 text-base mt-3 leading-relaxed">
+                A glimpse into the beautiful celebrations we have been honoured to be part of.
+              </p>
             </div>
 
             <FrontendGallery items={galleryItems} />

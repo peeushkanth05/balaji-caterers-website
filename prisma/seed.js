@@ -151,32 +151,49 @@ async function main() {
   });
   console.log('Seeded all 8 default services cleanly');
 
-  // 5. Seed Gallery Items
-  if ((await prisma.galleryItem.count()) === 0) {
-    await prisma.galleryItem.createMany({
-      data: [
-        {
-          title: 'Grand Mandap Setup',
-          category: 'Wedding',
-          imageUrl: 'public/grand_wedding_decor/3dce2ebd-b344-485c-80e0-88cad120d299.jpg',
-          isActive: true,
-        },
-        {
-          title: 'Floral Entrance Gate',
-          category: 'Floral',
-          imageUrl: 'public/grand_wedding_decor/7b473ea8-3932-41ab-bac7-910973b59980.jpg',
-          isActive: true,
-        },
-        {
-          title: 'Live Food Station',
-          category: 'Catering',
-          imageUrl: 'public/grand_wedding_decor/8e631f19-fd48-4e0b-aeff-1d652baa5f7e.jpg',
-          isActive: true,
-        },
-      ],
-    });
-    console.log('Seeded gallery items');
-  }
+  // 5. Seed Gallery Items (6 photos for bento grid)
+  await prisma.galleryItem.deleteMany({});
+  await prisma.galleryItem.createMany({
+    data: [
+      {
+        title: 'Grand Wedding Décor',
+        category: 'Wedding',
+        imageUrl: '/grand_wedding_decor/3dce2ebd-b344-485c-80e0-88cad120d299.jpg',
+        isActive: true,
+      },
+      {
+        title: 'Live Food Counters',
+        category: 'Catering',
+        imageUrl: '/grand_wedding_decor/7b473ea8-3932-41ab-bac7-910973b59980.jpg',
+        isActive: true,
+      },
+      {
+        title: 'DJ & Sound Setup',
+        category: 'DJ & Sound',
+        imageUrl: '/grand_wedding_decor/8e631f19-fd48-4e0b-aeff-1d652baa5f7e.jpg',
+        isActive: true,
+      },
+      {
+        title: 'Floral Stage Design',
+        category: 'Floral',
+        imageUrl: '/grand_wedding_decor/93f97c61-cb64-4b24-b9ed-3cef9082b0f4.jpg',
+        isActive: true,
+      },
+      {
+        title: 'Birthday Celebrations',
+        category: 'Birthday',
+        imageUrl: '/grand_wedding_decor/b65e738d-5f72-41ef-b881-aa71397225c5.jpg',
+        isActive: true,
+      },
+      {
+        title: 'Candle Lit Mandap',
+        category: 'Wedding',
+        imageUrl: '/grand_wedding_decor/fd3ad0c0-af52-4014-9461-a00f49abc506.jpg',
+        isActive: true,
+      },
+    ],
+  });
+  console.log('Seeded 6 gallery items for bento grid');
 
   // 6. Seed Site Settings
   await prisma.siteSetting.upsert({
