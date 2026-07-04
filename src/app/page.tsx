@@ -3,6 +3,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { PublicForm } from "@/components/PublicForm";
 import { FrontendGallery } from "@/components/FrontendGallery";
+import { ServicesSection } from "@/components/ServicesSection";
 import {
   Phone,
   MessageSquare,
@@ -283,33 +284,8 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Dynamic Services Grid */}
-      <section id="services" className="bg-amber-500/5 py-20 px-6 border-y border-amber-500/10">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-xs font-bold uppercase tracking-wider text-amber-600">What We Offer</span>
-            <h2 className="text-3xl sm:text-4xl font-serif font-bold text-slate-900 mt-1">
-              Our Premium Services
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {services.map((service) => (
-              <div
-                key={service.id}
-                className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm hover:border-amber-500/40 transition-all"
-              >
-                <div className="text-4xl mb-4">{service.icon}</div>
-                <h3 className="font-serif font-bold text-xl text-slate-900 mb-2">{service.title}</h3>
-                <p className="text-xs text-slate-500 leading-relaxed mb-4">{service.description}</p>
-                <span className="inline-block text-[11px] font-bold px-3 py-1 rounded-full bg-amber-100 text-amber-800">
-                  {service.tag}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Dynamic Services Grid (8 Services Connected with Enquiry Form) */}
+      <ServicesSection services={services} />
 
       {/* Dynamic Packages Showcase */}
       {packages.length > 0 && (
@@ -421,7 +397,7 @@ export default async function HomePage() {
 
           {/* Public Form Component */}
           <div className="lg:col-span-7">
-            <PublicForm whatsappNumber={whatsapp} />
+            <PublicForm whatsappNumber={whatsapp} availableServices={services} />
           </div>
         </div>
       </section>

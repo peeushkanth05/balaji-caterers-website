@@ -1,9 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Send, Loader2 } from "lucide-react";
 
-export function PublicForm({ whatsappNumber }: { whatsappNumber: string }) {
+export function PublicForm({
+  whatsappNumber,
+  availableServices = [],
+}: {
+  whatsappNumber: string;
+  availableServices?: any[];
+}) {
   const [loading, setLoading] = useState(false);
   const [statusMsg, setStatusMsg] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
@@ -15,6 +21,19 @@ export function PublicForm({ whatsappNumber }: { whatsappNumber: string }) {
   const [eventDate, setEventDate] = useState("");
   const [guestCount, setGuestCount] = useState("");
   const [message, setMessage] = useState("");
+
+  // Listen for service selection from Services section
+  useEffect(() => {
+    const handleServiceSelect = (e: any) => {
+      if (e.detail) {
+        setServiceNeeded(e.detail);
+      }
+    };
+    window.addEventListener("select-service-enquiry", handleServiceSelect);
+    return () => {
+      window.removeEventListener("select-service-enquiry", handleServiceSelect);
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,7 +86,7 @@ export function PublicForm({ whatsappNumber }: { whatsappNumber: string }) {
 *Name:* ${name}
 *Phone:* ${phone}
 ${email ? "*Email:* " + email + "\n" : ""}*Event:* ${eventType}
-${serviceNeeded ? "*Service:* " + serviceNeeded + "\n" : ""}${eventDate ? "*Event Date:* " + eventDate + "\n" : ""}*Expected Guests:* ${guestCount || "Not specified"}
+${serviceNeeded ? "*Service Needed:* " + serviceNeeded + "\n" : ""}${eventDate ? "*Event Date:* " + eventDate + "\n" : ""}*Expected Guests:* ${guestCount || "Not specified"}
 ${message ? "*Details:* " + message : ""}`.trim();
 
       const cleanPhone = (whatsappNumber || "919810483544").replace(/[^0-9]/g, "");
@@ -81,9 +100,12 @@ ${message ? "*Details:* " + message : ""}`.trim();
 
   return (
     <div className="bg-white p-8 sm:p-10 rounded-3xl border border-slate-200 shadow-xl">
-      <h3 className="font-serif font-bold text-2xl text-slate-900 mb-6">
+      <h3 className="font-serif font-bold text-2xl text-slate-900 mb-2">
         🎉 Request a Free Quote
       </h3>
+      <p className="text-xs text-slate-500 mb-6">
+        Fill out your event details below for a customized quotation.
+      </p>
 
       {statusMsg && (
         <div
@@ -155,17 +177,31 @@ ${message ? "*Details:* " + message : ""}`.trim();
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1">Services Needed</label>
+            <label className="block text-xs font-bold text-slate-700 mb-1">Service Needed</label>
             <select
               value={serviceNeeded}
               onChange={(e) => setServiceNeeded(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-amber-500"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-amber-500 font-medium"
             >
               <option value="">Select Service</option>
-              <option value="Catering Only">Catering Only</option>
-              <option value="Decoration Only">Decoration Only</option>
-              <option value="Sound Setup">Sound Setup</option>
-              <option value="Full Package">Full Package</option>
+              {availableServices.length > 0 ? (
+                availableServices.map((s) => (
+                  <option key={s.id} value={s.title}>
+                    {s.title}
+                  </option>
+                ))
+              ) : (
+                <>
+                  <option value="Catering Services">Catering Services</option>
+                  <option value="Floral Decoration">Floral Decoration</option>
+                  <option value="Sound & DJ Setup">Sound & DJ Setup</option>
+                  <option value="Mattress Rental">Mattress Rental</option>
+                  <option value="Cooler Rental">Cooler Rental</option>
+                  <option value="Event Management">Event Management</option>
+                  <option value="Stall Booking">Stall Booking</option>
+                  <option value="Event Anchoring">Event Anchoring</option>
+                </>
+              )}
             </select>
           </div>
         </div>

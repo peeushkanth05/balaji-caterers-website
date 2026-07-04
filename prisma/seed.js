@@ -79,38 +79,77 @@ async function main() {
     console.log('Seeded sample packages');
   }
 
-  // 4. Seed Services
-  if ((await prisma.service.count()) === 0) {
-    await prisma.service.createMany({
-      data: [
-        {
-          title: 'Catering Services',
-          icon: '🍽️',
-          description: 'Authentic North Indian, South Indian, Chinese & Continental cuisines with live counters and desserts.',
-          tag: 'Veg & Non-Veg',
-          displayOrder: 1,
-          isActive: true,
-        },
-        {
-          title: 'Floral Decoration',
-          icon: '🌸',
-          description: 'Breathtaking mandap setups, stage arrangements, entrance gates, and fresh floral canopies.',
-          tag: 'Custom Themes',
-          displayOrder: 2,
-          isActive: true,
-        },
-        {
-          title: 'Sound & DJ Setup',
-          icon: '📢',
-          description: 'Professional-grade PA systems, DJ consoles, intelligent lighting, and wireless mics.',
-          tag: 'Pro Audio & Lights',
-          displayOrder: 3,
-          isActive: true,
-        },
-      ],
-    });
-    console.log('Seeded default services');
-  }
+  // 4. Seed All 8 Services
+  await prisma.service.deleteMany({}); // Reset services to clean 8 items
+  await prisma.service.createMany({
+    data: [
+      {
+        title: 'Catering Services',
+        icon: '🍽️',
+        description: 'Authentic North Indian, South Indian, Chinese & Continental cuisines. Live counters, street food stations, and dessert spreads tailored to your taste.',
+        tag: 'Veg & Non-Veg',
+        displayOrder: 1,
+        isActive: true,
+      },
+      {
+        title: 'Floral Decoration',
+        icon: '🌸',
+        description: 'Breathtaking wedding canopies, stage arrangements, floral canopies, and entrance gates. Roses, marigolds, orchids — we create visual magic.',
+        tag: 'Custom Themes',
+        displayOrder: 2,
+        isActive: true,
+      },
+      {
+        title: 'Sound & DJ Setup',
+        icon: '🔊',
+        description: 'Professional-grade PA systems, DJ equipment, LED lighting, and live band arrangements. Crystal-clear sound for every moment.',
+        tag: 'HD Audio',
+        displayOrder: 3,
+        isActive: true,
+      },
+      {
+        title: 'Mattress Rental',
+        icon: '🛏️',
+        description: 'Clean, comfortable mattresses with bedding on rent for out-of-town guests. Foam, spring, and orthopedic options available in bulk.',
+        tag: 'Bulk Orders',
+        displayOrder: 4,
+        isActive: true,
+      },
+      {
+        title: 'Cooler Rental',
+        icon: '❄️',
+        description: 'Desert coolers and industrial air coolers for outdoor events. Beat the heat and keep your guests comfortable through every season.',
+        tag: 'All Seasons',
+        displayOrder: 5,
+        isActive: true,
+      },
+      {
+        title: 'Event Management',
+        icon: '🎪',
+        description: 'End-to-end event planning, coordination and execution. From venue selection to tear-down — our dedicated team manages it all.',
+        tag: 'Turnkey Service',
+        displayOrder: 6,
+        isActive: true,
+      },
+      {
+        title: 'Stall Booking',
+        icon: '🏪',
+        description: 'Custom food stalls, exhibition counters, and vendor booths for fairs, melas, and corporate expos. Professional setup with branding options.',
+        tag: 'Custom Setup',
+        displayOrder: 7,
+        isActive: true,
+      },
+      {
+        title: 'Event Anchoring',
+        icon: '🎙️',
+        description: 'Experienced emcees and anchors for weddings, corporate events, and cultural programs. Bilingual hosting in Hindi and English.',
+        tag: 'Live Hosting',
+        displayOrder: 8,
+        isActive: true,
+      },
+    ],
+  });
+  console.log('Seeded all 8 default services cleanly');
 
   // 5. Seed Gallery Items
   if ((await prisma.galleryItem.count()) === 0) {
@@ -119,19 +158,19 @@ async function main() {
         {
           title: 'Grand Mandap Setup',
           category: 'Wedding',
-          imageUrl: 'grand_wedding_decor/3dce2ebd-b344-485c-80e0-88cad120d299.jpg',
+          imageUrl: 'public/grand_wedding_decor/3dce2ebd-b344-485c-80e0-88cad120d299.jpg',
           isActive: true,
         },
         {
           title: 'Floral Entrance Gate',
           category: 'Floral',
-          imageUrl: 'grand_wedding_decor/7b473ea8-3932-41ab-bac7-910973b59980.jpg',
+          imageUrl: 'public/grand_wedding_decor/7b473ea8-3932-41ab-bac7-910973b59980.jpg',
           isActive: true,
         },
         {
           title: 'Live Food Station',
           category: 'Catering',
-          imageUrl: 'grand_wedding_decor/8e631f19-fd48-4e0b-aeff-1d652baa5f7e.jpg',
+          imageUrl: 'public/grand_wedding_decor/8e631f19-fd48-4e0b-aeff-1d652baa5f7e.jpg',
           isActive: true,
         },
       ],
