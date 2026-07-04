@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -46,9 +46,11 @@
 
     <!-- ================================================
          GOOGLE ANALYTICS GA4
-         Replace G-XXXXXXXXXX with your real Measurement ID
+         TODO: Replace G-XXXXXXXXXX with your real Measurement ID
          from: analytics.google.com > Admin > Data Streams
+         Uncomment the block below once you have a real ID.
          ================================================ -->
+    <!--
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -59,6 +61,7 @@
             page_location: window.location.href
         });
     </script>
+    -->
 
     <!-- JSON-LD Structured Data: LocalBusiness -->
     <script type="application/ld+json">
@@ -1554,6 +1557,136 @@
                 border-width: 4px;
             }
         }
+
+        /* --- ABOUT / WHY CHOOSE US --- */
+        .about-section {
+            padding: 100px 6%;
+            background: var(--white);
+        }
+
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .about-card {
+            background: var(--off-white);
+            border-radius: 24px;
+            padding: 40px 30px;
+            text-align: center;
+            border: 1px solid rgba(245, 166, 35, 0.08);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+        }
+
+        .about-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(245, 166, 35, 0.12);
+        }
+
+        .about-card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 18px;
+            display: block;
+        }
+
+        .about-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+
+        .about-card p {
+            color: var(--muted);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            .about-section {
+                padding: 60px 5%;
+            }
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* --- FOOTER --- */
+        .site-footer {
+            background: #1a1a1a;
+            color: #ccc;
+            padding: 60px 6% 30px;
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 40px;
+        }
+
+        .footer-brand .footer-logo-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+
+        .footer-brand p {
+            line-height: 1.7;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        .footer-col h4 {
+            font-family: 'Playfair Display', serif;
+            color: var(--gold);
+            margin-bottom: 18px;
+            font-size: 1.1rem;
+        }
+
+        .footer-col a {
+            display: block;
+            color: #aaa;
+            text-decoration: none;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .footer-col a:hover {
+            color: var(--gold);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 40px auto 0;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #777;
+        }
+
+        @media (max-width: 768px) {
+            .footer-inner {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .footer-brand .footer-logo-img {
+                margin: 0 auto 15px;
+            }
+        }
     </style>
 </head>
 
@@ -1575,7 +1708,7 @@
             </a>
         </div>
         <ul class="nav-links">
-            <li><a href="#about">About</a></li>
+            <li><a href="#about">About Us</a></li>
             <li><a href="#services">Services</a></li>
             <li><a href="#portfolio">Gallery</a></li>
             <li><a href="#location">Location</a></li>
@@ -1589,7 +1722,7 @@
     <!-- MOBILE NAV DRAWER -->
     <div class="mobile-nav" id="mobile-nav" role="navigation" aria-label="Mobile menu">
         <ul>
-            <li><a href="#about">About</a></li>
+            <li><a href="#about">About Us</a></li>
             <li><a href="#services">Services</a></li>
             <li><a href="#portfolio">Gallery</a></li>
             <li><a href="#location">Location</a></li>
@@ -1660,6 +1793,38 @@
             <div class="stat-label">Satisfaction</div>
         </div>
     </div>
+    <!-- ABOUT / WHY CHOOSE US -->
+    <section id="about" class="about-section">
+        <div class="about-container">
+            <div class="center-text reveal">
+                <div class="section-tag">Why Us</div>
+                <h2 class="section-title">Why Choose Shree Balaji Caterers</h2>
+                <p class="section-sub">With 15+ years of experience and 500+ successful events, we bring passion, precision, and a personal touch to every celebration.</p>
+            </div>
+            <div class="about-grid">
+                <div class="about-card reveal">
+                    <span class="about-card-icon" aria-hidden="true">&#127942;</span>
+                    <h3>15+ Years of Trust</h3>
+                    <p>Over a decade and a half of serving Delhi NCR families with reliable, high-quality event services and delicious food.</p>
+                </div>
+                <div class="about-card reveal">
+                    <span class="about-card-icon" aria-hidden="true">&#127860;</span>
+                    <h3>One-Stop Solution</h3>
+                    <p>From catering and d&eacute;cor to DJ, lighting, and complete event management &mdash; everything under one roof, one team, one call.</p>
+                </div>
+                <div class="about-card reveal">
+                    <span class="about-card-icon" aria-hidden="true">&#128150;</span>
+                    <h3>Personalised Service</h3>
+                    <p>We don't believe in cookie-cutter events. Every celebration is customised to your vision, budget, and guest count.</p>
+                </div>
+                <div class="about-card reveal">
+                    <span class="about-card-icon" aria-hidden="true">&#128588;</span>
+                    <h3>Family-Owned Values</h3>
+                    <p>Owned and operated by Sandeep Verma, every event gets the personal attention of a business owner, not just a vendor.</p>
+                </div>
+            </div>
+        </div>
+    </section>
     <!-- SERVICES -->
     <section id="services" class="services-bg">
         <div class="center-text reveal">
@@ -1972,64 +2137,68 @@
                 </div>
             </div>
 
-            <div class="contact-form reveal">
+            <form class="contact-form reveal" id="enquiry-form" action="https://api.web3forms.com/submit" method="POST">
+                <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_KEY">
+                <input type="hidden" name="subject" value="New Enquiry from Shree Balaji Website">
+                <input type="hidden" name="from_name" value="Shree Balaji Website">
+                <input type="hidden" name="redirect" value="">
                 <h3>&#127881; Request a Free Quote</h3>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Your Name *</label>
-                        <input type="text" placeholder="Ramesh Kumar">
+                        <label for="field-name">Your Name *</label>
+                        <input type="text" id="field-name" name="name" placeholder="Ramesh Kumar" required>
                     </div>
                     <div class="form-group">
-                        <label>Mobile Number *</label>
-                        <input type="tel" placeholder="+91 XXXXX XXXXX">
+                        <label for="field-phone">Mobile Number *</label>
+                        <input type="tel" id="field-phone" name="phone" placeholder="+91 XXXXX XXXXX" required pattern="[+]?[0-9\s]{10,15}" title="Enter a valid phone number">
                     </div>
                 </div>
                 <div class="form-group full-width">
-                    <label>Email Address</label>
-                    <input type="email" placeholder="you@example.com">
+                    <label for="field-email">Email Address</label>
+                    <input type="email" id="field-email" name="email" placeholder="you@example.com">
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Event Type *</label>
-                        <select>
+                        <label for="field-event">Event Type *</label>
+                        <select id="field-event" name="event_type" required>
                             <option value="">Select Event</option>
-                            <option>Wedding</option>
-                            <option>Birthday Party</option>
-                            <option>Engagement</option>
-                            <option>Corporate Event</option>
-                            <option>Prayers / Ceremonies</option>
-                            <option>Anniversary</option>
-                            <option>Other</option>
+                            <option value="Wedding">Wedding</option>
+                            <option value="Birthday Party">Birthday Party</option>
+                            <option value="Engagement">Engagement</option>
+                            <option value="Corporate Event">Corporate Event</option>
+                            <option value="Prayers / Ceremonies">Prayers / Ceremonies</option>
+                            <option value="Anniversary">Anniversary</option>
+                            <option value="Other">Other</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Services Needed</label>
-                        <select>
+                        <label for="field-service">Services Needed</label>
+                        <select id="field-service" name="service_needed">
                             <option value="">Select Service</option>
-                            <option>Catering Only</option>
-                            <option>Decoration Only</option>
-                            <option>Sound Setup</option>
-                            <option>Full Package</option>
-                            <option>Mattress / Cooler Rental</option>
+                            <option value="Catering Only">Catering Only</option>
+                            <option value="Decoration Only">Decoration Only</option>
+                            <option value="Sound Setup">Sound Setup</option>
+                            <option value="Full Package">Full Package</option>
+                            <option value="Mattress / Cooler Rental">Mattress / Cooler Rental</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Event Date</label>
-                        <input type="date">
+                        <label for="field-date">Event Date</label>
+                        <input type="date" id="field-date" name="event_date">
                     </div>
                     <div class="form-group">
-                        <label>Expected Guests</label>
-                        <input type="number" placeholder="e.g. 200">
+                        <label for="field-guests">Expected Guests</label>
+                        <input type="number" id="field-guests" name="guest_count" placeholder="e.g. 200" min="1">
                     </div>
                 </div>
                 <div class="form-group full-width">
-                    <label>Tell Us More</label>
-                    <textarea placeholder="Any special requirements, theme, or questions..."></textarea>
+                    <label for="field-message">Tell Us More</label>
+                    <textarea id="field-message" name="message" placeholder="Any special requirements, theme, or questions..."></textarea>
                 </div>
-                <button class="form-submit" onclick="handleSubmit(this)">&#128640; Send My Enquiry</button>
-            </div>
+                <button type="submit" class="form-submit" id="form-submit-btn">&#128640; Send My Enquiry</button>
+            </form>
         </div>
     </section>
     <!-- LOCATION SECTION -->
@@ -2039,7 +2208,7 @@
             <div class="location-header">
                 <div class="section-tag" style="margin-bottom: 10px;">Visit Us</div>
                 <h2>Our Location</h2>
-                <a href="https://maps.app.goo.gl/hyderabad" target="_blank" class="location-link">
+                <a href="https://www.google.com/maps/search/?api=1&query=28.5921,77.0460&query_place_id=Dwarka+Sector+5+New+Delhi" target="_blank" class="location-link">
                     <span>&#128205;</span> Open in Google Maps
                 </a>
             </div>
@@ -2050,6 +2219,35 @@
             </div>
         </div>
     </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <img src="new-logo.png" alt="Shree Balaji Caterers Logo" class="footer-logo-img">
+                <p>Your trusted partner for catering, floral decoration, sound setup, and complete event management in Delhi NCR. Making every celebration unforgettable since 2010.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <a href="#about">About Us</a>
+                <a href="#services">Services</a>
+                <a href="#portfolio">Gallery</a>
+                <a href="#contact">Contact</a>
+                <a href="#location">Location</a>
+            </div>
+            <div class="footer-col">
+                <h4>Get in Touch</h4>
+                <a href="tel:9810483544">&#128222; +91 98104 83544</a>
+                <a href="mailto:vermasandeep124@gmail.com">&#128231; vermasandeep124@gmail.com</a>
+                <a href="https://wa.me/919810483544" target="_blank">&#128172; WhatsApp Us</a>
+                <a href="privacy-policy.html">Privacy Policy</a>
+                <a href="terms-of-service.html">Terms of Service</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 Shree Balaji Caterers. All rights reserved. | Dwarka, Delhi NCR
+        </div>
+    </footer>
 
     <script>
         /* -- Hamburger menu toggle -- */
@@ -2192,28 +2390,55 @@
         const statsBar = document.querySelector('.stats-bar');
         if (statsBar) statsObs.observe(statsBar);
 
-        /*  Contact form handler   */
-        function handleSubmit(btn) {
-            const form = btn.closest('div.contact-form') || btn.parentElement;
-            btn.innerHTML = '&#9989; Enquiry Sent! We\'ll Call You Soon.';
-            btn.style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
-            btn.disabled = true;
+        /*  Contact form handler — submits to Web3Forms via fetch  */
+        const enquiryForm = document.getElementById('enquiry-form');
+        const submitBtn = document.getElementById('form-submit-btn');
 
-            // GA4: track enquiry as a lead conversion
-            if (typeof gtag === 'function') {
-                gtag('event', 'generate_lead', {
-                    event_category: 'Contact Form',
-                    event_label: 'Enquiry Submitted'
-                });
-            }
+        if (enquiryForm) {
+            enquiryForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '&#9203; Sending...';
 
-            setTimeout(() => {
-                btn.innerHTML = '&#128640; Send My Enquiry';
-                btn.style.background = '';
-                btn.disabled = false;
-            }
+                try {
+                    const formData = new FormData(enquiryForm);
+                    const response = await fetch('https://api.web3forms.com/submit', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const result = await response.json();
 
-                , 4000);
+                    if (result.success) {
+                        submitBtn.innerHTML = '&#9989; Enquiry Sent! We\'ll Call You Soon.';
+                        submitBtn.style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
+                        enquiryForm.reset();
+
+                        // GA4: track enquiry as a lead conversion
+                        if (typeof gtag === 'function') {
+                            gtag('event', 'generate_lead', {
+                                event_category: 'Contact Form',
+                                event_label: 'Enquiry Submitted'
+                            });
+                        }
+
+                        setTimeout(() => {
+                            submitBtn.innerHTML = '&#128640; Send My Enquiry';
+                            submitBtn.style.background = '';
+                            submitBtn.disabled = false;
+                        }, 5000);
+                    } else {
+                        throw new Error(result.message || 'Submission failed');
+                    }
+                } catch (error) {
+                    submitBtn.innerHTML = '&#10060; Failed — Please call us directly';
+                    submitBtn.style.background = 'linear-gradient(135deg, #e63946, #ff6b6b)';
+                    setTimeout(() => {
+                        submitBtn.innerHTML = '&#128640; Send My Enquiry';
+                        submitBtn.style.background = '';
+                        submitBtn.disabled = false;
+                    }, 4000);
+                }
+            });
         }
 
     </script>

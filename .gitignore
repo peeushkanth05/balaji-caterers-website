@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Dev/admin scripts (should not be deployed)
+builder.js
+update-index.js
+repair.js
+cleanup-heroes.js
+getcolor.ps1
+serve.ps1
+clean_css_comments.ps1
+start_server.bat
+server.js
+
+# Junk/debug files
+index_debug.html
+index_utf8.html
+
+# Backup files
+new-logo-original.png
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/

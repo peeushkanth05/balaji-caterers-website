@@ -1,0 +1,24 @@
+# Robots.txt for Shree Balaji Caterers
+# https://shreebalajicaterers.in/
+
+User-agent: *
+Allow: /
+
+# Block dev/build artifacts
+Disallow: /.git/
+Disallow: /node_modules/
+Disallow: /_dev/
+Disallow: /builder.js
+Disallow: /update-index.js
+Disallow: /repair.js
+Disallow: /cleanup-heroes.js
+Disallow: /getcolor.ps1
+Disallow: /serve.ps1
+Disallow: /clean_css_comments.ps1
+Disallow: /start_server.bat
+Disallow: /index_debug.html
+Disallow: /index_utf8.html
+Disallow: /server.js
+
+# Sitemap
+Sitemap: https://shreebalajicaterers.in/sitemap.xml
