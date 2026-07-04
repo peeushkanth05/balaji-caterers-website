@@ -2390,7 +2390,7 @@
         const statsBar = document.querySelector('.stats-bar');
         if (statsBar) statsObs.observe(statsBar);
 
-        /*  Contact form handler — submits to Web3Forms via fetch  */
+        /*  Contact form handler — submits to Web3Forms with WhatsApp fallback  */
         const enquiryForm = document.getElementById('enquiry-form');
         const submitBtn = document.getElementById('form-submit-btn');
 
@@ -2400,8 +2400,23 @@
                 submitBtn.disabled = true;
                 submitBtn.innerHTML = '&#9203; Sending...';
 
+                const formData = new FormData(enquiryForm);
+                const name = formData.get('name') || '';
+                const phone = formData.get('phone') || '';
+                const email = formData.get('email') || '';
+                const eventType = formData.get('event_type') || '';
+                const serviceNeeded = formData.get('service_needed') || '';
+                const eventDate = formData.get('event_date') || '';
+                const guestCount = formData.get('guest_count') || '';
+                const message = formData.get('message') || '';
+
+                const waMessage = `Hello Shree Balaji Caterers! I would like to enquire about your services:
+*Name:* ${name}
+*Phone:* ${phone}
+${email ? '*Email:* ' + email + '\n' : ''}*Event:* ${eventType}
+${serviceNeeded ? '*Service:* ' + serviceNeeded + '\n' : ''}${eventDate ? '*Date:* ' + eventDate + '\n' : ''}${guestCount ? '*Guests:* ' + guestCount + '\n' : ''}${message ? '*Details:* ' + message : ''}`;
+
                 try {
-                    const formData = new FormData(enquiryForm);
                     const response = await fetch('https://api.web3forms.com/submit', {
                         method: 'POST',
                         body: formData
@@ -2413,7 +2428,6 @@
                         submitBtn.style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
                         enquiryForm.reset();
 
-                        // GA4: track enquiry as a lead conversion
                         if (typeof gtag === 'function') {
                             gtag('event', 'generate_lead', {
                                 event_category: 'Contact Form',
@@ -2426,17 +2440,26 @@
                             submitBtn.style.background = '';
                             submitBtn.disabled = false;
                         }, 5000);
+                        return;
                     } else {
-                        throw new Error(result.message || 'Submission failed');
+                        throw new Error(result.message || 'Web3Forms key not configured');
                     }
                 } catch (error) {
-                    submitBtn.innerHTML = '&#10060; Failed — Please call us directly';
-                    submitBtn.style.background = 'linear-gradient(135deg, #e63946, #ff6b6b)';
+                    // Fallback: Open WhatsApp with pre-filled lead details
+                    submitBtn.innerHTML = '&#128172; Opening WhatsApp...';
+                    submitBtn.style.background = 'linear-gradient(135deg, #25D366, #128C7E)';
+
+                    const waUrl = `https://wa.me/919810483544?text=${encodeURIComponent(waMessage)}`;
                     setTimeout(() => {
-                        submitBtn.innerHTML = '&#128640; Send My Enquiry';
-                        submitBtn.style.background = '';
-                        submitBtn.disabled = false;
-                    }, 4000);
+                        window.open(waUrl, '_blank');
+                        submitBtn.innerHTML = '&#9989; Redirected to WhatsApp!';
+                        enquiryForm.reset();
+                        setTimeout(() => {
+                            submitBtn.innerHTML = '&#128640; Send My Enquiry';
+                            submitBtn.style.background = '';
+                            submitBtn.disabled = false;
+                        }, 4000);
+                    }, 800);
                 }
             });
         }
