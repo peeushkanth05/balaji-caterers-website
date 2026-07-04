@@ -7,8 +7,10 @@ import Image from "next/image";
 import {
   LayoutDashboard,
   Users,
-  Calendar,
   UtensilsCrossed,
+  Sparkles,
+  Image as ImageIcon,
+  Settings,
   ShieldCheck,
   LogOut,
   UserCheck,
@@ -28,6 +30,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const navigation = [
     { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
     { name: "Leads & Enquiries", href: "/admin/leads", icon: Users },
+    { name: "Catering Packages", href: "/admin/packages", icon: UtensilsCrossed },
+    { name: "Services", href: "/admin/services", icon: Sparkles },
+    { name: "Gallery Photos", href: "/admin/gallery", icon: ImageIcon },
+    { name: "Business Settings", href: "/admin/settings", icon: Settings },
   ];
 
   const superAdminNavigation = [

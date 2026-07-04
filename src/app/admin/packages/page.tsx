@@ -1,0 +1,302 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { UtensilsCrossed, Plus, Trash2, Edit2, Loader2, CheckCircle2, Star } from "lucide-react";
+
+export default function PackagesAdminPage() {
+  const [packages, setPackages] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
+
+  const [name, setName] = useState("");
+  const [category, setCategory] = useState("Wedding");
+  const [pricePerPerson, setPricePerPerson] = useState("");
+  const [description, setDescription] = useState("");
+  const [features, setFeatures] = useState("");
+  const [isFeatured, setIsFeatured] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
+  const fetchPackages = async () => {
+    try {
+      const res = await fetch("/api/admin/packages");
+      const data = await res.json();
+      if (data.packages) setPackages(data.packages);
+    } catch (e) {
+      console.error("Failed to fetch packages", e);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchPackages();
+  }, []);
+
+  const openAddModal = () => {
+    setEditingId(null);
+    setName("");
+    setCategory("Wedding");
+    setPricePerPerson("");
+    setDescription("");
+    setFeatures("");
+    setIsFeatured(false);
+    setModalOpen(true);
+  };
+
+  const openEditModal = (pkg: any) => {
+    setEditingId(pkg.id);
+    setName(pkg.name);
+    setCategory(pkg.category);
+    setPricePerPerson(pkg.pricePerPerson.toString());
+    setDescription(pkg.description);
+    setFeatures(pkg.features);
+    setIsFeatured(pkg.isFeatured);
+    setModalOpen(true);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitting(true);
+
+    const payload = {
+      id: editingId,
+      name,
+      category,
+      pricePerPerson,
+      description,
+      features,
+      isFeatured,
+    };
+
+    try {
+      const res = await fetch("/api/admin/packages", {
+        method: editingId ? "PATCH" : "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.ok) {
+        setModalOpen(false);
+        fetchPackages();
+      }
+    } catch (e) {
+      alert("Error saving package");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleDelete = async (id: string, pkgName: string) => {
+    if (!confirm(`Delete package "${pkgName}"?`)) return;
+
+    try {
+      const res = await fetch("/api/admin/packages", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+
+      if (res.ok) {
+        setPackages((prev) => prev.filter((p) => p.id !== id));
+      }
+    } catch (e) {
+      alert("Error deleting package");
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+        <div>
+          <h1 className="text-2xl font-serif font-bold text-slate-900">
+            Catering Packages & Pricing
+          </h1>
+          <p className="text-slate-500 text-xs mt-1">
+            Manage your menu packages, price per plate, and featured offerings shown to clients.
+          </p>
+        </div>
+
+        <button
+          onClick={openAddModal}
+          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-sm shadow-md shadow-amber-500/20"
+        >
+          <Plus className="w-4 h-4" /> Add New Package
+        </button>
+      </div>
+
+      {/* Package Cards Grid */}
+      {loading ? (
+        <div className="bg-white rounded-3xl p-12 text-center text-slate-400 border border-slate-200">
+          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-2 text-amber-500" />
+          <p className="text-sm">Loading packages...</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {packages.map((pkg) => (
+            <div
+              key={pkg.id}
+              className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm relative flex flex-col justify-between"
+            >
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <span className="text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-amber-100 text-amber-800">
+                    {pkg.category}
+                  </span>
+                  {pkg.isFeatured && (
+                    <span className="flex items-center gap-1 text-[11px] font-bold text-amber-600">
+                      <Star className="w-3.5 h-3.5 fill-amber-500" /> Featured
+                    </span>
+                  )}
+                </div>
+
+                <h3 className="font-serif font-bold text-xl text-slate-900 mb-1">{pkg.name}</h3>
+                <div className="text-2xl font-bold text-amber-600 mb-3">
+                  ₹{pkg.pricePerPerson} <span className="text-xs font-normal text-slate-500">/ plate</span>
+                </div>
+
+                <p className="text-xs text-slate-600 leading-relaxed mb-4">{pkg.description}</p>
+
+                {pkg.features && (
+                  <div className="p-3 bg-slate-50 rounded-xl border border-slate-100 text-xs text-slate-600 mb-4">
+                    <strong>Includes:</strong> {pkg.features}
+                  </div>
+                )}
+              </div>
+
+              <div className="flex items-center justify-end gap-2 border-t border-slate-100 pt-4">
+                <button
+                  onClick={() => openEditModal(pkg)}
+                  className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold flex items-center gap-1"
+                >
+                  <Edit2 className="w-3 h-3" /> Edit
+                </button>
+                <button
+                  onClick={() => handleDelete(pkg.id, pkg.name)}
+                  className="px-3 py-1.5 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 text-xs font-bold flex items-center gap-1"
+                >
+                  <Trash2 className="w-3 h-3" /> Delete
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Add / Edit Modal */}
+      {modalOpen && (
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl border border-slate-200">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="font-serif font-bold text-xl text-slate-900">
+                {editingId ? "Edit Catering Package" : "Create New Package"}
+              </h3>
+              <button
+                onClick={() => setModalOpen(false)}
+                className="text-slate-400 hover:text-slate-600 text-xl font-bold"
+              >
+                &times;
+              </button>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Package Name *</label>
+                <input
+                  type="text"
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="e.g. Royal Wedding Buffet"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 px-3 text-sm focus:ring-2 focus:ring-amber-500"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Category *</label>
+                  <select
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 px-3 text-sm focus:ring-2 focus:ring-amber-500"
+                  >
+                    <option value="Wedding">Wedding</option>
+                    <option value="Birthday Party">Birthday Party</option>
+                    <option value="Corporate Event">Corporate Event</option>
+                    <option value="Anniversary">Anniversary</option>
+                    <option value="General">General</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Price / Plate (₹) *</label>
+                  <input
+                    type="number"
+                    required
+                    value={pricePerPerson}
+                    onChange={(e) => setPricePerPerson(e.target.value)}
+                    placeholder="e.g. 750"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 px-3 text-sm focus:ring-2 focus:ring-amber-500"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Description</label>
+                <textarea
+                  rows={2}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder="Short overview of the catering spread..."
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 px-3 text-sm focus:ring-2 focus:ring-amber-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Features / Items Included</label>
+                <input
+                  type="text"
+                  value={features}
+                  onChange={(e) => setFeatures(e.target.value)}
+                  placeholder="Welcome Drink, 4 Starters, 6 Main Course, Live Counter"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 px-3 text-sm focus:ring-2 focus:ring-amber-500"
+                />
+              </div>
+
+              <div className="flex items-center gap-2 pt-2">
+                <input
+                  type="checkbox"
+                  id="featured-check"
+                  checked={isFeatured}
+                  onChange={(e) => setIsFeatured(e.target.checked)}
+                  className="w-4 h-4 text-amber-500 rounded focus:ring-amber-500"
+                />
+                <label htmlFor="featured-check" className="text-xs font-bold text-slate-700 cursor-pointer">
+                  Feature on homepage package showcase
+                </label>
+              </div>
+
+              <div className="pt-4 flex items-center justify-end gap-3 border-t border-slate-100">
+                <button
+                  type="button"
+                  onClick={() => setModalOpen(false)}
+                  className="px-4 py-2 text-xs font-bold text-slate-500 hover:text-slate-700"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="px-6 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-xl text-xs font-bold shadow-md shadow-amber-500/20 flex items-center gap-2"
+                >
+                  {submitting && <Loader2 className="w-4 h-4 animate-spin" />} Save Package
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

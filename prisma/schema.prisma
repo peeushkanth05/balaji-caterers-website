@@ -46,3 +46,36 @@ model Package {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 }
+
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  icon        String   // Emoji or icon name (e.g. 🍽️)
+  description String
+  tag         String   // e.g. "Veg & Non-Veg", "Custom Themes"
+  displayOrder Int     @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model GalleryItem {
+  id          String   @id @default(cuid())
+  title       String
+  category    String   // e.g. Wedding, Birthday, Floral, DJ
+  imageUrl    String
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model SiteSetting {
+  id          String   @id @default("default")
+  phone       String   @default("+919810483544")
+  whatsapp    String   @default("919810483544")
+  email       String   @default("vermasandeep124@gmail.com")
+  ownerName   String   @default("Sandeep Verma")
+  address     String   @default("Dwarka Sector 5, Madhu Vihar, New Delhi")
+  mapsUrl     String   @default("https://www.google.com/maps/search/?api=1&query=28.5921,77.0460&query_place_id=Dwarka+Sector+5+New+Delhi")
+  updatedAt   DateTime @updatedAt
+}
