@@ -1,10 +1,13 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { revalidatePath } from "next/cache";
+import { requireAdminSession } from "@/lib/auth-guards";
 import { prisma } from "@/lib/prisma";
 
-// GET /api/admin/gallery
+// GET /api/admin/gallery - Admin only: List all gallery items
 export async function GET() {
+  const auth = await requireAdminSession();
+  if (!auth.authorized) return auth.errorResponse;
+
   try {
     const items = await prisma.galleryItem.findMany({
       orderBy: { createdAt: "desc" },
@@ -15,12 +18,10 @@ export async function GET() {
   }
 }
 
-// POST /api/admin/gallery
+// POST /api/admin/gallery - Admin only: Create reference gallery item
 export async function POST(req: Request) {
-  const session = await getServerSession(authOptions);
-  if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const auth = await requireAdminSession();
+  if (!auth.authorized) return auth.errorResponse;
 
   try {
     const { title, category, imageUrl } = await req.json();
@@ -37,18 +38,17 @@ export async function POST(req: Request) {
       },
     });
 
+    revalidatePath("/");
     return NextResponse.json({ success: true, item: newItem }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: "Failed to create gallery item" }, { status: 500 });
   }
 }
 
-// DELETE /api/admin/gallery
+// DELETE /api/admin/gallery - Admin only: Delete gallery item
 export async function DELETE(req: Request) {
-  const session = await getServerSession(authOptions);
-  if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const auth = await requireAdminSession();
+  if (!auth.authorized) return auth.errorResponse;
 
   try {
     const { id } = await req.json();
@@ -57,6 +57,8 @@ export async function DELETE(req: Request) {
     }
 
     await prisma.galleryItem.delete({ where: { id } });
+
+    revalidatePath("/");
     return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json({ error: "Failed to delete gallery item" }, { status: 500 });

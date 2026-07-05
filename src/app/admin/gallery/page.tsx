@@ -17,7 +17,7 @@ export default function GalleryAdminPage() {
 
   const fetchGallery = async () => {
     try {
-      const res = await fetch("/api/admin/gallery");
+      const res = await fetch("/api/admin/gallery", { credentials: "include" });
       const data = await res.json();
       if (data.items) setItems(data.items);
     } catch (e) {
@@ -58,6 +58,7 @@ export default function GalleryAdminPage() {
       const res = await fetch("/api/admin/upload", {
         method: "POST",
         body: formData,
+        credentials: "include",
       });
 
       const result = await res.json();
@@ -88,6 +89,7 @@ export default function GalleryAdminPage() {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id }),
+        credentials: "include",
       });
 
       if (res.ok) {

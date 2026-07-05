@@ -1,14 +1,11 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { requireAdminSession } from "@/lib/auth-guards";
 import { prisma } from "@/lib/prisma";
 
 // GET /api/admin/leads - Fetch all leads (Auth required)
 export async function GET() {
-  const session = await getServerSession(authOptions);
-  if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const auth = await requireAdminSession();
+  if (!auth.authorized) return auth.errorResponse;
 
   try {
     const leads = await prisma.lead.findMany({
@@ -22,10 +19,8 @@ export async function GET() {
 
 // PATCH /api/admin/leads - Update lead status or internal notes
 export async function PATCH(req: Request) {
-  const session = await getServerSession(authOptions);
-  if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const auth = await requireAdminSession();
+  if (!auth.authorized) return auth.errorResponse;
 
   try {
     const { id, status, notes, assignedTo } = await req.json();

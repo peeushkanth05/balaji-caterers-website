@@ -28,7 +28,7 @@ export default function LeadManagementPage() {
 
   const fetchLeads = async () => {
     try {
-      const res = await fetch("/api/admin/leads");
+      const res = await fetch("/api/admin/leads", { credentials: "include" });
       const data = await res.json();
       if (data.leads) {
         setLeads(data.leads);
@@ -51,6 +51,7 @@ export default function LeadManagementPage() {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: leadId, status: newStatus }),
+        credentials: "include",
       });
       if (res.ok) {
         setLeads((prev) =>
@@ -71,6 +72,7 @@ export default function LeadManagementPage() {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: leadId, notes: noteText }),
+        credentials: "include",
       });
       if (res.ok) {
         setLeads((prev) =>

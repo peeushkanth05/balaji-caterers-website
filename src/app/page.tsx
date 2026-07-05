@@ -2,8 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { PublicForm } from "@/components/PublicForm";
-import { FrontendGallery } from "@/components/FrontendGallery";
 import { ServicesSection } from "@/components/ServicesSection";
+import { DynamicPortfolioSection } from "@/components/portfolio/DynamicPortfolioSection";
+import { HeroSection } from "@/components/HeroSection";
+import { Header } from "@/components/Header";
 import {
   Phone,
   MessageSquare,
@@ -22,10 +24,22 @@ export default async function HomePage() {
   // Fetch dynamic content from Prisma DB
   let services: any[] = [];
   let packages: any[] = [];
-  let galleryItems: any[] = [];
+  let categories: any[] = [];
+  let featuredPortfolios: any[] = [];
+  let initialPortfolios: any[] = [];
   let settings: any = null;
+  let hero: any = null;
 
   try {
+    hero = await prisma.heroSection.findUnique({
+      where: { id: "default" },
+      include: {
+        statistics: { where: { isEnabled: true }, orderBy: { sortOrder: "asc" } },
+        images: { where: { isEnabled: true }, orderBy: { displayOrder: "asc" } },
+        floatingCards: { where: { isEnabled: true }, orderBy: { sortOrder: "asc" } },
+      },
+    });
+
     services = await prisma.service.findMany({
       where: { isActive: true },
       orderBy: { displayOrder: "asc" },
@@ -36,10 +50,37 @@ export default async function HomePage() {
       orderBy: { createdAt: "desc" },
     });
 
-    galleryItems = await prisma.galleryItem.findMany({
-      where: { isActive: true },
-      orderBy: { createdAt: "desc" },
+    categories = await prisma.portfolioCategory.findMany({
+      where: { active: true },
+      orderBy: { displayOrder: "asc" },
+      include: {
+        _count: {
+          select: { portfolios: { where: { active: true } } },
+        },
+      },
     });
+
+    const rawFeatured = await prisma.portfolio.findMany({
+      where: { active: true, featured: true },
+      orderBy: { displayOrder: "asc" },
+      include: { category: true },
+    });
+    featuredPortfolios = rawFeatured.map((p) => ({
+      ...p,
+      galleryImages: JSON.parse(p.galleryImages || "[]"),
+      tags: JSON.parse(p.tags || "[]"),
+    }));
+
+    const rawPortfolios = await prisma.portfolio.findMany({
+      where: { active: true },
+      orderBy: { displayOrder: "asc" },
+      include: { category: true },
+    });
+    initialPortfolios = rawPortfolios.map((p) => ({
+      ...p,
+      galleryImages: JSON.parse(p.galleryImages || "[]"),
+      tags: JSON.parse(p.tags || "[]"),
+    }));
 
     settings = await prisma.siteSetting.findUnique({
       where: { id: "default" },
@@ -93,141 +134,12 @@ export default async function HomePage() {
       </div>
 
       {/* Navbar */}
-      <nav className="fixed top-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-b border-amber-500/10 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full overflow-hidden shadow-md border-2 border-amber-500/20">
-              <Image
-                src="/new-logo.png"
-                alt="Shree Balaji Logo"
-                width={48}
-                height={48}
-                className="object-cover w-full h-full"
-              />
-            </div>
-            <div>
-              <span className="font-serif font-bold text-xl text-slate-900 leading-tight block">
-                Shree Balaji
-              </span>
-              <span className="text-[10px] uppercase font-bold tracking-widest text-amber-600">
-                Caterers & Events
-              </span>
-            </div>
-          </Link>
+      <Header />
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-8 font-semibold text-sm text-slate-700">
-            <a href="#about" className="hover:text-amber-600 transition-colors">
-              About Us
-            </a>
-            <a href="#services" className="hover:text-amber-600 transition-colors">
-              Services
-            </a>
-            <a href="#packages" className="hover:text-amber-600 transition-colors">
-              Packages
-            </a>
-            <a href="#portfolio" className="hover:text-amber-600 transition-colors">
-              Gallery
-            </a>
-            <a href="#contact" className="hover:text-amber-600 transition-colors">
-              Contact
-            </a>
-          </div>
-
-          <div className="hidden md:flex items-center gap-4">
-            <Link
-              href="/admin/login"
-              className="text-xs font-bold text-slate-500 hover:text-slate-900 border border-slate-200 px-3.5 py-2 rounded-xl transition-all"
-            >
-              Staff Portal
-            </Link>
-            <a
-              href="#contact"
-              className="px-5 py-2.5 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-sm shadow-md shadow-amber-500/20 transition-all active:scale-95"
-            >
-              Get a Quote ✨
-            </a>
-          </div>
-        </div>
-      </nav>
-
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 px-6 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        <div className="space-y-6">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-700 text-xs font-bold uppercase tracking-wider">
-            <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" /> {heroBadge}
-          </div>
-
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-slate-900 leading-[1.15]">
-            {heroTitle}
-          </h1>
-
-          <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
-            {heroSubtitle}
-          </p>
-
-          <div className="flex flex-wrap items-center gap-4 pt-2">
-            <a
-              href="#contact"
-              className="px-8 py-4 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-base shadow-lg shadow-amber-500/30 transition-all hover:scale-105 active:scale-95"
-            >
-              Book Your Event ✨
-            </a>
-            <a
-              href="#portfolio"
-              className="px-8 py-4 rounded-full bg-white border border-slate-200 hover:bg-slate-50 text-slate-800 font-bold text-base shadow-sm transition-all"
-            >
-              View Our Work 🎨
-            </a>
-          </div>
-        </div>
-
-        {/* Visual Cards */}
-        <div className="grid grid-cols-2 gap-4">
-          <div className="bg-gradient-to-br from-amber-500/10 to-orange-500/10 p-6 rounded-3xl border border-amber-500/20 text-center">
-            <div className="text-4xl mb-2">🍽️</div>
-            <h3 className="font-bold text-slate-900">Catering</h3>
-            <p className="text-xs text-slate-500 mt-1">North & Fusion</p>
-          </div>
-          <div className="bg-gradient-to-br from-orange-500/10 to-pink-500/10 p-6 rounded-3xl border border-orange-500/20 text-center mt-6">
-            <div className="text-4xl mb-2">🌸</div>
-            <h3 className="font-bold text-slate-900">Floral Décor</h3>
-            <p className="text-xs text-slate-500 mt-1">Custom Mandaps</p>
-          </div>
-          <div className="bg-gradient-to-br from-blue-500/10 to-purple-500/10 p-6 rounded-3xl border border-blue-500/20 text-center">
-            <div className="text-4xl mb-2">📢</div>
-            <h3 className="font-bold text-slate-900">Sound & DJ</h3>
-            <p className="text-xs text-slate-500 mt-1">Pro Audio & Lights</p>
-          </div>
-          <div className="bg-gradient-to-br from-emerald-500/10 to-teal-500/10 p-6 rounded-3xl border border-emerald-500/20 text-center mt-6">
-            <div className="text-4xl mb-2">🎉</div>
-            <h3 className="font-bold text-slate-900">Full Events</h3>
-            <p className="text-xs text-slate-500 mt-1">End-to-End Execution</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Dynamic Stats Bar */}
-      <section className="bg-slate-900 text-white py-12 border-y border-slate-800">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          <div>
-            <div className="text-3xl sm:text-4xl font-bold text-amber-400">{stat1Number}</div>
-            <div className="text-xs text-slate-400 font-medium mt-1">{stat1Label}</div>
-          </div>
-          <div>
-            <div className="text-3xl sm:text-4xl font-bold text-amber-400">{stat2Number}</div>
-            <div className="text-xs text-slate-400 font-medium mt-1">{stat2Label}</div>
-          </div>
-          <div>
-            <div className="text-3xl sm:text-4xl font-bold text-amber-400">{stat3Number}</div>
-            <div className="text-xs text-slate-400 font-medium mt-1">{stat3Label}</div>
-          </div>
-          <div>
-            <div className="text-3xl sm:text-4xl font-bold text-amber-400">{stat4Number}</div>
-            <div className="text-xs text-slate-400 font-medium mt-1">{stat4Label}</div>
-          </div>
-        </div>
-      </section>
+      {/* Dynamic Hero Section */}
+      <div className="pt-20">
+        <HeroSection hero={hero} phone={phone} whatsapp={whatsapp} />
+      </div>
 
       {/* Dynamic About Us Section */}
       <section id="about" className="py-20 px-6 max-w-7xl mx-auto">
@@ -330,24 +242,14 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* Dynamic Gallery Showcase — Bento Grid */}
-      {galleryItems.length > 0 && (
-        <section id="portfolio" className="bg-gradient-to-b from-amber-50/80 via-white to-orange-50/60 py-24 px-6">
-          <div className="max-w-7xl mx-auto space-y-14">
-            <div className="text-center max-w-2xl mx-auto">
-              <span className="text-sm font-extrabold uppercase tracking-[3px] text-amber-500">Our Portfolio</span>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-black text-slate-900 mt-3 leading-tight">
-                Moments We've Created
-              </h2>
-              <p className="text-slate-500 text-base mt-3 leading-relaxed">
-                A glimpse into the beautiful celebrations we have been honoured to be part of.
-              </p>
-            </div>
-
-            <FrontendGallery items={galleryItems} />
-          </div>
-        </section>
-      )}
+      {/* Dynamic Enterprise Portfolio System */}
+      <section id="portfolio-section" className="py-20 px-6 max-w-7xl mx-auto">
+        <DynamicPortfolioSection
+          initialCategories={categories}
+          initialFeatured={featuredPortfolios}
+          initialPortfolios={initialPortfolios}
+        />
+      </section>
 
       {/* Contact & Form Section */}
       <section id="contact" className="py-20 px-6 max-w-7xl mx-auto">

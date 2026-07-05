@@ -1,10 +1,13 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { revalidatePath } from "next/cache";
+import { requireAdminSession } from "@/lib/auth-guards";
 import { prisma } from "@/lib/prisma";
 
-// GET /api/admin/packages
+// GET /api/admin/packages - Admin only: List all packages
 export async function GET() {
+  const auth = await requireAdminSession();
+  if (!auth.authorized) return auth.errorResponse;
+
   try {
     const packages = await prisma.package.findMany({
       orderBy: { createdAt: "desc" },
@@ -15,12 +18,10 @@ export async function GET() {
   }
 }
 
-// POST /api/admin/packages
+// POST /api/admin/packages - Admin only: Create a new package
 export async function POST(req: Request) {
-  const session = await getServerSession(authOptions);
-  if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const auth = await requireAdminSession();
+  if (!auth.authorized) return auth.errorResponse;
 
   try {
     const { name, category, pricePerPerson, description, features, isFeatured } = await req.json();
@@ -36,22 +37,21 @@ export async function POST(req: Request) {
         pricePerPerson: parseFloat(pricePerPerson.toString()),
         description: description || "",
         features: features || "",
-        isFeatured: isFeatured || false,
+        isFeatured: isFeatured ?? false,
       },
     });
 
+    revalidatePath("/");
     return NextResponse.json({ success: true, package: newPackage }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: "Failed to create package" }, { status: 500 });
   }
 }
 
-// PATCH /api/admin/packages
+// PATCH /api/admin/packages - Admin only: Update a package or toggle featured status
 export async function PATCH(req: Request) {
-  const session = await getServerSession(authOptions);
-  if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const auth = await requireAdminSession();
+  if (!auth.authorized) return auth.errorResponse;
 
   try {
     const { id, name, category, pricePerPerson, description, features, isFeatured } = await req.json();
@@ -63,8 +63,8 @@ export async function PATCH(req: Request) {
     const updatedPackage = await prisma.package.update({
       where: { id },
       data: {
-        ...(name && { name }),
-        ...(category && { category }),
+        ...(name !== undefined && { name }),
+        ...(category !== undefined && { category }),
         ...(pricePerPerson !== undefined && { pricePerPerson: parseFloat(pricePerPerson.toString()) }),
         ...(description !== undefined && { description }),
         ...(features !== undefined && { features }),
@@ -72,18 +72,17 @@ export async function PATCH(req: Request) {
       },
     });
 
+    revalidatePath("/");
     return NextResponse.json({ success: true, package: updatedPackage });
   } catch (error) {
     return NextResponse.json({ error: "Failed to update package" }, { status: 500 });
   }
 }
 
-// DELETE /api/admin/packages
+// DELETE /api/admin/packages - Admin only: Remove a package
 export async function DELETE(req: Request) {
-  const session = await getServerSession(authOptions);
-  if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const auth = await requireAdminSession();
+  if (!auth.authorized) return auth.errorResponse;
 
   try {
     const { id } = await req.json();
@@ -92,6 +91,8 @@ export async function DELETE(req: Request) {
     }
 
     await prisma.package.delete({ where: { id } });
+
+    revalidatePath("/");
     return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json({ error: "Failed to delete package" }, { status: 500 });

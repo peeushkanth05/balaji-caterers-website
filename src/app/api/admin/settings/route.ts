@@ -1,10 +1,13 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { revalidatePath } from "next/cache";
+import { requireAdminSession } from "@/lib/auth-guards";
 import { prisma } from "@/lib/prisma";
 
-// GET /api/admin/settings
+// GET /api/admin/settings - Admin only: Fetch site settings
 export async function GET() {
+  const auth = await requireAdminSession();
+  if (!auth.authorized) return auth.errorResponse;
+
   try {
     const settings = await prisma.siteSetting.findUnique({
       where: { id: "default" },
@@ -15,33 +18,32 @@ export async function GET() {
   }
 }
 
-// PATCH /api/admin/settings
+// PATCH /api/admin/settings - Admin only: Update site settings
 export async function PATCH(req: Request) {
-  const session = await getServerSession(authOptions);
-  if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const auth = await requireAdminSession();
+  if (!auth.authorized) return auth.errorResponse;
 
   try {
     const body = await req.json();
     const {
+      companyName,
+      logoUrl,
+      faviconUrl,
       phone,
       whatsapp,
       email,
       ownerName,
       address,
       mapsUrl,
-      heroBadge,
-      heroTitle,
-      heroSubtitle,
-      stat1Number,
-      stat1Label,
-      stat2Number,
-      stat2Label,
-      stat3Number,
-      stat3Label,
-      stat4Number,
-      stat4Label,
+      businessHours,
+      facebookUrl,
+      instagramUrl,
+      youtubeUrl,
+      twitterUrl,
+      googleAnalyticsId,
+      seoTitle,
+      seoDescription,
+      seoOgImage,
       aboutTag,
       aboutTitle,
       aboutSubtitle,
@@ -50,51 +52,56 @@ export async function PATCH(req: Request) {
     const updatedSettings = await prisma.siteSetting.upsert({
       where: { id: "default" },
       update: {
-        ...(phone && { phone }),
-        ...(whatsapp && { whatsapp }),
-        ...(email && { email }),
-        ...(ownerName && { ownerName }),
-        ...(address && { address }),
-        ...(mapsUrl && { mapsUrl }),
-        ...(heroBadge && { heroBadge }),
-        ...(heroTitle && { heroTitle }),
-        ...(heroSubtitle && { heroSubtitle }),
-        ...(stat1Number && { stat1Number }),
-        ...(stat1Label && { stat1Label }),
-        ...(stat2Number && { stat2Number }),
-        ...(stat2Label && { stat2Label }),
-        ...(stat3Number && { stat3Number }),
-        ...(stat3Label && { stat3Label }),
-        ...(stat4Number && { stat4Number }),
-        ...(stat4Label && { stat4Label }),
-        ...(aboutTag && { aboutTag }),
-        ...(aboutTitle && { aboutTitle }),
-        ...(aboutSubtitle && { aboutSubtitle }),
+        ...(companyName !== undefined && { companyName }),
+        ...(logoUrl !== undefined && { logoUrl }),
+        ...(faviconUrl !== undefined && { faviconUrl }),
+        ...(phone !== undefined && { phone }),
+        ...(whatsapp !== undefined && { whatsapp }),
+        ...(email !== undefined && { email }),
+        ...(ownerName !== undefined && { ownerName }),
+        ...(address !== undefined && { address }),
+        ...(mapsUrl !== undefined && { mapsUrl }),
+        ...(businessHours !== undefined && { businessHours }),
+        ...(facebookUrl !== undefined && { facebookUrl }),
+        ...(instagramUrl !== undefined && { instagramUrl }),
+        ...(youtubeUrl !== undefined && { youtubeUrl }),
+        ...(twitterUrl !== undefined && { twitterUrl }),
+        ...(googleAnalyticsId !== undefined && { googleAnalyticsId }),
+        ...(seoTitle !== undefined && { seoTitle }),
+        ...(seoDescription !== undefined && { seoDescription }),
+        ...(seoOgImage !== undefined && { seoOgImage }),
+        ...(aboutTag !== undefined && { aboutTag }),
+        ...(aboutTitle !== undefined && { aboutTitle }),
+        ...(aboutSubtitle !== undefined && { aboutSubtitle }),
       },
       create: {
         id: "default",
+        companyName: companyName || "Shree Balaji Caterers",
+        logoUrl: logoUrl || "/new-logo.png",
+        faviconUrl: faviconUrl || "/favicon.ico",
         phone: phone || "+91 98104 83544",
         whatsapp: whatsapp || "919810483544",
         email: email || "vermasandeep124@gmail.com",
         ownerName: ownerName || "Sandeep Verma",
         address: address || "Dwarka Sector 5, Madhu Vihar, New Delhi",
-        mapsUrl: mapsUrl || "https://www.google.com/maps",
-        heroBadge: heroBadge || "Delhi NCR's Premier Event Partner",
-        heroTitle: heroTitle || "Every Celebration, Perfectly Crafted.",
-        heroSubtitle: heroSubtitle || "From grand weddings to intimate family gatherings — Shree Balaji Caterers brings you world-class catering, stunning floral décor, seamless sound, and complete event management.",
-        stat1Number: stat1Number || "500+",
-        stat1Label: stat1Label || "Events Managed",
-        stat2Number: stat2Number || "15+",
-        stat2Label: stat2Label || "Years Experience",
-        stat3Number: stat3Number || "1000+",
-        stat3Label: stat3Label || "Happy Families",
-        stat4Number: stat4Number || "100%",
-        stat4Label: stat4Label || "Satisfaction",
+        mapsUrl: mapsUrl || "https://www.google.com/maps/search/?api=1&query=28.5921,77.0460&query_place_id=Dwarka+Sector+5+New+Delhi",
+        businessHours: businessHours || "9:00 AM - 9:00 PM (Daily)",
+        facebookUrl: facebookUrl || "",
+        instagramUrl: instagramUrl || "",
+        youtubeUrl: youtubeUrl || "",
+        twitterUrl: twitterUrl || "",
+        googleAnalyticsId: googleAnalyticsId || "",
+        seoTitle: seoTitle || "Shree Balaji Caterers | Best Catering & Event Services in Delhi NCR",
+        seoDescription: seoDescription || "Premium catering, floral décor, DJ & sound, and full event management services in Delhi NCR. 15+ years, 500+ events.",
+        seoOgImage: seoOgImage || "/new-logo.png",
         aboutTag: aboutTag || "Why Us",
         aboutTitle: aboutTitle || "Why Choose Shree Balaji Caterers",
         aboutSubtitle: aboutSubtitle || "With 15+ years of experience and 500+ successful events in Delhi NCR, we bring passion, precision, and a personal touch to every celebration.",
       },
     });
+
+    // Revalidate public landing page cache
+    revalidatePath("/");
 
     return NextResponse.json({ success: true, settings: updatedSettings });
   } catch (error) {

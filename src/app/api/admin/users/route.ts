@@ -1,17 +1,12 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { requireSuperAdminSession } from "@/lib/auth-guards";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 
 // GET /api/admin/users - Super Admin only: List all staff/admin accounts
 export async function GET() {
-  const session = await getServerSession(authOptions);
-  const userRole = (session?.user as any)?.role;
-
-  if (!session || userRole !== "SUPER_ADMIN") {
-    return NextResponse.json({ error: "Access denied. Super Admin only." }, { status: 403 });
-  }
+  const auth = await requireSuperAdminSession();
+  if (!auth.authorized) return auth.errorResponse;
 
   try {
     const users = await prisma.user.findMany({
@@ -33,12 +28,8 @@ export async function GET() {
 
 // POST /api/admin/users - Super Admin only: Create a new Admin or Super Admin account
 export async function POST(req: Request) {
-  const session = await getServerSession(authOptions);
-  const userRole = (session?.user as any)?.role;
-
-  if (!session || userRole !== "SUPER_ADMIN") {
-    return NextResponse.json({ error: "Access denied. Super Admin only." }, { status: 403 });
-  }
+  const auth = await requireSuperAdminSession();
+  if (!auth.authorized) return auth.errorResponse;
 
   try {
     const { name, email, password, phone, role } = await req.json();
@@ -50,8 +41,17 @@ export async function POST(req: Request) {
       );
     }
 
+    if (password.length < 6) {
+      return NextResponse.json(
+        { error: "Password must be at least 6 characters long" },
+        { status: 400 }
+      );
+    }
+
+    const normalizedEmail = email.toLowerCase().trim();
+
     const existingUser = await prisma.user.findUnique({
-      where: { email: email.toLowerCase().trim() },
+      where: { email: normalizedEmail },
     });
 
     if (existingUser) {
@@ -66,7 +66,7 @@ export async function POST(req: Request) {
     const newUser = await prisma.user.create({
       data: {
         name,
-        email: email.toLowerCase().trim(),
+        email: normalizedEmail,
         password: hashedPassword,
         phone: phone || null,
         role: role === "SUPER_ADMIN" ? "SUPER_ADMIN" : "ADMIN",
@@ -89,18 +89,13 @@ export async function POST(req: Request) {
 
 // DELETE /api/admin/users - Super Admin only: Remove a staff account
 export async function DELETE(req: Request) {
-  const session = await getServerSession(authOptions);
-  const currentUserId = (session?.user as any)?.id;
-  const userRole = (session?.user as any)?.role;
-
-  if (!session || userRole !== "SUPER_ADMIN") {
-    return NextResponse.json({ error: "Access denied. Super Admin only." }, { status: 403 });
-  }
+  const auth = await requireSuperAdminSession();
+  if (!auth.authorized) return auth.errorResponse;
 
   try {
     const { id } = await req.json();
 
-    if (id === currentUserId) {
+    if (id === auth.user.id) {
       return NextResponse.json({ error: "You cannot delete your own account" }, { status: 400 });
     }
 

@@ -16,19 +16,49 @@ import {
   UserCheck,
   Menu,
   X,
+  FolderKanban,
+  Layers,
 } from "lucide-react";
 import { useState } from "react";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Don't wrap the login page with the admin sidebar layout
+  if (pathname === "/admin/login") {
+    return <>{children}</>;
+  }
+
+  // Show loading state while checking authentication
+  if (status === "loading") {
+    return (
+      <div className="min-h-screen bg-slate-100 flex items-center justify-center">
+        <div className="text-center space-y-3">
+          <div className="w-10 h-10 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto" />
+          <p className="text-sm text-slate-500 font-medium">Loading dashboard...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Redirect to login if not authenticated
+  if (status === "unauthenticated" || !session) {
+    if (typeof window !== "undefined") {
+      window.location.href = "/admin/login";
+    }
+    return null;
+  }
 
   const userRole = (session?.user as any)?.role || "ADMIN";
   const userName = session?.user?.name || "Admin";
 
   const navigation = [
     { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
+    { name: "Hero Banner CMS", href: "/admin/hero", icon: Sparkles },
+    { name: "Portfolio CMS", href: "/admin/portfolio", icon: FolderKanban },
+    { name: "Portfolio Categories", href: "/admin/portfolio/categories", icon: Layers },
     { name: "Leads & Enquiries", href: "/admin/leads", icon: Users },
     { name: "Catering Packages", href: "/admin/packages", icon: UtensilsCrossed },
     { name: "Services", href: "/admin/services", icon: Sparkles },

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Sparkles, Plus, Trash2, Edit2, Loader2 } from "lucide-react";
+import { Sparkles, Plus, Trash2, Edit2, Loader2, CheckCircle2, AlertCircle, Eye, EyeOff, Hash } from "lucide-react";
 
 export default function ServicesAdminPage() {
   const [services, setServices] = useState<any[]>([]);
@@ -13,7 +13,12 @@ export default function ServicesAdminPage() {
   const [icon, setIcon] = useState("🍽️");
   const [description, setDescription] = useState("");
   const [tag, setTag] = useState("Veg & Non-Veg");
+  const [displayOrder, setDisplayOrder] = useState(0);
+  const [isActive, setIsActive] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+
+  const [successMsg, setSuccessMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
 
   const fetchServices = async () => {
     try {
@@ -22,6 +27,7 @@ export default function ServicesAdminPage() {
       if (data.services) setServices(data.services);
     } catch (e) {
       console.error("Failed to fetch services", e);
+      setErrorMsg("Failed to load services");
     } finally {
       setLoading(false);
     }
@@ -37,6 +43,8 @@ export default function ServicesAdminPage() {
     setIcon("🍽️");
     setDescription("");
     setTag("Veg & Non-Veg");
+    setDisplayOrder(services.length + 1);
+    setIsActive(true);
     setModalOpen(true);
   };
 
@@ -46,28 +54,62 @@ export default function ServicesAdminPage() {
     setIcon(service.icon);
     setDescription(service.description);
     setTag(service.tag);
+    setDisplayOrder(service.displayOrder ?? 0);
+    setIsActive(service.isActive ?? true);
     setModalOpen(true);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
+    setSuccessMsg("");
+    setErrorMsg("");
 
     try {
       const res = await fetch("/api/admin/services", {
         method: editingId ? "PATCH" : "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: editingId, title, icon, description, tag }),
+        body: JSON.stringify({
+          id: editingId,
+          title,
+          icon,
+          description,
+          tag,
+          displayOrder: Number(displayOrder),
+          isActive,
+        }),
       });
 
       if (res.ok) {
         setModalOpen(false);
+        setSuccessMsg(editingId ? "Service updated successfully!" : "New service created!");
+        setTimeout(() => setSuccessMsg(""), 4000);
         fetchServices();
+      } else {
+        const data = await res.json();
+        throw new Error(data.error || "Failed to save service");
       }
-    } catch (e) {
-      alert("Error saving service");
+    } catch (err: any) {
+      setErrorMsg(err.message || "Error saving service");
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const handleToggleActive = async (id: string, currentActive: boolean) => {
+    try {
+      const res = await fetch("/api/admin/services", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, isActive: !currentActive }),
+      });
+      if (res.ok) {
+        setServices((prev) =>
+          prev.map((s) => (s.id === id ? { ...s, isActive: !currentActive } : s))
+        );
+      }
+    } catch (e) {
+      alert("Failed to toggle service status");
     }
   };
 
@@ -83,6 +125,8 @@ export default function ServicesAdminPage() {
 
       if (res.ok) {
         setServices((prev) => prev.filter((s) => s.id !== id));
+        setSuccessMsg(`Service "${serviceTitle}" removed.`);
+        setTimeout(() => setSuccessMsg(""), 4000);
       }
     } catch (e) {
       alert("Error deleting service");
@@ -94,40 +138,84 @@ export default function ServicesAdminPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
         <div>
-          <h1 className="text-2xl font-serif font-bold text-slate-900">
-            Offered Services Management
+          <h1 className="text-2xl font-serif font-bold text-slate-900 flex items-center gap-2">
+            <Sparkles className="w-6 h-6 text-amber-500" /> Offered Services CMS
           </h1>
           <p className="text-slate-500 text-xs mt-1">
-            Add, update, or reorder services shown on the public homepage grid.
+            Manage your service catalog, customize icons/tags, toggle visibility, and control display order on the public website.
           </p>
         </div>
 
         <button
           onClick={openAddModal}
-          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-sm shadow-md shadow-amber-500/20"
+          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-sm shadow-md shadow-amber-500/20 active:scale-95 transition-all"
         >
           <Plus className="w-4 h-4" /> Add New Service
         </button>
       </div>
 
-      {/* Services List */}
+      {/* Notifications */}
+      {successMsg && (
+        <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold flex items-center gap-2">
+          <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+          <span>{successMsg}</span>
+        </div>
+      )}
+
+      {errorMsg && (
+        <div className="p-4 rounded-2xl bg-red-50 border border-red-200 text-red-800 text-xs font-bold flex items-center gap-2">
+          <AlertCircle className="w-4 h-4 text-red-600" />
+          <span>{errorMsg}</span>
+        </div>
+      )}
+
+      {/* Services Grid */}
       {loading ? (
         <div className="bg-white rounded-3xl p-12 text-center text-slate-400 border border-slate-200">
           <Loader2 className="w-8 h-8 animate-spin mx-auto mb-2 text-amber-500" />
-          <p className="text-sm">Loading services...</p>
+          <p className="text-sm">Loading services catalog...</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {services.map((s) => (
             <div
               key={s.id}
-              className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between"
+              className={`bg-white rounded-3xl p-6 border shadow-sm flex flex-col justify-between transition-all ${
+                s.isActive ? "border-slate-200" : "border-slate-200 bg-slate-50/60 opacity-75"
+              }`}
             >
               <div>
-                <div className="text-4xl mb-3">{s.icon}</div>
+                <div className="flex items-center justify-between mb-3">
+                  <div className="text-4xl">{s.icon}</div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => handleToggleActive(s.id, s.isActive)}
+                      className={`px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 border transition-all ${
+                        s.isActive
+                          ? "bg-emerald-100 text-emerald-800 border-emerald-300"
+                          : "bg-slate-200 text-slate-700 border-slate-300"
+                      }`}
+                      title={s.isActive ? "Click to hide from public site" : "Click to show on public site"}
+                    >
+                      {s.isActive ? (
+                        <>
+                          <Eye className="w-3 h-3 text-emerald-600" /> ACTIVE
+                        </>
+                      ) : (
+                        <>
+                          <EyeOff className="w-3 h-3 text-slate-500" /> DRAFT
+                        </>
+                      )}
+                    </button>
+                    <span className="text-[11px] text-slate-400 font-bold bg-slate-100 px-2 py-0.5 rounded-md">
+                      #{s.displayOrder}
+                    </span>
+                  </div>
+                </div>
+
                 <h3 className="font-serif font-bold text-lg text-slate-900 mb-1">{s.title}</h3>
                 <p className="text-xs text-slate-500 leading-relaxed mb-4">{s.description}</p>
-                <span className="inline-block text-[11px] font-bold px-3 py-1 rounded-full bg-amber-100 text-amber-800">
+                <span className="inline-block text-[11px] font-bold px-3 py-1 rounded-full bg-amber-100 text-amber-800 border border-amber-200">
                   {s.tag}
                 </span>
               </div>
@@ -135,15 +223,15 @@ export default function ServicesAdminPage() {
               <div className="flex items-center justify-end gap-2 border-t border-slate-100 pt-4 mt-4">
                 <button
                   onClick={() => openEditModal(s)}
-                  className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold flex items-center gap-1"
+                  className="px-3.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold flex items-center gap-1 transition-colors"
                 >
-                  <Edit2 className="w-3 h-3" /> Edit
+                  <Edit2 className="w-3.5 h-3.5" /> Edit
                 </button>
                 <button
                   onClick={() => handleDelete(s.id, s.title)}
-                  className="px-3 py-1.5 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 text-xs font-bold flex items-center gap-1"
+                  className="px-3.5 py-1.5 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 text-xs font-bold flex items-center gap-1 transition-colors"
                 >
-                  <Trash2 className="w-3 h-3" /> Delete
+                  <Trash2 className="w-3.5 h-3.5" /> Delete
                 </button>
               </div>
             </div>
@@ -157,7 +245,7 @@ export default function ServicesAdminPage() {
           <div className="bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl border border-slate-200">
             <div className="flex items-center justify-between mb-6">
               <h3 className="font-serif font-bold text-xl text-slate-900">
-                {editingId ? "Edit Service" : "Add Service"}
+                {editingId ? "Edit Service" : "Add New Service"}
               </h3>
               <button
                 onClick={() => setModalOpen(false)}
@@ -192,15 +280,27 @@ export default function ServicesAdminPage() {
                 </div>
               </div>
 
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">Service Tag</label>
-                <input
-                  type="text"
-                  value={tag}
-                  onChange={(e) => setTag(e.target.value)}
-                  placeholder="e.g. Custom Themes / Veg & Non-Veg"
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 px-3 text-sm focus:ring-2 focus:ring-amber-500"
-                />
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Service Tag</label>
+                  <input
+                    type="text"
+                    value={tag}
+                    onChange={(e) => setTag(e.target.value)}
+                    placeholder="e.g. Custom Themes"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 px-3 text-sm focus:ring-2 focus:ring-amber-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Display Order</label>
+                  <input
+                    type="number"
+                    value={displayOrder}
+                    onChange={(e) => setDisplayOrder(parseInt(e.target.value, 10) || 0)}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 px-3 text-sm focus:ring-2 focus:ring-amber-500"
+                  />
+                </div>
               </div>
 
               <div>
@@ -213,6 +313,19 @@ export default function ServicesAdminPage() {
                   placeholder="Detailed description of what is included in this service..."
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 px-3 text-sm focus:ring-2 focus:ring-amber-500"
                 />
+              </div>
+
+              <div className="flex items-center gap-2 pt-2">
+                <input
+                  type="checkbox"
+                  id="isActive"
+                  checked={isActive}
+                  onChange={(e) => setIsActive(e.target.checked)}
+                  className="w-4 h-4 rounded text-amber-500 focus:ring-amber-500 border-slate-300"
+                />
+                <label htmlFor="isActive" className="text-xs font-bold text-slate-700">
+                  Visible on Public Website (Active)
+                </label>
               </div>
 
               <div className="pt-4 flex items-center justify-end gap-3 border-t border-slate-100">
