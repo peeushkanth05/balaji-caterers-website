@@ -1,17 +1,1 @@
-{
-  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
-  "/api/admin/services/route": "app/api/admin/services/route.js",
-  "/api/admin/packages/route": "app/api/admin/packages/route.js",
-  "/api/admin/hero/route": "app/api/admin/hero/route.js",
-  "/api/admin/portfolios/route": "app/api/admin/portfolios/route.js",
-  "/api/admin/gallery/route": "app/api/admin/gallery/route.js",
-  "/page": "app/page.js",
-  "/api/admin/categories/route": "app/api/admin/categories/route.js",
-  "/admin/dashboard/page": "app/admin/dashboard/page.js",
-  "/admin/leads/page": "app/admin/leads/page.js",
-  "/admin/gallery/page": "app/admin/gallery/page.js",
-  "/admin/services/page": "app/admin/services/page.js",
-  "/admin/packages/page": "app/admin/packages/page.js",
-  "/admin/hero/page": "app/admin/hero/page.js",
-  "/admin/portfolio/page": "app/admin/portfolio/page.js"
-}
+{}
