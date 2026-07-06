@@ -9,16 +9,17 @@ generator client {
 }
 
 model User {
-  id        String     @id @default(cuid())
-  name      String
-  email     String     @unique
-  password  String // Hash via bcrypt
-  phone     String?
-  role      String     @default("ADMIN") // "SUPER_ADMIN" | "ADMIN"
-  leads     Lead[] // Formal assignment relation
-  auditLogs AuditLog[] // Traceability logs
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  id          String     @id @default(cuid())
+  name        String
+  email       String     @unique
+  password    String // Hash via bcrypt
+  phone       String?
+  role        String     @default("ADMIN") // "SUPER_ADMIN" | "ADMIN"
+  permissions String     @default("{}") // Store permissions JSON: Record<string, string[]>
+  leads       Lead[] // Formal assignment relation
+  auditLogs   AuditLog[] // Traceability logs
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
 }
 
 model Lead {
@@ -484,4 +485,28 @@ model HomepageSection {
   updatedAt    DateTime @updatedAt
 
   @@index([displayOrder])
+}
+
+model EnquiryFormSetting {
+  id              String   @id @default("default")
+  sectionTitle    String   @default("Get In Touch")
+  sectionHeading  String   @default("Let's Plan Your Dream Event")
+  formTitle       String   @default("Request a Free Quote")
+  formDescription String   @default("Fill out your event details below for a customized quotation.")
+  phone           String   @default("+91 98104 83544")
+  phoneIcon       String   @default("Phone")
+  email           String   @default("vermasandeep124@gmail.com")
+  emailIcon       String   @default("Mail")
+  address         String   @default("Dwarka Sector 5, Madhu Vihar, New Delhi")
+  addressIcon     String   @default("MapPin")
+  submitBtnText   String   @default("Send My Enquiry")
+  successMessage  String   @default("Thank you! Your enquiry has been received successfully.")
+  errorMessage    String   @default("Something went wrong. Please try again later.")
+  
+  fieldsJson      String   @default("[]") // JSON representation of fields (id, name, label, placeholder, required, isEnabled, displayOrder, type)
+  eventTypesJson  String   @default("[]") // string[] for dropdown
+  servicesJson    String   @default("[]") // string[] for dropdown
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }

@@ -24,6 +24,12 @@ async function main() {
       },
     });
     console.log('Created Super Admin:', superAdmin.email);
+  } else {
+    await prisma.user.update({
+      where: { id: existingSuperAdmin.id },
+      data: { role: 'SUPER_ADMIN' },
+    });
+    console.log('Ensured SUPER_ADMIN role for existing Super Admin:', existingSuperAdmin.email);
   }
 
   // 2. Create Staff Admin User
@@ -31,6 +37,21 @@ async function main() {
   const existingStaff = await prisma.user.findUnique({
     where: { email: staffEmail },
   });
+
+  const defaultPerms = {
+    dashboard: ["view"],
+    enquiries: ["view", "edit", "export", "internal_notes"],
+    packages: ["view", "add", "edit", "delete", "publish"],
+    services: ["view", "add", "edit", "delete", "publish"],
+    portfolio: ["view", "add", "edit", "delete", "publish"],
+    gallery: ["view", "add", "edit", "delete", "publish"],
+    videos: ["view", "add", "edit", "delete", "publish"],
+    testimonials: ["view", "add", "edit", "delete", "publish"],
+    contact: ["view", "edit"],
+    homepageSections: ["view", "edit"],
+    blogs: ["view", "add", "edit", "delete", "publish"],
+    media: ["view", "add", "delete"]
+  };
 
   if (!existingStaff) {
     const hashedPassword = await bcrypt.hash('Staff@Balaji2026', 10);
@@ -41,9 +62,19 @@ async function main() {
         password: hashedPassword,
         phone: '+919810000000',
         role: 'ADMIN',
+        permissions: JSON.stringify(defaultPerms),
       },
     });
     console.log('Created Staff Admin:', staff.email);
+  } else {
+    await prisma.user.update({
+      where: { id: existingStaff.id },
+      data: {
+        role: 'ADMIN',
+        permissions: JSON.stringify(defaultPerms),
+      },
+    });
+    console.log('Updated permissions for existing Staff Admin:', existingStaff.email);
   }
 
   // 3. Seed Packages

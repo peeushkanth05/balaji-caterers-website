@@ -21,18 +21,20 @@ if (isCloudinaryConfigured) {
   });
 }
 
-const ALLOWED_EXTENSIONS = [".jpg", ".jpeg", ".png", ".webp", ".svg", ".gif"];
+const ALLOWED_EXTENSIONS = [".jpg", ".jpeg", ".png", ".webp", ".svg", ".gif", ".mp4", ".mov", ".webm"];
 const MAX_FILE_SIZE_BYTES = 15 * 1024 * 1024; // 15MB
 
 // Helper to upload a buffer to Cloudinary
 const uploadToCloudinary = (buffer: Buffer, filename: string, folder: string): Promise<any> => {
+  const ext = path.extname(filename).toLowerCase();
+  const isVideo = [".mp4", ".mov", ".webm"].includes(ext);
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
       {
         folder: `shreebalaji/${folder || "general"}`,
         public_id: `${Date.now()}_${path.parse(filename).name.replace(/[^a-zA-Z0-9_-]/g, "_")}`,
         resource_type: "auto",
-        format: "webp",          // Force WebP conversion for compression
+        ...(!isVideo && { format: "webp" }),          // Force WebP conversion only for images
         quality: "auto:good",     // Cloudinary auto quality compression
       },
       (error, result) => {

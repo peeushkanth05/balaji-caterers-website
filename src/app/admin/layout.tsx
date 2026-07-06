@@ -23,6 +23,7 @@ import {
   MessageSquare,
   Megaphone,
   Share2,
+  Mail,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -60,24 +61,25 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const userName = session?.user?.name || "Admin";
 
   const navigation = [
-    { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
-    { name: "Section Manager", href: "/admin/sections", icon: ListOrdered },
-    { name: "Hero Banner CMS", href: "/admin/hero", icon: Sparkles },
-    { name: "Portfolio CMS", href: "/admin/portfolio", icon: FolderKanban },
-    { name: "Portfolio Categories", href: "/admin/portfolio/categories", icon: Layers },
-    { name: "Leads & Enquiries", href: "/admin/leads", icon: Users },
-    { name: "Catering Packages", href: "/admin/packages", icon: UtensilsCrossed },
-    { name: "Services", href: "/admin/services", icon: Sparkles },
-    { name: "Videos Gallery", href: "/admin/videos", icon: Video },
-    { name: "Testimonials", href: "/admin/testimonials", icon: MessageSquare },
-    { name: "Alert Ticker", href: "/admin/alerts", icon: Megaphone },
-    { name: "Social Links", href: "/admin/social", icon: Share2 },
-    { name: "Gallery Photos", href: "/admin/gallery", icon: ImageIcon },
-    { name: "Business Settings", href: "/admin/settings", icon: Settings },
+    { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard, module: "dashboard" },
+    { name: "Section Manager", href: "/admin/sections", icon: ListOrdered, module: "homepageSections" },
+    { name: "Hero Banner CMS", href: "/admin/hero", icon: Sparkles, module: "settings" },
+    { name: "Portfolio CMS", href: "/admin/portfolio", icon: FolderKanban, module: "portfolio" },
+    { name: "Portfolio Categories", href: "/admin/portfolio/categories", icon: Layers, module: "portfolio" },
+    { name: "Leads & Enquiries", href: "/admin/leads", icon: Users, module: "enquiries" },
+    { name: "Catering Packages", href: "/admin/packages", icon: UtensilsCrossed, module: "packages" },
+    { name: "Services", href: "/admin/services", icon: Sparkles, module: "services" },
+    { name: "Videos Gallery", href: "/admin/videos", icon: Video, module: "videos" },
+    { name: "Testimonials", href: "/admin/testimonials", icon: MessageSquare, module: "testimonials" },
+    { name: "Alert Ticker", href: "/admin/alerts", icon: Megaphone, module: "settings" },
+    { name: "Social Links", href: "/admin/social", icon: Share2, module: "settings" },
+    { name: "Gallery Photos", href: "/admin/gallery", icon: ImageIcon, module: "gallery" },
+    { name: "Enquiry Form CMS", href: "/admin/contact", icon: Mail, module: "contact" },
+    { name: "Business Settings", href: "/admin/settings", icon: Settings, module: "settings" },
   ];
 
   const superAdminNavigation = [
-    { name: "Staff & Role Management", href: "/admin/super/staff", icon: ShieldCheck },
+    { name: "Staff & Role Management", href: "/admin/users", icon: ShieldCheck },
   ];
 
   return (
@@ -154,25 +156,34 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <p className="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-2">
               Main Menu
             </p>
-            {navigation.map((item) => {
-              const isActive = pathname === item.href;
-              const Icon = item.icon;
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all ${
-                    isActive
-                      ? "bg-amber-500 text-white font-semibold shadow-lg shadow-amber-500/20"
-                      : "text-slate-400 hover:text-white hover:bg-slate-800"
-                  }`}
-                >
-                  <Icon className="w-5 h-5" />
-                  {item.name}
-                </Link>
-              );
-            })}
+            {(() => {
+              const userPermissions = (session?.user as any)?.permissions || {};
+              const visibleNavigation = navigation.filter((item) => {
+                if (userRole === "SUPER_ADMIN") return true;
+                const allowedActions = userPermissions[item.module] || [];
+                return allowedActions.includes("view");
+              });
+
+              return visibleNavigation.map((item) => {
+                const isActive = pathname === item.href;
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all ${
+                      isActive
+                        ? "bg-amber-500 text-white font-semibold shadow-lg shadow-amber-500/20"
+                        : "text-slate-400 hover:text-white hover:bg-slate-800"
+                    }`}
+                  >
+                    <Icon className="w-5 h-5" />
+                    {item.name}
+                  </Link>
+                );
+              });
+            })()}
 
             {/* Super Admin Section */}
             {userRole === "SUPER_ADMIN" && (

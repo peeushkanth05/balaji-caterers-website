@@ -15,6 +15,7 @@ import {
   Loader2,
   ExternalLink,
   Save,
+  Download,
 } from "lucide-react";
 
 export default function LeadManagementPage() {
@@ -25,6 +26,10 @@ export default function LeadManagementPage() {
   const [selectedLead, setSelectedLead] = useState<any>(null);
   const [noteText, setNoteText] = useState("");
   const [updatingId, setUpdatingId] = useState<string | null>(null);
+  const [notesSuccess, setNotesSuccess] = useState(false);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [isExporting, setIsExporting] = useState(false);
 
   const fetchLeads = async () => {
     try {
@@ -67,6 +72,7 @@ export default function LeadManagementPage() {
 
   const handleSaveNotes = async (leadId: string) => {
     setUpdatingId(leadId);
+    setNotesSuccess(false);
     try {
       const res = await fetch("/api/admin/leads", {
         method: "PATCH",
@@ -78,10 +84,17 @@ export default function LeadManagementPage() {
         setLeads((prev) =>
           prev.map((l) => (l.id === leadId ? { ...l, notes: noteText } : l))
         );
-        setSelectedLead((prev: any) => (prev ? { ...prev, notes: noteText } : null));
+        setNotesSuccess(true);
+        setTimeout(() => {
+          setNotesSuccess(false);
+          setSelectedLead(null);
+        }, 1200);
+      } else {
+        alert("Failed to save notes");
       }
     } catch (e) {
       console.error("Failed to save notes", e);
+      alert("Error saving notes");
     } finally {
       setUpdatingId(null);
     }
@@ -94,14 +107,96 @@ export default function LeadManagementPage() {
     window.open(`https://wa.me/${formattedPhone}?text=${encodeURIComponent(text)}`, "_blank");
   };
 
+  const handleExport = (format: "csv" | "xlsx") => {
+    const query = new URLSearchParams({
+      format,
+      status: statusFilter,
+      search,
+      startDate,
+      endDate,
+    });
+    window.open(`/api/admin/leads/export?${query.toString()}`, "_blank");
+  };
+
+  const handleExportPDF = async () => {
+    setIsExporting(true);
+    try {
+      const { default: jsPDF } = await import("jspdf");
+      const { default: autoTable } = await import("jspdf-autotable");
+
+      const doc = new jsPDF({ orientation: "landscape" });
+
+      doc.setFontSize(18);
+      doc.text("Shree Balaji Caterers - Lead Enquiry Report", 14, 15);
+      
+      doc.setFontSize(10);
+      doc.text(`Generated on: ${new Date().toLocaleDateString("en-IN")} | Status Filter: ${statusFilter}`, 14, 22);
+
+      const tableData = filteredLeads.map((lead) => [
+        lead.name,
+        lead.phone,
+        lead.email || "N/A",
+        lead.eventType,
+        lead.service || "General",
+        lead.guestCount ? String(lead.guestCount) : "N/A",
+        lead.eventDate ? new Date(lead.eventDate).toLocaleDateString("en-IN") : "N/A",
+        lead.status,
+        lead.notes || "",
+        new Date(lead.createdAt).toLocaleDateString("en-IN"),
+      ]);
+
+      (doc as any).autoTable({
+        head: [[
+          "Name", "Phone", "Email", "Event Type", "Service", "Guests", "Event Date", "Status", "Notes", "Created"
+        ]],
+        body: tableData,
+        startY: 28,
+        theme: "striped",
+        headStyles: { fillColor: [245, 158, 11] }, // Amber 500
+        styles: { fontSize: 8, cellPadding: 2 },
+        columnStyles: {
+          8: { cellWidth: 40 }, // Notes column wrap
+        }
+      });
+
+      doc.save(`leads_report_${Date.now()}.pdf`);
+    } catch (e) {
+      console.error("PDF export error", e);
+      alert("Failed to export PDF");
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
   const filteredLeads = leads.filter((lead) => {
     const matchesSearch =
       lead.name.toLowerCase().includes(search.toLowerCase()) ||
       lead.phone.includes(search) ||
-      lead.eventType.toLowerCase().includes(search.toLowerCase());
+      (lead.email && lead.email.toLowerCase().includes(search.toLowerCase())) ||
+      lead.eventType.toLowerCase().includes(search.toLowerCase()) ||
+      (lead.service && lead.service.toLowerCase().includes(search.toLowerCase()));
 
     const matchesStatus = statusFilter === "ALL" || lead.status === statusFilter;
-    return matchesSearch && matchesStatus;
+
+    let matchesDate = true;
+    if (startDate || endDate) {
+      if (lead.eventDate) {
+        const eventD = new Date(lead.eventDate);
+        if (startDate) {
+          const start = new Date(startDate);
+          if (eventD < start) matchesDate = false;
+        }
+        if (endDate) {
+          const end = new Date(endDate);
+          end.setHours(23, 59, 59, 999);
+          if (eventD > end) matchesDate = false;
+        }
+      } else {
+        matchesDate = false;
+      }
+    }
+
+    return matchesSearch && matchesStatus && matchesDate;
   });
 
   return (
@@ -124,34 +219,103 @@ export default function LeadManagementPage() {
       </div>
 
       {/* Filters & Search Bar */}
-      <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row gap-4 justify-between items-center">
-        {/* Search */}
-        <div className="relative w-full sm:w-80">
-          <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-          <input
-            type="text"
-            placeholder="Search name, phone, or event..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
-          />
+      <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+        <div className="flex flex-col lg:flex-row gap-4 justify-between lg:items-center">
+          {/* Search */}
+          <div className="relative w-full lg:w-80">
+            <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+            <input
+              type="text"
+              placeholder="Search name, phone, or event..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
+            />
+          </div>
+
+          {/* Status Filter Tabs */}
+          <div className="flex items-center gap-1 overflow-x-auto pb-1 lg:pb-0">
+            {["ALL", "NEW", "CONTACTED", "BOOKED", "COMPLETED", "CANCELLED"].map((status) => (
+              <button
+                key={status}
+                onClick={() => setStatusFilter(status)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                  statusFilter === status
+                    ? "bg-amber-500 text-white shadow-sm"
+                    : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                }`}
+              >
+                {status}
+              </button>
+            ))}
+          </div>
         </div>
 
-        {/* Status Filter Tabs */}
-        <div className="flex items-center gap-1 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0">
-          {["ALL", "NEW", "CONTACTED", "BOOKED", "COMPLETED", "CANCELLED"].map((status) => (
+        {/* Date Filter & Export Group */}
+        <div className="flex flex-col md:flex-row gap-4 items-center justify-between pt-4 border-t border-slate-100">
+          <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-bold text-slate-500 flex items-center gap-1">
+                <Calendar className="w-3.5 h-3.5" /> Event Date:
+              </span>
+            </div>
+            <div className="flex items-center gap-2 w-full sm:w-auto">
+              <input
+                type="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                className="bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs focus:ring-2 focus:ring-amber-500 focus:outline-none font-medium"
+              />
+              <span className="text-xs text-slate-400 font-bold">to</span>
+              <input
+                type="date"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                className="bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs focus:ring-2 focus:ring-amber-500 focus:outline-none font-medium"
+              />
+              {(startDate || endDate) && (
+                <button
+                  onClick={() => {
+                    setStartDate("");
+                    setEndDate("");
+                  }}
+                  className="text-xs font-bold text-red-500 hover:text-red-700 ml-2"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 w-full md:w-auto justify-end">
             <button
-              key={status}
-              onClick={() => setStatusFilter(status)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                statusFilter === status
-                  ? "bg-amber-500 text-white shadow-sm"
-                  : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-              }`}
+              onClick={() => handleExport("xlsx")}
+              className="inline-flex items-center gap-1.5 px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-sm transition-all"
             >
-              {status}
+              <Download className="w-3.5 h-3.5" /> Excel
             </button>
-          ))}
+            <button
+              onClick={() => handleExport("csv")}
+              className="inline-flex items-center gap-1.5 px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-sm transition-all"
+            >
+              <Download className="w-3.5 h-3.5" /> CSV
+            </button>
+            <button
+              disabled={isExporting}
+              onClick={handleExportPDF}
+              className="inline-flex items-center gap-1.5 px-3 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold shadow-sm transition-all disabled:opacity-50"
+            >
+              {isExporting ? (
+                <>
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" /> Exporting...
+                </>
+              ) : (
+                <>
+                  <Download className="w-3.5 h-3.5" /> PDF
+                </>
+              )}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -252,6 +416,7 @@ export default function LeadManagementPage() {
                         onClick={() => {
                           setSelectedLead(lead);
                           setNoteText(lead.notes || "");
+                          setNotesSuccess(false);
                         }}
                         className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition-all"
                       >
@@ -276,6 +441,12 @@ export default function LeadManagementPage() {
             <p className="text-xs text-slate-500 mb-4">
               {selectedLead.eventType} &bull; {selectedLead.phone}
             </p>
+
+            {notesSuccess && (
+              <div className="mb-4 p-3.5 bg-emerald-50 rounded-2xl border border-emerald-200 text-emerald-800 text-xs font-bold flex items-center gap-1.5 animate-pulse">
+                ✓ Notes saved successfully! Auto-closing...
+              </div>
+            )}
 
             {selectedLead.message && (
               <div className="mb-4 p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900">

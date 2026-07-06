@@ -17,8 +17,59 @@ export default function VideosAdminPage() {
   const [isEnabled, setIsEnabled] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
+  const [videoSourceType, setVideoSourceType] = useState<"url" | "upload">("url");
+  const [thumbnailSourceType, setThumbnailSourceType] = useState<"url" | "upload">("url");
+  const [videoProgress, setVideoProgress] = useState<number | null>(null);
+  const [thumbnailProgress, setThumbnailProgress] = useState<number | null>(null);
+
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+
+  const handleUpload = (file: File, type: "video" | "thumbnail") => {
+    const setProgress = type === "video" ? setVideoProgress : setThumbnailProgress;
+    const setUrl = type === "video" ? setVideoUrl : setThumbnailUrl;
+    
+    setProgress(0);
+    setErrorMsg("");
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("folder", type === "video" ? "videos" : "thumbnails");
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "/api/admin/media", true);
+
+    xhr.upload.onprogress = (event) => {
+      if (event.lengthComputable) {
+        const percent = Math.round((event.loaded / event.total) * 100);
+        setProgress(percent);
+      }
+    };
+
+    xhr.onload = () => {
+      setProgress(null);
+      if (xhr.status === 201) {
+        const res = JSON.parse(xhr.responseText);
+        if (res.assets && res.assets[0]) {
+          setUrl(res.assets[0].url);
+        }
+      } else {
+        let msg = "Upload failed";
+        try {
+          const res = JSON.parse(xhr.responseText);
+          msg = res.error || msg;
+        } catch(e) {}
+        setErrorMsg(msg);
+      }
+    };
+
+    xhr.onerror = () => {
+      setProgress(null);
+      setErrorMsg(`Upload failed due to connection error.`);
+    };
+
+    xhr.send(formData);
+  };
 
   const fetchVideos = async () => {
     try {
@@ -45,6 +96,8 @@ export default function VideosAdminPage() {
     setThumbnailUrl("");
     setDisplayOrder(videos.length + 1);
     setIsEnabled(true);
+    setVideoSourceType("url");
+    setThumbnailSourceType("url");
     setModalOpen(true);
   };
 
@@ -56,6 +109,8 @@ export default function VideosAdminPage() {
     setThumbnailUrl(vid.thumbnailUrl);
     setDisplayOrder(vid.displayOrder ?? 0);
     setIsEnabled(vid.isEnabled ?? true);
+    setVideoSourceType(vid.videoUrl.startsWith("/uploads/") ? "upload" : "url");
+    setThumbnailSourceType(vid.thumbnailUrl.startsWith("/uploads/") ? "upload" : "url");
     setModalOpen(true);
   };
 
@@ -293,27 +348,141 @@ export default function VideosAdminPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">Video URL (MP4, YouTube, or Drive link) *</label>
-                <input
-                  type="text"
-                  required
-                  value={videoUrl}
-                  onChange={(e) => setVideoUrl(e.target.value)}
-                  placeholder="https://www.youtube.com/watch?v=..."
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-amber-500"
-                />
+                <label className="block text-xs font-bold text-slate-700 mb-1">Video Source *</label>
+                <div className="flex gap-2 mb-2">
+                  <button
+                    type="button"
+                    onClick={() => setVideoSourceType("url")}
+                    className={`flex-1 py-2 text-xs font-bold rounded-xl border transition-all ${
+                      videoSourceType === "url"
+                        ? "bg-amber-500 text-white border-amber-600 shadow-sm"
+                        : "bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100"
+                    }`}
+                  >
+                    Video URL
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setVideoSourceType("upload")}
+                    className={`flex-1 py-2 text-xs font-bold rounded-xl border transition-all ${
+                      videoSourceType === "upload"
+                        ? "bg-amber-500 text-white border-amber-600 shadow-sm"
+                        : "bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100"
+                    }`}
+                  >
+                    Local File Upload
+                  </button>
+                </div>
+
+                {videoSourceType === "url" ? (
+                  <input
+                    type="text"
+                    required
+                    value={videoUrl}
+                    onChange={(e) => setVideoUrl(e.target.value)}
+                    placeholder="https://www.youtube.com/watch?v=..."
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-amber-500"
+                  />
+                ) : (
+                  <div className="space-y-2">
+                    <input
+                      type="file"
+                      accept="video/mp4,video/webm,video/ogg,video/quicktime"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) handleUpload(file, "video");
+                      }}
+                      className="w-full text-xs text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-amber-100 file:text-amber-700 hover:file:bg-amber-200 cursor-pointer"
+                    />
+                    {videoProgress !== null && (
+                      <div className="space-y-1">
+                        <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                          <div
+                            className="bg-amber-500 h-2 rounded-full transition-all duration-300"
+                            style={{ width: `${videoProgress}%` }}
+                          ></div>
+                        </div>
+                        <span className="text-[10px] text-slate-400 font-bold block text-right">
+                          Uploading Video: {videoProgress}%
+                        </span>
+                      </div>
+                    )}
+                    {videoUrl && (
+                      <div className="text-xs text-emerald-600 font-medium truncate bg-emerald-50 p-2.5 rounded-xl border border-emerald-100 mt-1">
+                        Uploaded path: {videoUrl}
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">Thumbnail Cover Image URL *</label>
-                <input
-                  type="text"
-                  required
-                  value={thumbnailUrl}
-                  onChange={(e) => setThumbnailUrl(e.target.value)}
-                  placeholder="/gallery_decor/thumbnail.jpg"
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-amber-500"
-                />
+                <label className="block text-xs font-bold text-slate-700 mb-1">Thumbnail Cover Image *</label>
+                <div className="flex gap-2 mb-2">
+                  <button
+                    type="button"
+                    onClick={() => setThumbnailSourceType("url")}
+                    className={`flex-1 py-2 text-xs font-bold rounded-xl border transition-all ${
+                      thumbnailSourceType === "url"
+                        ? "bg-amber-500 text-white border-amber-600 shadow-sm"
+                        : "bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100"
+                    }`}
+                  >
+                    Image URL
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setThumbnailSourceType("upload")}
+                    className={`flex-1 py-2 text-xs font-bold rounded-xl border transition-all ${
+                      thumbnailSourceType === "upload"
+                        ? "bg-amber-500 text-white border-amber-600 shadow-sm"
+                        : "bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100"
+                    }`}
+                  >
+                    Local File Upload
+                  </button>
+                </div>
+
+                {thumbnailSourceType === "url" ? (
+                  <input
+                    type="text"
+                    required
+                    value={thumbnailUrl}
+                    onChange={(e) => setThumbnailUrl(e.target.value)}
+                    placeholder="/gallery_decor/thumbnail.jpg"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-amber-500"
+                  />
+                ) : (
+                  <div className="space-y-2">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) handleUpload(file, "thumbnail");
+                      }}
+                      className="w-full text-xs text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-amber-100 file:text-amber-700 hover:file:bg-amber-200 cursor-pointer"
+                    />
+                    {thumbnailProgress !== null && (
+                      <div className="space-y-1">
+                        <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                          <div
+                            className="bg-amber-500 h-2 rounded-full transition-all duration-300"
+                            style={{ width: `${thumbnailProgress}%` }}
+                          ></div>
+                        </div>
+                        <span className="text-[10px] text-slate-400 font-bold block text-right">
+                          Uploading Image: {thumbnailProgress}%
+                        </span>
+                      </div>
+                    )}
+                    {thumbnailUrl && (
+                      <div className="text-xs text-emerald-600 font-medium truncate bg-emerald-50 p-2.5 rounded-xl border border-emerald-100 mt-1">
+                        Uploaded path: {thumbnailUrl}
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
 
               <div className="grid grid-cols-2 gap-4">
