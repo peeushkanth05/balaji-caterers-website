@@ -120,7 +120,7 @@ export default async function PortfolioDetailPage({ params }: PageProps) {
       <Header />
 
       {/* Page Body */}
-      <main className="pt-28 pb-20 px-6 max-w-7xl mx-auto">
+      <main className="pt-10 pb-20 px-6 max-w-7xl mx-auto">
         <PortfolioDetailView
           portfolio={portfolio}
           relatedPortfolios={relatedPortfolios}

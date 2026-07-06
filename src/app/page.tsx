@@ -137,7 +137,7 @@ export default async function HomePage() {
       <Header />
 
       {/* Dynamic Hero Section */}
-      <div className="pt-20">
+      <div>
         <HeroSection hero={hero} phone={phone} whatsapp={whatsapp} />
       </div>
 

@@ -30,7 +30,7 @@ export default async function PackagesPage() {
       <Header />
 
       {/* Hero Banner / Header Section */}
-      <div className="pt-32 pb-16 px-6 max-w-7xl mx-auto">
+      <div className="pt-10 pb-16 px-6 max-w-7xl mx-auto">
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
           <span className="text-xs font-bold uppercase tracking-wider text-amber-600 px-3.5 py-1.5 bg-amber-100 rounded-full border border-amber-200">
             Our Menu & Packages

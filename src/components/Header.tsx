@@ -127,7 +127,7 @@ export function Header() {
   // Actions Filter
   const activeActions = actions.filter((a) => a.active);
 
-  const stickyClass = settings?.stickyHeader ? "fixed top-0 left-0 right-0 z-40" : "relative z-40";
+  const stickyClass = settings?.stickyHeader ? "sticky top-0 z-40" : "relative z-40";
 
   return (
     <div className={`${stickyClass} w-full transition-all`}>
@@ -276,7 +276,7 @@ export function Header() {
 
       {/* Mobile Drawer menu overlay */}
       {mobileMenuOpen && (
-        <div className="fixed inset-x-0 top-20 bg-white border-b border-slate-200 shadow-xl p-6 md:hidden flex flex-col gap-6 z-30 max-h-[80vh] overflow-y-auto">
+        <div className="absolute top-full inset-x-0 bg-white border-b border-slate-200 shadow-xl p-6 md:hidden flex flex-col gap-6 z-30 max-h-[80vh] overflow-y-auto">
           <div className="flex flex-col gap-4 font-semibold text-slate-800">
             {menus.map((menu) => {
               const hasSubmenus = menu.submenus && menu.submenus.length > 0;
