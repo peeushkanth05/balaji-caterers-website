@@ -19,20 +19,26 @@ export default function AdminLoginPage() {
     setLoading(true);
 
     try {
+      console.log("Attempting signIn with credentials...");
       const res = await signIn("credentials", {
         email,
         password,
         redirect: false,
       });
 
+      console.log("signIn response received:", res);
+
       if (res?.error) {
+        console.log("signIn error detected:", res.error);
         setError("Invalid email or password. Please try again.");
         setLoading(false);
       } else {
+        console.log("signIn success, redirecting to dashboard...");
         router.push("/admin/dashboard");
         router.refresh();
       }
     } catch (err) {
+      console.error("signIn exception caught:", err);
       setError("An unexpected error occurred.");
       setLoading(false);
     }
