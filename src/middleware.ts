@@ -12,7 +12,7 @@ const authMiddleware = withAuth(
     }
   },
   {
-    secret: process.env.NEXTAUTH_SECRET || "shreebalaji_secret_jwt_key_2026_super_secure",
+    secret: "7yJrT0h3h4xN9kM8vL2QeA5bC1sF6pZrW8uYdI3nXoKqE7tG9mV2aL5cB0rN4sHx",
     callbacks: {
       authorized: ({ token }) => !!token,
     },

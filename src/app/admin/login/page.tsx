@@ -34,8 +34,7 @@ export default function AdminLoginPage() {
         setLoading(false);
       } else {
         console.log("signIn success, redirecting to dashboard...");
-        router.push("/admin/dashboard");
-        router.refresh();
+        window.location.href = "/admin/dashboard";
       }
     } catch (err) {
       console.error("signIn exception caught:", err);
