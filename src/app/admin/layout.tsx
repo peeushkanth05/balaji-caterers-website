@@ -74,6 +74,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { name: "Alert Ticker", href: "/admin/alerts", icon: Megaphone, module: "settings" },
     { name: "Social Links", href: "/admin/social", icon: Share2, module: "settings" },
     { name: "Gallery Photos", href: "/admin/gallery", icon: ImageIcon, module: "gallery" },
+    { name: "Ad Banners", href: "/admin/advertisements", icon: Megaphone, module: "settings" },
     { name: "Enquiry Form CMS", href: "/admin/contact", icon: Mail, module: "contact" },
     { name: "Business Settings", href: "/admin/settings", icon: Settings, module: "settings" },
   ];

@@ -9,6 +9,7 @@ import { Header } from "@/components/Header";
 import { VideoGallerySection } from "@/components/VideoGallerySection";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { PhotoGallerySection } from "@/components/PhotoGallerySection";
+import { AdvertisementBanner } from "@/components/AdvertisementBanner";
 import {
   Phone,
   MessageSquare,
@@ -37,6 +38,7 @@ export default async function HomePage() {
   let testimonials: any[] = [];
   let galleryItems: any[] = [];
   let contactSettings: any = null;
+  let advertisements: any[] = [];
 
   try {
     hero = await prisma.heroSection.findUnique({
@@ -135,6 +137,20 @@ export default async function HomePage() {
         },
       });
     }
+
+    const now = new Date();
+    advertisements = await prisma.advertisement.findMany({
+      where: {
+        isEnabled: true,
+        OR: [
+          { startDate: null, endDate: null },
+          { startDate: { lte: now }, endDate: null },
+          { startDate: null, endDate: { gte: now } },
+          { startDate: { lte: now }, endDate: { gte: now } },
+        ],
+      },
+      orderBy: { displayOrder: "asc" },
+    });
 
     homeSections = await prisma.homepageSection.findMany({
       orderBy: { displayOrder: "asc" },
@@ -459,29 +475,35 @@ export default async function HomePage() {
 
             case "cta":
               return (
-                <section key={sec.id} id="cta" className="py-16 px-6 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-3xl max-w-7xl mx-auto shadow-xl shadow-amber-500/25 my-12">
-                  <div className="max-w-3xl mx-auto text-center space-y-6">
-                    <h2 className="text-3xl sm:text-4xl font-serif font-bold leading-tight">
-                      Let's Make Your Celebration Unforgettable
-                    </h2>
-                    <p className="text-sm text-white/90 max-w-xl mx-auto leading-relaxed">
-                      Get premium catering, stunning floral decoration, high-quality audio, and professional event hosting managed end-to-end.
-                    </p>
-                    <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
-                      <a
-                        href="#contact"
-                        className="bg-white text-amber-600 font-bold px-8 py-3.5 rounded-2xl shadow-lg transition-transform hover:scale-[1.02] active:scale-95 text-xs uppercase tracking-wider"
-                      >
-                        Request Free Quote
-                      </a>
-                      <a
-                        href={`tel:${phone.replace(/[^0-9+]/g, "")}`}
-                        className="border border-white/40 hover:bg-white/10 text-white font-bold px-8 py-3.5 rounded-2xl transition-transform hover:scale-[1.02] active:scale-95 text-xs uppercase tracking-wider flex items-center gap-2"
-                      >
-                        <Phone className="w-4 h-4" /> Call: {phone}
-                      </a>
+                <section key={sec.id} id="cta" className="px-6">
+                  {advertisements.length > 0 ? (
+                    <AdvertisementBanner ads={advertisements} />
+                  ) : (
+                    <div className="py-16 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-3xl max-w-7xl mx-auto shadow-xl shadow-amber-500/25 my-12">
+                      <div className="max-w-3xl mx-auto text-center space-y-6 px-6">
+                        <h2 className="text-3xl sm:text-4xl font-serif font-bold leading-tight">
+                          Let&apos;s Make Your Celebration Unforgettable
+                        </h2>
+                        <p className="text-sm text-white/90 max-w-xl mx-auto leading-relaxed">
+                          Get premium catering, stunning floral decoration, high-quality audio, and professional event hosting managed end-to-end.
+                        </p>
+                        <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+                          <a
+                            href="#contact"
+                            className="bg-white text-amber-600 font-bold px-8 py-3.5 rounded-2xl shadow-lg transition-transform hover:scale-[1.02] active:scale-95 text-xs uppercase tracking-wider"
+                          >
+                            Request Free Quote
+                          </a>
+                          <a
+                            href={`tel:${phone.replace(/[^0-9+]/g, "")}`}
+                            className="border border-white/40 hover:bg-white/10 text-white font-bold px-8 py-3.5 rounded-2xl transition-transform hover:scale-[1.02] active:scale-95 text-xs uppercase tracking-wider flex items-center gap-2"
+                          >
+                            <Phone className="w-4 h-4" /> Call: {phone}
+                          </a>
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </section>
               );
 
