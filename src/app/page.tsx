@@ -220,8 +220,23 @@ export default async function HomePage() {
                     {pkg.category}
                   </span>
                   <h3 className="font-serif font-bold text-2xl text-slate-900 mt-3 mb-1">{pkg.name}</h3>
-                  <div className="text-3xl font-bold text-amber-600 mb-4">
-                    ₹{pkg.pricePerPerson} <span className="text-xs font-normal text-slate-500">/ plate</span>
+                  <div className="mb-4">
+                    {pkg.discountType && pkg.discountType !== "none" && pkg.discountValue > 0 ? (
+                      <div className="space-y-1">
+                        <div className="flex items-baseline gap-2">
+                          <span className="text-3xl font-bold text-amber-600">₹{pkg.discountedPrice}</span>
+                          <span className="text-sm text-slate-400 line-through">₹{pkg.pricePerPerson}</span>
+                          <span className="text-xs text-slate-500 font-normal">/ plate</span>
+                        </div>
+                        <span className="inline-block text-[10px] font-bold px-2.5 py-1 rounded bg-red-50 text-red-600 border border-red-200">
+                          {pkg.discountType === "percentage" ? `${pkg.discountValue}% OFF` : `₹${pkg.discountValue} OFF`}
+                        </span>
+                      </div>
+                    ) : (
+                      <div className="text-3xl font-bold text-amber-600">
+                        ₹{pkg.pricePerPerson} <span className="text-xs font-normal text-slate-500">/ plate</span>
+                      </div>
+                    )}
                   </div>
                   <p className="text-xs text-slate-600 leading-relaxed mb-4">{pkg.description}</p>
                   {pkg.features && (

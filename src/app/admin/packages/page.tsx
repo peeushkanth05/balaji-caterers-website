@@ -12,6 +12,8 @@ export default function PackagesAdminPage() {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("Wedding");
   const [pricePerPerson, setPricePerPerson] = useState("");
+  const [discountType, setDiscountType] = useState("none");
+  const [discountValue, setDiscountValue] = useState("");
   const [description, setDescription] = useState("");
   const [features, setFeatures] = useState("");
   const [isFeatured, setIsFeatured] = useState(false);
@@ -20,6 +22,16 @@ export default function PackagesAdminPage() {
   const [filterCategory, setFilterCategory] = useState<string>("ALL");
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+
+  const originalPrice = parseFloat(pricePerPerson) || 0;
+  const discValue = parseFloat(discountValue) || 0;
+  let liveDiscountedPrice = originalPrice;
+  if (discountType === "percentage") {
+    liveDiscountedPrice = originalPrice * (1 - discValue / 100);
+  } else if (discountType === "amount") {
+    liveDiscountedPrice = Math.max(0, originalPrice - discValue);
+  }
+  liveDiscountedPrice = Math.round(liveDiscountedPrice * 100) / 100;
 
   const fetchPackages = async () => {
     try {
@@ -43,6 +55,8 @@ export default function PackagesAdminPage() {
     setName("");
     setCategory("Wedding");
     setPricePerPerson("");
+    setDiscountType("none");
+    setDiscountValue("");
     setDescription("");
     setFeatures("");
     setIsFeatured(false);
@@ -54,6 +68,8 @@ export default function PackagesAdminPage() {
     setName(pkg.name);
     setCategory(pkg.category);
     setPricePerPerson(pkg.pricePerPerson.toString());
+    setDiscountType(pkg.discountType || "none");
+    setDiscountValue(pkg.discountValue ? pkg.discountValue.toString() : "");
     setDescription(pkg.description);
     setFeatures(pkg.features);
     setIsFeatured(pkg.isFeatured);
@@ -71,6 +87,8 @@ export default function PackagesAdminPage() {
       name,
       category,
       pricePerPerson,
+      discountType,
+      discountValue: discountValue ? parseFloat(discountValue) : 0,
       description,
       features,
       isFeatured,
@@ -229,8 +247,23 @@ export default function PackagesAdminPage() {
                 </div>
 
                 <h3 className="font-serif font-bold text-xl text-slate-900 mb-1">{pkg.name}</h3>
-                <div className="text-2xl font-bold text-amber-600 mb-3">
-                  ₹{pkg.pricePerPerson} <span className="text-xs font-normal text-slate-500">/ plate</span>
+                <div className="mb-3">
+                  {pkg.discountType && pkg.discountType !== "none" && pkg.discountValue > 0 ? (
+                    <div className="space-y-1">
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-2xl font-bold text-amber-600">₹{pkg.discountedPrice}</span>
+                        <span className="text-xs text-slate-400 line-through">₹{pkg.pricePerPerson}</span>
+                        <span className="text-[10px] text-slate-500 font-normal">/ plate</span>
+                      </div>
+                      <span className="inline-block text-[10px] font-bold px-2 py-0.5 rounded bg-red-50 text-red-600 border border-red-200">
+                        {pkg.discountType === "percentage" ? `${pkg.discountValue}% OFF` : `₹${pkg.discountValue} OFF`}
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="text-2xl font-bold text-amber-600">
+                      ₹{pkg.pricePerPerson} <span className="text-xs font-normal text-slate-500">/ plate</span>
+                    </div>
+                  )}
                 </div>
 
                 <p className="text-xs text-slate-600 leading-relaxed mb-4">{pkg.description}</p>
@@ -318,6 +351,43 @@ export default function PackagesAdminPage() {
                   />
                 </div>
               </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Discount Type</label>
+                  <select
+                    value={discountType}
+                    onChange={(e) => setDiscountType(e.target.value)}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 px-3 text-sm focus:ring-2 focus:ring-amber-500"
+                  >
+                    <option value="none">No Discount</option>
+                    <option value="percentage">Percentage (%)</option>
+                    <option value="amount">Flat Amount (₹)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                    Discount Value {discountType !== "none" && "*"}
+                  </label>
+                  <input
+                    type="number"
+                    disabled={discountType === "none"}
+                    required={discountType !== "none"}
+                    value={discountValue}
+                    onChange={(e) => setDiscountValue(e.target.value)}
+                    placeholder={discountType === "none" ? "N/A" : discountType === "percentage" ? "e.g. 10" : "e.g. 150"}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 px-3 text-sm focus:ring-2 focus:ring-amber-500 disabled:opacity-50"
+                  />
+                </div>
+              </div>
+
+              {discountType !== "none" && (
+                <div className="p-3 bg-amber-50 rounded-xl border border-amber-100 text-xs font-medium text-amber-800">
+                  Calculated Price: <span className="line-through text-slate-400">₹{originalPrice}</span>{" "}
+                  <span className="font-bold text-amber-600 text-sm">₹{liveDiscountedPrice}</span> per plate
+                </div>
+              )}
 
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">Description</label>
