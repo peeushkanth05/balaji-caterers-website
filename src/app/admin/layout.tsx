@@ -18,6 +18,11 @@ import {
   X,
   FolderKanban,
   Layers,
+  ListOrdered,
+  Video,
+  MessageSquare,
+  Megaphone,
+  Share2,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -56,12 +61,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   const navigation = [
     { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
+    { name: "Section Manager", href: "/admin/sections", icon: ListOrdered },
     { name: "Hero Banner CMS", href: "/admin/hero", icon: Sparkles },
     { name: "Portfolio CMS", href: "/admin/portfolio", icon: FolderKanban },
     { name: "Portfolio Categories", href: "/admin/portfolio/categories", icon: Layers },
     { name: "Leads & Enquiries", href: "/admin/leads", icon: Users },
     { name: "Catering Packages", href: "/admin/packages", icon: UtensilsCrossed },
     { name: "Services", href: "/admin/services", icon: Sparkles },
+    { name: "Videos Gallery", href: "/admin/videos", icon: Video },
+    { name: "Testimonials", href: "/admin/testimonials", icon: MessageSquare },
+    { name: "Alert Ticker", href: "/admin/alerts", icon: Megaphone },
+    { name: "Social Links", href: "/admin/social", icon: Share2 },
     { name: "Gallery Photos", href: "/admin/gallery", icon: ImageIcon },
     { name: "Business Settings", href: "/admin/settings", icon: Settings },
   ];

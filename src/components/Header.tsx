@@ -13,7 +13,11 @@ import {
   Instagram,
   Youtube,
   Twitter,
+  Linkedin,
+  MessageCircle,
+  Share2,
 } from "lucide-react";
+import { AlertTickerMarquee } from "./AlertTickerMarquee";
 
 interface Submenu {
   id: string;
@@ -61,6 +65,7 @@ export function Header() {
   const [menus, setMenus] = useState<Menu[]>([]);
   const [actions, setActions] = useState<HeaderAction[]>([]);
   const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null);
+  const [socialLinks, setSocialLinks] = useState<any[]>([]);
 
   // Mobile menu states
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -78,6 +83,7 @@ export function Header() {
         if (data.menus) setMenus(data.menus);
         if (data.actions) setActions(data.actions);
         if (data.siteSettings) setSiteSettings(data.siteSettings);
+        if (data.socialLinks) setSocialLinks(data.socialLinks);
       } catch (e) {
         console.error("Failed to load header navigation", e);
       } finally {
@@ -131,6 +137,9 @@ export function Header() {
 
   return (
     <div className={`${stickyClass} w-full transition-all`}>
+      {/* Alert Announcement Ticker */}
+      <AlertTickerMarquee />
+
       {/* Top Bar Announcement */}
       {settings?.topBarActive && (
         <div className="bg-slate-950 text-white py-2 px-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-[10px] font-bold tracking-wider uppercase border-b border-white/5">
@@ -154,25 +163,56 @@ export function Header() {
             {/* Social profiles */}
             {settings.showSocials && (
               <div className="flex items-center gap-3 text-slate-400">
-                {siteSettings?.facebookUrl && (
-                  <a href={siteSettings.facebookUrl} target="_blank" rel="noreferrer" className="hover:text-white transition-colors">
-                    <Facebook className="w-3.5 h-3.5" />
-                  </a>
-                )}
-                {siteSettings?.instagramUrl && (
-                  <a href={siteSettings.instagramUrl} target="_blank" rel="noreferrer" className="hover:text-white transition-colors">
-                    <Instagram className="w-3.5 h-3.5" />
-                  </a>
-                )}
-                {siteSettings?.youtubeUrl && (
-                  <a href={siteSettings.youtubeUrl} target="_blank" rel="noreferrer" className="hover:text-white transition-colors">
-                    <Youtube className="w-3.5 h-3.5" />
-                  </a>
-                )}
-                {siteSettings?.twitterUrl && (
-                  <a href={siteSettings.twitterUrl} target="_blank" rel="noreferrer" className="hover:text-white transition-colors">
-                    <Twitter className="w-3.5 h-3.5" />
-                  </a>
+                {socialLinks.length > 0 ? (
+                  socialLinks.map((link) => {
+                    const getPlatformIcon = (plat: string) => {
+                      switch (plat.toLowerCase()) {
+                        case "facebook": return <Facebook className="w-3.5 h-3.5" />;
+                        case "instagram": return <Instagram className="w-3.5 h-3.5" />;
+                        case "youtube": return <Youtube className="w-3.5 h-3.5" />;
+                        case "linkedin": return <Linkedin className="w-3.5 h-3.5" />;
+                        case "x":
+                        case "twitter": return <Twitter className="w-3.5 h-3.5" />;
+                        case "whatsapp": return <MessageCircle className="w-3.5 h-3.5" />;
+                        default: return <Share2 className="w-3.5 h-3.5" />;
+                      }
+                    };
+                    return (
+                      <a
+                        key={link.id}
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-white transition-colors"
+                        title={link.platform}
+                      >
+                        {getPlatformIcon(link.platform)}
+                      </a>
+                    );
+                  })
+                ) : (
+                  <>
+                    {siteSettings?.facebookUrl && (
+                      <a href={siteSettings.facebookUrl} target="_blank" rel="noreferrer" className="hover:text-white transition-colors">
+                        <Facebook className="w-3.5 h-3.5" />
+                      </a>
+                    )}
+                    {siteSettings?.instagramUrl && (
+                      <a href={siteSettings.instagramUrl} target="_blank" rel="noreferrer" className="hover:text-white transition-colors">
+                        <Instagram className="w-3.5 h-3.5" />
+                      </a>
+                    )}
+                    {siteSettings?.youtubeUrl && (
+                      <a href={siteSettings.youtubeUrl} target="_blank" rel="noreferrer" className="hover:text-white transition-colors">
+                        <Youtube className="w-3.5 h-3.5" />
+                      </a>
+                    )}
+                    {siteSettings?.twitterUrl && (
+                      <a href={siteSettings.twitterUrl} target="_blank" rel="noreferrer" className="hover:text-white transition-colors">
+                        <Twitter className="w-3.5 h-3.5" />
+                      </a>
+                    )}
+                  </>
                 )}
               </div>
             )}

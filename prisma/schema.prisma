@@ -412,3 +412,76 @@ model HeaderSettings {
   showContact  Boolean  @default(true)
   updatedAt    DateTime @updatedAt
 }
+
+// =============================================================================
+// NEW FEATURES & SYSTEM CMS Models
+// =============================================================================
+
+model SocialMediaLink {
+  id           String   @id @default(cuid())
+  platform     String   // e.g. "facebook", "instagram", "youtube", "linkedin", "x"
+  url          String
+  icon         String?  // emoji or icon name
+  isEnabled    Boolean  @default(true)
+  displayOrder Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([displayOrder])
+}
+
+model VideoGalleryItem {
+  id           String   @id @default(cuid())
+  title        String
+  description  String?
+  videoUrl     String   // Local path or video URL
+  thumbnailUrl String   // Cover/Thumbnail image URL
+  displayOrder Int      @default(0)
+  isEnabled    Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([displayOrder])
+}
+
+model Testimonial {
+  id           String   @id @default(cuid())
+  name         String
+  review       String
+  rating       Int      @default(5)
+  photoUrl     String?
+  companyName  String?
+  displayOrder Int      @default(0)
+  isEnabled    Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([displayOrder])
+}
+
+model AlertTicker {
+  id              String   @id @default(cuid())
+  text            String
+  bgColor         String   @default("#f59e0b")
+  textColor       String   @default("#ffffff")
+  speed           Int      @default(40) // speed in seconds
+  priority        Int      @default(0)
+  isEnabled       Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([priority])
+}
+
+model HomepageSection {
+  id           String   @id @default(cuid())
+  sectionType  String   // e.g. "hero", "about", "services", "packages", "videos", "testimonials", "gallery", "portfolio", "contact", "footer", "partners", "blogs", "cta"
+  name         String
+  displayOrder Int      @default(0)
+  isEnabled    Boolean  @default(true)
+  settings     String?  // Optional JSON settings override
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([displayOrder])
+}

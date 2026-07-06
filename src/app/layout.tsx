@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Nunito, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
+import { FloatingSocials } from "@/components/FloatingSocials";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -29,7 +30,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${nunito.variable} ${playfair.variable}`}>
       <body className="font-sans antialiased min-h-screen">
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <FloatingSocials />
+        </Providers>
       </body>
     </html>
   );

@@ -124,7 +124,19 @@ export async function GET() {
       where: { id: "default" },
     });
 
-    return NextResponse.json({ settings, menus, actions, siteSettings });
+    // 5. Fetch Social Media Links
+    const socialLinks = await prisma.socialMediaLink.findMany({
+      where: { isEnabled: true },
+      orderBy: { displayOrder: "asc" },
+    });
+
+    // 6. Fetch Alerts Ticker
+    const alerts = await prisma.alertTicker.findMany({
+      where: { isEnabled: true },
+      orderBy: { priority: "desc" },
+    });
+
+    return NextResponse.json({ settings, menus, actions, siteSettings, socialLinks, alerts });
   } catch (error) {
     console.error("Public Header API Error:", error);
     return NextResponse.json({ error: "Failed to load header configuration" }, { status: 500 });

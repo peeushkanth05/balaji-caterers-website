@@ -506,6 +506,118 @@ async function main() {
 
   console.log('Seeded 6 Rich Portfolio Items');
 
+  // 9. Seed Social Media links
+  await prisma.socialMediaLink.deleteMany({});
+  await prisma.socialMediaLink.createMany({
+    data: [
+      { platform: "facebook", url: "https://facebook.com", icon: "📘", displayOrder: 0, isEnabled: true },
+      { platform: "instagram", url: "https://instagram.com", icon: "📷", displayOrder: 1, isEnabled: true },
+      { platform: "youtube", url: "https://youtube.com", icon: "🎥", displayOrder: 2, isEnabled: true },
+      { platform: "linkedin", url: "https://linkedin.com", icon: "💼", displayOrder: 3, isEnabled: true },
+      { platform: "x", url: "https://x.com", icon: "🐦", displayOrder: 4, isEnabled: true },
+    ]
+  });
+  console.log("Seeded default social media links");
+
+  // 10. Seed Sample Videos
+  await prisma.videoGalleryItem.deleteMany({});
+  await prisma.videoGalleryItem.createMany({
+    data: [
+      {
+        title: "Royal Wedding Catering Highlight",
+        description: "Elegant live counter displays, premium buffet layouts, and exquisite dining setups.",
+        videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        thumbnailUrl: "/grand_wedding_decor/3dce2ebd-b344-485c-80e0-88cad120d299.jpg",
+        displayOrder: 0,
+        isEnabled: true,
+      },
+      {
+        title: "Floral Stage Decor Setup timelapse",
+        description: "Behind the scenes of setting up a grand 50-foot orchid and rose backdrop canopy.",
+        videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        thumbnailUrl: "/grand_wedding_decor/93f97c61-cb64-4b24-b9ed-3cef9082b0f4.jpg",
+        displayOrder: 1,
+        isEnabled: true,
+      },
+      {
+        title: "Premium Live Chaat Counter",
+        description: "Interactive golgappa, tikki, and fusion street food stations in action.",
+        videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        thumbnailUrl: "/grand_wedding_decor/7b473ea8-3932-41ab-bac7-910973b59980.jpg",
+        displayOrder: 2,
+        isEnabled: true,
+      }
+    ]
+  });
+  console.log("Seeded sample video highlights");
+
+  // 11. Seed Sample Testimonials
+  await prisma.testimonial.deleteMany({});
+  await prisma.testimonial.createMany({
+    data: [
+      {
+        name: "Peeyush Kanth",
+        review: "Absolutely outstanding food and decoration! Every single guest at our wedding was praising the paneer tikka and the grand mandap decor.",
+        rating: 5,
+        companyName: "Wedding at Dwarka Sector 10",
+        displayOrder: 0,
+        isEnabled: true,
+      },
+      {
+        name: "Meenakshi Sharma",
+        review: "We booked Shree Balaji for our son's 1st birthday. The balloon theme, slides, and kids food counter were managed perfectly. Highly recommended!",
+        rating: 5,
+        companyName: "Birthday Party in Janakpuri",
+        displayOrder: 1,
+        isEnabled: true,
+      },
+      {
+        name: "Vikram Malhotra",
+        review: "End-to-end event management was seamless. The sound system, DJ, lighting, and coolers kept everyone comfortable. Stress-free experience.",
+        rating: 5,
+        companyName: "Corporate Meet in Gurgaon",
+        displayOrder: 2,
+        isEnabled: true,
+      }
+    ]
+  });
+  console.log("Seeded sample testimonials");
+
+  // 12. Seed Sample Alert Ticker
+  await prisma.alertTicker.deleteMany({});
+  await prisma.alertTicker.create({
+    data: {
+      text: "🎉 Flat 10% OFF on all wedding and corporate catering bookings completed this week! Call us now to reserve your date.",
+      bgColor: "#f59e0b",
+      textColor: "#ffffff",
+      speed: 35,
+      priority: 1,
+      isEnabled: true,
+    }
+  });
+  console.log("Seeded sample alert ticker notice");
+
+  // 13. Seed Homepage Sections
+  await prisma.homepageSection.deleteMany({});
+  await prisma.homepageSection.createMany({
+    data: [
+      { sectionType: "hero", name: "Hero Banner", displayOrder: 0, isEnabled: true },
+      { sectionType: "partners", name: "Partner Banquets & Venues", displayOrder: 1, isEnabled: true },
+      { sectionType: "about", name: "Why Choose Us / About", displayOrder: 2, isEnabled: true },
+      { sectionType: "services", name: "Offered Services", displayOrder: 3, isEnabled: true },
+      { sectionType: "packages", name: "Catering Packages", displayOrder: 4, isEnabled: true },
+      { sectionType: "videos", name: "Event Videos Slider", displayOrder: 5, isEnabled: true },
+      { sectionType: "testimonials", name: "Client Reviews", displayOrder: 6, isEnabled: true },
+      { sectionType: "gallery", name: "Photo Gallery Grid", displayOrder: 7, isEnabled: true },
+      { sectionType: "portfolio", name: "Grand Projects Showcase", displayOrder: 8, isEnabled: true },
+      { sectionType: "cta", name: "Call To Action Banner", displayOrder: 9, isEnabled: true },
+      { sectionType: "blogs", name: "Catering Guides & Blogs", displayOrder: 10, isEnabled: true },
+      { sectionType: "contact", name: "Request a Free Quote", displayOrder: 11, isEnabled: true },
+      { sectionType: "footer", name: "Footer Info & Copyright", displayOrder: 12, isEnabled: true },
+    ]
+  });
+  console.log("Seeded homepage layout section configs");
+
   console.log('Seeding completed successfully!');
 }
 
