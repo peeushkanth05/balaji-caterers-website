@@ -1,6 +1,7 @@
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
 generator client {
@@ -11,10 +12,10 @@ model User {
   id        String     @id @default(cuid())
   name      String
   email     String     @unique
-  password  String     // Hash via bcrypt
+  password  String // Hash via bcrypt
   phone     String?
   role      String     @default("ADMIN") // "SUPER_ADMIN" | "ADMIN"
-  leads     Lead[]     // Formal assignment relation
+  leads     Lead[] // Formal assignment relation
   auditLogs AuditLog[] // Traceability logs
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
@@ -32,7 +33,7 @@ model Lead {
   message      String?
   status       String    @default("NEW") // "NEW" | "CONTACTED" | "QUOTATION_SENT" | "BOOKED" | "COMPLETED" | "CANCELLED"
   notes        String?
-  assignedTo   String?   // User ID
+  assignedTo   String? // User ID
   assignedUser User?     @relation(fields: [assignedTo], references: [id], onDelete: SetNull)
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
@@ -45,10 +46,10 @@ model Lead {
 model Package {
   id             String   @id @default(cuid())
   name           String
-  category       String   // e.g. Wedding, Birthday, Corporate
+  category       String // e.g. Wedding, Birthday, Corporate
   pricePerPerson Float
   description    String
-  features       String   // Comma-separated list or details
+  features       String // Comma-separated list or details
   isFeatured     Boolean  @default(false)
   seoTitle       String?
   seoDescription String?
@@ -61,9 +62,9 @@ model Package {
 model Service {
   id             String   @id @default(cuid())
   title          String
-  icon           String   // Emoji or icon name (e.g. 🍽️)
+  icon           String // Emoji or icon name (e.g. 🍽️)
   description    String
-  tag            String   // e.g. "Veg & Non-Veg", "Custom Themes"
+  tag            String // e.g. "Veg & Non-Veg", "Custom Themes"
   displayOrder   Int      @default(0)
   isActive       Boolean  @default(true)
   seoTitle       String?
@@ -77,7 +78,7 @@ model Service {
 model GalleryItem {
   id        String   @id @default(cuid())
   title     String
-  category  String   // e.g. Wedding, Birthday, Floral, DJ
+  category  String // e.g. Wedding, Birthday, Floral, DJ
   imageUrl  String
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
@@ -88,39 +89,39 @@ model GalleryItem {
 }
 
 model SiteSetting {
-  id            String   @id @default("default")
-  companyName   String   @default("Shree Balaji Caterers")
-  logoUrl       String   @default("/new-logo.png")
-  faviconUrl    String   @default("/favicon.ico")
+  id          String @id @default("default")
+  companyName String @default("Shree Balaji Caterers")
+  logoUrl     String @default("/new-logo.png")
+  faviconUrl  String @default("/favicon.ico")
 
   // Business Info
-  phone         String   @default("+91 98104 83544")
-  whatsapp      String   @default("919810483544")
-  email         String   @default("vermasandeep124@gmail.com")
-  ownerName     String   @default("Sandeep Verma")
-  address       String   @default("Dwarka Sector 5, Madhu Vihar, New Delhi")
-  mapsUrl       String   @default("https://www.google.com/maps/search/?api=1&query=28.5921,77.0460&query_place_id=Dwarka+Sector+5+New+Delhi")
-  businessHours String   @default("9:00 AM - 9:00 PM (Daily)")
+  phone         String @default("+91 98104 83544")
+  whatsapp      String @default("919810483544")
+  email         String @default("vermasandeep124@gmail.com")
+  ownerName     String @default("Sandeep Verma")
+  address       String @default("Dwarka Sector 5, Madhu Vihar, New Delhi")
+  mapsUrl       String @default("https://www.google.com/maps/search/?api=1&query=28.5921,77.0460&query_place_id=Dwarka+Sector+5+New+Delhi")
+  businessHours String @default("9:00 AM - 9:00 PM (Daily)")
 
   // Social Links
-  facebookUrl   String   @default("")
-  instagramUrl  String   @default("")
-  youtubeUrl    String   @default("")
-  twitterUrl    String   @default("")
+  facebookUrl  String @default("")
+  instagramUrl String @default("")
+  youtubeUrl   String @default("")
+  twitterUrl   String @default("")
 
   // Analytics & SEO
   googleAnalyticsId String @default("")
-  seoTitle      String   @default("Shree Balaji Caterers | Best Catering & Event Services in Delhi NCR")
-  seoDescription String  @default("Premium catering, floral décor, DJ & sound, and full event management services in Delhi NCR. 15+ years, 500+ events.")
-  seoOgImage    String   @default("/new-logo.png")
+  seoTitle          String @default("Shree Balaji Caterers | Best Catering & Event Services in Delhi NCR")
+  seoDescription    String @default("Premium catering, floral décor, DJ & sound, and full event management services in Delhi NCR. 15+ years, 500+ events.")
+  seoOgImage        String @default("/new-logo.png")
 
   // Editable About Us Content
-  aboutTag      String   @default("Why Us")
-  aboutTitle    String   @default("Why Choose Shree Balaji Caterers")
-  aboutSubtitle String   @default("With 15+ years of experience and 500+ successful events in Delhi NCR, we bring passion, precision, and a personal touch to every celebration.")
+  aboutTag      String @default("Why Us")
+  aboutTitle    String @default("Why Choose Shree Balaji Caterers")
+  aboutSubtitle String @default("With 15+ years of experience and 500+ successful events in Delhi NCR, we bring passion, precision, and a personal touch to every celebration.")
 
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // =============================================================================
@@ -128,22 +129,22 @@ model SiteSetting {
 // =============================================================================
 
 model HeroSection {
-  id               String   @id @default("default")
+  id String @id @default("default")
 
   // General
-  isEnabled        Boolean  @default(true)
-  layoutType       String   @default("split")       // "split" | "centered" | "fullwidth"
-  backgroundType   String   @default("gradient")     // "image" | "video" | "gradient"
-  themeStyle       String   @default("light")        // "light" | "dark" | "glassmorphism"
+  isEnabled      Boolean @default(true)
+  layoutType     String  @default("split") // "split" | "centered" | "fullwidth"
+  backgroundType String  @default("gradient") // "image" | "video" | "gradient"
+  themeStyle     String  @default("light") // "light" | "dark" | "glassmorphism"
 
   // Logo
-  logoUrl          String   @default("/new-logo.png")
-  logoDarkUrl      String   @default("")
-  logoLightUrl     String   @default("")
-  logoWidth        Int      @default(48)
-  logoHeight       Int      @default(48)
-  logoAlt          String   @default("Shree Balaji Caterers Logo")
-  logoClickUrl     String   @default("/")
+  logoUrl      String @default("/new-logo.png")
+  logoDarkUrl  String @default("")
+  logoLightUrl String @default("")
+  logoWidth    Int    @default(48)
+  logoHeight   Int    @default(48)
+  logoAlt      String @default("Shree Balaji Caterers Logo")
+  logoClickUrl String @default("/")
 
   // Announcement Bar
   announcementShow      Boolean @default(false)
@@ -154,133 +155,133 @@ model HeroSection {
   announcementTextColor String  @default("#ffffff")
 
   // Badge
-  badgeShow        Boolean  @default(true)
-  badgeText        String   @default("Delhi NCR's Premier Event Partner")
-  badgeIcon        String   @default("⭐")
-  badgeColor       String   @default("#f59e0b")
+  badgeShow  Boolean @default(true)
+  badgeText  String  @default("Delhi NCR's Premier Event Partner")
+  badgeIcon  String  @default("⭐")
+  badgeColor String  @default("#f59e0b")
 
   // Heading
-  heading          String   @default("Every Celebration, Perfectly Crafted.")
-  headingHighlight String   @default("")
-  headingAlignment String   @default("left")         // "left" | "center" | "right"
+  heading          String @default("Every Celebration, Perfectly Crafted.")
+  headingHighlight String @default("")
+  headingAlignment String @default("left") // "left" | "center" | "right"
 
   // Subheading
-  subheading       String   @default("From grand weddings to intimate family gatherings — Shree Balaji Caterers brings you world-class catering, stunning floral décor, seamless sound, and complete event management.")
+  subheading          String @default("From grand weddings to intimate family gatherings — Shree Balaji Caterers brings you world-class catering, stunning floral décor, seamless sound, and complete event management.")
   subheadingAlignment String @default("left")
   subheadingCharLimit Int    @default(300)
 
   // Primary Button
-  primaryBtnText   String   @default("Book Your Event ✨")
-  primaryBtnLink   String   @default("#contact")
-  primaryBtnIcon   String   @default("")
-  primaryBtnNewTab Boolean  @default(false)
+  primaryBtnText   String  @default("Book Your Event ✨")
+  primaryBtnLink   String  @default("#contact")
+  primaryBtnIcon   String  @default("")
+  primaryBtnNewTab Boolean @default(false)
 
   // Secondary Button
-  secondaryBtnText String   @default("View Our Work 🎨")
-  secondaryBtnLink String   @default("#portfolio")
-  secondaryBtnIcon String   @default("")
+  secondaryBtnText   String  @default("View Our Work 🎨")
+  secondaryBtnLink   String  @default("#portfolio")
+  secondaryBtnIcon   String  @default("")
   secondaryBtnNewTab Boolean @default(false)
 
   // Slider Settings
-  sliderAutoPlay   Boolean  @default(true)
-  sliderSpeed      Int      @default(5000)            // ms between slides
-  sliderLoop       Boolean  @default(true)
+  sliderAutoPlay     Boolean @default(true)
+  sliderSpeed        Int     @default(5000) // ms between slides
+  sliderLoop         Boolean @default(true)
   sliderPauseOnHover Boolean @default(true)
-  sliderNavigation Boolean  @default(true)
-  sliderPagination Boolean  @default(true)
-  sliderTransition String   @default("fade")          // "fade" | "slide" | "zoom"
+  sliderNavigation   Boolean @default(true)
+  sliderPagination   Boolean @default(true)
+  sliderTransition   String  @default("fade") // "fade" | "slide" | "zoom"
 
   // Background Settings
-  bgImage          String   @default("")
-  bgVideo          String   @default("")
-  overlayColor     String   @default("#000000")
-  overlayOpacity   Float    @default(0)
-  bgBlur           Int      @default(0)
-  bgParallax       Boolean  @default(false)
-  bgGradient       String   @default("")
+  bgImage        String  @default("")
+  bgVideo        String  @default("")
+  overlayColor   String  @default("#000000")
+  overlayOpacity Float   @default(0)
+  bgBlur         Int     @default(0)
+  bgParallax     Boolean @default(false)
+  bgGradient     String  @default("")
 
   // Theme Colors
-  colorHeading     String   @default("")
-  colorSubheading  String   @default("")
-  colorButtons     String   @default("")
-  colorBadge       String   @default("")
-  colorBackground  String   @default("")
-  colorOverlay     String   @default("")
+  colorHeading    String @default("")
+  colorSubheading String @default("")
+  colorButtons    String @default("")
+  colorBadge      String @default("")
+  colorBackground String @default("")
+  colorOverlay    String @default("")
 
   // SEO
-  seoTitle         String   @default("Shree Balaji Caterers | Best Catering & Event Services in Delhi NCR")
-  seoDescription   String   @default("Premium catering, floral décor, DJ & sound, and full event management services in Delhi NCR. 15+ years, 500+ events.")
-  seoImageAlt      String   @default("Shree Balaji Caterers Hero Image")
-  seoStructuredData String  @default("")
+  seoTitle          String @default("Shree Balaji Caterers | Best Catering & Event Services in Delhi NCR")
+  seoDescription    String @default("Premium catering, floral décor, DJ & sound, and full event management services in Delhi NCR. 15+ years, 500+ events.")
+  seoImageAlt       String @default("Shree Balaji Caterers Hero Image")
+  seoStructuredData String @default("")
 
   // Mobile Overrides
-  mobileHeading    String   @default("")
-  mobileSubheading String   @default("")
-  mobileImage      String   @default("")
+  mobileHeading      String @default("")
+  mobileSubheading   String @default("")
+  mobileImage        String @default("")
   mobileHideElements String @default("")
-  mobileBtnText    String   @default("")
+  mobileBtnText      String @default("")
 
   // Relations
-  statistics       HeroStatistic[]
-  images           HeroImage[]
-  floatingCards    HeroFloatingCard[]
+  statistics    HeroStatistic[]
+  images        HeroImage[]
+  floatingCards HeroFloatingCard[]
 
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model HeroStatistic {
-  id             String   @id @default(cuid())
-  heroSectionId  String
-  heroSection    HeroSection @relation(fields: [heroSectionId], references: [id], onDelete: Cascade)
+  id            String      @id @default(cuid())
+  heroSectionId String
+  heroSection   HeroSection @relation(fields: [heroSectionId], references: [id], onDelete: Cascade)
 
-  icon           String   @default("📊")
-  number         String
-  prefix         String   @default("")
-  suffix         String   @default("")
-  title          String
-  sortOrder      Int      @default(0)
-  isEnabled      Boolean  @default(true)
+  icon      String  @default("📊")
+  number    String
+  prefix    String  @default("")
+  suffix    String  @default("")
+  title     String
+  sortOrder Int     @default(0)
+  isEnabled Boolean @default(true)
 
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([heroSectionId])
 }
 
 model HeroImage {
-  id             String   @id @default(cuid())
-  heroSectionId  String
-  heroSection    HeroSection @relation(fields: [heroSectionId], references: [id], onDelete: Cascade)
+  id            String      @id @default(cuid())
+  heroSectionId String
+  heroSection   HeroSection @relation(fields: [heroSectionId], references: [id], onDelete: Cascade)
 
   imageUrl       String
-  mobileImageUrl String   @default("")
-  altText        String   @default("Hero Image")
-  caption        String   @default("")
-  displayOrder   Int      @default(0)
-  isEnabled      Boolean  @default(true)
+  mobileImageUrl String  @default("")
+  altText        String  @default("Hero Image")
+  caption        String  @default("")
+  displayOrder   Int     @default(0)
+  isEnabled      Boolean @default(true)
 
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([heroSectionId])
 }
 
 model HeroFloatingCard {
-  id             String   @id @default(cuid())
-  heroSectionId  String
-  heroSection    HeroSection @relation(fields: [heroSectionId], references: [id], onDelete: Cascade)
+  id            String      @id @default(cuid())
+  heroSectionId String
+  heroSection   HeroSection @relation(fields: [heroSectionId], references: [id], onDelete: Cascade)
 
-  icon           String
-  title          String
-  description    String
-  link           String   @default("")
-  color          String   @default("amber")
-  sortOrder      Int      @default(0)
-  isEnabled      Boolean  @default(true)
+  icon        String
+  title       String
+  description String
+  link        String  @default("")
+  color       String  @default("amber")
+  sortOrder   Int     @default(0)
+  isEnabled   Boolean @default(true)
 
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([heroSectionId])
 }
@@ -294,8 +295,8 @@ model PortfolioCategory {
   categoryName   String
   slug           String      @unique
   description    String?
-  icon           String?     // Emoji or icon class/URL
-  bannerImage    String?     // Category banner background
+  icon           String? // Emoji or icon class/URL
+  bannerImage    String? // Category banner background
   displayOrder   Int         @default(0)
   active         Boolean     @default(true)
   seoTitle       String?
@@ -338,8 +339,8 @@ model AuditLog {
   id        String   @id @default(cuid())
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  action    String   // e.g. "UPDATE_SETTINGS", "DELETE_PORTFOLIO"
-  details   String   // JSON string of modifications
+  action    String // e.g. "UPDATE_SETTINGS", "DELETE_PORTFOLIO"
+  details   String // JSON string of modifications
   createdAt DateTime @default(now())
 
   @@index([userId])
@@ -349,10 +350,10 @@ model MediaAsset {
   id        String   @id @default(cuid())
   filename  String
   url       String   @unique
-  publicId  String?  // Cloudinary reference public_id
+  publicId  String? // Cloudinary reference public_id
   folder    String?  @default("general") // Asset folder grouping
   tags      String?  @default("[]") // JSON string array of tags
-  altText   String?  // Accessibility alt text
+  altText   String? // Accessibility alt text
   mimeType  String
   fileSize  Int
   createdAt DateTime @default(now())

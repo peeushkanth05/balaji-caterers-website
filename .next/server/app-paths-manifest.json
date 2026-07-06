@@ -1,1 +1,12 @@
-{}
+{
+  "/api/admin/hero/route": "app/api/admin/hero/route.js",
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/page": "app/page.js",
+  "/api/portfolios/route": "app/api/portfolios/route.js",
+  "/api/header/route": "app/api/header/route.js",
+  "/portfolio/[slug]/page": "app/portfolio/[slug]/page.js",
+  "/admin/hero/page": "app/admin/hero/page.js",
+  "/admin/super/staff/page": "app/admin/super/staff/page.js",
+  "/admin/login/page": "app/admin/login/page.js",
+  "/admin/dashboard/page": "app/admin/dashboard/page.js"
+}
