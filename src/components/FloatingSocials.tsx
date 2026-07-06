@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { Facebook, Instagram, Youtube, Linkedin, Twitter, MessageCircle, Share2 } from "lucide-react";
 
 export function FloatingSocials() {
   const [links, setLinks] = useState<any[]>([]);
+  const pathname = usePathname();
 
   useEffect(() => {
     fetch("/api/header")
@@ -17,6 +19,7 @@ export function FloatingSocials() {
       .catch(console.error);
   }, []);
 
+  if (pathname && pathname.startsWith("/admin")) return null;
   if (links.length === 0) return null;
 
   const getIcon = (platform: string) => {
