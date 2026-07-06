@@ -193,13 +193,16 @@ ${message ? "*Details:* " + message : ""}`.trim();
               ) : (
                 <>
                   <option value="Catering Services">Catering Services</option>
+                  <option value="Wedding Host">Wedding Host</option>
+                  <option value="Birthday Party">Birthday Party</option>
+                  <option value="Puja & Kirtan">Puja & Kirtan</option>
                   <option value="Floral Decoration">Floral Decoration</option>
                   <option value="Sound & DJ Setup">Sound & DJ Setup</option>
-                  <option value="Mattress Rental">Mattress Rental</option>
-                  <option value="Cooler Rental">Cooler Rental</option>
-                  <option value="Event Management">Event Management</option>
+                  <option value="Event Management (End-to-End)">Event Management (End-to-End)</option>
                   <option value="Stall Booking">Stall Booking</option>
                   <option value="Event Anchoring">Event Anchoring</option>
+                  <option value="Cooler Rental">Cooler Rental</option>
+                  <option value="Mattress Rental">Mattress Rental</option>
                 </>
               )}
             </select>

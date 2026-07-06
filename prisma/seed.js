@@ -79,77 +79,161 @@ async function main() {
     console.log('Seeded sample packages');
   }
 
-  // 4. Seed All 8 Services
+  // 4. Seed All 11 Services
   await prisma.service.deleteMany({});
   await prisma.service.createMany({
     data: [
       {
         title: 'Catering Services',
         icon: '🍽️',
-        description: 'Authentic North Indian, South Indian, Chinese & Continental cuisines. Live counters, street food stations, and dessert spreads tailored to your taste.',
+        description: 'Authentic North Indian, South Indian, Chinese & Continental cuisines. Live counters, street food stations, and dessert spreads.',
         tag: 'Veg & Non-Veg',
         displayOrder: 1,
         isActive: true,
       },
       {
+        title: 'Wedding Host',
+        icon: '👑',
+        description: 'Premium wedding planning, venue setup coordination, and royal guest hospitality management services.',
+        tag: 'Royal Hospitality',
+        displayOrder: 2,
+        isActive: true,
+      },
+      {
+        title: 'Birthday Party',
+        icon: '🎈',
+        description: 'Vibrant theme decoration, balloon setups, games, and kids-friendly live snack counters.',
+        tag: 'Custom Themes',
+        displayOrder: 3,
+        isActive: true,
+      },
+      {
+        title: 'Puja & Kirtan',
+        icon: '🕉️',
+        description: 'Spiritual stage setups, traditional seating arrangement, high-quality audio setup for puja, kirtan, and jagrans.',
+        tag: 'Devotional Setup',
+        displayOrder: 4,
+        isActive: true,
+      },
+      {
         title: 'Floral Decoration',
         icon: '🌸',
-        description: 'Breathtaking wedding canopies, stage arrangements, floral canopies, and entrance gates. Roses, marigolds, orchids — we create visual magic.',
-        tag: 'Custom Themes',
-        displayOrder: 2,
+        description: 'Breathtaking wedding stages, floral canopies, entrance gate arrangements with roses, orchids, and marigolds.',
+        tag: 'Custom Designs',
+        displayOrder: 5,
         isActive: true,
       },
       {
         title: 'Sound & DJ Setup',
         icon: '🔊',
-        description: 'Professional-grade PA systems, DJ equipment, LED lighting, and live band arrangements. Crystal-clear sound for every moment.',
-        tag: 'HD Audio',
-        displayOrder: 3,
-        isActive: true,
-      },
-      {
-        title: 'Mattress Rental',
-        icon: '🛏️',
-        description: 'Clean, comfortable mattresses with bedding on rent for out-of-town guests. Foam, spring, and orthopedic options available in bulk.',
-        tag: 'Bulk Orders',
-        displayOrder: 4,
-        isActive: true,
-      },
-      {
-        title: 'Cooler Rental',
-        icon: '❄️',
-        description: 'Desert coolers and industrial air coolers for outdoor events. Beat the heat and keep your guests comfortable through every season.',
-        tag: 'All Seasons',
-        displayOrder: 5,
-        isActive: true,
-      },
-      {
-        title: 'Event Management',
-        icon: '🎪',
-        description: 'End-to-end event planning, coordination and execution. From venue selection to tear-down — our dedicated team manages it all.',
-        tag: 'Turnkey Service',
+        description: 'Professional-grade PA sound systems, DJ setups, ambient LED lighting, and live performance audio support.',
+        tag: 'Pro Audio & Lights',
         displayOrder: 6,
+        isActive: true,
+      },
+      {
+        title: 'Event Management (End-to-End)',
+        icon: '🎪',
+        description: 'Full-service turnkey event planning, coordination, and execution from concept to tear-down.',
+        tag: 'Complete Execution',
+        displayOrder: 7,
         isActive: true,
       },
       {
         title: 'Stall Booking',
         icon: '🏪',
-        description: 'Custom food stalls, exhibition counters, and vendor booths for fairs, melas, and corporate expos. Professional setup with branding options.',
+        description: 'Custom food stalls, exhibition counters, and vendor booths for fairs, cultural melas, and corporate expos.',
         tag: 'Custom Setup',
-        displayOrder: 7,
+        displayOrder: 8,
         isActive: true,
       },
       {
         title: 'Event Anchoring',
         icon: '🎙️',
-        description: 'Experienced emcees and anchors for weddings, corporate events, and cultural programs. Bilingual hosting in Hindi and English.',
+        description: 'Experienced emcees and event anchors for sangeet nights, weddings, corporate events, and cultural shows.',
         tag: 'Live Hosting',
-        displayOrder: 8,
+        displayOrder: 9,
+        isActive: true,
+      },
+      {
+        title: 'Cooler Rental',
+        icon: '❄️',
+        description: 'Desert coolers and air coolers for outdoor events to keep your guests cool and comfortable.',
+        tag: 'All Seasons Comfort',
+        displayOrder: 10,
+        isActive: true,
+      },
+      {
+        title: 'Mattress Rental',
+        icon: '🛏️',
+        description: 'Clean and comfortable mattresses, sheets, pillows, and blankets in bulk for guest lodging or seating.',
+        tag: 'Bulk Rentals',
+        displayOrder: 11,
         isActive: true,
       },
     ],
   });
-  console.log('Seeded all 8 default services cleanly');
+  console.log('Seeded all 11 services cleanly');
+
+  // Delete existing menus to avoid duplicates and re-seed navigation menu
+  await prisma.headerSubmenu.deleteMany({});
+  await prisma.headerMenu.deleteMany({});
+
+  const defaultMenus = [
+    { label: "Home", link: "/", displayOrder: 0 },
+    {
+      label: "Services",
+      link: "/#services",
+      displayOrder: 1,
+      submenus: [
+        { label: "Catering Services", link: "/#services", displayOrder: 0 },
+        { label: "Wedding Host", link: "/#services", displayOrder: 1 },
+        { label: "Birthday Party", link: "/#services", displayOrder: 2 },
+        { label: "Puja & Kirtan", link: "/#services", displayOrder: 3 },
+        { label: "Floral Decoration", link: "/#services", displayOrder: 4 },
+        { label: "Sound & DJ Setup", link: "/#services", displayOrder: 5 },
+        { label: "Event Management (End-to-End)", link: "/#services", displayOrder: 6 },
+        { label: "Stall Booking", link: "/#services", displayOrder: 7 },
+        { label: "Event Anchoring", link: "/#services", displayOrder: 8 },
+        { label: "Cooler Rental", link: "/#services", displayOrder: 9 },
+        { label: "Mattress Rental", link: "/#services", displayOrder: 10 },
+      ],
+    },
+    { label: "Packages", link: "/packages", displayOrder: 2 },
+    { label: "Portfolios", link: "/#portfolio", displayOrder: 3 },
+    { label: "Contact", link: "/#contact", displayOrder: 4 },
+  ];
+
+  for (const m of defaultMenus) {
+    if (m.submenus) {
+      const createdMenu = await prisma.headerMenu.create({
+        data: {
+          label: m.label,
+          link: m.link,
+          displayOrder: m.displayOrder,
+        },
+      });
+      for (const sub of m.submenus) {
+        await prisma.headerSubmenu.create({
+          data: {
+            menuId: createdMenu.id,
+            label: sub.label,
+            link: sub.link,
+            displayOrder: sub.displayOrder,
+          },
+        });
+      }
+    } else {
+      await prisma.headerMenu.create({
+        data: {
+          label: m.label,
+          link: m.link,
+          displayOrder: m.displayOrder,
+        },
+      });
+    }
+  }
+  console.log('Seeded new Header Menu & 11 Submenus');
 
   // 5. Seed Site Settings
   await prisma.siteSetting.upsert({
