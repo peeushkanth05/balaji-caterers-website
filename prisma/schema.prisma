@@ -461,17 +461,22 @@ model Testimonial {
 }
 
 model AlertTicker {
-  id              String   @id @default(cuid())
+  id              String    @id @default(cuid())
   text            String
-  bgColor         String   @default("#f59e0b")
-  textColor       String   @default("#ffffff")
-  speed           Int      @default(40) // speed in seconds
-  priority        Int      @default(0)
-  isEnabled       Boolean  @default(true)
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  bgColor         String    @default("#f59e0b")
+  textColor       String    @default("#ffffff")
+  speed           Int       @default(40) // speed in seconds
+  priority        Int       @default(0)
+  isEnabled       Boolean   @default(true)
+  redirectUrl     String?
+  startDate       DateTime?
+  endDate         DateTime?
+  showOnHomepage  Boolean   @default(false) // show as a banner on homepage too
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 
   @@index([priority])
+  @@index([startDate, endDate])
 }
 
 model HomepageSection {

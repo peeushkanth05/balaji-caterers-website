@@ -39,6 +39,7 @@ export default async function HomePage() {
   let galleryItems: any[] = [];
   let contactSettings: any = null;
   let advertisements: any[] = [];
+  let homepageOffers: any[] = [];
 
   try {
     hero = await prisma.heroSection.findUnique({
@@ -152,6 +153,20 @@ export default async function HomePage() {
       orderBy: { displayOrder: "asc" },
     });
 
+    homepageOffers = await prisma.alertTicker.findMany({
+      where: {
+        isEnabled: true,
+        showOnHomepage: true,
+        OR: [
+          { startDate: null, endDate: null },
+          { startDate: { lte: now }, endDate: null },
+          { startDate: null, endDate: { gte: now } },
+          { startDate: { lte: now }, endDate: { gte: now } },
+        ],
+      },
+      orderBy: { priority: "desc" },
+    });
+
     homeSections = await prisma.homepageSection.findMany({
       orderBy: { displayOrder: "asc" },
     });
@@ -253,6 +268,42 @@ export default async function HomePage() {
 
       {/* Navbar */}
       <Header />
+
+      {/* Dynamic Homepage Offers Banner */}
+      {homepageOffers.length > 0 && (
+        <div className="bg-amber-50/40 border-b border-amber-100/50 py-4 px-6">
+          <div className="max-w-7xl mx-auto flex flex-col gap-3">
+            {homepageOffers.map((offer) => (
+              <div 
+                key={offer.id} 
+                className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-4 rounded-3xl border border-amber-100/70 shadow-sm transition-all hover:shadow-md hover:border-amber-200"
+              >
+                <div className="flex items-center gap-3.5 w-full sm:w-auto">
+                  <span className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-amber-400 to-amber-500 rounded-2xl flex items-center justify-center text-white text-base font-bold shadow-md shadow-amber-500/15">
+                    🎁
+                  </span>
+                  <div>
+                    <span className="inline-block text-[9px] font-bold text-amber-600 uppercase tracking-widest bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-100/40">
+                      Promo Offer
+                    </span>
+                    <p className="text-slate-800 font-semibold text-xs sm:text-sm mt-1.5 leading-relaxed">{offer.text}</p>
+                  </div>
+                </div>
+                {offer.redirectUrl && (
+                  <a
+                    href={offer.redirectUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full sm:w-auto text-center bg-slate-900 hover:bg-slate-800 text-white font-bold text-[10px] uppercase tracking-wider py-3 px-6 rounded-2xl transition-all shadow-sm active:scale-95 flex items-center justify-center gap-1.5"
+                  >
+                    View Offer Details
+                  </a>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Dynamic Hero Section */}
       {/* Dynamic Homepage Sections */}
@@ -474,36 +525,10 @@ export default async function HomePage() {
               );
 
             case "cta":
+              if (advertisements.length === 0) return null;
               return (
                 <section key={sec.id} id="cta" className="px-6">
-                  {advertisements.length > 0 ? (
-                    <AdvertisementBanner ads={advertisements} />
-                  ) : (
-                    <div className="py-16 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-3xl max-w-7xl mx-auto shadow-xl shadow-amber-500/25 my-12">
-                      <div className="max-w-3xl mx-auto text-center space-y-6 px-6">
-                        <h2 className="text-3xl sm:text-4xl font-serif font-bold leading-tight">
-                          Let&apos;s Make Your Celebration Unforgettable
-                        </h2>
-                        <p className="text-sm text-white/90 max-w-xl mx-auto leading-relaxed">
-                          Get premium catering, stunning floral decoration, high-quality audio, and professional event hosting managed end-to-end.
-                        </p>
-                        <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
-                          <a
-                            href="#contact"
-                            className="bg-white text-amber-600 font-bold px-8 py-3.5 rounded-2xl shadow-lg transition-transform hover:scale-[1.02] active:scale-95 text-xs uppercase tracking-wider"
-                          >
-                            Request Free Quote
-                          </a>
-                          <a
-                            href={`tel:${phone.replace(/[^0-9+]/g, "")}`}
-                            className="border border-white/40 hover:bg-white/10 text-white font-bold px-8 py-3.5 rounded-2xl transition-transform hover:scale-[1.02] active:scale-95 text-xs uppercase tracking-wider flex items-center gap-2"
-                          >
-                            <Phone className="w-4 h-4" /> Call: {phone}
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  )}
+                  <AdvertisementBanner ads={advertisements} />
                 </section>
               );
 

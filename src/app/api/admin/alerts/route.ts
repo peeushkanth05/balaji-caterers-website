@@ -22,7 +22,7 @@ export async function POST(req: Request) {
   if (!auth.authorized) return auth.errorResponse;
 
   try {
-    const { text, bgColor, textColor, speed, priority, isEnabled } = await req.json();
+    const { text, bgColor, textColor, speed, priority, isEnabled, redirectUrl, startDate, endDate, showOnHomepage } = await req.json();
 
     if (!text) {
       return NextResponse.json({ error: "Text is required" }, { status: 400 });
@@ -36,6 +36,10 @@ export async function POST(req: Request) {
         speed: speed ? parseInt(speed.toString(), 10) : 40,
         priority: priority ? parseInt(priority.toString(), 10) : 0,
         isEnabled: isEnabled ?? true,
+        redirectUrl: redirectUrl || null,
+        startDate: startDate ? new Date(startDate) : null,
+        endDate: endDate ? new Date(endDate) : null,
+        showOnHomepage: showOnHomepage ?? false,
       },
     });
 
@@ -51,7 +55,7 @@ export async function PATCH(req: Request) {
   if (!auth.authorized) return auth.errorResponse;
 
   try {
-    const { id, text, bgColor, textColor, speed, priority, isEnabled } = await req.json();
+    const { id, text, bgColor, textColor, speed, priority, isEnabled, redirectUrl, startDate, endDate, showOnHomepage } = await req.json();
 
     if (!id) {
       return NextResponse.json({ error: "Alert ID required" }, { status: 400 });
@@ -66,6 +70,10 @@ export async function PATCH(req: Request) {
         ...(speed !== undefined && { speed: parseInt(speed.toString(), 10) }),
         ...(priority !== undefined && { priority: parseInt(priority.toString(), 10) }),
         ...(isEnabled !== undefined && { isEnabled }),
+        ...(redirectUrl !== undefined && { redirectUrl: redirectUrl || null }),
+        ...(startDate !== undefined && { startDate: startDate ? new Date(startDate) : null }),
+        ...(endDate !== undefined && { endDate: endDate ? new Date(endDate) : null }),
+        ...(showOnHomepage !== undefined && { showOnHomepage }),
       },
     });
 

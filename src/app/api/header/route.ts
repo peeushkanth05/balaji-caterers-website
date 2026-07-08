@@ -131,8 +131,17 @@ export async function GET() {
     });
 
     // 6. Fetch Alerts Ticker
+    const now = new Date();
     const alerts = await prisma.alertTicker.findMany({
-      where: { isEnabled: true },
+      where: {
+        isEnabled: true,
+        OR: [
+          { startDate: null, endDate: null },
+          { startDate: { lte: now }, endDate: null },
+          { startDate: null, endDate: { gte: now } },
+          { startDate: { lte: now }, endDate: { gte: now } },
+        ],
+      },
       orderBy: { priority: "desc" },
     });
 
