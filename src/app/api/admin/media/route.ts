@@ -148,16 +148,15 @@ export async function POST(req: Request) {
         fileUrl = cloudRes.secure_url;
         publicId = cloudRes.public_id;
       } else {
-        // Fallback to local directory
-        const uploadsDir = path.join(process.cwd(), "public", "uploads");
-        await fs.mkdir(uploadsDir, { recursive: true });
-
-        const safeBaseName = path.basename(file.name, ext).replace(/[^a-zA-Z0-9_-]/g, "_");
-        const uniqueFileName = `${Date.now()}_${safeBaseName}${ext}`;
-        const filePath = path.join(uploadsDir, uniqueFileName);
-
-        await fs.writeFile(filePath, buffer);
-        fileUrl = `/uploads/${uniqueFileName}`;
+        // Fallback to database storage to prevent EROFS errors on Vercel
+        const dbFile = await prisma.databaseFile.create({
+          data: {
+            filename: file.name,
+            mimeType: file.type || "image/jpeg",
+            data: buffer,
+          },
+        });
+        fileUrl = `/api/media/${dbFile.id}`;
       }
 
       // Save to database
@@ -248,13 +247,15 @@ export async function PATCH(req: Request) {
         updatedUrl = cloudRes.secure_url;
         updatedPublicId = cloudRes.public_id;
       } else {
-        const uploadsDir = path.join(process.cwd(), "public", "uploads");
-        const safeBaseName = path.basename(replacementFile.name, ext).replace(/[^a-zA-Z0-9_-]/g, "_");
-        const uniqueFileName = `${Date.now()}_${safeBaseName}${ext}`;
-        const filePath = path.join(uploadsDir, uniqueFileName);
-
-        await fs.writeFile(filePath, buffer);
-        updatedUrl = `/uploads/${uniqueFileName}`;
+        // Fallback to database storage to prevent EROFS errors on Vercel
+        const dbFile = await prisma.databaseFile.create({
+          data: {
+            filename: replacementFile.name,
+            mimeType: replacementFile.type || "image/jpeg",
+            data: buffer,
+          },
+        });
+        updatedUrl = `/api/media/${dbFile.id}`;
         updatedPublicId = null;
       }
 
@@ -310,13 +311,24 @@ export async function DELETE(req: Request) {
       }
     }
 
-    // 2. Delete from Local disk (if applicable)
+    // 2. Delete from Local disk or database (if applicable)
     if (asset.url.startsWith("/uploads/")) {
       try {
         const filePath = path.join(process.cwd(), "public", asset.url);
         await fs.unlink(filePath);
       } catch (e) {
         console.error("Local disk file unlink failed:", e);
+      }
+    } else if (asset.url.startsWith("/api/media/")) {
+      try {
+        const fileId = asset.url.split("/").pop();
+        if (fileId) {
+          await prisma.databaseFile.delete({
+            where: { id: fileId },
+          });
+        }
+      } catch (e) {
+        console.error("DatabaseFile deletion failed:", e);
       }
     }
 

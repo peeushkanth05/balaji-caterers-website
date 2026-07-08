@@ -534,3 +534,11 @@ model Advertisement {
   @@index([isEnabled, displayOrder])
   @@index([startDate, endDate])
 }
+
+model DatabaseFile {
+  id        String   @id @default(cuid())
+  filename  String
+  mimeType  String
+  data      Bytes    // Store binary data as bytea in PostgreSQL
+  createdAt DateTime @default(now())
+}

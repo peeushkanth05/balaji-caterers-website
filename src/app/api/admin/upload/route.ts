@@ -111,21 +111,20 @@ export async function POST(req: Request) {
           );
         }
       } else {
-        // Fallback to local directory
+        // Fallback to database storage to prevent EROFS errors on Vercel
         try {
-          const uploadsDir = path.join(process.cwd(), "public", "uploads");
-          await fs.mkdir(uploadsDir, { recursive: true });
-
-          const safeBaseName = path.basename(file.name, ext).replace(/[^a-zA-Z0-9_-]/g, "_");
-          const uniqueFileName = `${Date.now()}_${Math.random().toString(36).substring(2, 7)}_${safeBaseName}${ext}`;
-          const filePath = path.join(uploadsDir, uniqueFileName);
-
-          await fs.writeFile(filePath, buffer);
-          fileUrl = `/uploads/${uniqueFileName}`;
-        } catch (localWriteError: any) {
-          console.error("Local file system write failed for file:", file.name, localWriteError);
+          const dbFile = await prisma.databaseFile.create({
+            data: {
+              filename: file.name,
+              mimeType: file.type || "image/jpeg",
+              data: buffer,
+            },
+          });
+          fileUrl = `/api/media/${dbFile.id}`;
+        } catch (dbWriteError: any) {
+          console.error("Database fallback write failed for file:", file.name, dbWriteError);
           return NextResponse.json(
-            { error: `Local filesystem write failed: ${localWriteError.message || localWriteError}` },
+            { error: `Database fallback write failed: ${dbWriteError.message || dbWriteError}` },
             { status: 500 }
           );
         }
