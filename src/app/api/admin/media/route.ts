@@ -182,7 +182,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: true, assets: savedAssets }, { status: 201 });
   } catch (error: any) {
     console.error("Media Upload API Error:", error);
-    return NextResponse.json({ error: "Failed to upload media files" }, { status: 500 });
+    return NextResponse.json({ error: `Failed to upload media files: ${error.message || error}` }, { status: 500 });
   }
 }
 

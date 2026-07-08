@@ -2,11 +2,49 @@ import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { requireAdminSession } from "@/lib/auth-guards";
 import { prisma } from "@/lib/prisma";
+import { v2 as cloudinary } from "cloudinary";
 import fs from "fs/promises";
 import path from "path";
 
+// Initialize Cloudinary if credentials are set
+const isCloudinaryConfigured =
+  process.env.CLOUDINARY_CLOUD_NAME &&
+  process.env.CLOUDINARY_API_KEY &&
+  process.env.CLOUDINARY_API_SECRET;
+
+if (isCloudinaryConfigured) {
+  cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+    secure: true,
+  });
+} else {
+  console.warn("Cloudinary environment variables are not fully configured. Falling back to local disk storage.");
+}
+
 const ALLOWED_EXTENSIONS = [".jpg", ".jpeg", ".png", ".webp", ".svg", ".gif"];
 const MAX_FILE_SIZE_BYTES = 15 * 1024 * 1024; // 15MB limit
+
+// Helper to upload a buffer to Cloudinary
+const uploadToCloudinary = (buffer: Buffer, filename: string, folder: string): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream(
+      {
+        folder: `shreebalaji/${folder || "portfolio"}`,
+        public_id: `${Date.now()}_${path.parse(filename).name.replace(/[^a-zA-Z0-9_-]/g, "_")}`,
+        resource_type: "auto",
+        format: "webp", // Force WebP conversion for images
+        quality: "auto:good", // Cloudinary auto quality compression
+      },
+      (error, result) => {
+        if (error) return reject(error);
+        resolve(result);
+      }
+    );
+    uploadStream.end(buffer);
+  });
+};
 
 export async function POST(req: Request) {
   // 1. Strict Session Authentication Check
@@ -31,11 +69,8 @@ export async function POST(req: Request) {
     }
 
     if (uploadList.length === 0) {
-      return NextResponse.json({ error: "No image file provided" }, { status: 400 });
+      return NextResponse.json({ error: "No image file provided in the request" }, { status: 400 });
     }
-
-    const uploadsDir = path.join(process.cwd(), "public", "uploads");
-    await fs.mkdir(uploadsDir, { recursive: true });
 
     const savedUrls: string[] = [];
     let primaryItem: any = null;
@@ -44,7 +79,7 @@ export async function POST(req: Request) {
       // Validate File Size
       if (file.size > MAX_FILE_SIZE_BYTES) {
         return NextResponse.json(
-          { error: `File "${file.name}" exceeds 15MB limit` },
+          { error: `File "${file.name}" exceeds the 15MB limit (Size: ${(file.size / 1024 / 1024).toFixed(2)}MB)` },
           { status: 400 }
         );
       }
@@ -62,24 +97,60 @@ export async function POST(req: Request) {
       const bytes = await file.arrayBuffer();
       const buffer = Buffer.from(bytes);
 
-      const safeBaseName = path.basename(file.name, ext).replace(/[^a-zA-Z0-9_-]/g, "_");
-      const uniqueFileName = `${Date.now()}_${Math.random().toString(36).substring(2, 7)}_${safeBaseName}${ext}`;
-      const filePath = path.join(uploadsDir, uniqueFileName);
+      let fileUrl = "";
 
-      await fs.writeFile(filePath, buffer);
-      const relativeUrl = `/uploads/${uniqueFileName}`;
-      savedUrls.push(relativeUrl);
+      if (isCloudinaryConfigured) {
+        try {
+          const cloudRes = await uploadToCloudinary(buffer, file.name, "portfolio");
+          fileUrl = cloudRes.secure_url;
+        } catch (cloudinaryError: any) {
+          console.error("Cloudinary upload failed for file:", file.name, cloudinaryError);
+          return NextResponse.json(
+            { error: `Cloudinary upload failed: ${cloudinaryError.message || JSON.stringify(cloudinaryError)}` },
+            { status: 502 }
+          );
+        }
+      } else {
+        // Fallback to local directory
+        try {
+          const uploadsDir = path.join(process.cwd(), "public", "uploads");
+          await fs.mkdir(uploadsDir, { recursive: true });
 
-      // Save to GalleryItem table as well for backwards compatibility
-      const item = await prisma.galleryItem.create({
-        data: {
-          title,
-          category,
-          imageUrl: relativeUrl,
-          isActive: true,
-        },
-      });
-      if (!primaryItem) primaryItem = item;
+          const safeBaseName = path.basename(file.name, ext).replace(/[^a-zA-Z0-9_-]/g, "_");
+          const uniqueFileName = `${Date.now()}_${Math.random().toString(36).substring(2, 7)}_${safeBaseName}${ext}`;
+          const filePath = path.join(uploadsDir, uniqueFileName);
+
+          await fs.writeFile(filePath, buffer);
+          fileUrl = `/uploads/${uniqueFileName}`;
+        } catch (localWriteError: any) {
+          console.error("Local file system write failed for file:", file.name, localWriteError);
+          return NextResponse.json(
+            { error: `Local filesystem write failed: ${localWriteError.message || localWriteError}` },
+            { status: 500 }
+          );
+        }
+      }
+
+      savedUrls.push(fileUrl);
+
+      // Save to GalleryItem table for backwards compatibility
+      try {
+        const item = await prisma.galleryItem.create({
+          data: {
+            title,
+            category,
+            imageUrl: fileUrl,
+            isActive: true,
+          },
+        });
+        if (!primaryItem) primaryItem = item;
+      } catch (dbError: any) {
+        console.error("Database save failed for GalleryItem:", dbError);
+        return NextResponse.json(
+          { error: `Database save failed: ${dbError.message || dbError}` },
+          { status: 500 }
+        );
+      }
     }
 
     revalidatePath("/");
@@ -94,9 +165,9 @@ export async function POST(req: Request) {
       { status: 201 }
     );
   } catch (error: any) {
-    console.error("Secure Image Upload Error:", error);
+    console.error("Secure Image Upload Catch Block Error:", error);
     return NextResponse.json(
-      { error: "Failed to process image upload" },
+      { error: `Failed to process image upload: ${error.message || error}` },
       { status: 500 }
     );
   }
