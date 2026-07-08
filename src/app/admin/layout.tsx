@@ -24,6 +24,11 @@ import {
   Megaphone,
   Share2,
   Mail,
+  BarChart3,
+  Database,
+  Building2,
+  BookOpen,
+  HelpCircle,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -62,6 +67,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   const navigation = [
     { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard, module: "dashboard" },
+    { name: "Analytics & Reports", href: "/admin/reports", icon: BarChart3, module: "dashboard" },
     { name: "Section Manager", href: "/admin/sections", icon: ListOrdered, module: "homepageSections" },
     { name: "Hero Banner CMS", href: "/admin/hero", icon: Sparkles, module: "settings" },
     { name: "Portfolio CMS", href: "/admin/portfolio", icon: FolderKanban, module: "portfolio" },
@@ -69,6 +75,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { name: "Leads & Enquiries", href: "/admin/leads", icon: Users, module: "enquiries" },
     { name: "Catering Packages", href: "/admin/packages", icon: UtensilsCrossed, module: "packages" },
     { name: "Services", href: "/admin/services", icon: Sparkles, module: "services" },
+    { name: "Venue Partners", href: "/admin/venues", icon: Building2, module: "settings" },
+    { name: "Client Logos", href: "/admin/clients", icon: Users, module: "settings" },
+    { name: "FAQ Accordions", href: "/admin/faqs", icon: HelpCircle, module: "settings" },
+    { name: "Blog Guides", href: "/admin/blogs", icon: BookOpen, module: "blogs" },
     { name: "Videos Gallery", href: "/admin/videos", icon: Video, module: "videos" },
     { name: "Testimonials", href: "/admin/testimonials", icon: MessageSquare, module: "testimonials" },
     { name: "Alert Ticker", href: "/admin/alerts", icon: Megaphone, module: "settings" },
@@ -76,6 +86,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { name: "Gallery Photos", href: "/admin/gallery", icon: ImageIcon, module: "gallery" },
     { name: "Ad Banners", href: "/admin/advertisements", icon: Megaphone, module: "settings" },
     { name: "Enquiry Form CMS", href: "/admin/contact", icon: Mail, module: "contact" },
+    { name: "Database Backup", href: "/admin/backup", icon: Database, module: "settings" },
+    { name: "DPDP Consent Logs", href: "/admin/consent", icon: ShieldCheck, module: "settings" },
     { name: "Business Settings", href: "/admin/settings", icon: Settings, module: "settings" },
   ];
 

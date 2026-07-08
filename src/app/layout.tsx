@@ -4,6 +4,8 @@ import "./globals.css";
 import { Providers } from "@/components/Providers";
 import { FloatingSocials } from "@/components/FloatingSocials";
 
+import CookieBanner from "@/components/CookieBanner";
+
 const nunito = Nunito({
   subsets: ["latin"],
   variable: "--font-nunito",
@@ -33,6 +35,7 @@ export default function RootLayout({
         <Providers>
           {children}
           <FloatingSocials />
+          <CookieBanner />
         </Providers>
       </body>
     </html>

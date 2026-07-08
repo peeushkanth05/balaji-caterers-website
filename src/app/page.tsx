@@ -10,6 +10,9 @@ import { VideoGallerySection } from "@/components/VideoGallerySection";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { PhotoGallerySection } from "@/components/PhotoGallerySection";
 import { AdvertisementBanner } from "@/components/AdvertisementBanner";
+import VenuePartnerMarquee from "@/components/VenuePartnerMarquee";
+import ClientLogoMarquee from "@/components/ClientLogoMarquee";
+import FaqSection from "@/components/FaqSection";
 import {
   Phone,
   MessageSquare,
@@ -20,6 +23,8 @@ import {
   Award,
   HeartHandshake,
   CheckCircle2,
+  BookOpen,
+  Calendar,
 } from "lucide-react";
 
 export const revalidate = 0; // Fresh content on each request
@@ -40,8 +45,15 @@ export default async function HomePage() {
   let contactSettings: any = null;
   let advertisements: any[] = [];
   let homepageOffers: any[] = [];
+  let dbBlogs: any[] = [];
 
   try {
+    dbBlogs = await prisma.blogPost.findMany({
+      where: { isActive: true },
+      orderBy: { publishDate: "desc" },
+      take: 3,
+    });
+
     hero = await prisma.heroSection.findUnique({
       where: { id: "default" },
       include: {
@@ -183,7 +195,9 @@ export default async function HomePage() {
         { sectionType: "portfolio", name: "Grand Projects Showcase" },
         { sectionType: "cta", name: "Call To Action Banner" },
         { sectionType: "partners", name: "Partner Banquets & Venues" },
+        { sectionType: "clients", name: "Corporate Client Logos" },
         { sectionType: "blogs", name: "Catering Guides & Blogs" },
+        { sectionType: "faqs", name: "Frequently Asked Questions" },
         { sectionType: "contact", name: "Request a Free Quote" },
         { sectionType: "footer", name: "Footer Info & Copyright" },
       ];
@@ -463,22 +477,10 @@ export default async function HomePage() {
               );
 
             case "partners":
-              return (
-                <section key={sec.id} id="partners" className="py-12 bg-white border-y border-slate-200/50 overflow-hidden">
-                  <div className="max-w-7xl mx-auto px-6">
-                    <p className="text-center text-[10px] font-extrabold uppercase tracking-widest text-slate-400 mb-8">
-                      Our Trusted Banquets & Venue Partners
-                    </p>
-                    <div className="flex flex-wrap items-center justify-center gap-12 sm:gap-16 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-                      <span className="font-serif font-black text-xl tracking-tight text-slate-700">🎪 ROYAL PALACE GARDENS</span>
-                      <span className="font-serif font-black text-xl tracking-tight text-slate-700">🏰 ELITE BANQUET HALL</span>
-                      <span className="font-serif font-black text-xl tracking-tight text-slate-700">👑 IMPERIAL RESIDENCY</span>
-                      <span className="font-serif font-black text-xl tracking-tight text-slate-700">🌳 CLASSIC LAWNS</span>
-                      <span className="font-serif font-black text-xl tracking-tight text-slate-700">🎪 CAPITAL BANQUETS</span>
-                    </div>
-                  </div>
-                </section>
-              );
+              return <VenuePartnerMarquee key={sec.id} />;
+
+            case "clients":
+              return <ClientLogoMarquee key={sec.id} />;
 
             case "blogs":
               return (
@@ -490,39 +492,92 @@ export default async function HomePage() {
                     </h2>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-                      <div className="h-48 bg-slate-100 relative overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1555244162-803834f70033?w=500" alt="Blog 1" className="w-full h-full object-cover" />
-                      </div>
-                      <div className="p-6 space-y-3">
-                        <span className="text-[10px] font-bold text-amber-600 uppercase">Catering Trends</span>
-                        <h3 className="font-serif font-bold text-lg text-slate-900 leading-snug">How to Design the Perfect Wedding Menu</h3>
-                        <p className="text-xs text-slate-500 leading-relaxed">Discover current guest dining trends, custom live counters, and must-have menu spreads for your big day.</p>
-                      </div>
-                    </div>
-                    <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-                      <div className="h-48 bg-slate-100 relative overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=500" alt="Blog 2" className="w-full h-full object-cover" />
-                      </div>
-                      <div className="p-6 space-y-3">
-                        <span className="text-[10px] font-bold text-amber-600 uppercase">Planning Tips</span>
-                        <h3 className="font-serif font-bold text-lg text-slate-900 leading-snug">Estimating Guest Count & Plate Waste</h3>
-                        <p className="text-xs text-slate-500 leading-relaxed">A practical guide to accurately calculating guest counts and avoiding plate wastage during large banquets.</p>
-                      </div>
-                    </div>
-                    <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-                      <div className="h-48 bg-slate-100 relative overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1533144893879-c65f9d453392?w=500" alt="Blog 3" className="w-full h-full object-cover" />
-                      </div>
-                      <div className="p-6 space-y-3">
-                        <span className="text-[10px] font-bold text-amber-600 uppercase">Setup & Design</span>
-                        <h3 className="font-serif font-bold text-lg text-slate-900 leading-snug">Selecting Theme Decor for Puja & Jagran</h3>
-                        <p className="text-xs text-slate-500 leading-relaxed">Ensure a beautiful spiritual stage setup with clean traditional seating, lights, and flower garlands.</p>
-                      </div>
-                    </div>
+                    {dbBlogs.length > 0 ? (
+                      dbBlogs.map((b) => (
+                        <Link
+                          key={b.id}
+                          href={`/blogs/${b.slug}`}
+                          className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden hover:shadow-md transition-shadow group flex flex-col justify-between"
+                        >
+                          <div>
+                            <div className="h-48 bg-slate-100 relative overflow-hidden">
+                              {b.coverImage ? (
+                                <img
+                                  src={b.coverImage}
+                                  alt={b.title}
+                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                />
+                              ) : (
+                                <div className="w-full h-full flex items-center justify-center text-slate-300">
+                                  <BookOpen className="w-12 h-12" />
+                                </div>
+                              )}
+                              <span className="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-sm text-white text-[9px] font-bold px-2.5 py-0.5 rounded-full uppercase">
+                                {b.category}
+                              </span>
+                            </div>
+                            <div className="p-6 space-y-3">
+                              <span className="text-[10px] font-bold text-amber-600 uppercase flex items-center gap-1.5">
+                                <Calendar className="w-3.5 h-3.5" />
+                                {new Date(b.publishDate).toLocaleDateString("en-US", {
+                                  month: "short",
+                                  day: "numeric",
+                                  year: "numeric",
+                                })}
+                              </span>
+                              <h3 className="font-serif font-bold text-lg text-slate-900 leading-snug line-clamp-2 group-hover:text-amber-500 transition-colors">
+                                {b.title}
+                              </h3>
+                              <p className="text-xs text-slate-500 leading-relaxed line-clamp-3">
+                                {b.excerpt || b.content}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="p-6 pt-0 text-amber-500 font-bold text-xs uppercase tracking-wider group-hover:underline">
+                            Read Guide &rarr;
+                          </div>
+                        </Link>
+                      ))
+                    ) : (
+                      <>
+                        <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                          <div className="h-48 bg-slate-100 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1555244162-803834f70033?w=500" alt="Blog 1" className="w-full h-full object-cover" />
+                          </div>
+                          <div className="p-6 space-y-3">
+                            <span className="text-[10px] font-bold text-amber-600 uppercase">Catering Trends</span>
+                            <h3 className="font-serif font-bold text-lg text-slate-900 leading-snug">How to Design the Perfect Wedding Menu</h3>
+                            <p className="text-xs text-slate-500 leading-relaxed">Discover current guest dining trends, custom live counters, and must-have menu spreads for your big day.</p>
+                          </div>
+                        </div>
+                        <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                          <div className="h-48 bg-slate-100 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=500" alt="Blog 2" className="w-full h-full object-cover" />
+                          </div>
+                          <div className="p-6 space-y-3">
+                            <span className="text-[10px] font-bold text-amber-600 uppercase">Planning Tips</span>
+                            <h3 className="font-serif font-bold text-lg text-slate-900 leading-snug">Estimating Guest Count & Plate Waste</h3>
+                            <p className="text-xs text-slate-500 leading-relaxed">A practical guide to accurately calculating guest counts and avoiding plate wastage during large banquets.</p>
+                          </div>
+                        </div>
+                        <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                          <div className="h-48 bg-slate-100 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1533144893879-c65f9d453392?w=500" alt="Blog 3" className="w-full h-full object-cover" />
+                          </div>
+                          <div className="p-6 space-y-3">
+                            <span className="text-[10px] font-bold text-amber-600 uppercase">Setup & Design</span>
+                            <h3 className="font-serif font-bold text-lg text-slate-900 leading-snug">Selecting Theme Decor for Puja & Jagran</h3>
+                            <p className="text-xs text-slate-500 leading-relaxed">Ensure a beautiful spiritual stage setup with clean traditional seating, lights, and flower garlands.</p>
+                          </div>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </section>
               );
+
+            case "faqs":
+              return <FaqSection key={sec.id} />;
 
             case "cta":
               if (advertisements.length === 0) return null;

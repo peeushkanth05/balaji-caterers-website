@@ -32,6 +32,15 @@ const config: Config = {
         gold: "0 8px 40px rgba(245, 166, 35, 0.18)",
         card: "0 15px 45px rgba(0, 0, 0, 0.04)",
       },
+      keyframes: {
+        marquee: {
+          "0%": { transform: "translateX(0%)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
+      },
+      animation: {
+        marquee: "marquee 35s linear infinite",
+      },
     },
   },
   plugins: [],
