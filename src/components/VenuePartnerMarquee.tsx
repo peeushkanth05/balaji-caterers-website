@@ -23,11 +23,11 @@ export default function VenuePartnerMarquee() {
   const marqueeItems = [...venues, ...venues];
 
   return (
-    <div className="bg-slate-50 border-y border-slate-200/60 py-10 overflow-hidden relative">
+    <div className="bg-slate-50 dark:bg-slate-950/40 border-y border-slate-200/60 dark:border-slate-800/80 py-10 overflow-hidden relative transition-colors">
       <div className="max-w-7xl mx-auto px-6 mb-6 flex items-center justify-between">
         <div>
           <span className="text-[10px] font-bold tracking-widest text-amber-500 uppercase">Banquet & Farmhouses</span>
-          <h2 className="text-xl md:text-2xl font-serif font-bold text-slate-900 mt-1">Our Venue Partners</h2>
+          <h2 className="text-xl md:text-2xl font-serif font-bold text-slate-900 dark:text-white mt-1">Our Venue Partners</h2>
         </div>
       </div>
 
@@ -41,16 +41,16 @@ export default function VenuePartnerMarquee() {
               href={item.websiteUrl || "#"}
               target={item.websiteUrl ? "_blank" : undefined}
               rel="noopener noreferrer"
-              className="flex items-center gap-3 bg-white border border-slate-200/80 px-6 py-4 rounded-2xl shadow-sm hover:border-amber-500/40 hover:shadow-md transition-all flex-shrink-0"
+              className="flex items-center gap-3 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 px-6 py-4 rounded-2xl shadow-sm hover:border-amber-500/40 hover:shadow-md transition-all flex-shrink-0"
             >
               {item.logoUrl ? (
-                <img src={item.logoUrl} alt={item.name} className="h-10 w-auto max-w-[120px] object-contain" />
+                <img src={item.logoUrl} alt={item.name} className="h-10 w-auto max-w-[120px] object-contain dark:brightness-90" />
               ) : (
                 <Building2 className="w-6 h-6 text-amber-500" />
               )}
               <div className="text-left">
-                <p className="text-xs font-bold text-slate-800 leading-tight">{item.name}</p>
-                {item.address && <p className="text-[9px] text-slate-400 mt-0.5 max-w-[120px] truncate">{item.address}</p>}
+                <p className="text-xs font-bold text-slate-800 dark:text-white leading-tight">{item.name}</p>
+                {item.address && <p className="text-[9px] text-slate-400 dark:text-slate-500 mt-0.5 max-w-[120px] truncate">{item.address}</p>}
               </div>
             </a>
           ))}

@@ -338,51 +338,51 @@ export default async function HomePage() {
                 <section key={sec.id} id="about" className="py-20 px-6 max-w-7xl mx-auto">
                   <div className="text-center max-w-2xl mx-auto mb-16">
                     <span className="text-xs font-bold uppercase tracking-wider text-amber-600">{aboutTag}</span>
-                    <h2 className="text-3xl sm:text-4xl font-serif font-bold text-slate-900 mt-1">
+                    <h2 className="text-3xl sm:text-4xl font-serif font-bold text-slate-900 dark:text-white mt-1">
                       {aboutTitle}
                     </h2>
-                    <p className="text-slate-600 text-sm mt-2">
+                    <p className="text-slate-600 dark:text-slate-400 text-sm mt-2">
                       {aboutSubtitle}
                     </p>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm text-center space-y-3">
-                      <div className="w-12 h-12 bg-amber-100 rounded-2xl flex items-center justify-center mx-auto text-amber-600">
+                    <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-805 shadow-sm text-center space-y-3">
+                      <div className="w-12 h-12 bg-amber-100 dark:bg-amber-500/10 rounded-2xl flex items-center justify-center mx-auto text-amber-600">
                         <Award className="w-6 h-6" />
                       </div>
-                      <h3 className="font-bold text-lg text-slate-900">15+ Years Trust</h3>
-                      <p className="text-xs text-slate-500 leading-relaxed">
+                      <h3 className="font-bold text-lg text-slate-900 dark:text-white">15+ Years Trust</h3>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                         Over a decade of serving Delhi NCR families with reliable, high-quality event services.
                       </p>
                     </div>
 
-                    <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm text-center space-y-3">
-                      <div className="w-12 h-12 bg-orange-100 rounded-2xl flex items-center justify-center mx-auto text-orange-600">
+                    <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-805 shadow-sm text-center space-y-3">
+                      <div className="w-12 h-12 bg-orange-100 dark:bg-orange-500/10 rounded-2xl flex items-center justify-center mx-auto text-orange-600">
                         <ShieldCheck className="w-6 h-6" />
                       </div>
-                      <h3 className="font-bold text-lg text-slate-900">One-Stop Solution</h3>
-                      <p className="text-xs text-slate-500 leading-relaxed">
+                      <h3 className="font-bold text-lg text-slate-900 dark:text-white">One-Stop Solution</h3>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                         Catering, décor, sound, lighting, mattress & cooler rental — everything under one roof.
                       </p>
                     </div>
 
-                    <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm text-center space-y-3">
-                      <div className="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center mx-auto text-emerald-600">
+                    <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-805 shadow-sm text-center space-y-3">
+                      <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-500/10 rounded-2xl flex items-center justify-center mx-auto text-emerald-600">
                         <HeartHandshake className="w-6 h-6" />
                       </div>
-                      <h3 className="font-bold text-lg text-slate-900">Customized Menus</h3>
-                      <p className="text-xs text-slate-500 leading-relaxed">
+                      <h3 className="font-bold text-lg text-slate-900 dark:text-white">Customized Menus</h3>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                         Tailored to your specific theme, budget, guest count, and dietary preferences.
                       </p>
                     </div>
 
-                    <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm text-center space-y-3">
-                      <div className="w-12 h-12 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto text-purple-600">
+                    <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-805 shadow-sm text-center space-y-3">
+                      <div className="w-12 h-12 bg-purple-100 dark:bg-purple-500/10 rounded-2xl flex items-center justify-center mx-auto text-purple-600">
                         <CheckCircle2 className="w-6 h-6" />
                       </div>
-                      <h3 className="font-bold text-lg text-slate-900">Owner Direct</h3>
-                      <p className="text-xs text-slate-500 leading-relaxed">
+                      <h3 className="font-bold text-lg text-slate-900 dark:text-white">Owner Direct</h3>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                         Owned & directed by Sandeep Verma — personal attention for every event.
                       </p>
                     </div>
@@ -398,7 +398,7 @@ export default async function HomePage() {
                 <section key={sec.id} id="packages" className="py-20 px-6 max-w-7xl mx-auto">
                   <div className="text-center max-w-2xl mx-auto mb-16">
                     <span className="text-xs font-bold uppercase tracking-wider text-amber-600">Catering Menu</span>
-                    <h2 className="text-3xl sm:text-4xl font-serif font-bold text-slate-900 mt-1">
+                    <h2 className="text-3xl sm:text-4xl font-serif font-bold text-slate-900 dark:text-white mt-1">
                       Featured Catering Packages
                     </h2>
                   </div>
@@ -407,34 +407,34 @@ export default async function HomePage() {
                     {packages.map((pkg) => (
                       <div
                         key={pkg.id}
-                        className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between"
+                        className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between"
                       >
                         <div>
-                          <span className="text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-amber-100 text-amber-800">
+                          <span className="text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-500/10 text-amber-800 dark:text-amber-400 border border-amber-200 dark:border-amber-900/30">
                             {pkg.category}
                           </span>
-                          <h3 className="font-serif font-bold text-2xl text-slate-900 mt-3 mb-1">{pkg.name}</h3>
+                          <h3 className="font-serif font-bold text-2xl text-slate-900 dark:text-white mt-3 mb-1">{pkg.name}</h3>
                           <div className="mb-4">
                             {pkg.discountType && pkg.discountType !== "none" && pkg.discountValue > 0 ? (
                               <div className="space-y-1">
                                 <div className="flex items-baseline gap-2">
                                   <span className="text-3xl font-bold text-amber-600">₹{pkg.discountedPrice}</span>
-                                  <span className="text-sm text-slate-400 line-through">₹{pkg.pricePerPerson}</span>
-                                  <span className="text-xs text-slate-500 font-normal">/ plate</span>
+                                  <span className="text-sm text-slate-400 dark:text-slate-500 line-through">₹{pkg.pricePerPerson}</span>
+                                  <span className="text-xs text-slate-500 dark:text-slate-450 font-normal">/ plate</span>
                                 </div>
-                                <span className="inline-block text-[10px] font-bold px-2.5 py-1 rounded bg-red-50 text-red-600 border border-red-200">
+                                <span className="inline-block text-[10px] font-bold px-2.5 py-1 rounded bg-red-50 dark:bg-red-950/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-900/40">
                                   {pkg.discountType === "percentage" ? `${pkg.discountValue}% OFF` : `₹${pkg.discountValue} OFF`}
                                 </span>
                               </div>
                             ) : (
                               <div className="text-3xl font-bold text-amber-600">
-                                ₹{pkg.pricePerPerson} <span className="text-xs font-normal text-slate-500">/ plate</span>
+                                ₹{pkg.pricePerPerson} <span className="text-xs font-normal text-slate-500 dark:text-slate-450">/ plate</span>
                               </div>
                             )}
                           </div>
-                          <p className="text-xs text-slate-600 leading-relaxed mb-4">{pkg.description}</p>
+                          <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">{pkg.description}</p>
                           {pkg.features && (
-                            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 text-xs text-slate-700">
+                            <div className="p-4 bg-slate-50 dark:bg-slate-950 rounded-2xl border border-slate-100 dark:border-slate-850 text-xs text-slate-700 dark:text-slate-300">
                               <strong>Includes:</strong> {pkg.features}
                             </div>
                           )}
@@ -488,7 +488,7 @@ export default async function HomePage() {
                 <section key={sec.id} id="blogs" className="py-20 px-6 max-w-7xl mx-auto space-y-12">
                   <div className="text-center max-w-2xl mx-auto space-y-2">
                     <span className="text-xs font-extrabold uppercase tracking-widest text-amber-600">Event Journal</span>
-                    <h2 className="text-3xl sm:text-4xl font-serif font-bold text-slate-900">
+                    <h2 className="text-3xl sm:text-4xl font-serif font-bold text-slate-900 dark:text-white">
                       Catering Guides & Planning Tips
                     </h2>
                   </div>
@@ -498,10 +498,10 @@ export default async function HomePage() {
                         <Link
                           key={b.id}
                           href={`/blogs/${b.slug}`}
-                          className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden hover:shadow-md transition-shadow group flex flex-col justify-between"
+                          className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden hover:shadow-md transition-shadow group flex flex-col justify-between"
                         >
                           <div>
-                            <div className="h-48 bg-slate-100 relative overflow-hidden">
+                            <div className="h-48 bg-slate-100 dark:bg-slate-850 relative overflow-hidden">
                               {b.coverImage ? (
                                 <img
                                   src={b.coverImage}
@@ -509,7 +509,7 @@ export default async function HomePage() {
                                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                                 />
                               ) : (
-                                <div className="w-full h-full flex items-center justify-center text-slate-300">
+                                <div className="w-full h-full flex items-center justify-center text-slate-300 dark:text-slate-700">
                                   <BookOpen className="w-12 h-12" />
                                 </div>
                               )}
@@ -526,10 +526,10 @@ export default async function HomePage() {
                                   year: "numeric",
                                 })}
                               </span>
-                              <h3 className="font-serif font-bold text-lg text-slate-900 leading-snug line-clamp-2 group-hover:text-amber-500 transition-colors">
+                              <h3 className="font-serif font-bold text-lg text-slate-900 dark:text-white leading-snug line-clamp-2 group-hover:text-amber-500 transition-colors">
                                 {b.title}
                               </h3>
-                              <p className="text-xs text-slate-500 leading-relaxed line-clamp-3">
+                              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-3">
                                 {b.excerpt || b.content}
                               </p>
                             </div>
@@ -541,34 +541,34 @@ export default async function HomePage() {
                       ))
                     ) : (
                       <>
-                        <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-                          <div className="h-48 bg-slate-100 relative overflow-hidden">
+                        <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-850 shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                          <div className="h-48 bg-slate-100 dark:bg-slate-850 relative overflow-hidden">
                             <img src="https://images.unsplash.com/photo-1555244162-803834f70033?w=500" alt="Blog 1" className="w-full h-full object-cover" />
                           </div>
                           <div className="p-6 space-y-3">
                             <span className="text-[10px] font-bold text-amber-600 uppercase">Catering Trends</span>
-                            <h3 className="font-serif font-bold text-lg text-slate-900 leading-snug">How to Design the Perfect Wedding Menu</h3>
-                            <p className="text-xs text-slate-500 leading-relaxed">Discover current guest dining trends, custom live counters, and must-have menu spreads for your big day.</p>
+                            <h3 className="font-serif font-bold text-lg text-slate-900 dark:text-white leading-snug">How to Design the Perfect Wedding Menu</h3>
+                            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Discover current guest dining trends, custom live counters, and must-have menu spreads for your big day.</p>
                           </div>
                         </div>
-                        <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-                          <div className="h-48 bg-slate-100 relative overflow-hidden">
+                        <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-850 shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                          <div className="h-48 bg-slate-100 dark:bg-slate-850 relative overflow-hidden">
                             <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=500" alt="Blog 2" className="w-full h-full object-cover" />
                           </div>
                           <div className="p-6 space-y-3">
                             <span className="text-[10px] font-bold text-amber-600 uppercase">Planning Tips</span>
-                            <h3 className="font-serif font-bold text-lg text-slate-900 leading-snug">Estimating Guest Count & Plate Waste</h3>
-                            <p className="text-xs text-slate-500 leading-relaxed">A practical guide to accurately calculating guest counts and avoiding plate wastage during large banquets.</p>
+                            <h3 className="font-serif font-bold text-lg text-slate-900 dark:text-white leading-snug">Estimating Guest Count & Plate Waste</h3>
+                            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">A practical guide to accurately calculating guest counts and avoiding plate wastage during large banquets.</p>
                           </div>
                         </div>
-                        <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-                          <div className="h-48 bg-slate-100 relative overflow-hidden">
+                        <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-850 shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                          <div className="h-48 bg-slate-100 dark:bg-slate-850 relative overflow-hidden">
                             <img src="https://images.unsplash.com/photo-1533144893879-c65f9d453392?w=500" alt="Blog 3" className="w-full h-full object-cover" />
                           </div>
                           <div className="p-6 space-y-3">
                             <span className="text-[10px] font-bold text-amber-600 uppercase">Setup & Design</span>
-                            <h3 className="font-serif font-bold text-lg text-slate-900 leading-snug">Selecting Theme Decor for Puja & Jagran</h3>
-                            <p className="text-xs text-slate-500 leading-relaxed">Ensure a beautiful spiritual stage setup with clean traditional seating, lights, and flower garlands.</p>
+                            <h3 className="font-serif font-bold text-lg text-slate-900 dark:text-white leading-snug">Selecting Theme Decor for Puja & Jagran</h3>
+                            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Ensure a beautiful spiritual stage setup with clean traditional seating, lights, and flower garlands.</p>
                           </div>
                         </div>
                       </>
@@ -602,7 +602,7 @@ export default async function HomePage() {
                         <span className="text-xs font-bold uppercase tracking-wider text-amber-600">
                           {contactSettings?.sectionTitle || "Get In Touch"}
                         </span>
-                        <h2 className="text-3xl font-serif font-bold text-slate-900 mt-1">
+                        <h2 className="text-3xl font-serif font-bold text-slate-900 dark:text-white mt-1">
                           {contactSettings?.sectionHeading || "Let's Plan Your Dream Event"}
                         </h2>
                       </div>
@@ -610,12 +610,12 @@ export default async function HomePage() {
                       <div className="space-y-6">
                         {displayPhone && (
                           <div className="flex items-start gap-4">
-                            <div className="p-3 bg-amber-100 text-amber-700 rounded-2xl">
+                            <div className="p-3 bg-amber-100 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 rounded-2xl">
                               <Phone className="w-6 h-6" />
                             </div>
                             <div>
-                              <div className="font-bold text-sm text-slate-900">Phone / WhatsApp</div>
-                              <a href={`tel:${displayPhone.replace(/[^0-9+]/g, "")}`} className="text-sm font-semibold text-amber-600 hover:underline">
+                              <div className="font-bold text-sm text-slate-900 dark:text-white">Phone / WhatsApp</div>
+                              <a href={`tel:${displayPhone.replace(/[^0-9+]/g, "")}`} className="text-sm font-semibold text-amber-600 dark:text-amber-450 hover:underline">
                                 {displayPhone}
                               </a>
                             </div>
@@ -624,12 +624,12 @@ export default async function HomePage() {
  
                         {displayEmail && (
                           <div className="flex items-start gap-4">
-                            <div className="p-3 bg-orange-100 text-orange-700 rounded-2xl">
+                            <div className="p-3 bg-orange-100 dark:bg-orange-500/10 text-orange-700 dark:text-orange-400 rounded-2xl">
                               <Mail className="w-6 h-6" />
                             </div>
                             <div>
-                              <div className="font-bold text-sm text-slate-900">Email Address</div>
-                              <a href={`mailto:${displayEmail}`} className="text-sm font-semibold text-amber-600 hover:underline">
+                              <div className="font-bold text-sm text-slate-900 dark:text-white">Email Address</div>
+                              <a href={`mailto:${displayEmail}`} className="text-sm font-semibold text-amber-600 dark:text-amber-450 hover:underline">
                                 {displayEmail}
                               </a>
                             </div>
@@ -638,12 +638,12 @@ export default async function HomePage() {
  
                         {displayAddress && (
                           <div className="flex items-start gap-4">
-                            <div className="p-3 bg-emerald-100 text-emerald-700 rounded-2xl">
+                            <div className="p-3 bg-emerald-100 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 rounded-2xl">
                               <MapPin className="w-6 h-6" />
                             </div>
                             <div>
-                              <div className="font-bold text-sm text-slate-900">Location</div>
-                              <p className="text-xs text-slate-600 mt-0.5">{displayAddress}</p>
+                              <div className="font-bold text-sm text-slate-900 dark:text-white">Location</div>
+                              <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">{displayAddress}</p>
                             </div>
                           </div>
                         )}

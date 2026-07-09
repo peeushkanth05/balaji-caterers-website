@@ -219,16 +219,16 @@ export function Footer() {
       {/* Legal Policies Modal Overlay */}
       {activePolicy && (
         <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white text-slate-800 rounded-3xl w-full max-w-2xl border border-slate-200 shadow-2xl flex flex-col max-h-[80vh] overflow-hidden">
+          <div className="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 rounded-3xl w-full max-w-2xl border border-slate-200 dark:border-slate-800 shadow-2xl flex flex-col max-h-[80vh] overflow-hidden">
             {/* Modal Header */}
-            <div className="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+            <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-950/20">
               <div className="flex items-center gap-2">
                 {getPolicyIcon(activePolicy.title)}
-                <h3 className="font-serif font-bold text-base text-slate-900">{activePolicy.title}</h3>
+                <h3 className="font-serif font-bold text-base text-slate-900 dark:text-white">{activePolicy.title}</h3>
               </div>
               <button
                 onClick={() => setActivePolicy(null)}
-                className="p-1.5 hover:bg-slate-200 rounded-xl text-slate-400 hover:text-slate-600 transition-colors"
+                className="p-1.5 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-xl text-slate-400 hover:text-slate-650 transition-colors"
                 title="Close modal"
               >
                 <X className="w-4.5 h-4.5" />
@@ -239,21 +239,21 @@ export function Footer() {
             <div className="p-6 overflow-y-auto prose prose-slate max-w-none text-xs leading-relaxed space-y-4">
               {activePolicy.content.split("\n").map((line, lIdx) => {
                 if (line.startsWith("# ")) {
-                  return <h1 key={lIdx} className="text-lg font-serif font-bold text-slate-900 border-b pb-1 mt-4">{line.replace("# ", "")}</h1>;
+                  return <h1 key={lIdx} className="text-lg font-serif font-bold text-slate-900 dark:text-white border-b pb-1 mt-4">{line.replace("# ", "")}</h1>;
                 }
                 if (line.startsWith("## ")) {
-                  return <h2 key={lIdx} className="text-sm font-serif font-bold text-slate-800 mt-3">{line.replace("## ", "")}</h2>;
+                  return <h2 key={lIdx} className="text-sm font-serif font-bold text-slate-800 dark:text-slate-250 mt-3">{line.replace("## ", "")}</h2>;
                 }
                 if (!line.trim()) return null;
-                return <p key={lIdx} className="text-slate-600 font-medium">{line}</p>;
+                return <p key={lIdx} className="text-slate-655 dark:text-slate-400 font-medium">{line}</p>;
               })}
             </div>
 
             {/* Modal Footer */}
-            <div className="p-4 border-t border-slate-100 bg-slate-50/50 flex justify-end">
+            <div className="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/20 flex justify-end">
               <button
                 onClick={() => setActivePolicy(null)}
-                className="bg-slate-900 hover:bg-slate-850 text-white font-bold text-[10px] uppercase py-2 px-5 rounded-xl transition-all"
+                className="bg-slate-900 dark:bg-slate-800 hover:bg-slate-850 dark:hover:bg-slate-700 text-white font-bold text-[10px] uppercase py-2 px-5 rounded-xl transition-all"
               >
                 Close Policy
               </button>

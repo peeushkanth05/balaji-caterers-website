@@ -40,16 +40,16 @@ export function PhotoGallerySection({ galleryItems }: PhotoGallerySectionProps) 
   }, [galleryItems]);
 
   return (
-    <section id="gallery" className="py-24 bg-gradient-to-b from-slate-50 to-white overflow-hidden space-y-12">
+    <section id="gallery" className="py-24 bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-950 overflow-hidden space-y-12 transition-colors">
       {/* Section Header */}
       <div className="text-center max-w-2xl mx-auto space-y-3 px-6">
-        <span className="text-xs font-extrabold uppercase tracking-widest text-amber-600 inline-flex items-center gap-1.5 bg-amber-50 px-3 py-1 rounded-full border border-amber-100/50">
+        <span className="text-xs font-extrabold uppercase tracking-widest text-amber-600 inline-flex items-center gap-1.5 bg-amber-50 dark:bg-amber-500/10 px-3 py-1 rounded-full border border-amber-100/50 dark:border-amber-500/20">
           <ImageIcon className="w-3.5 h-3.5" /> Premium Creations Catalog
         </span>
-        <h2 className="text-3xl sm:text-4xl font-serif font-bold text-slate-900 leading-tight">
+        <h2 className="text-3xl sm:text-4xl font-serif font-bold text-slate-900 dark:text-white leading-tight">
           Visual Culinary & Banqueting Gallery
         </h2>
-        <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
+        <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
           Scroll through our catering preparations, premium presentation setups, and thematic decorations.
         </p>
       </div>
@@ -61,7 +61,7 @@ export function PhotoGallerySection({ galleryItems }: PhotoGallerySectionProps) 
             <div
               key={`${item.id}-marquee-${idx}`}
               onClick={() => setLightboxImg(item)}
-              className="relative w-72 aspect-[4/3] sm:w-80 rounded-3xl overflow-hidden shadow-md border border-slate-200/40 group flex-shrink-0 transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg"
+              className="relative w-72 aspect-[4/3] sm:w-80 rounded-3xl overflow-hidden shadow-md border border-slate-200/40 dark:border-slate-800/60 group flex-shrink-0 transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg"
             >
               <img
                 src={item.imageUrl}
@@ -91,8 +91,8 @@ export function PhotoGallerySection({ galleryItems }: PhotoGallerySectionProps) 
         </div>
 
         {/* Shadow Overlays */}
-        <div className="absolute top-0 bottom-0 left-0 w-16 bg-gradient-to-r from-slate-50 to-transparent pointer-events-none z-10" />
-        <div className="absolute top-0 bottom-0 right-0 w-16 bg-gradient-to-l from-slate-50 to-transparent pointer-events-none z-10" />
+        <div className="absolute top-0 bottom-0 left-0 w-16 bg-gradient-to-r from-slate-50 dark:from-slate-950 to-transparent pointer-events-none z-10" />
+        <div className="absolute top-0 bottom-0 right-0 w-16 bg-gradient-to-l from-slate-50 dark:from-slate-950 to-transparent pointer-events-none z-10" />
       </div>
 
       {/* View More / Expand Section */}
@@ -100,14 +100,14 @@ export function PhotoGallerySection({ galleryItems }: PhotoGallerySectionProps) 
         {!expanded ? (
           <button
             onClick={() => setExpanded(true)}
-            className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs py-3.5 px-8 rounded-2xl shadow-lg transition-all hover:scale-[1.02] active:scale-95 uppercase tracking-wider"
+            className="inline-flex items-center gap-2 bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 text-white font-bold text-xs py-3.5 px-8 rounded-2xl shadow-lg transition-all hover:scale-[1.02] active:scale-95 uppercase tracking-wider"
           >
             Explore Full Snaps Gallery <ChevronRight className="w-4 h-4 text-amber-500" />
           </button>
         ) : (
           <div className="space-y-8 animate-fade-in max-w-7xl mx-auto">
             {/* Category Filter Pills */}
-            <div className="flex flex-wrap items-center justify-center gap-2 border-t border-slate-100 pt-8">
+            <div className="flex flex-wrap items-center justify-center gap-2 border-t border-slate-100 dark:border-slate-800 pt-8">
               {categories.map((cat: any) => (
                 <button
                   key={cat}
@@ -115,7 +115,7 @@ export function PhotoGallerySection({ galleryItems }: PhotoGallerySectionProps) 
                   className={`px-4.5 py-1.5 rounded-full text-xs font-bold transition-all border ${
                     activeCategory === cat
                       ? "bg-amber-500 border-amber-500 text-white shadow-md shadow-amber-500/10"
-                      : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50"
+                      : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
                   }`}
                 >
                   {cat}
@@ -129,7 +129,7 @@ export function PhotoGallerySection({ galleryItems }: PhotoGallerySectionProps) 
                 <div
                   key={`${item.id}-grid`}
                   onClick={() => setLightboxImg(item)}
-                  className="group relative aspect-square bg-slate-100 rounded-3xl overflow-hidden border border-slate-200/50 shadow-sm cursor-pointer hover:shadow-lg transition-all hover:scale-[1.02]"
+                  className="group relative aspect-square bg-slate-100 dark:bg-slate-850 rounded-3xl overflow-hidden border border-slate-200/50 dark:border-slate-800 shadow-sm cursor-pointer hover:shadow-lg transition-all hover:scale-[1.02]"
                 >
                   <img
                     src={item.imageUrl}
@@ -160,7 +160,7 @@ export function PhotoGallerySection({ galleryItems }: PhotoGallerySectionProps) 
             <div className="pt-4">
               <button
                 onClick={() => setExpanded(false)}
-                className="inline-flex items-center gap-2 border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold text-xs py-3 px-6 rounded-2xl transition-colors uppercase tracking-wider"
+                className="inline-flex items-center gap-2 border border-slate-300 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900 text-slate-700 dark:text-slate-300 font-bold text-xs py-3 px-6 rounded-2xl transition-colors uppercase tracking-wider"
               >
                 Collapse Gallery View
               </button>

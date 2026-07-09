@@ -22,10 +22,10 @@ export default function ClientLogoMarquee() {
   const marqueeItems = [...clients, ...clients, ...clients];
 
   return (
-    <div className="bg-white py-12 overflow-hidden relative border-t border-slate-100">
+    <div className="bg-white dark:bg-slate-900 py-12 overflow-hidden relative border-t border-slate-100 dark:border-slate-800 transition-colors">
       <div className="max-w-7xl mx-auto px-6 mb-8 text-center">
         <span className="text-[10px] font-bold tracking-widest text-amber-500 uppercase">Trusted By</span>
-        <h2 className="text-xl md:text-2xl font-serif font-bold text-slate-900 mt-1">Our Corporate & Special Clients</h2>
+        <h2 className="text-xl md:text-2xl font-serif font-bold text-slate-900 dark:text-white mt-1">Our Corporate & Special Clients</h2>
       </div>
 
       {/* Infinite scrolling line of logo images */}
@@ -40,10 +40,10 @@ export default function ClientLogoMarquee() {
                 <img
                   src={item.logoUrl}
                   alt={item.name}
-                  className="h-12 w-auto max-w-[150px] object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
+                  className="h-12 w-auto max-w-[150px] object-contain filter grayscale dark:invert dark:brightness-200 hover:grayscale-0 transition-all duration-300"
                 />
               ) : (
-                <span className="font-bold text-slate-400 text-sm tracking-wide">{item.name}</span>
+                <span className="font-bold text-slate-400 dark:text-slate-550 text-sm tracking-wide">{item.name}</span>
               )}
             </div>
           ))}

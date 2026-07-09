@@ -17,15 +17,15 @@ export function PortfolioGrid({ portfolios, loading = false }: PortfolioGridProp
         {[1, 2, 3, 4, 5, 6].map((idx) => (
           <div
             key={idx}
-            className="bg-white rounded-3xl border border-slate-200 p-4 h-96 animate-pulse flex flex-col justify-between"
+            className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-4 h-96 animate-pulse flex flex-col justify-between"
           >
-            <div className="bg-slate-200 rounded-2xl h-52 w-full" />
+            <div className="bg-slate-200 dark:bg-slate-800 rounded-2xl h-52 w-full" />
             <div className="space-y-2 py-3">
-              <div className="h-4 bg-slate-200 rounded w-3/4" />
-              <div className="h-3 bg-slate-100 rounded w-full" />
-              <div className="h-3 bg-slate-100 rounded w-5/6" />
+              <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-3/4" />
+              <div className="h-3 bg-slate-100 dark:bg-slate-800/60 rounded w-full" />
+              <div className="h-3 bg-slate-100 dark:bg-slate-800/60 rounded w-5/6" />
             </div>
-            <div className="h-10 bg-slate-200 rounded-xl w-full" />
+            <div className="h-10 bg-slate-200 dark:bg-slate-800 rounded-xl w-full" />
           </div>
         ))}
       </div>
@@ -34,10 +34,10 @@ export function PortfolioGrid({ portfolios, loading = false }: PortfolioGridProp
 
   if (!portfolios || portfolios.length === 0) {
     return (
-      <div className="bg-white rounded-3xl p-12 text-center text-slate-400 border border-slate-200 shadow-sm max-w-lg mx-auto">
-        <FolderX className="w-12 h-12 mx-auto mb-3 opacity-30 text-slate-400" />
-        <h4 className="font-serif font-bold text-slate-800 text-lg">No Portfolios Found</h4>
-        <p className="text-xs text-slate-500 mt-1">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl p-12 text-center text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-slate-800 shadow-sm max-w-lg mx-auto">
+        <FolderX className="w-12 h-12 mx-auto mb-3 opacity-30 text-slate-400 dark:text-slate-500" />
+        <h4 className="font-serif font-bold text-slate-800 dark:text-white text-lg">No Portfolios Found</h4>
+        <p className="text-xs text-slate-500 dark:text-slate-450 mt-1">
           Try clearing your search query or choosing a different category filter above.
         </p>
       </div>

@@ -175,11 +175,11 @@ ${message ? "*Details:* " + message : ""}`.trim();
   };
 
   return (
-    <div className="bg-white p-8 sm:p-10 rounded-3xl border border-slate-200 shadow-xl">
-      <h3 className="font-serif font-bold text-2xl text-slate-900 mb-2">
+    <div className="bg-white dark:bg-slate-900 p-8 sm:p-10 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl transition-colors">
+      <h3 className="font-serif font-bold text-2xl text-slate-900 dark:text-white mb-2">
         {settings?.formTitle || "🎉 Request a Free Quote"}
       </h3>
-      <p className="text-xs text-slate-500 mb-6">
+      <p className="text-xs text-slate-500 dark:text-slate-400 mb-6">
         {settings?.formDescription || "Fill out your event details below for a customized quotation."}
       </p>
 
@@ -187,8 +187,8 @@ ${message ? "*Details:* " + message : ""}`.trim();
         <div
           className={`mb-6 p-4 rounded-2xl text-xs font-bold ${
             statusMsg.type === "success"
-              ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
-              : "bg-red-50 text-red-800 border border-red-200"
+              ? "bg-emerald-50 dark:bg-emerald-950/20 text-emerald-800 dark:text-emerald-450 border border-emerald-200 dark:border-emerald-900/40"
+              : "bg-red-50 dark:bg-red-955/20 text-red-800 dark:text-red-450 border border-red-200 dark:border-red-900/40"
           }`}
         >
           {statusMsg.text}
@@ -204,7 +204,7 @@ ${message ? "*Details:* " + message : ""}`.trim();
 
             return (
               <div key={field.id} className={isWide ? "sm:col-span-2" : ""}>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
                   {field.label} {field.required && "*"}
                 </label>
 
@@ -215,14 +215,14 @@ ${message ? "*Details:* " + message : ""}`.trim();
                     value={val}
                     onChange={(e) => setter(e.target.value)}
                     placeholder={field.placeholder || ""}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none"
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none"
                   />
                 ) : field.type === "select" ? (
                   <select
                     required={field.required}
                     value={val}
                     onChange={(e) => setter(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none font-medium"
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none font-medium"
                   >
                     <option value="">{field.placeholder || "Select Option"}</option>
                     {field.id === "eventType" ? (
@@ -246,7 +246,7 @@ ${message ? "*Details:* " + message : ""}`.trim();
                     value={val}
                     onChange={(e) => setter(e.target.value)}
                     placeholder={field.placeholder || ""}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none"
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none"
                   />
                 )}
               </div>
