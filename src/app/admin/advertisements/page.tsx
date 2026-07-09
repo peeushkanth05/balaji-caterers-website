@@ -541,7 +541,7 @@ export default function AdvertisementsAdminPage() {
                   </label>
                   <span className="text-slate-400 text-[10px] font-bold">OR</span>
                   <input
-                    type="url"
+                    type="text"
                     value={imageUrl}
                     onChange={(e) => setImageUrl(e.target.value)}
                     placeholder="Paste image URL..."
@@ -597,7 +597,7 @@ export default function AdvertisementsAdminPage() {
                 <div>
                   <label className="block text-xs font-bold text-slate-700 mb-1">Redirect URL</label>
                   <input
-                    type="url"
+                    type="text"
                     value={redirectUrl}
                     onChange={(e) => setRedirectUrl(e.target.value)}
                     placeholder="https://example.com"

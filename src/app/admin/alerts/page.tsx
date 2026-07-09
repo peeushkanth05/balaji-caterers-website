@@ -315,7 +315,7 @@ export default function AlertsAdminPage() {
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">Redirect Link URL (Optional)</label>
                 <input
-                  type="url"
+                  type="text"
                   value={redirectUrl}
                   onChange={(e) => setRedirectUrl(e.target.value)}
                   placeholder="https://example.com/promo-landing"
