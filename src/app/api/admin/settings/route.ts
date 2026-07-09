@@ -47,6 +47,8 @@ export async function PATCH(req: Request) {
       aboutTag,
       aboutTitle,
       aboutSubtitle,
+      enableThemeToggle,
+      defaultTheme,
     } = body;
 
     const updatedSettings = await prisma.siteSetting.upsert({
@@ -73,6 +75,8 @@ export async function PATCH(req: Request) {
         ...(aboutTag !== undefined && { aboutTag }),
         ...(aboutTitle !== undefined && { aboutTitle }),
         ...(aboutSubtitle !== undefined && { aboutSubtitle }),
+        ...(enableThemeToggle !== undefined && { enableThemeToggle }),
+        ...(defaultTheme !== undefined && { defaultTheme }),
       },
       create: {
         id: "default",
@@ -97,6 +101,8 @@ export async function PATCH(req: Request) {
         aboutTag: aboutTag || "Why Us",
         aboutTitle: aboutTitle || "Why Choose Shree Balaji Caterers",
         aboutSubtitle: aboutSubtitle || "With 15+ years of experience and 500+ successful events in Delhi NCR, we bring passion, precision, and a personal touch to every celebration.",
+        enableThemeToggle: enableThemeToggle ?? true,
+        defaultTheme: defaultTheme || "light",
       },
     });
 

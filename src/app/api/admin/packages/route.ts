@@ -24,7 +24,7 @@ export async function POST(req: Request) {
   if (!auth.authorized) return auth.errorResponse;
 
   try {
-    const { name, category, pricePerPerson, description, features, isFeatured, discountType, discountValue } = await req.json();
+    const { name, category, pricePerPerson, description, features, isFeatured, isActive, discountType, discountValue } = await req.json();
 
     if (!name || !category || !pricePerPerson) {
       return NextResponse.json({ error: "Name, category, and price are required" }, { status: 400 });
@@ -53,6 +53,7 @@ export async function POST(req: Request) {
         description: description || "",
         features: features || "",
         isFeatured: isFeatured ?? false,
+        isActive: isActive ?? true,
       },
     });
 
@@ -70,7 +71,7 @@ export async function PATCH(req: Request) {
   if (!auth.authorized) return auth.errorResponse;
 
   try {
-    const { id, name, category, pricePerPerson, description, features, isFeatured, discountType, discountValue } = await req.json();
+    const { id, name, category, pricePerPerson, description, features, isFeatured, isActive, discountType, discountValue } = await req.json();
 
     if (!id) {
       return NextResponse.json({ error: "Package ID required" }, { status: 400 });
@@ -82,6 +83,7 @@ export async function PATCH(req: Request) {
       ...(description !== undefined && { description }),
       ...(features !== undefined && { features }),
       ...(isFeatured !== undefined && { isFeatured }),
+      ...(isActive !== undefined && { isActive }),
     };
 
     if (pricePerPerson !== undefined || discountType !== undefined || discountValue !== undefined) {

@@ -10,6 +10,7 @@ import { VideoGallerySection } from "@/components/VideoGallerySection";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { PhotoGallerySection } from "@/components/PhotoGallerySection";
 import { AdvertisementBanner } from "@/components/AdvertisementBanner";
+import { Footer } from "@/components/Footer";
 import VenuePartnerMarquee from "@/components/VenuePartnerMarquee";
 import ClientLogoMarquee from "@/components/ClientLogoMarquee";
 import FaqSection from "@/components/FaqSection";
@@ -69,7 +70,7 @@ export default async function HomePage() {
     });
 
     packages = await prisma.package.findMany({
-      where: { isFeatured: true },
+      where: { isFeatured: true, isActive: true },
       orderBy: { createdAt: "desc" },
     });
 
@@ -230,7 +231,7 @@ export default async function HomePage() {
     galleryItems = await prisma.galleryItem.findMany({
       where: { isActive: true },
       orderBy: { createdAt: "desc" },
-      take: 8,
+      take: 50,
     });
   } catch (e) {
     console.error("Database fetch error on homepage:", e);
@@ -662,19 +663,7 @@ export default async function HomePage() {
               );
 
             case "footer":
-              return (
-                <footer key={sec.id} className="bg-slate-900 text-slate-400 py-12 px-6 border-t border-slate-800 text-sm">
-                  <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
-                    <div>
-                      <div className="font-serif font-bold text-white text-lg">Shree Balaji Caterers</div>
-                      <p className="text-xs text-slate-500 mt-1">{address}</p>
-                    </div>
-                    <div className="text-xs text-slate-500">
-                      &copy; 2026 Shree Balaji Caterers. All rights reserved.
-                    </div>
-                  </div>
-                </footer>
-              );
+              return <Footer key={sec.id} />;
 
             default:
               return null;

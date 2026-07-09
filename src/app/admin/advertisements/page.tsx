@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import {
   Megaphone, Plus, Trash2, Edit2, Loader2, Eye, EyeOff,
   ExternalLink, Upload, Calendar, ArrowUpDown, Image as ImageIcon,
+  Search, Copy,
 } from "lucide-react";
 
 export default function AdvertisementsAdminPage() {
@@ -29,6 +30,11 @@ export default function AdvertisementsAdminPage() {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+
+  // Search & Bulk Actions State
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [bulkActionLoading, setBulkActionLoading] = useState(false);
 
   const fetchAds = useCallback(async () => {
     try {
@@ -102,14 +108,23 @@ export default function AdvertisementsAdminPage() {
     xhr.onload = () => {
       setUploading(false);
       setUploadProgress(0);
-      if (xhr.status === 200 || xhr.status === 201) {
-        try {
-          const data = JSON.parse(xhr.responseText);
-          if (data.url) setImageUrl(data.url);
-        } catch {}
-      } else {
-        setErrorMsg("Image upload failed. Try again.");
-        setTimeout(() => setErrorMsg(""), 4000);
+      try {
+        const data = JSON.parse(xhr.responseText);
+        if (xhr.status === 200 || xhr.status === 201) {
+          const finalUrl = data.url || (data.assets && data.assets[0]?.url);
+          if (finalUrl) {
+            setImageUrl(finalUrl);
+          } else {
+            setErrorMsg("Uploaded image URL was not found in response.");
+            setTimeout(() => setErrorMsg(""), 5000);
+          }
+        } else {
+          setErrorMsg(data.error || "Image upload failed. Try again.");
+          setTimeout(() => setErrorMsg(""), 5000);
+        }
+      } catch {
+        setErrorMsg("Image upload failed. Invalid server response.");
+        setTimeout(() => setErrorMsg(""), 5000);
       }
     };
 
@@ -193,6 +208,96 @@ export default function AdvertisementsAdminPage() {
     }
   };
 
+  const handleDuplicate = async (ad: any) => {
+    setSubmitting(true);
+    setSuccessMsg("");
+    setErrorMsg("");
+    try {
+      const res = await fetch("/api/admin/advertisements", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: `${ad.title} (Copy)`,
+          description: ad.description,
+          brandName: ad.brandName,
+          imageUrl: ad.imageUrl,
+          redirectUrl: ad.redirectUrl,
+          ctaText: ad.ctaText,
+          isEnabled: false,
+          startDate: ad.startDate,
+          endDate: ad.endDate,
+          displayOrder: ad.displayOrder + 1,
+        }),
+      });
+      if (res.ok) {
+        setSuccessMsg(`Duplicated "${ad.title}" successfully!`);
+        setTimeout(() => setSuccessMsg(""), 4000);
+        fetchAds();
+      } else {
+        const data = await res.json();
+        throw new Error(data.error || "Failed to duplicate");
+      }
+    } catch (e: any) {
+      setErrorMsg(e.message || "Failed to duplicate");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleSelectOne = (id: string, checked: boolean) => {
+    if (checked) {
+      setSelectedIds((prev) => [...prev, id]);
+    } else {
+      setSelectedIds((prev) => prev.filter((item) => item !== id));
+    }
+  };
+
+  const handleBulkAction = async (action: "delete" | "activate" | "deactivate") => {
+    if (selectedIds.length === 0) return;
+    if (action === "delete" && !confirm(`Are you sure you want to delete ${selectedIds.length} advertisements?`)) return;
+
+    setBulkActionLoading(true);
+    setSuccessMsg("");
+    setErrorMsg("");
+
+    let successCount = 0;
+    try {
+      for (const id of selectedIds) {
+        let res;
+        if (action === "delete") {
+          res = await fetch("/api/admin/advertisements", {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id }),
+          });
+        } else {
+          res = await fetch("/api/admin/advertisements", {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id, isEnabled: action === "activate" }),
+          });
+        }
+        if (res.ok) successCount++;
+      }
+      setSuccessMsg(`Bulk action completed: updated ${successCount} advertisements.`);
+      setTimeout(() => setSuccessMsg(""), 4000);
+      setSelectedIds([]);
+      fetchAds();
+    } catch (error) {
+      setErrorMsg("Bulk action encountered errors.");
+    } finally {
+      setBulkActionLoading(false);
+    }
+  };
+
+  const filteredAds = ads.filter((ad) => {
+    return (
+      ad.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (ad.brandName && ad.brandName.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (ad.description && ad.description.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
+  });
+
   const getScheduleStatus = (ad: any) => {
     if (!ad.startDate && !ad.endDate) return { label: "Always Active", color: "bg-emerald-100 text-emerald-700" };
     const now = new Date();
@@ -231,6 +336,50 @@ export default function AdvertisementsAdminPage() {
         </button>
       </div>
 
+      {/* Search Filter input */}
+      <div className="relative max-w-md">
+        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search advertisements by title or brand..."
+          className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-xs focus:ring-1 focus:ring-amber-500 focus:outline-none shadow-sm"
+        />
+      </div>
+
+      {/* Bulk Operations Alert strip */}
+      {selectedIds.length > 0 && (
+        <div className="p-4 bg-amber-50 border border-amber-200 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
+          <span className="text-xs font-bold text-amber-800">
+            Selected {selectedIds.length} advertisements
+          </span>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => handleBulkAction("activate")}
+              disabled={bulkActionLoading}
+              className="px-3.5 py-1.5 bg-white border border-slate-200 text-slate-700 rounded-lg text-xs font-bold hover:bg-slate-50 transition-colors shadow-sm"
+            >
+              Bulk Activate
+            </button>
+            <button
+              onClick={() => handleBulkAction("deactivate")}
+              disabled={bulkActionLoading}
+              className="px-3.5 py-1.5 bg-white border border-slate-200 text-slate-700 rounded-lg text-xs font-bold hover:bg-slate-50 transition-colors shadow-sm"
+            >
+              Bulk Deactivate
+            </button>
+            <button
+              onClick={() => handleBulkAction("delete")}
+              disabled={bulkActionLoading}
+              className="px-3.5 py-1.5 bg-rose-500 text-white rounded-lg text-xs font-bold hover:bg-rose-600 transition-colors shadow-sm"
+            >
+              Bulk Delete
+            </button>
+          </div>
+        </div>
+      )}
+
       {successMsg && (
         <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold rounded-2xl">
           ✓ {successMsg}
@@ -243,22 +392,32 @@ export default function AdvertisementsAdminPage() {
       )}
 
       {/* Ads Grid */}
-      {ads.length === 0 ? (
+      {filteredAds.length === 0 ? (
         <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-12 text-center">
           <Megaphone className="w-12 h-12 text-slate-300 mx-auto mb-4" />
-          <p className="text-slate-500 font-medium">No advertisements yet. Click "New Advertisement" to create your first banner.</p>
+          <p className="text-slate-500 font-medium">No advertisements found. Create one or change filters.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {ads.map((ad) => {
+          {filteredAds.map((ad) => {
             const schedule = getScheduleStatus(ad);
             return (
               <div
                 key={ad.id}
-                className={`bg-white rounded-3xl border shadow-sm overflow-hidden transition-all hover:shadow-md ${
+                className={`bg-white rounded-3xl border shadow-sm overflow-hidden transition-all hover:shadow-md relative ${
                   ad.isEnabled ? "border-slate-200" : "border-slate-200 opacity-60"
-                }`}
+                } ${selectedIds.includes(ad.id) ? "ring-2 ring-amber-500 border-transparent" : ""}`}
               >
+                {/* Checkbox selector */}
+                <div className="absolute top-2 left-2 z-20 bg-white/80 rounded-md p-1 border border-slate-200">
+                  <input
+                    type="checkbox"
+                    checked={selectedIds.includes(ad.id)}
+                    onChange={(e) => handleSelectOne(ad.id, e.target.checked)}
+                    className="w-3.5 h-3.5 text-amber-500 border-slate-300 rounded focus:ring-amber-500 cursor-pointer"
+                  />
+                </div>
+
                 {/* Banner Preview */}
                 <div className="h-40 bg-slate-100 relative overflow-hidden">
                   {ad.imageUrl ? (
@@ -269,7 +428,7 @@ export default function AdvertisementsAdminPage() {
                     </div>
                   )}
                   {/* Ad label */}
-                  <span className="absolute top-2 left-2 bg-black/60 backdrop-blur-sm text-white text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full">
+                  <span className="absolute top-2 left-10 bg-black/60 backdrop-blur-sm text-white text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full">
                     Advertisement
                   </span>
                   {/* Schedule badge */}
@@ -322,7 +481,14 @@ export default function AdvertisementsAdminPage() {
                       {ad.isEnabled ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
                       {ad.isEnabled ? "Active" : "Disabled"}
                     </button>
-                    <div className="flex gap-2">
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() => handleDuplicate(ad)}
+                        className="p-2 border border-slate-100 hover:bg-slate-50 text-slate-400 hover:text-slate-600 rounded-xl transition-colors bg-white"
+                        title="Duplicate Copy"
+                      >
+                        <Copy className="w-3.5 h-3.5" />
+                      </button>
                       <button
                         onClick={() => openEditModal(ad)}
                         className="p-2 border border-slate-100 hover:bg-slate-50 text-slate-600 rounded-xl transition-colors bg-white"

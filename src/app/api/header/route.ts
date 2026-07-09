@@ -145,7 +145,36 @@ export async function GET() {
       orderBy: { priority: "desc" },
     });
 
-    return NextResponse.json({ settings, menus, actions, siteSettings, socialLinks, alerts });
+    // Fetch active services
+    const activeServices = await prisma.service.findMany({
+      where: { isActive: true },
+      orderBy: { displayOrder: "asc" },
+    });
+
+    const processedMenus = menus
+      .filter((m) => m.isActive)
+      .map((m) => {
+        const submenus = m.submenus.filter((sub) => sub.isActive);
+        if (m.isServicesDropdown) {
+          const dynamicSubmenus = activeServices.map((ser, sIdx) => ({
+            id: `service-${ser.id}`,
+            menuId: m.id,
+            label: ser.title,
+            link: `/#services`,
+            displayOrder: sIdx,
+          }));
+          return {
+            ...m,
+            submenus: dynamicSubmenus,
+          };
+        }
+        return {
+          ...m,
+          submenus,
+        };
+      });
+
+    return NextResponse.json({ settings, menus: processedMenus, actions, siteSettings, socialLinks, alerts });
   } catch (error) {
     console.error("Public Header API Error:", error);
     return NextResponse.json({ error: "Failed to load header configuration" }, { status: 500 });

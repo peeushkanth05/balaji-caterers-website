@@ -23,6 +23,7 @@ interface Submenu {
   label: string;
   link: string;
   displayOrder: number;
+  isActive: boolean;
 }
 
 interface Menu {
@@ -30,6 +31,8 @@ interface Menu {
   label: string;
   link: string;
   displayOrder: number;
+  isServicesDropdown: boolean;
+  isActive: boolean;
   submenus: Submenu[];
 }
 
@@ -74,8 +77,8 @@ export default function AdminHeaderManagerPage() {
   const [actionModalOpen, setActionModalOpen] = useState(false);
 
   // Form Fields
-  const [menuForm, setMenuForm] = useState({ id: "", label: "", link: "", displayOrder: 0 });
-  const [submenuForm, setSubmenuForm] = useState({ id: "", menuId: "", label: "", link: "", displayOrder: 0 });
+  const [menuForm, setMenuForm] = useState({ id: "", label: "", link: "", displayOrder: 0, isServicesDropdown: false, isActive: true });
+  const [submenuForm, setSubmenuForm] = useState({ id: "", menuId: "", label: "", link: "", displayOrder: 0, isActive: true });
   const [actionForm, setActionForm] = useState({ id: "", label: "", link: "", style: "primary", displayOrder: 0, active: true });
 
   const fetchData = async () => {
@@ -270,22 +273,36 @@ export default function AdminHeaderManagerPage() {
   };
 
   const openNewMenuModal = () => {
-    setMenuForm({ id: "", label: "", link: "", displayOrder: menus.length });
+    setMenuForm({ id: "", label: "", link: "", displayOrder: menus.length, isServicesDropdown: false, isActive: true });
     setMenuModalOpen(true);
   };
 
   const openEditMenuModal = (menu: Menu) => {
-    setMenuForm({ id: menu.id, label: menu.label, link: menu.link, displayOrder: menu.displayOrder });
+    setMenuForm({
+      id: menu.id,
+      label: menu.label,
+      link: menu.link,
+      displayOrder: menu.displayOrder,
+      isServicesDropdown: menu.isServicesDropdown ?? false,
+      isActive: menu.isActive ?? true,
+    });
     setMenuModalOpen(true);
   };
 
   const openNewSubmenuModal = (menuId: string, subLength: number) => {
-    setSubmenuForm({ id: "", menuId, label: "", link: "", displayOrder: subLength });
+    setSubmenuForm({ id: "", menuId, label: "", link: "", displayOrder: subLength, isActive: true });
     setSubmenuModalOpen(true);
   };
 
   const openEditSubmenuModal = (sub: Submenu) => {
-    setSubmenuForm({ id: sub.id, menuId: sub.menuId, label: sub.label, link: sub.link, displayOrder: sub.displayOrder });
+    setSubmenuForm({
+      id: sub.id,
+      menuId: sub.menuId,
+      label: sub.label,
+      link: sub.link,
+      displayOrder: sub.displayOrder,
+      isActive: sub.isActive ?? true,
+    });
     setSubmenuModalOpen(true);
   };
 
@@ -530,9 +547,15 @@ export default function AdminHeaderManagerPage() {
                         </button>
                       </div>
 
-                      <div className="text-xs">
+                      <div className="text-xs flex flex-wrap items-center gap-1.5">
                         <span className="font-bold text-slate-900">{menu.label}</span>
-                        <span className="text-[10px] text-slate-500 font-mono ml-2">({menu.link})</span>
+                        <span className="text-[10px] text-slate-500 font-mono">({menu.link})</span>
+                        {menu.isServicesDropdown && (
+                          <span className="bg-blue-50 border border-blue-100 text-blue-700 text-[9px] font-extrabold px-1.5 py-0.25 rounded-md uppercase">Services dropdown</span>
+                        )}
+                        {!menu.isActive && (
+                          <span className="bg-red-50 border border-red-100 text-red-700 text-[9px] font-extrabold px-1.5 py-0.25 rounded-md uppercase">Inactive</span>
+                        )}
                       </div>
                     </div>
 
@@ -583,10 +606,13 @@ export default function AdminHeaderManagerPage() {
                       ) : (
                         menu.submenus.map((sub) => (
                           <div key={sub.id} className="flex items-center justify-between pt-3 text-[11px]">
-                            <div className="font-medium text-slate-700">
-                              {sub.label}{" "}
-                              <span className="text-[9px] font-mono text-slate-400">({sub.link})</span>
-                            </div>
+                             <div className="font-medium text-slate-700 flex items-center gap-1.5">
+                               {sub.label}{" "}
+                               <span className="text-[9px] font-mono text-slate-400">({sub.link})</span>
+                               {!sub.isActive && (
+                                 <span className="bg-red-50 border border-red-100 text-red-700 text-[8px] font-bold px-1 py-0.25 rounded">Inactive</span>
+                               )}
+                             </div>
 
                             <div className="flex items-center gap-1">
                               <button
@@ -649,6 +675,29 @@ export default function AdminHeaderManagerPage() {
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2 px-3 text-xs focus:ring-1 focus:ring-amber-500"
                 />
               </div>
+
+              <label className="flex items-start gap-2 mt-2 p-1 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={menuForm.isServicesDropdown}
+                  onChange={(e) => setMenuForm((prev) => ({ ...prev, isServicesDropdown: e.target.checked }))}
+                  className="w-4 h-4 text-amber-500 border-slate-300 rounded focus:ring-amber-500 mt-0.5"
+                />
+                <div className="text-left">
+                  <span className="block text-xs font-bold text-slate-700">Services Dynamic Dropdown</span>
+                  <span className="block text-[9px] text-slate-400">Automatically populate submenus from active services list.</span>
+                </div>
+              </label>
+
+              <label className="flex items-center gap-2 mt-2 p-1 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={menuForm.isActive}
+                  onChange={(e) => setMenuForm((prev) => ({ ...prev, isActive: e.target.checked }))}
+                  className="w-4 h-4 text-amber-500 border-slate-300 rounded focus:ring-amber-500"
+                />
+                <span className="text-xs font-bold text-slate-700">Menu Link is Active</span>
+              </label>
             </div>
 
             <div className="flex gap-2 justify-end pt-2">
@@ -706,6 +755,16 @@ export default function AdminHeaderManagerPage() {
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2 px-3 text-xs focus:ring-1 focus:ring-amber-500"
                 />
               </div>
+
+              <label className="flex items-center gap-2 mt-2 p-1 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={submenuForm.isActive}
+                  onChange={(e) => setSubmenuForm((prev) => ({ ...prev, isActive: e.target.checked }))}
+                  className="w-4 h-4 text-amber-500 border-slate-300 rounded focus:ring-amber-500"
+                />
+                <span className="text-xs font-bold text-slate-700">Submenu Link is Active</span>
+              </label>
             </div>
 
             <div className="flex gap-2 justify-end pt-2">

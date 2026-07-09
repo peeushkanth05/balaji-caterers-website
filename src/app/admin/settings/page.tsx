@@ -62,6 +62,10 @@ export default function SiteSettingsAdminPage() {
   const [aboutTitle, setAboutTitle] = useState("");
   const [aboutSubtitle, setAboutSubtitle] = useState("");
 
+  // Theme Settings State
+  const [enableThemeToggle, setEnableThemeToggle] = useState(true);
+  const [defaultTheme, setDefaultTheme] = useState("light");
+
   const fetchSettings = async () => {
     try {
       const res = await fetch("/api/admin/settings");
@@ -92,6 +96,8 @@ export default function SiteSettingsAdminPage() {
         setAboutTag(data.settings.aboutTag || "");
         setAboutTitle(data.settings.aboutTitle || "");
         setAboutSubtitle(data.settings.aboutSubtitle || "");
+        setEnableThemeToggle(data.settings.enableThemeToggle ?? true);
+        setDefaultTheme(data.settings.defaultTheme || "light");
       }
     } catch (e) {
       console.error("Failed to fetch settings", e);
@@ -145,6 +151,8 @@ export default function SiteSettingsAdminPage() {
       aboutTag,
       aboutTitle,
       aboutSubtitle,
+      enableThemeToggle,
+      defaultTheme,
     };
 
     try {
@@ -314,6 +322,37 @@ export default function SiteSettingsAdminPage() {
                       </button>
                       <p className="text-[10px] text-slate-400">Suggest 32x32 standard ICO format</p>
                     </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-t border-slate-100 pt-6 space-y-4">
+                <h3 className="text-xs font-bold text-slate-800 uppercase tracking-wider">Visual Theme Configurations</h3>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <label className="flex items-start gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-200 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={enableThemeToggle}
+                      onChange={(e) => setEnableThemeToggle(e.target.checked)}
+                      className="w-4 h-4 text-amber-500 border-slate-300 rounded focus:ring-amber-500 mt-0.5"
+                    />
+                    <div className="text-left">
+                      <span className="block text-xs font-bold text-slate-700">Enable Dark/Light Toggle</span>
+                      <span className="block text-[10px] text-slate-400">Display the theme selector button on the website header.</span>
+                    </div>
+                  </label>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">Default Theme Choice</label>
+                    <select
+                      value={defaultTheme}
+                      onChange={(e) => setDefaultTheme(e.target.value)}
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 px-3 text-xs focus:ring-2 focus:ring-amber-500"
+                    >
+                      <option value="light">Light Mode Theme</option>
+                      <option value="dark">Dark Mode Theme</option>
+                    </select>
                   </div>
                 </div>
               </div>

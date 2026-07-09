@@ -6,6 +6,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { Header } from "@/components/Header";
 
+import { Footer } from "@/components/Footer";
+
 interface PageProps {
   params: { slug: string };
 }
@@ -131,17 +133,7 @@ export default async function PortfolioDetailPage({ params }: PageProps) {
       </main>
 
       {/* Footer */}
-      <footer className="bg-slate-900 text-slate-400 py-12 px-6 border-t border-slate-800 text-sm">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
-          <div>
-            <div className="font-serif font-bold text-white text-lg">Shree Balaji Caterers</div>
-            <p className="text-xs text-slate-500 mt-1">{settings?.address}</p>
-          </div>
-          <div className="text-xs text-slate-500">
-            &copy; 2026 Shree Balaji Caterers. All rights reserved.
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

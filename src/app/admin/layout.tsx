@@ -29,6 +29,7 @@ import {
   Building2,
   BookOpen,
   HelpCircle,
+  FileText,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -86,6 +87,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { name: "Gallery Photos", href: "/admin/gallery", icon: ImageIcon, module: "gallery" },
     { name: "Ad Banners", href: "/admin/advertisements", icon: Megaphone, module: "settings" },
     { name: "Enquiry Form CMS", href: "/admin/contact", icon: Mail, module: "contact" },
+    { name: "Footer CMS", href: "/admin/footer", icon: FileText, module: "settings" },
     { name: "Database Backup", href: "/admin/backup", icon: Database, module: "settings" },
     { name: "DPDP Consent Logs", href: "/admin/consent", icon: ShieldCheck, module: "settings" },
     { name: "Business Settings", href: "/admin/settings", icon: Settings, module: "settings" },

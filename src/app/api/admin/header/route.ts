@@ -82,7 +82,7 @@ export async function POST(req: Request) {
 
     // 2. CREATE OR UPDATE PRIMARY MENU
     else if (type === "menu") {
-      const { id, label, link, displayOrder } = payload;
+      const { id, label, link, displayOrder, isServicesDropdown, isActive } = payload;
       if (!label || !link) {
         return NextResponse.json({ error: "Label and link are required" }, { status: 400 });
       }
@@ -90,18 +90,30 @@ export async function POST(req: Request) {
       if (id) {
         result = await prisma.headerMenu.update({
           where: { id },
-          data: { label, link, displayOrder: displayOrder || 0 },
+          data: {
+            label,
+            link,
+            displayOrder: displayOrder || 0,
+            isServicesDropdown: isServicesDropdown ?? false,
+            isActive: isActive ?? true,
+          },
         });
       } else {
         result = await prisma.headerMenu.create({
-          data: { label, link, displayOrder: displayOrder || 0 },
+          data: {
+            label,
+            link,
+            displayOrder: displayOrder || 0,
+            isServicesDropdown: isServicesDropdown ?? false,
+            isActive: isActive ?? true,
+          },
         });
       }
     }
 
     // 3. CREATE OR UPDATE SUBMENU
     else if (type === "submenu") {
-      const { id, menuId, label, link, displayOrder } = payload;
+      const { id, menuId, label, link, displayOrder, isActive } = payload;
       if (!menuId || !label || !link) {
         return NextResponse.json({ error: "menuId, label and link are required" }, { status: 400 });
       }
@@ -109,11 +121,22 @@ export async function POST(req: Request) {
       if (id) {
         result = await prisma.headerSubmenu.update({
           where: { id },
-          data: { label, link, displayOrder: displayOrder || 0 },
+          data: {
+            label,
+            link,
+            displayOrder: displayOrder || 0,
+            isActive: isActive ?? true,
+          },
         });
       } else {
         result = await prisma.headerSubmenu.create({
-          data: { menuId, label, link, displayOrder: displayOrder || 0 },
+          data: {
+            menuId,
+            label,
+            link,
+            displayOrder: displayOrder || 0,
+            isActive: isActive ?? true,
+          },
         });
       }
     }

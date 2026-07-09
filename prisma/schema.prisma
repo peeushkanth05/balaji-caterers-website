@@ -55,12 +55,14 @@ model Package {
   description     String
   features        String // Comma-separated list or details
   isFeatured      Boolean  @default(false)
+  isActive        Boolean  @default(true)
   seoTitle        String?
   seoDescription  String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
   @@index([isFeatured])
+  @@index([isActive])
 }
 
 model Service {
@@ -123,6 +125,10 @@ model SiteSetting {
   aboutTag      String @default("Why Us")
   aboutTitle    String @default("Why Choose Shree Balaji Caterers")
   aboutSubtitle String @default("With 15+ years of experience and 500+ successful events in Delhi NCR, we bring passion, precision, and a personal touch to every celebration.")
+
+  // Theme Settings
+  enableThemeToggle Boolean @default(true)
+  defaultTheme      String  @default("light") // "light" | "dark"
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -366,13 +372,15 @@ model MediaAsset {
 }
 
 model HeaderMenu {
-  id           String          @id @default(cuid())
-  label        String
-  link         String
-  displayOrder Int             @default(0)
-  submenus     HeaderSubmenu[]
-  createdAt    DateTime        @default(now())
-  updatedAt    DateTime        @updatedAt
+  id                 String          @id @default(cuid())
+  label              String
+  link               String
+  displayOrder       Int             @default(0)
+  isServicesDropdown Boolean         @default(false)
+  isActive           Boolean         @default(true)
+  submenus           HeaderSubmenu[]
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
 
   @@index([displayOrder])
 }
@@ -384,6 +392,7 @@ model HeaderSubmenu {
   label        String
   link         String
   displayOrder Int        @default(0)
+  isActive     Boolean    @default(true)
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
 
@@ -625,5 +634,25 @@ model ConsentLog {
   marketingConsent Boolean  @default(false)
   whatsappConsent  Boolean  @default(false)
   createdAt        DateTime @default(now())
+}
+
+model FooterSettings {
+  id                 String   @id @default("default")
+  aboutText          String   @default("Shree Balaji Caterers — Delhi NCR's premium wedding catering, fresh menus, floral decorators, and event management since 2011.")
+  locationText       String   @default("Dwarka Sector 5, Madhu Vihar, New Delhi")
+  mapsUrl            String   @default("https://www.google.com/maps/search/?api=1&query=28.5921,77.0460")
+  phone              String   @default("+91 98104 83544")
+  email              String   @default("vermasandeep124@gmail.com")
+  copyrightText      String   @default("© 2026 Shree Balaji Caterers. All Rights Reserved.")
+
+  // Legal Policies Markdown
+  privacyPolicy      String   @default("# Privacy Policy\n\nYour privacy is important to us.")
+  termsOfService     String   @default("# Terms of Service\n\nWelcome to Shree Balaji Caterers.")
+  refundPolicy       String   @default("# Refund Policy\n\nRefund details for catering bookings.")
+  cancellationPolicy String   @default("# Cancellation Policy\n\nCancellation fees and schedules apply.")
+  cookiePolicy       String   @default("# Cookie Policy\n\nWe use cookies to improve your browsing experience.")
+  disclaimer         String   @default("# Disclaimer\n\nAll content provided is for informational purposes.")
+
+  updatedAt          DateTime @updatedAt
 }
 

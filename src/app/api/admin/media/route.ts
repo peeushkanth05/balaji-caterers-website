@@ -178,7 +178,7 @@ export async function POST(req: Request) {
 
     revalidatePath("/");
 
-    return NextResponse.json({ success: true, assets: savedAssets }, { status: 201 });
+    return NextResponse.json({ success: true, url: savedAssets[0]?.url, assets: savedAssets }, { status: 201 });
   } catch (error: any) {
     console.error("Media Upload API Error:", error);
     return NextResponse.json({ error: `Failed to upload media files: ${error.message || error}` }, { status: 500 });

@@ -115,33 +115,59 @@ export function HeroSection({ hero, phone = "+91 98104 83544", whatsapp = "91981
 
             {/* Action CTAs */}
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
-              <Link
-                href={primaryBtnLink}
-                className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-base shadow-xl shadow-amber-500/25 transition-all hover:scale-[1.02] active:scale-95 text-center flex items-center justify-center gap-2"
+              <motion.div
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                className="w-full sm:w-auto"
               >
-                <span>{primaryBtnText}</span>
-              </Link>
+                <Link
+                  href={primaryBtnLink}
+                  className="relative group overflow-hidden w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-base shadow-xl shadow-amber-500/25 transition-all text-center flex items-center justify-center gap-2"
+                >
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none"
+                    initial={{ x: "-100%" }}
+                    animate={{ x: "100%" }}
+                    transition={{
+                      repeat: Infinity,
+                      repeatType: "loop",
+                      duration: 2,
+                      ease: "linear",
+                    }}
+                  />
+                  <span>{primaryBtnText}</span>
+                  <ArrowRight className="w-4.5 h-4.5 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </motion.div>
 
-              <Link
-                href={secondaryBtnLink}
-                className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-800 font-bold text-base shadow-sm transition-all hover:border-amber-300 text-center flex items-center justify-center gap-2"
+              <motion.div
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                className="w-full sm:w-auto"
               >
-                <span>{secondaryBtnText}</span>
-              </Link>
+                <Link
+                  href={secondaryBtnLink}
+                  className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-800 font-bold text-base shadow-sm transition-all hover:border-amber-300 text-center flex items-center justify-center gap-2"
+                >
+                  <span>{secondaryBtnText}</span>
+                </Link>
+              </motion.div>
             </div>
 
             {/* Floating Service Cards Grid */}
             {floatingCards.length > 0 && (
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-slate-200/80">
                 {floatingCards.map((card) => (
-                  <div
+                  <motion.div
                     key={card.id}
-                    className="p-3 rounded-2xl bg-white/80 border border-slate-200/80 shadow-sm backdrop-blur-sm text-left hover:border-amber-300 transition-colors"
+                    whileHover={{ y: -5, boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.08)", borderColor: "#f59e0b" }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    className="p-3 rounded-2xl bg-white border border-slate-200/80 shadow-sm text-left cursor-pointer transition-colors"
                   >
                     <div className="text-xl mb-1">{card.icon}</div>
                     <h4 className="font-bold text-xs text-slate-900 truncate">{card.title}</h4>
                     <p className="text-[11px] text-slate-500 truncate">{card.description}</p>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             )}

@@ -16,6 +16,8 @@ import {
   Linkedin,
   MessageCircle,
   Share2,
+  Sun,
+  Moon,
 } from "lucide-react";
 import { AlertTickerMarquee } from "./AlertTickerMarquee";
 
@@ -57,6 +59,8 @@ interface SiteSettings {
   instagramUrl?: string;
   youtubeUrl?: string;
   twitterUrl?: string;
+  enableThemeToggle?: boolean;
+  defaultTheme?: string;
 }
 
 export function Header() {
@@ -66,6 +70,7 @@ export function Header() {
   const [actions, setActions] = useState<HeaderAction[]>([]);
   const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null);
   const [socialLinks, setSocialLinks] = useState<any[]>([]);
+  const [theme, setTheme] = useState<"light" | "dark">("light");
 
   // Mobile menu states
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -84,6 +89,19 @@ export function Header() {
         if (data.actions) setActions(data.actions);
         if (data.siteSettings) setSiteSettings(data.siteSettings);
         if (data.socialLinks) setSocialLinks(data.socialLinks);
+
+        // Theme management
+        let initialTheme = localStorage.getItem("balaji_theme") as "light" | "dark" | null;
+        if (!initialTheme && data.siteSettings) {
+          initialTheme = (data.siteSettings.defaultTheme || "light") as "light" | "dark";
+        }
+        const activeTheme = initialTheme || "light";
+        setTheme(activeTheme);
+        if (activeTheme === "dark") {
+          document.documentElement.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+        }
       } catch (e) {
         console.error("Failed to load header navigation", e);
       } finally {
@@ -104,6 +122,17 @@ export function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const toggleTheme = () => {
+    const nextTheme = theme === "light" ? "dark" : "light";
+    setTheme(nextTheme);
+    localStorage.setItem("balaji_theme", nextTheme);
+    if (nextTheme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  };
 
   if (loading) {
     return (
@@ -302,6 +331,20 @@ export function Header() {
                 </a>
               );
             })}
+            
+            {siteSettings?.enableThemeToggle && (
+              <button
+                onClick={toggleTheme}
+                className="p-2 ml-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 hover:bg-slate-100 transition-all active:scale-95 flex items-center justify-center"
+                title={`Switch to ${theme === "light" ? "Dark" : "Light"} Mode`}
+              >
+                {theme === "light" ? (
+                  <Moon className="w-4 h-4 text-slate-600" />
+                ) : (
+                  <Sun className="w-4 h-4 text-amber-500" />
+                )}
+              </button>
+            )}
           </div>
 
           {/* Mobile Hamburguer menu toggle */}
@@ -381,6 +424,26 @@ export function Header() {
                 {act.label}
               </a>
             ))}
+
+            {siteSettings?.enableThemeToggle && (
+              <button
+                onClick={() => {
+                  toggleTheme();
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full py-3 rounded-xl text-center text-xs font-bold bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-center gap-2 hover:bg-slate-100 transition-colors"
+              >
+                {theme === "light" ? (
+                  <>
+                    <Moon className="w-4 h-4 text-slate-600" /> Switch to Dark Mode
+                  </>
+                ) : (
+                  <>
+                    <Sun className="w-4 h-4 text-amber-500" /> Switch to Light Mode
+                  </>
+                )}
+              </button>
+            )}
           </div>
         </div>
       )}

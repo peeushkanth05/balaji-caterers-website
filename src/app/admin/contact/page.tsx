@@ -30,6 +30,30 @@ export default function ContactSettingsPage() {
   const [newEventType, setNewEventType] = useState("");
   const [newService, setNewService] = useState("");
 
+  // Search states
+  const [eventSearch, setEventSearch] = useState("");
+  const [serviceSearch, setServiceSearch] = useState("");
+
+  const moveEventType = (index: number, direction: "up" | "down") => {
+    const nextIndex = direction === "up" ? index - 1 : index + 1;
+    if (nextIndex < 0 || nextIndex >= eventTypes.length) return;
+    const list = [...eventTypes];
+    const temp = list[index];
+    list[index] = list[nextIndex];
+    list[nextIndex] = temp;
+    setEventTypes(list);
+  };
+
+  const moveService = (index: number, direction: "up" | "down") => {
+    const nextIndex = direction === "up" ? index - 1 : index + 1;
+    if (nextIndex < 0 || nextIndex >= services.length) return;
+    const list = [...services];
+    const temp = list[index];
+    list[index] = list[nextIndex];
+    list[nextIndex] = temp;
+    setServices(list);
+  };
+
   const fetchSettings = async () => {
     try {
       const res = await fetch("/api/admin/contact");
@@ -358,14 +382,15 @@ export default function ContactSettingsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Event Types Dropdown CMS */}
           <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
-            <h3 className="font-serif font-bold text-lg text-slate-955 border-b pb-2 border-slate-100">
-              Event Types Dropdown Values
-            </h3>
-            
+            <div>
+              <h3 className="font-serif font-bold text-lg text-slate-900">Event Types Dropdown Values</h3>
+              <p className="text-[10px] text-slate-400 mt-0.5">Manage event type dropdown list. Search and reorder using controls.</p>
+            </div>
+
             <div className="flex gap-2">
               <input
                 type="text"
-                placeholder="Add type (e.g. Baby Shower)"
+                placeholder="Add new event type..."
                 value={newEventType}
                 onChange={(e) => setNewEventType(e.target.value)}
                 className="flex-1 bg-slate-50 border border-slate-200 rounded-xl py-2 px-3 text-xs focus:ring-2 focus:ring-amber-500 focus:outline-none"
@@ -379,35 +404,70 @@ export default function ContactSettingsPage() {
               </button>
             </div>
 
-            <div className="flex flex-wrap gap-2 max-h-[220px] overflow-y-auto p-1 bg-slate-50 rounded-2xl border border-slate-200">
-              {eventTypes.map((item) => (
-                <span
-                  key={item}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 shadow-sm"
-                >
-                  {item}
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveEventType(item)}
-                    className="text-red-500 hover:text-red-700 font-bold"
-                  >
-                    ×
-                  </button>
-                </span>
-              ))}
+            <input
+              type="text"
+              placeholder="🔍 Search event types..."
+              value={eventSearch}
+              onChange={(e) => setEventSearch(e.target.value)}
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2 px-3 text-xs focus:ring-1 focus:ring-amber-500 focus:outline-none"
+            />
+
+            <div className="max-h-[300px] overflow-y-auto divide-y divide-slate-100 bg-slate-50 rounded-2xl border border-slate-200 p-2 space-y-1">
+              {eventTypes.filter(e => e.toLowerCase().includes(eventSearch.toLowerCase())).length === 0 ? (
+                <div className="text-center py-6 text-slate-400 text-xs">No event types found.</div>
+              ) : (
+                eventTypes.map((item, idx) => {
+                  const matchesSearch = item.toLowerCase().includes(eventSearch.toLowerCase());
+                  if (!matchesSearch) return null;
+                  return (
+                    <div key={item} className="flex items-center justify-between p-2 bg-white rounded-xl border border-slate-150 shadow-xs">
+                      <span className="text-xs font-bold text-slate-700">{item}</span>
+                      <div className="flex items-center gap-1.5">
+                        <button
+                          type="button"
+                          onClick={() => moveEventType(idx, "up")}
+                          disabled={idx === 0}
+                          className="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-700 disabled:opacity-30"
+                          title="Move Up"
+                        >
+                          <ArrowUp className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => moveEventType(idx, "down")}
+                          disabled={idx === eventTypes.length - 1}
+                          className="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-700 disabled:opacity-30"
+                          title="Move Down"
+                        >
+                          <ArrowDown className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveEventType(item)}
+                          className="p-1 hover:bg-red-50 text-red-500 hover:text-red-700 rounded"
+                          title="Delete"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })
+              )}
             </div>
           </div>
 
           {/* Services Dropdown CMS */}
           <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
-            <h3 className="font-serif font-bold text-lg text-slate-955 border-b pb-2 border-slate-100">
-              Services Dropdown Values
-            </h3>
+            <div>
+              <h3 className="font-serif font-bold text-lg text-slate-900">Services Dropdown Values</h3>
+              <p className="text-[10px] text-slate-400 mt-0.5">Manage services dropdown options. Search and reorder using controls.</p>
+            </div>
 
             <div className="flex gap-2">
               <input
                 type="text"
-                placeholder="Add service (e.g. Tent Rental)"
+                placeholder="Add new service..."
                 value={newService}
                 onChange={(e) => setNewService(e.target.value)}
                 className="flex-1 bg-slate-50 border border-slate-200 rounded-xl py-2 px-3 text-xs focus:ring-2 focus:ring-amber-500 focus:outline-none"
@@ -421,22 +481,56 @@ export default function ContactSettingsPage() {
               </button>
             </div>
 
-            <div className="flex flex-wrap gap-2 max-h-[220px] overflow-y-auto p-1 bg-slate-50 rounded-2xl border border-slate-200">
-              {services.map((item) => (
-                <span
-                  key={item}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 shadow-sm"
-                >
-                  {item}
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveService(item)}
-                    className="text-red-500 hover:text-red-700 font-bold"
-                  >
-                    ×
-                  </button>
-                </span>
-              ))}
+            <input
+              type="text"
+              placeholder="🔍 Search services..."
+              value={serviceSearch}
+              onChange={(e) => setServiceSearch(e.target.value)}
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2 px-3 text-xs focus:ring-1 focus:ring-amber-500 focus:outline-none"
+            />
+
+            <div className="max-h-[300px] overflow-y-auto divide-y divide-slate-100 bg-slate-50 rounded-2xl border border-slate-200 p-2 space-y-1">
+              {services.filter(s => s.toLowerCase().includes(serviceSearch.toLowerCase())).length === 0 ? (
+                <div className="text-center py-6 text-slate-400 text-xs">No services found.</div>
+              ) : (
+                services.map((item, idx) => {
+                  const matchesSearch = item.toLowerCase().includes(serviceSearch.toLowerCase());
+                  if (!matchesSearch) return null;
+                  return (
+                    <div key={item} className="flex items-center justify-between p-2 bg-white rounded-xl border border-slate-150 shadow-xs">
+                      <span className="text-xs font-bold text-slate-700">{item}</span>
+                      <div className="flex items-center gap-1.5">
+                        <button
+                          type="button"
+                          onClick={() => moveService(idx, "up")}
+                          disabled={idx === 0}
+                          className="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-700 disabled:opacity-30"
+                          title="Move Up"
+                        >
+                          <ArrowUp className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => moveService(idx, "down")}
+                          disabled={idx === services.length - 1}
+                          className="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-700 disabled:opacity-30"
+                          title="Move Down"
+                        >
+                          <ArrowDown className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveService(item)}
+                          className="p-1 hover:bg-red-50 text-red-500 hover:text-red-700 rounded"
+                          title="Delete"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })
+              )}
             </div>
           </div>
         </div>
