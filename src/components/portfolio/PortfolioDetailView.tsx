@@ -52,7 +52,7 @@ export function PortfolioDetailView({
   return (
     <div className="space-y-12">
       {/* Breadcrumb Navigation */}
-      <nav className="flex items-center gap-2 text-xs font-semibold text-slate-500">
+      <nav className="flex items-center gap-2 text-xs font-semibold text-slate-500 dark:text-slate-450">
         <Link href="/" className="hover:text-amber-600">Home</Link>
         <span>/</span>
         <a href="/#portfolio" className="hover:text-amber-600">Portfolio</a>
@@ -112,22 +112,22 @@ export function PortfolioDetailView({
         {/* Left Column: Details & Gallery */}
         <div className="lg:col-span-8 space-y-10">
           {/* Detailed Overview */}
-          <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
-            <h2 className="text-2xl font-serif font-bold text-slate-900">
+          <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+            <h2 className="text-2xl font-serif font-bold text-slate-900 dark:text-white">
               Project Overview & Highlights
             </h2>
-            <div className="prose prose-slate max-w-none text-slate-600 text-sm leading-relaxed whitespace-pre-line">
+            <div className="prose prose-slate max-w-none text-slate-600 dark:text-slate-400 text-sm leading-relaxed whitespace-pre-line">
               {portfolio.longDescription}
             </div>
 
             {/* Tags Badges */}
             {portfolio.tags && portfolio.tags.length > 0 && (
-              <div className="pt-4 border-t border-slate-100 flex flex-wrap items-center gap-2">
-                <span className="text-xs font-bold text-slate-400 uppercase mr-1">Tags:</span>
+              <div className="pt-4 border-t border-slate-100 dark:border-slate-800/80 flex flex-wrap items-center gap-2">
+                <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase mr-1">Tags:</span>
                 {portfolio.tags.map((tag, idx) => (
                   <span
                     key={idx}
-                    className="inline-flex items-center gap-1 text-xs font-semibold text-amber-800 bg-amber-50 border border-amber-200 px-3 py-1 rounded-full"
+                    className="inline-flex items-center gap-1 text-xs font-semibold text-amber-800 dark:text-amber-400 bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/30 px-3 py-1 rounded-full"
                   >
                     <Tag className="w-3 h-3 text-amber-600" /> {tag}
                   </span>
@@ -140,10 +140,10 @@ export function PortfolioDetailView({
           {portfolio.galleryImages && portfolio.galleryImages.length > 0 && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-2xl font-serif font-bold text-slate-900">
+                <h3 className="text-2xl font-serif font-bold text-slate-900 dark:text-white">
                   Event Photo Gallery
                 </h3>
-                <span className="text-xs font-semibold text-slate-500">
+                <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
                   {portfolio.galleryImages.length} Photos available
                 </span>
               </div>
@@ -206,16 +206,16 @@ export function PortfolioDetailView({
 
       {/* Prev & Next Project Navigation */}
       {navigation && (navigation.prev || navigation.next) && (
-        <div className="pt-8 border-t border-slate-200 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="pt-8 border-t border-slate-200 dark:border-slate-800 grid grid-cols-1 sm:grid-cols-2 gap-4">
           {navigation.prev ? (
             <Link
               href={`/portfolio/${navigation.prev.slug}`}
-              className="p-5 rounded-2xl bg-white border border-slate-200 hover:border-amber-500/50 shadow-sm flex items-center gap-4 transition-all group"
+              className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-amber-500/50 shadow-sm flex items-center gap-4 transition-all group"
             >
               <ChevronLeft className="w-6 h-6 text-slate-400 group-hover:text-amber-600 group-hover:-translate-x-1 transition-transform" />
               <div>
                 <span className="text-[10px] font-bold text-slate-400 uppercase">Previous Project</span>
-                <p className="font-bold text-slate-900 text-sm group-hover:text-amber-600 line-clamp-1">
+                <p className="font-bold text-slate-900 dark:text-white text-sm group-hover:text-amber-600 line-clamp-1">
                   {navigation.prev.title}
                 </p>
               </div>
@@ -225,11 +225,11 @@ export function PortfolioDetailView({
           {navigation.next ? (
             <Link
               href={`/portfolio/${navigation.next.slug}`}
-              className="p-5 rounded-2xl bg-white border border-slate-200 hover:border-amber-500/50 shadow-sm flex items-center justify-between text-right transition-all group"
+              className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-amber-500/50 shadow-sm flex items-center justify-between text-right transition-all group"
             >
               <div>
                 <span className="text-[10px] font-bold text-slate-400 uppercase">Next Project</span>
-                <p className="font-bold text-slate-900 text-sm group-hover:text-amber-600 line-clamp-1">
+                <p className="font-bold text-slate-900 dark:text-white text-sm group-hover:text-amber-600 line-clamp-1">
                   {navigation.next.title}
                 </p>
               </div>
@@ -243,7 +243,7 @@ export function PortfolioDetailView({
       {relatedPortfolios.length > 0 && (
         <section className="space-y-6 pt-6">
           <div className="flex items-center justify-between">
-            <h3 className="text-2xl font-serif font-bold text-slate-900">
+            <h3 className="text-2xl font-serif font-bold text-slate-900 dark:text-white">
               Related Projects You May Like
             </h3>
           </div>

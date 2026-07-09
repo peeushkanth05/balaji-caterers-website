@@ -29,7 +29,7 @@ export function PackagesPageClient({ packages }: { packages: Package[] }) {
   return (
     <div className="space-y-12">
       {/* Category Tabs */}
-      <div className="flex flex-wrap justify-center items-center gap-2 border-b border-slate-200 pb-6">
+      <div className="flex flex-wrap justify-center items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-6">
         {categories.map((cat) => (
           <button
             key={cat}
@@ -37,7 +37,7 @@ export function PackagesPageClient({ packages }: { packages: Package[] }) {
             className={`px-5 py-2.5 rounded-full text-xs font-bold transition-all ${
               activeTab === cat
                 ? "bg-amber-500 text-white shadow-md shadow-amber-500/20"
-                : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50"
+                : "bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-850 hover:bg-slate-50 dark:hover:bg-slate-800"
             }`}
           >
             {cat}
@@ -46,8 +46,8 @@ export function PackagesPageClient({ packages }: { packages: Package[] }) {
       </div>
 
       {filteredPackages.length === 0 ? (
-        <div className="bg-white rounded-3xl p-16 text-center text-slate-400 border border-slate-200 max-w-md mx-auto">
-          <UtensilsCrossed className="w-12 h-12 mx-auto mb-4 text-slate-300" />
+        <div className="bg-white dark:bg-slate-900 rounded-3xl p-16 text-center text-slate-400 dark:text-slate-550 border border-slate-200 dark:border-slate-800 max-w-md mx-auto">
+          <UtensilsCrossed className="w-12 h-12 mx-auto mb-4 text-slate-300 dark:text-slate-700" />
           <p className="text-sm font-medium">No packages found in this category.</p>
         </div>
       ) : (
@@ -57,7 +57,7 @@ export function PackagesPageClient({ packages }: { packages: Package[] }) {
             return (
               <div
                 key={pkg.id}
-                className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between relative overflow-hidden group"
+                className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800/80 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between relative overflow-hidden group"
               >
                 {/* Featured Badge */}
                 {pkg.isFeatured && (
@@ -67,11 +67,11 @@ export function PackagesPageClient({ packages }: { packages: Package[] }) {
                 )}
 
                 <div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700/60">
                     {pkg.category}
                   </span>
                   
-                  <h3 className="font-serif font-bold text-2xl text-slate-900 mt-4 mb-2 group-hover:text-amber-600 transition-colors">
+                  <h3 className="font-serif font-bold text-2xl text-slate-900 dark:text-white mt-4 mb-2 group-hover:text-amber-600 transition-colors">
                     {pkg.name}
                   </h3>
 
@@ -81,33 +81,33 @@ export function PackagesPageClient({ packages }: { packages: Package[] }) {
                       <div className="space-y-1">
                         <div className="flex items-baseline gap-2">
                           <span className="text-3xl font-extrabold text-amber-600">₹{pkg.discountedPrice}</span>
-                          <span className="text-sm text-slate-400 line-through">₹{pkg.pricePerPerson}</span>
-                          <span className="text-xs text-slate-500">/ plate</span>
+                          <span className="text-sm text-slate-400 dark:text-slate-500 line-through">₹{pkg.pricePerPerson}</span>
+                          <span className="text-xs text-slate-500 dark:text-slate-400">/ plate</span>
                         </div>
-                        <span className="inline-block text-[10px] font-bold px-2 py-0.5 rounded bg-red-50 text-red-600 border border-red-200">
+                        <span className="inline-block text-[10px] font-bold px-2 py-0.5 rounded bg-red-50 dark:bg-red-950/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-900/40">
                           {pkg.discountType === "percentage" ? `${pkg.discountValue}% OFF` : `₹${pkg.discountValue} OFF`}
                         </span>
                       </div>
                     ) : (
                       <div className="text-3xl font-extrabold text-amber-600">
-                        ₹{pkg.pricePerPerson} <span className="text-xs font-normal text-slate-500">/ plate</span>
+                        ₹{pkg.pricePerPerson} <span className="text-xs font-normal text-slate-500 dark:text-slate-400">/ plate</span>
                       </div>
                     )}
                   </div>
 
-                  <p className="text-xs text-slate-600 leading-relaxed mb-6">
+                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
                     {pkg.description}
                   </p>
 
                   {/* Features List */}
                   {pkg.features && (
-                    <div className="space-y-2 border-t border-slate-100 pt-6">
-                      <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+                    <div className="space-y-2 border-t border-slate-100 dark:border-slate-800/80 pt-6">
+                      <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider">
                         Menu Highlights:
                       </h4>
                       <ul className="grid grid-cols-1 gap-2">
                         {pkg.features.split(",").map((feature, idx) => (
-                          <li key={idx} className="flex items-start gap-2 text-xs text-slate-600">
+                          <li key={idx} className="flex items-start gap-2 text-xs text-slate-600 dark:text-slate-400">
                             <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
                             <span>{feature.trim()}</span>
                           </li>
@@ -119,7 +119,7 @@ export function PackagesPageClient({ packages }: { packages: Package[] }) {
 
                 <a
                   href="/#contact"
-                  className="mt-8 w-full text-center py-3.5 rounded-xl bg-slate-900 hover:bg-amber-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md group-hover:shadow-amber-500/10"
+                  className="mt-8 w-full text-center py-3.5 rounded-xl bg-slate-900 dark:bg-slate-800 hover:bg-amber-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md group-hover:shadow-amber-500/10"
                 >
                   Request Quote <ChevronRight className="w-4 h-4" />
                 </a>

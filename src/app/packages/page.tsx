@@ -29,17 +29,17 @@ export default async function PackagesPage() {
   }));
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans flex flex-col justify-between">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans flex flex-col justify-between transition-colors">
       <div>
         <Header />
 
         {/* Hero Section */}
-        <section className="bg-gradient-to-r from-amber-500/10 via-orange-500/5 to-transparent py-20 px-6">
+        <section className="bg-gradient-to-r from-amber-500/10 via-orange-500/5 to-transparent dark:from-amber-950/20 dark:via-orange-950/10 py-20 px-6">
           <div className="max-w-7xl mx-auto text-center space-y-4">
-            <h1 className="text-4xl sm:text-5xl font-serif font-bold text-slate-900">
+            <h1 className="text-4xl sm:text-5xl font-serif font-bold text-slate-900 dark:text-white">
               Our Premium Catering Packages
             </h1>
-            <p className="max-w-2xl mx-auto text-sm text-slate-600">
+            <p className="max-w-2xl mx-auto text-sm text-slate-600 dark:text-slate-450">
               Explore our curated catering menus tailormade for weddings, corporate galas, birthday bashes, and intimate family gatherings.
             </p>
           </div>

@@ -80,10 +80,10 @@ export function HeroSection({ hero, phone = "+91 98104 83544", whatsapp = "91981
   if (!isEnabled) return null;
 
   return (
-    <section className="relative overflow-hidden pt-8 pb-16 md:pt-12 md:pb-24 bg-gradient-to-b from-amber-500/10 via-slate-50 to-white">
+    <section className="relative overflow-hidden pt-8 pb-16 md:pt-12 md:pb-24 bg-gradient-to-b from-amber-500/10 via-slate-50 to-white dark:via-slate-950 dark:to-slate-950">
       {/* Background Subtle Pattern & Ambient Glows */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-amber-400/20 rounded-full blur-3xl -z-10 pointer-events-none" />
-      <div className="absolute top-1/3 right-10 w-80 h-80 bg-orange-400/15 rounded-full blur-3xl -z-10 pointer-events-none" />
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-amber-400/20 dark:bg-amber-400/5 rounded-full blur-3xl -z-10 pointer-events-none" />
+      <div className="absolute top-1/3 right-10 w-80 h-80 bg-orange-400/15 dark:bg-orange-400/5 rounded-full blur-3xl -z-10 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -97,19 +97,19 @@ export function HeroSection({ hero, phone = "+91 98104 83544", whatsapp = "91981
           >
             {/* Badge */}
             {badgeShow && (
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-100/80 border border-amber-300 text-amber-900 font-bold text-xs shadow-sm">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-100/80 dark:bg-amber-500/15 border border-amber-300 dark:border-amber-500/30 text-amber-900 dark:text-amber-300 font-bold text-xs shadow-sm">
                 <span>{badgeIcon}</span>
                 <span>{badgeText}</span>
               </div>
             )}
 
             {/* Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-slate-900 leading-[1.15]">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-slate-900 dark:text-white leading-[1.15]">
               {heading}
             </h1>
 
             {/* Subheading */}
-            <p className="text-slate-600 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
+            <p className="text-slate-600 dark:text-slate-400 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
               {subheading}
             </p>
 
@@ -147,7 +147,7 @@ export function HeroSection({ hero, phone = "+91 98104 83544", whatsapp = "91981
               >
                 <Link
                   href={secondaryBtnLink}
-                  className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-800 font-bold text-base shadow-sm transition-all hover:border-amber-300 text-center flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 font-bold text-base shadow-sm transition-all hover:border-amber-300 text-center flex items-center justify-center gap-2"
                 >
                   <span>{secondaryBtnText}</span>
                 </Link>
@@ -156,17 +156,17 @@ export function HeroSection({ hero, phone = "+91 98104 83544", whatsapp = "91981
 
             {/* Floating Service Cards Grid */}
             {floatingCards.length > 0 && (
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-slate-200/80">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-slate-200/80 dark:border-slate-800/60">
                 {floatingCards.map((card) => (
                   <motion.div
                     key={card.id}
                     whileHover={{ y: -5, boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.08)", borderColor: "#f59e0b" }}
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    className="p-3 rounded-2xl bg-white border border-slate-200/80 shadow-sm text-left cursor-pointer transition-colors"
+                    className="p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 shadow-sm text-left cursor-pointer transition-colors"
                   >
                     <div className="text-xl mb-1">{card.icon}</div>
-                    <h4 className="font-bold text-xs text-slate-900 truncate">{card.title}</h4>
-                    <p className="text-[11px] text-slate-500 truncate">{card.description}</p>
+                    <h4 className="font-bold text-xs text-slate-900 dark:text-white truncate">{card.title}</h4>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate">{card.description}</p>
                   </motion.div>
                 ))}
               </div>
@@ -180,7 +180,7 @@ export function HeroSection({ hero, phone = "+91 98104 83544", whatsapp = "91981
             transition={{ duration: 0.6, delay: 0.2 }}
             className="lg:col-span-6 relative"
           >
-            <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
+            <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl border-4 border-white dark:border-slate-900">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentSlide}
@@ -252,15 +252,15 @@ export function HeroSection({ hero, phone = "+91 98104 83544", whatsapp = "91981
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="mt-12 lg:mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 bg-white p-6 rounded-3xl border border-slate-200/90 shadow-lg"
+            className="mt-12 lg:mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/90 dark:border-slate-800/80 shadow-lg"
           >
             {statistics.map((stat) => (
-              <div key={stat.id} className="text-center p-3 rounded-2xl bg-slate-50 border border-slate-100">
+              <div key={stat.id} className="text-center p-3 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-850">
                 <div className="text-2xl mb-1">{stat.icon}</div>
                 <div className="text-2xl sm:text-3xl font-serif font-bold text-amber-600">
                   {stat.number}
                 </div>
-                <p className="text-xs font-semibold text-slate-600 mt-0.5">{stat.title}</p>
+                <p className="text-xs font-semibold text-slate-600 dark:text-slate-400 mt-0.5">{stat.title}</p>
               </div>
             ))}
           </motion.div>

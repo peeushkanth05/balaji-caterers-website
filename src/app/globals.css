@@ -21,3 +21,26 @@
 .gradient-button {
   @apply bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold transition-all duration-200 shadow-md shadow-amber-500/25 active:scale-[0.98];
 }
+
+/* Smooth theme transition */
+html,
+body,
+header,
+footer,
+section,
+div,
+p,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+button,
+input,
+select,
+textarea {
+  transition: background-color 300ms ease, border-color 300ms ease, color 300ms ease, box-shadow 300ms ease, opacity 300ms ease;
+}
