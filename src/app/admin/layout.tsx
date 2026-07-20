@@ -101,15 +101,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <div className="min-h-screen bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col md:flex-row transition-colors">
       {/* Mobile Top Header */}
       <div className="md:hidden bg-slate-900 text-white p-4 flex items-center justify-between border-b border-slate-800">
-        <div className="flex items-center gap-3">
-          <Image
-            src="/new-logo.png"
-            alt="Logo"
-            width={36}
-            height={36}
-            className="rounded-full"
-          />
-          <span className="font-serif font-bold text-lg">Verma Admin</span>
+        <div className="flex items-center">
+          <div className="relative h-[42px] w-[160px] flex items-center justify-start">
+            <Image
+              src="/verma-logo-dark.png"
+              alt="Verma Caterers Logo"
+              width={160}
+              height={42}
+              className="h-[42px] w-auto object-contain"
+            />
+          </div>
         </div>
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -127,19 +128,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       >
         <div>
           {/* Sidebar Header */}
-          <div className="hidden md:flex items-center gap-3 p-6 border-b border-slate-800">
-            <Image
-              src="/new-logo.png"
-              alt="Logo"
-              width={44}
-              height={44}
-              className="rounded-full object-cover shadow-lg border border-amber-500/30"
-            />
-            <div>
-              <h2 className="font-serif font-bold text-white text-base leading-tight">
-                Verma Caterers
-              </h2>
-              <span className="text-xs text-amber-400 font-medium">Control Center</span>
+          <div className="hidden md:flex items-center p-5 border-b border-slate-800">
+            <div className="relative h-[42px] w-full flex items-center justify-start">
+              <Image
+                src="/verma-logo-dark.png"
+                alt="Verma Caterers Logo"
+                width={180}
+                height={42}
+                className="h-[42px] w-auto object-contain"
+              />
             </div>
           </div>
 

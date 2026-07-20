@@ -293,23 +293,26 @@ export function Header() {
         <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
           
           {/* Logo Branding */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-12 h-12 rounded-full overflow-hidden shadow-md border border-amber-500/20 bg-white transition-transform group-hover:scale-105">
+          <Link href="/" aria-label="Verma Caterers Logo" className="flex items-center group py-1">
+            <div className="relative w-[150px] sm:w-[170px] md:w-[190px] lg:w-[220px] max-h-[42px] sm:max-h-[46px] md:max-h-[50px] lg:max-h-[56px] h-12 flex items-center justify-start transition-transform group-hover:scale-[1.02]">
+              {/* Light Mode Logo */}
               <Image
-                src={logo}
-                alt={company}
-                width={48}
-                height={48}
-                className="object-cover w-full h-full"
+                src="/verma-logo-light.png"
+                alt="Verma Caterers Logo"
+                width={220}
+                height={56}
+                priority
+                className="w-full h-full object-contain dark:hidden"
               />
-            </div>
-            <div>
-              <span className="font-serif font-black text-lg text-slate-900 dark:text-white leading-tight block tracking-wide">
-                {company.split(" ")[0]} {company.split(" ")[1] || ""}
-              </span>
-              <span className="text-[9px] uppercase font-bold tracking-widest text-amber-500 block">
-                {company.split(" ").slice(2).join(" ") || "Caterers & Events"}
-              </span>
+              {/* Dark Mode Logo */}
+              <Image
+                src="/verma-logo-dark.png"
+                alt="Verma Caterers Logo"
+                width={220}
+                height={56}
+                priority
+                className="w-full h-full object-contain hidden dark:block"
+              />
             </div>
           </Link>
 

@@ -51,19 +51,17 @@ export default function AdminLoginPage() {
 
       <div className="w-full max-w-md relative z-10">
         {/* Brand Logo & Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex p-3 bg-white/10 backdrop-blur-md rounded-full border border-white/20 shadow-2xl mb-4">
+        <div className="text-center mb-8 flex flex-col items-center">
+          <div className="relative w-[240px] h-16 flex items-center justify-center mb-2">
             <Image
-              src="/new-logo.png"
+              src="/verma-logo-dark.png"
               alt="Verma Caterers Logo"
-              width={64}
+              width={240}
               height={64}
-              className="rounded-full object-cover"
+              priority
+              className="w-full h-full object-contain"
             />
           </div>
-          <h1 className="text-3xl font-serif font-bold text-white tracking-wide">
-            Verma Caterers
-          </h1>
           <p className="text-amber-200/80 text-sm mt-1">
             Admin & Super Admin Portal
           </p>
