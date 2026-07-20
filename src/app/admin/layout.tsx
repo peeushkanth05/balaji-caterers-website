@@ -109,7 +109,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             height={36}
             className="rounded-full"
           />
-          <span className="font-serif font-bold text-lg">Balaji Admin</span>
+          <span className="font-serif font-bold text-lg">Verma Admin</span>
         </div>
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -137,7 +137,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             />
             <div>
               <h2 className="font-serif font-bold text-white text-base leading-tight">
-                Shree Balaji
+                Verma Caterers
               </h2>
               <span className="text-xs text-amber-400 font-medium">Control Center</span>
             </div>

@@ -33,7 +33,7 @@ export function HeroSection({ hero, phone = "+91 98104 83544", whatsapp = "91981
   const heading = hero?.heading || "Every Celebration, Perfectly Crafted.";
   const subheading =
     hero?.subheading ||
-    "From grand royal weddings to intimate family gatherings — Shree Balaji Caterers brings you world-class catering, stunning floral décor, seamless sound, and complete event management.";
+    "From grand royal weddings to intimate family gatherings — Verma Caterers brings you world-class catering, stunning floral décor, seamless sound, and complete event management.";
   const primaryBtnText = hero?.primaryBtnText || "Book Your Event ✨";
   const primaryBtnLink = hero?.primaryBtnLink || "#contact";
   const secondaryBtnText = hero?.secondaryBtnText || "View Our Work 🎨";
@@ -192,7 +192,7 @@ export function HeroSection({ hero, phone = "+91 98104 83544", whatsapp = "91981
                 >
                   <Image
                     src={slides[currentSlide]?.imageUrl || "/grand_wedding_decor/3dce2ebd-b344-485c-80e0-88cad120d299.jpg"}
-                    alt={slides[currentSlide]?.altText || "Shree Balaji Caterers Event"}
+                    alt={slides[currentSlide]?.altText || "Verma Caterers Event"}
                     fill
                     priority
                     className="object-cover"

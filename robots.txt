@@ -1,5 +1,5 @@
-# Robots.txt for Shree Balaji Caterers
-# https://shreebalajicaterers.in/
+# Robots.txt for Verma Caterers
+# https://vermacaterers.in/
 
 User-agent: *
 Allow: /
@@ -21,4 +21,4 @@ Disallow: /index_utf8.html
 Disallow: /server.js
 
 # Sitemap
-Sitemap: https://shreebalajicaterers.in/sitemap.xml
+Sitemap: https://vermacaterers.in/sitemap.xml

@@ -10,7 +10,7 @@ export default function CookieBanner() {
 
   useEffect(() => {
     // Check if consent has already been given
-    const consent = localStorage.getItem("balaji_cookie_consent");
+    const consent = localStorage.getItem("verma_cookie_consent");
     if (!consent) {
       // Small timeout to feel natural
       const timer = setTimeout(() => setShow(true), 2500);
@@ -25,7 +25,7 @@ export default function CookieBanner() {
       marketingConsent: all ? true : marketingConsent,
     };
 
-    localStorage.setItem("balaji_cookie_consent", JSON.stringify(consentChoices));
+    localStorage.setItem("verma_cookie_consent", JSON.stringify(consentChoices));
     setShow(false);
 
     try {

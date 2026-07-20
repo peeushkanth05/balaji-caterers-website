@@ -19,9 +19,9 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Shree Balaji Caterers | Best Catering & Event Services in Delhi NCR",
+  title: "Verma Caterers | Best Catering & Event Services in Delhi NCR",
   description:
-    "Shree Balaji Caterers offers premium catering, floral decoration, sound & DJ setup, mattress rental, and full event management in Delhi NCR.",
+    "Verma Caterers offers premium catering, floral decoration, sound & DJ setup, mattress rental, and full event management in Delhi NCR.",
 };
 
 export default function RootLayout({
@@ -37,7 +37,7 @@ export default function RootLayout({
             __html: `
               (function() {
                 try {
-                  var theme = localStorage.getItem('balaji_theme');
+                  var theme = localStorage.getItem('verma_theme');
                   if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                     document.documentElement.classList.add('dark');
                   } else {

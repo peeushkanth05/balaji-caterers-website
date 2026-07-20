@@ -119,7 +119,7 @@ export function Header() {
         if (servData.services) setDbServices(servData.services);
 
         // Theme management
-        let initialTheme = localStorage.getItem("balaji_theme") as "light" | "dark" | null;
+        let initialTheme = localStorage.getItem("verma_theme") as "light" | "dark" | null;
         if (!initialTheme && data.siteSettings) {
           initialTheme = (data.siteSettings.defaultTheme || "light") as "light" | "dark";
         }
@@ -154,7 +154,7 @@ export function Header() {
   const toggleTheme = () => {
     const nextTheme = theme === "light" ? "dark" : "light";
     setTheme(nextTheme);
-    localStorage.setItem("balaji_theme", nextTheme);
+    localStorage.setItem("verma_theme", nextTheme);
     if (nextTheme === "dark") {
       document.documentElement.classList.add("dark");
     } else {
@@ -212,7 +212,7 @@ export function Header() {
     );
   }
 
-  const company = siteSettings?.companyName || "Shree Balaji Caterers";
+  const company = siteSettings?.companyName || "Verma Caterers";
   const logo = siteSettings?.logoUrl || "/new-logo.png";
   const phoneVal = siteSettings?.phone || "+91 98104 83544";
   const emailVal = siteSettings?.email || "vermasandeep124@gmail.com";
@@ -418,7 +418,7 @@ export function Header() {
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
                                 <span className="absolute bottom-2 left-2 bg-amber-500 text-white font-bold text-[8px] uppercase tracking-wider px-2 py-0.5 rounded">
-                                  Balaji Special
+                                  Verma Special
                                 </span>
                               </div>
                               <div>

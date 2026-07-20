@@ -108,7 +108,7 @@ export async function GET(req: Request) {
       // Log the backup action to DbBackup
       await prisma.dbBackup.create({
         data: {
-          filename: `balaji_db_backup_${Date.now()}.json`,
+          filename: `verma_db_backup_${Date.now()}.json`,
           fileSize: Buffer.byteLength(backupString),
           status: "COMPLETED",
           createdBy: auth.session?.user?.email || "Super Admin",
@@ -118,7 +118,7 @@ export async function GET(req: Request) {
       return new Response(backupString, {
         headers: {
           "Content-Type": "application/json",
-          "Content-Disposition": `attachment; filename="balaji_backup_${Date.now()}.json"`,
+          "Content-Disposition": `attachment; filename="verma_backup_${Date.now()}.json"`,
         },
       });
     }

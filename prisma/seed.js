@@ -13,7 +13,7 @@ async function main() {
   });
 
   if (!existingSuperAdmin) {
-    const hashedPassword = await bcrypt.hash('Admin@Balaji2026', 10);
+    const hashedPassword = await bcrypt.hash('Admin@Verma2026', 10);
     const superAdmin = await prisma.user.create({
       data: {
         name: 'Sandeep Verma (Owner)',
@@ -33,7 +33,7 @@ async function main() {
   }
 
   // 2. Create Staff Admin User
-  const staffEmail = 'staff@shreebalajicaterers.in';
+  const staffEmail = 'staff@vermacaterers.in';
   const existingStaff = await prisma.user.findUnique({
     where: { email: staffEmail },
   });
@@ -54,7 +54,7 @@ async function main() {
   };
 
   if (!existingStaff) {
-    const hashedPassword = await bcrypt.hash('Staff@Balaji2026', 10);
+    const hashedPassword = await bcrypt.hash('Staff@Verma2026', 10);
     const staff = await prisma.user.create({
       data: {
         name: 'Event Manager Staff',
@@ -279,7 +279,7 @@ async function main() {
       address: 'Dwarka Sector 5, Madhu Vihar, New Delhi',
       mapsUrl: 'https://www.google.com/maps/search/?api=1&query=28.5921,77.0460&query_place_id=Dwarka+Sector+5+New+Delhi',
       aboutTag: 'Why Us',
-      aboutTitle: 'Why Choose Shree Balaji Caterers',
+      aboutTitle: 'Why Choose Verma Caterers',
       aboutSubtitle: 'With 15+ years of experience and 500+ successful events in Delhi NCR, we bring passion, precision, and a personal touch to every celebration.',
     },
   });
@@ -304,7 +304,7 @@ async function main() {
       badgeText: "Delhi NCR's Premier Event Partner",
       badgeIcon: '⭐',
       heading: 'Every Celebration, Perfectly Crafted.',
-      subheading: 'From grand royal weddings to intimate family gatherings — Shree Balaji Caterers brings you world-class catering, stunning floral décor, seamless sound, and complete event management.',
+      subheading: 'From grand royal weddings to intimate family gatherings — Verma Caterers brings you world-class catering, stunning floral décor, seamless sound, and complete event management.',
       primaryBtnText: 'Book Your Event ✨',
       primaryBtnLink: '#contact',
       secondaryBtnText: 'View Our Work 🎨',
@@ -427,7 +427,7 @@ async function main() {
         ]),
         featuredImage: '/grand_wedding_decor/3dce2ebd-b344-485c-80e0-88cad120d299.jpg',
         altText: 'Royal Red Mandap Decoration',
-        seoTitle: 'Royal Wedding Mandap Decor | Shree Balaji Caterers Delhi',
+        seoTitle: 'Royal Wedding Mandap Decor | Verma Caterers Delhi',
         seoDescription: 'Check out our royal wedding mandap setup in Delhi NCR with floral entryways and live counters.',
         tags: JSON.stringify(['Wedding', 'Royal Mandap', 'Delhi NCR', 'Luxury']),
         featured: true,
@@ -447,7 +447,7 @@ async function main() {
         ]),
         featuredImage: '/grand_wedding_decor/7b473ea8-3932-41ab-bac7-910973b59980.jpg',
         altText: 'Catering Live Counter Spread',
-        seoTitle: 'Royal Buffet Catering | Shree Balaji Caterers Delhi NCR',
+        seoTitle: 'Royal Buffet Catering | Verma Caterers Delhi NCR',
         seoDescription: 'Authentic North Indian multi-cuisine catering spread with live food counters in Delhi.',
         tags: JSON.stringify(['Catering', 'Live Chaat', 'Multi-Cuisine', 'Buffet']),
         featured: true,
@@ -466,7 +466,7 @@ async function main() {
         ]),
         featuredImage: '/grand_wedding_decor/8e631f19-fd48-4e0b-aeff-1d652baa5f7e.jpg',
         altText: 'DJ & Sound System Setup',
-        seoTitle: 'Pro DJ & Sound Setup | Shree Balaji Caterers',
+        seoTitle: 'Pro DJ & Sound Setup | Verma Caterers',
         seoDescription: 'High performance DJ sound systems and concert lighting for weddings in Delhi NCR.',
         tags: JSON.stringify(['DJ Sound', 'Sangeet', 'LED Lights', 'JBL']),
         featured: true,
@@ -486,7 +486,7 @@ async function main() {
         ]),
         featuredImage: '/grand_wedding_decor/93f97c61-cb64-4b24-b9ed-3cef9082b0f4.jpg',
         altText: 'Floral Stage Backdrop',
-        seoTitle: 'Floral Decor Stage Design | Shree Balaji Caterers',
+        seoTitle: 'Floral Decor Stage Design | Verma Caterers',
         seoDescription: 'Custom floral stage decoration with orchids and marigolds for engagement & reception.',
         tags: JSON.stringify(['Floral Decor', 'Stage Setup', 'Engagement', 'Orchids']),
         featured: false,
@@ -505,7 +505,7 @@ async function main() {
         ]),
         featuredImage: '/grand_wedding_decor/b65e738d-5f72-41ef-b881-aa71397225c5.jpg',
         altText: 'Birthday Party Setup',
-        seoTitle: 'Birthday Party Catering & Setup | Shree Balaji Caterers',
+        seoTitle: 'Birthday Party Catering & Setup | Verma Caterers',
         seoDescription: 'Complete birthday party catering and balloon decoration services in Delhi NCR.',
         tags: JSON.stringify(['Birthday', 'Party Decor', 'Live Counter', 'Kids Special']),
         featured: false,
@@ -525,7 +525,7 @@ async function main() {
         ]),
         featuredImage: '/grand_wedding_decor/fd3ad0c0-af52-4014-9461-a00f49abc506.jpg',
         altText: 'Candlelit Pheras Mandap',
-        seoTitle: 'Evening Lawn Wedding Mandap | Shree Balaji Caterers',
+        seoTitle: 'Evening Lawn Wedding Mandap | Verma Caterers',
         seoDescription: 'Sunset outdoor wedding setup with fairy lights and candlelit mandap in Delhi.',
         tags: JSON.stringify(['Outdoor Wedding', 'Candlelit Mandap', 'Night Decor']),
         featured: true,
@@ -596,7 +596,7 @@ async function main() {
       },
       {
         name: "Meenakshi Sharma",
-        review: "We booked Shree Balaji for our son's 1st birthday. The balloon theme, slides, and kids food counter were managed perfectly. Highly recommended!",
+        review: "We booked Verma Caterers for our son's 1st birthday. The balloon theme, slides, and kids food counter were managed perfectly. Highly recommended!",
         rating: 5,
         companyName: "Birthday Party in Janakpuri",
         displayOrder: 1,

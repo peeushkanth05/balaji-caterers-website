@@ -94,11 +94,11 @@ export function Footer() {
         <div className="md:col-span-5 space-y-5">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full overflow-hidden bg-white p-1 border border-white/10 shadow-md">
-              <img src="/new-logo.png" alt="Shree Balaji Caterers" className="object-cover w-full h-full" />
+              <img src="/new-logo.png" alt="Verma Caterers" className="object-cover w-full h-full" />
             </div>
             <div>
               <span className="font-serif font-bold text-sm text-white tracking-wide block uppercase">
-                Shree Balaji Caterers
+                Verma Caterers
               </span>
               <span className="text-[8px] uppercase tracking-widest text-amber-500 font-extrabold block">
                 Premium Caterers & Event Managers

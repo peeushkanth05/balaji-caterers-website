@@ -599,7 +599,7 @@ export default function SiteSettingsAdminPage() {
                   required
                   value={aboutTitle}
                   onChange={(e) => setAboutTitle(e.target.value)}
-                  placeholder="e.g. Why Choose Shree Balaji Caterers"
+                  placeholder="e.g. Why Choose Verma Caterers"
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 px-3 text-sm focus:ring-2 focus:ring-amber-500"
                 />
               </div>

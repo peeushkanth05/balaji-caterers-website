@@ -292,7 +292,7 @@ export default function SocialMediaAdminPage() {
                   required
                   value={url}
                   onChange={(e) => setUrl(e.target.value)}
-                  placeholder="https://instagram.com/shreebalaji"
+                  placeholder="https://instagram.com/vermacaterers"
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-amber-500"
                 />
               </div>

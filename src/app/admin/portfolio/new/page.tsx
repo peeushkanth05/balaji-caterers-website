@@ -69,7 +69,7 @@ export default function NewPortfolioPage() {
       .replace(/[^a-z0-9\s-]/g, "")
       .replace(/\s+/g, "-");
     setSlug(autoSlug);
-    if (!seoTitle) setSeoTitle(`${val} | Shree Balaji Caterers`);
+    if (!seoTitle) setSeoTitle(`${val} | Verma Caterers`);
   };
 
   // Cover Image Upload Handler

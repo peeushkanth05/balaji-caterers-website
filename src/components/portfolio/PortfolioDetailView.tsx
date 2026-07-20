@@ -163,7 +163,7 @@ export function PortfolioDetailView({
                 Planning a Similar Event?
               </span>
               <h3 className="font-serif font-bold text-2xl text-white mt-1">
-                Book Shree Balaji Caterers
+                Book Verma Caterers
               </h3>
               <p className="text-slate-300 text-xs mt-2 leading-relaxed">
                 Get a customized quote for catering, floral decor, sound & full event management tailored to your budget.
@@ -172,7 +172,7 @@ export function PortfolioDetailView({
 
             <div className="space-y-3 pt-2">
               <a
-                href={`https://wa.me/${whatsappNumber}?text=Hi%20Shree%20Balaji%20Caterers,%20I%20saw%20your%20project%20"${encodeURIComponent(
+                href={`https://wa.me/${whatsappNumber}?text=Hi%20Verma%20Caterers,%20I%20saw%20your%20project%20"${encodeURIComponent(
                   portfolio.title
                 )}"%20and%20want%20a%20quote.`}
                 target="_blank"

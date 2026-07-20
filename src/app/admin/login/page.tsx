@@ -55,14 +55,14 @@ export default function AdminLoginPage() {
           <div className="inline-flex p-3 bg-white/10 backdrop-blur-md rounded-full border border-white/20 shadow-2xl mb-4">
             <Image
               src="/new-logo.png"
-              alt="Shree Balaji Caterers Logo"
+              alt="Verma Caterers Logo"
               width={64}
               height={64}
               className="rounded-full object-cover"
             />
           </div>
           <h1 className="text-3xl font-serif font-bold text-white tracking-wide">
-            Shree Balaji Caterers
+            Verma Caterers
           </h1>
           <p className="text-amber-200/80 text-sm mt-1">
             Admin & Super Admin Portal
@@ -94,7 +94,7 @@ export default function AdminLoginPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@shreebalajicaterers.in"
+                  placeholder="admin@vermacaterers.in"
                   className="w-full bg-slate-900/60 border border-white/10 rounded-xl py-3 pl-11 pr-4 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all"
                 />
               </div>

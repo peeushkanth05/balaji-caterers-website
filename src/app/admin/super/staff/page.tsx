@@ -249,7 +249,7 @@ export default function StaffManagementPage() {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="ramesh@shreebalajicaterers.in"
+                    placeholder="ramesh@vermacaterers.in"
                     className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 pl-9 pr-3 text-sm focus:ring-2 focus:ring-amber-500"
                   />
                 </div>

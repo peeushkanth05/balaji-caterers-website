@@ -244,7 +244,7 @@ export default async function HomePage() {
 
   const heroBadge = settings?.heroBadge || "Delhi NCR's Premier Event Partner";
   const heroTitle = settings?.heroTitle || "Every Celebration, Perfectly Crafted.";
-  const heroSubtitle = settings?.heroSubtitle || "From grand weddings to intimate family gatherings — Shree Balaji Caterers brings you world-class catering, stunning floral décor, seamless sound, and complete event management.";
+  const heroSubtitle = settings?.heroSubtitle || "From grand weddings to intimate family gatherings — Verma Caterers brings you world-class catering, stunning floral décor, seamless sound, and complete event management.";
 
   const stat1Number = settings?.stat1Number || "500+";
   const stat1Label = settings?.stat1Label || "Events Managed";
@@ -256,7 +256,7 @@ export default async function HomePage() {
   const stat4Label = settings?.stat4Label || "Satisfaction";
 
   const aboutTag = settings?.aboutTag || "Why Us";
-  const aboutTitle = settings?.aboutTitle || "Why Choose Shree Balaji Caterers";
+  const aboutTitle = settings?.aboutTitle || "Why Choose Verma Caterers";
   const aboutSubtitle = settings?.aboutSubtitle || "With 15+ years of experience and 500+ successful events in Delhi NCR, we bring passion, precision, and a personal touch to every celebration.";
 
   return (

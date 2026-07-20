@@ -158,7 +158,7 @@ export function PublicForm({
         text: "💬 Opening WhatsApp with your enquiry details...",
       });
 
-      const waText = `Hello Shree Balaji Caterers! I would like to enquire about your services:
+      const waText = `Hello Verma Caterers! I would like to enquire about your services:
 *Name:* ${name}
 *Phone:* ${phone}
 ${email ? "*Email:* " + email + "\n" : ""}*Event:* ${eventType}

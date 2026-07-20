@@ -96,7 +96,7 @@ model GalleryItem {
 
 model SiteSetting {
   id          String @id @default("default")
-  companyName String @default("Shree Balaji Caterers")
+  companyName String @default("Verma Caterers")
   logoUrl     String @default("/new-logo.png")
   faviconUrl  String @default("/favicon.ico")
 
@@ -117,13 +117,13 @@ model SiteSetting {
 
   // Analytics & SEO
   googleAnalyticsId String @default("")
-  seoTitle          String @default("Shree Balaji Caterers | Best Catering & Event Services in Delhi NCR")
+  seoTitle          String @default("Verma Caterers | Best Catering & Event Services in Delhi NCR")
   seoDescription    String @default("Premium catering, floral décor, DJ & sound, and full event management services in Delhi NCR. 15+ years, 500+ events.")
   seoOgImage        String @default("/new-logo.png")
 
   // Editable About Us Content
   aboutTag      String @default("Why Us")
-  aboutTitle    String @default("Why Choose Shree Balaji Caterers")
+  aboutTitle    String @default("Why Choose Verma Caterers")
   aboutSubtitle String @default("With 15+ years of experience and 500+ successful events in Delhi NCR, we bring passion, precision, and a personal touch to every celebration.")
 
   // Theme Settings
@@ -153,7 +153,7 @@ model HeroSection {
   logoLightUrl String @default("")
   logoWidth    Int    @default(48)
   logoHeight   Int    @default(48)
-  logoAlt      String @default("Shree Balaji Caterers Logo")
+  logoAlt      String @default("Verma Caterers Logo")
   logoClickUrl String @default("/")
 
   // Announcement Bar
@@ -176,7 +176,7 @@ model HeroSection {
   headingAlignment String @default("left") // "left" | "center" | "right"
 
   // Subheading
-  subheading          String @default("From grand weddings to intimate family gatherings — Shree Balaji Caterers brings you world-class catering, stunning floral décor, seamless sound, and complete event management.")
+  subheading          String @default("From grand weddings to intimate family gatherings — Verma Caterers brings you world-class catering, stunning floral décor, seamless sound, and complete event management.")
   subheadingAlignment String @default("left")
   subheadingCharLimit Int    @default(300)
 
@@ -219,9 +219,9 @@ model HeroSection {
   colorOverlay    String @default("")
 
   // SEO
-  seoTitle          String @default("Shree Balaji Caterers | Best Catering & Event Services in Delhi NCR")
+  seoTitle          String @default("Verma Caterers | Best Catering & Event Services in Delhi NCR")
   seoDescription    String @default("Premium catering, floral décor, DJ & sound, and full event management services in Delhi NCR. 15+ years, 500+ events.")
-  seoImageAlt       String @default("Shree Balaji Caterers Hero Image")
+  seoImageAlt       String @default("Verma Caterers Hero Image")
   seoStructuredData String @default("")
 
   // Mobile Overrides
@@ -429,9 +429,9 @@ model HeaderSettings {
 
 model SocialMediaLink {
   id           String   @id @default(cuid())
-  platform     String   // e.g. "facebook", "instagram", "youtube", "linkedin", "x"
+  platform     String // e.g. "facebook", "instagram", "youtube", "linkedin", "x"
   url          String
-  icon         String?  // emoji or icon name
+  icon         String? // emoji or icon name
   isEnabled    Boolean  @default(true)
   displayOrder Int      @default(0)
   createdAt    DateTime @default(now())
@@ -444,8 +444,8 @@ model VideoGalleryItem {
   id           String   @id @default(cuid())
   title        String
   description  String?
-  videoUrl     String   // Local path or video URL
-  thumbnailUrl String   // Cover/Thumbnail image URL
+  videoUrl     String // Local path or video URL
+  thumbnailUrl String // Cover/Thumbnail image URL
   displayOrder Int      @default(0)
   isEnabled    Boolean  @default(true)
   createdAt    DateTime @default(now())
@@ -470,19 +470,19 @@ model Testimonial {
 }
 
 model AlertTicker {
-  id              String    @id @default(cuid())
-  text            String
-  bgColor         String    @default("#f59e0b")
-  textColor       String    @default("#ffffff")
-  speed           Int       @default(40) // speed in seconds
-  priority        Int       @default(0)
-  isEnabled       Boolean   @default(true)
-  redirectUrl     String?
-  startDate       DateTime?
-  endDate         DateTime?
-  showOnHomepage  Boolean   @default(false) // show as a banner on homepage too
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  id             String    @id @default(cuid())
+  text           String
+  bgColor        String    @default("#f59e0b")
+  textColor      String    @default("#ffffff")
+  speed          Int       @default(40) // speed in seconds
+  priority       Int       @default(0)
+  isEnabled      Boolean   @default(true)
+  redirectUrl    String?
+  startDate      DateTime?
+  endDate        DateTime?
+  showOnHomepage Boolean   @default(false) // show as a banner on homepage too
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 
   @@index([priority])
   @@index([startDate, endDate])
@@ -490,11 +490,11 @@ model AlertTicker {
 
 model HomepageSection {
   id           String   @id @default(cuid())
-  sectionType  String   // e.g. "hero", "about", "services", "packages", "videos", "testimonials", "gallery", "portfolio", "contact", "footer", "partners", "blogs", "cta"
+  sectionType  String // e.g. "hero", "about", "services", "packages", "videos", "testimonials", "gallery", "portfolio", "contact", "footer", "partners", "blogs", "cta"
   name         String
   displayOrder Int      @default(0)
   isEnabled    Boolean  @default(true)
-  settings     String?  // Optional JSON settings override
+  settings     String? // Optional JSON settings override
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -502,27 +502,27 @@ model HomepageSection {
 }
 
 model EnquiryFormSetting {
-  id              String   @id @default("default")
-  sectionTitle    String   @default("Get In Touch")
-  sectionHeading  String   @default("Let's Plan Your Dream Event")
-  formTitle       String   @default("Request a Free Quote")
-  formDescription String   @default("Fill out your event details below for a customized quotation.")
-  phone           String   @default("+91 98104 83544")
-  phoneIcon       String   @default("Phone")
-  email           String   @default("vermasandeep124@gmail.com")
-  emailIcon       String   @default("Mail")
-  address         String   @default("Dwarka Sector 5, Madhu Vihar, New Delhi")
-  addressIcon     String   @default("MapPin")
-  submitBtnText   String   @default("Send My Enquiry")
-  successMessage  String   @default("Thank you! Your enquiry has been received successfully.")
-  errorMessage    String   @default("Something went wrong. Please try again later.")
-  
-  fieldsJson      String   @default("[]") // JSON representation of fields (id, name, label, placeholder, required, isEnabled, displayOrder, type)
-  eventTypesJson  String   @default("[]") // string[] for dropdown
-  servicesJson    String   @default("[]") // string[] for dropdown
-  
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id              String @id @default("default")
+  sectionTitle    String @default("Get In Touch")
+  sectionHeading  String @default("Let's Plan Your Dream Event")
+  formTitle       String @default("Request a Free Quote")
+  formDescription String @default("Fill out your event details below for a customized quotation.")
+  phone           String @default("+91 98104 83544")
+  phoneIcon       String @default("Phone")
+  email           String @default("vermasandeep124@gmail.com")
+  emailIcon       String @default("Mail")
+  address         String @default("Dwarka Sector 5, Madhu Vihar, New Delhi")
+  addressIcon     String @default("MapPin")
+  submitBtnText   String @default("Send My Enquiry")
+  successMessage  String @default("Thank you! Your enquiry has been received successfully.")
+  errorMessage    String @default("Something went wrong. Please try again later.")
+
+  fieldsJson     String @default("[]") // JSON representation of fields (id, name, label, placeholder, required, isEnabled, displayOrder, type)
+  eventTypesJson String @default("[]") // string[] for dropdown
+  servicesJson   String @default("[]") // string[] for dropdown
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Advertisement {
@@ -548,22 +548,22 @@ model DatabaseFile {
   id        String   @id @default(cuid())
   filename  String
   mimeType  String
-  data      Bytes    // Store binary data as bytea in PostgreSQL
+  data      Bytes // Store binary data as bytea in PostgreSQL
   createdAt DateTime @default(now())
 }
 
 model VenuePartner {
-  id           String   @id @default(cuid())
-  name         String
-  logoUrl      String
-  websiteUrl   String?
-  description  String?
-  address      String?
-  priority     Int      @default(0)
-  isFeatured   Boolean  @default(false)
-  isActive     Boolean  @default(true)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id          String   @id @default(cuid())
+  name        String
+  logoUrl     String
+  websiteUrl  String?
+  description String?
+  address     String?
+  priority    Int      @default(0)
+  isFeatured  Boolean  @default(false)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   @@index([isActive, priority])
 }
@@ -617,13 +617,13 @@ model BlogPost {
 }
 
 model DbBackup {
-  id          String   @id @default(cuid())
-  filename    String
-  fileSize    Int
-  url         String?  // Optional download URL
-  status      String   @default("COMPLETED") // COMPLETED, FAILED
-  createdBy   String   @default("System")
-  createdAt   DateTime @default(now())
+  id        String   @id @default(cuid())
+  filename  String
+  fileSize  Int
+  url       String? // Optional download URL
+  status    String   @default("COMPLETED") // COMPLETED, FAILED
+  createdBy String   @default("System")
+  createdAt DateTime @default(now())
 }
 
 model ConsentLog {
@@ -637,22 +637,21 @@ model ConsentLog {
 }
 
 model FooterSettings {
-  id                 String   @id @default("default")
-  aboutText          String   @default("Shree Balaji Caterers — Delhi NCR's premium wedding catering, fresh menus, floral decorators, and event management since 2011.")
-  locationText       String   @default("Dwarka Sector 5, Madhu Vihar, New Delhi")
-  mapsUrl            String   @default("https://www.google.com/maps/search/?api=1&query=28.5921,77.0460")
-  phone              String   @default("+91 98104 83544")
-  email              String   @default("vermasandeep124@gmail.com")
-  copyrightText      String   @default("© 2026 Shree Balaji Caterers. All Rights Reserved.")
+  id            String @id @default("default")
+  aboutText     String @default("Verma Caterers — Delhi NCR's premium wedding catering, fresh menus, floral decorators, and event management since 2011.")
+  locationText  String @default("Dwarka Sector 5, Madhu Vihar, New Delhi")
+  mapsUrl       String @default("https://www.google.com/maps/search/?api=1&query=28.5921,77.0460")
+  phone         String @default("+91 98104 83544")
+  email         String @default("vermasandeep124@gmail.com")
+  copyrightText String @default("© 2026 Verma Caterers. All Rights Reserved.")
 
   // Legal Policies Markdown
-  privacyPolicy      String   @default("# Privacy Policy\n\nYour privacy is important to us.")
-  termsOfService     String   @default("# Terms of Service\n\nWelcome to Shree Balaji Caterers.")
-  refundPolicy       String   @default("# Refund Policy\n\nRefund details for catering bookings.")
-  cancellationPolicy String   @default("# Cancellation Policy\n\nCancellation fees and schedules apply.")
-  cookiePolicy       String   @default("# Cookie Policy\n\nWe use cookies to improve your browsing experience.")
-  disclaimer         String   @default("# Disclaimer\n\nAll content provided is for informational purposes.")
+  privacyPolicy      String @default("# Privacy Policy\n\nYour privacy is important to us.")
+  termsOfService     String @default("# Terms of Service\n\nWelcome to Verma Caterers.")
+  refundPolicy       String @default("# Refund Policy\n\nRefund details for catering bookings.")
+  cancellationPolicy String @default("# Cancellation Policy\n\nCancellation fees and schedules apply.")
+  cookiePolicy       String @default("# Cookie Policy\n\nWe use cookies to improve your browsing experience.")
+  disclaimer         String @default("# Disclaimer\n\nAll content provided is for informational purposes.")
 
-  updatedAt          DateTime @updatedAt
+  updatedAt DateTime @updatedAt
 }
-

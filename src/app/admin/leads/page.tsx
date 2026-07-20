@@ -101,7 +101,7 @@ export default function LeadManagementPage() {
   };
 
   const openWhatsApp = (lead: any) => {
-    const text = `Hello ${lead.name}! Thank you for contacting Shree Balaji Caterers regarding your ${lead.eventType} enquiry. We would love to discuss your menu & requirements!`;
+    const text = `Hello ${lead.name}! Thank you for contacting Verma Caterers regarding your ${lead.eventType} enquiry. We would love to discuss your menu & requirements!`;
     const cleanPhone = lead.phone.replace(/[^0-9]/g, "");
     const formattedPhone = cleanPhone.startsWith("91") ? cleanPhone : `91${cleanPhone}`;
     window.open(`https://wa.me/${formattedPhone}?text=${encodeURIComponent(text)}`, "_blank");
@@ -127,7 +127,7 @@ export default function LeadManagementPage() {
       const doc = new jsPDF({ orientation: "landscape" });
 
       doc.setFontSize(18);
-      doc.text("Shree Balaji Caterers - Lead Enquiry Report", 14, 15);
+      doc.text("Verma Caterers - Lead Enquiry Report", 14, 15);
       
       doc.setFontSize(10);
       doc.text(`Generated on: ${new Date().toLocaleDateString("en-IN")} | Status Filter: ${statusFilter}`, 14, 22);

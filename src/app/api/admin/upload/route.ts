@@ -31,7 +31,7 @@ const uploadToCloudinary = (buffer: Buffer, filename: string, folder: string): P
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
       {
-        folder: `shreebalaji/${folder || "portfolio"}`,
+        folder: `verma-caterers/${folder || "portfolio"}`,
         public_id: `${Date.now()}_${path.parse(filename).name.replace(/[^a-zA-Z0-9_-]/g, "_")}`,
         resource_type: "auto",
         format: "webp", // Force WebP conversion for images

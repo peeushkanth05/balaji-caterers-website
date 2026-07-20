@@ -294,7 +294,7 @@ export default function UsersAdminPage() {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="staff@shreebalaji.com"
+                    placeholder="staff@vermacaterers.in"
                     className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 px-4 text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none"
                   />
                 </div>

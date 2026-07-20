@@ -27,12 +27,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!portfolio) {
     return {
-      title: "Portfolio Not Found | Shree Balaji Caterers",
+      title: "Portfolio Not Found | Verma Caterers",
     };
   }
 
   return {
-    title: portfolio.seoTitle || `${portfolio.title} | Shree Balaji Caterers`,
+    title: portfolio.seoTitle || `${portfolio.title} | Verma Caterers`,
     description: portfolio.seoDescription || portfolio.shortDescription,
     openGraph: {
       title: portfolio.seoTitle || portfolio.title,

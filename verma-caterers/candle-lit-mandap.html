@@ -1,0 +1,626 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Candle Lit Mandap | Verma Caterers</title>
+    <meta name="description"
+        content="Creating breathtaking wedding setups that turn your special day into a magical celebration. Verma Caterers offers premium decor in Delhi NCR.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Nunito:wght@300;400;600;700;800&display=swap&font-display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css"> <!-- Main styles inherited if needed -->
+
+    <style>
+        :root {
+            --gold: #f5a623;
+            --deep-gold: #e08a00;
+            --saffron: #ff6b2b;
+            --cream: #fcf9f2;
+            --blush: #faeaea;
+            --white: #ffffff;
+            --text: #2c2c2c;
+            --muted: #666;
+            --shadow: 0 8px 40px rgba(245, 166, 35, 0.12);
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--cream);
+            color: var(--text);
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Hero Section with Slideshow */
+        .decor-hero {
+            position: relative;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+            padding: 100px 20px 40px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out, transform 6s linear;
+            z-index: 1;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+            transform: scale(1.05);
+            /* Slight zoom effect during slide */
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6));
+            z-index: 2;
+        }
+
+        .decor-hero-content {
+            max-width: 800px;
+            position: relative;
+            z-index: 3;
+            animation: fadeInDown 1.2s ease-out;
+        }
+
+        .decor-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 900;
+            margin-bottom: 10px;
+            text-shadow: 3px 6px 20px rgba(0, 0, 0, 0.8);
+            color: #ffffff !important;
+        }
+
+        .hero-subtitle {
+            color: var(--gold);
+            font-family: 'Nunito', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            font-weight: 800;
+            text-shadow: 2px 4px 10px rgba(0, 0, 0, 0.8);
+        }
+
+        .hero-subtitle {
+            color: var(--gold);
+            font-family: 'Nunito', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            font-weight: 800;
+            text-shadow: 2px 4px 10px rgba(0, 0, 0, 0.8);
+        }
+
+        .hero-subtitle {
+            color: var(--gold);
+            font-family: 'Nunito', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            font-weight: 800;
+            text-shadow: 2px 4px 10px rgba(0, 0, 0, 0.8);
+        }
+
+        .hero-subtitle {
+            color: var(--gold);
+            font-family: 'Nunito', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            font-weight: 800;
+            text-shadow: 2px 4px 10px rgba(0, 0, 0, 0.8);
+        }
+
+        .decor-hero p {
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            font-weight: 400;
+            opacity: 0.95;
+            line-height: 1.8;
+            text-shadow: 1px 2px 10px rgba(0, 0, 0, 0.8);
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Intro Section */
+        .intro-section {
+            padding: 80px 6%;
+            text-align: center;
+            background: var(--white);
+        }
+
+        .intro-container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .intro-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--deep-gold);
+            margin-bottom: 24px;
+        }
+
+        .intro-text {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: var(--muted);
+        }
+
+        /* Gallery Grid */
+        .gallery-section {
+            padding: 80px 6%;
+            background: var(--cream);
+        }
+
+        .gallery-title {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            margin-bottom: 50px;
+            color: var(--text);
+        }
+
+        .decor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .decor-item {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+            height: 350px;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .decor-item:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow);
+        }
+
+        .decor-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .decor-item:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Lightbox Overlay */
+        #lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        #lightbox.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 8px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        #lightbox.active img {
+            transform: scale(1);
+        }
+
+        #close-lightbox {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            font-size: 40px;
+            color: white;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        #close-lightbox:hover {
+            color: var(--gold);
+        }
+
+        /* Services Setup */
+        .services-section {
+            padding: 90px 6%;
+            background: var(--white);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .service-block {
+            background: var(--blush);
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            box-shadow: 0 6px 20px rgba(250, 234, 234, 0.5);
+        }
+
+        .service-block:hover {
+            transform: translateY(-10px);
+        }
+
+        .service-block .icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .service-block h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--text);
+        }
+
+        .service-block p {
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        /* Why Choose Us */
+        .why-section {
+            padding: 80px 6%;
+            background: var(--cream);
+            text-align: center;
+        }
+
+        .why-list {
+            list-style: none;
+            max-width: 800px;
+            margin: 40px auto 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            text-align: left;
+        }
+
+        .why-list li {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            border-left: 4px solid var(--gold);
+        }
+
+        .why-list li::before {
+            content: "✨";
+            font-size: 1.2rem;
+        }
+
+        /* Call To Action */
+        .cta-section {
+            padding: 100px 6%;
+            background: linear-gradient(135deg, var(--gold), var(--saffron));
+            text-align: center;
+            color: var(--white);
+        }
+
+        .cta-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            opacity: 0.95;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-book {
+            display: inline-block;
+            background: var(--white);
+            color: var(--saffron);
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-book:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Navbar & Footer Overrides */
+        nav {
+            position: fixed;
+            top: 0 !important;
+            margin-top: 0 !important;
+            width: 100%;
+            z-index: 999;
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 2px 24px rgba(0, 0, 0, 0.06);
+            padding: 0 6%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+        }
+
+        .nav-logo-badge {
+            width: 60px;
+            height: 60px;
+            background-color: transparent;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            position: relative;
+            z-index: 1000;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .nav-logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        footer {
+            background: #111;
+            color: #ddd;
+            padding: 60px 6%;
+            text-align: center;
+        }
+
+        footer .footer-logo-img {
+            width: 80px;
+            margin-bottom: 20px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav id="main-nav">
+        <div class="nav-brand">
+            <a href="/" class="nav-logo-badge">
+                <img src="new-logo.png" alt="Verma Caterers Logo" class="nav-logo-img">
+            </a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/#services">Services</a></li>
+            <li><a href="/#portfolio">Gallery</a></li>
+            <li><a href="/#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO -->
+    <section class="decor-hero reveal">
+        <!-- Slideshow Backgrounds -->
+        <div class="hero-slide active" style="background-image: url('Candle lit/60027fbf-8a74-4ef1-ba3f-5cd959ec6954.jpg');"></div>
+        <div class="hero-slide " style="background-image: url('Candle lit/7ff1efc6-4fba-4292-bf43-79360abe7b72.jpg');"></div>
+        <div class="hero-slide " style="background-image: url('Candle lit/cd80de67-256b-4202-8889-dd0f27b989bc.jpg');"></div>
+        <div class="hero-overlay"></div>
+
+
+
+
+        
+        
+        <div class="decor-hero-content"><p class="hero-subtitle">Verma Caterers</p><h1>Candle Lit Mandap</h1></div>
+    </section>
+
+    <!-- INTRO -->
+    <section class="intro-section reveal">
+        <div class="intro-container">
+
+
+
+            
+            
+            <h2 class="intro-title">Elegance in Every Detail</h2>
+            <p class="intro-text">Our candle lit mandap setups create a romantic and magical atmosphere for weddings and special ceremonies. With elegant candle arrangements, warm lighting, and beautiful décor elements, we design mandaps that feel intimate, peaceful, and visually stunning.</p>
+        </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="gallery-section">
+        <h2 class="gallery-title reveal">Our Candle Lit Mandap Gallery</h2>
+        <div class="decor-grid">
+            <div class="decor-item reveal"><img src="Candle lit/60027fbf-8a74-4ef1-ba3f-5cd959ec6954.jpg" alt="Candle Lit Mandap"></div>
+            <div class="decor-item reveal"><img src="Candle lit/7ff1efc6-4fba-4292-bf43-79360abe7b72.jpg" alt="Candle Lit Mandap"></div>
+            <div class="decor-item reveal"><img src="Candle lit/cd80de67-256b-4202-8889-dd0f27b989bc.jpg" alt="Candle Lit Mandap"></div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+
+    
+    
+
+    <!-- WHY CHOOSE US -->
+    <section class="why-section reveal">
+        <h2 class="gallery-title">Why Choose Verma Caterers</h2>
+        <ul class="why-list">
+            <li>Customized wedding décor themes</li>
+            <li>High-quality premium floral arrangements</li>
+            <li>Professional setup and execution</li>
+            <li>Experienced and creative decoration team</li>
+            <li>Attention to detail for every wedding element</li>
+        </ul>
+    </section>
+
+    <!-- CTA -->
+
+
+
+    
+    
+    <section class="cta-section reveal">
+        <h2>Create A Magical Wedding Setup</h2>
+        <p>Planning your event? Let Verma Caterers transform your venue into a breathtaking celebration space.</p>
+        <a href="/#contact" class="btn-book">Book Your Event</a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <img src="logo.jpg" alt="Verma Caterers Logo" class="footer-logo-img">
+        <p>Your trusted partner for catering, floral decoration, sound setup, and complete event management in Delhi
+            NCR.</p>
+        <p>&copy; 2025 Verma Caterers. All rights reserved.</p>
+    </footer>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox">
+        <span id="close-lightbox">&times;</span>
+        <img id="lightbox-img" src="" alt="Gallery Preview">
+    </div>
+
+    <script>
+        // Scroll reveal animation
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            el.style.opacity = 0;
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            revealObserver.observe(el);
+        });
+
+        // Lightbox functionality
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const closeBtn = document.getElementById('close-lightbox');
+
+        document.querySelectorAll('.decor-item img').forEach(img => {
+            img.addEventListener('click', () => {
+                lightboxImg.src = img.src;
+                lightbox.classList.add('active');
+            });
+        });
+
+        closeBtn.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+        });
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target !== lightboxImg) {
+                lightbox.classList.remove('active');
+            }
+        });
+
+        // Hero Slideshow
+        const slides = document.querySelectorAll('.hero-slide');
+        let currentSlide = 0;
+
+        setInterval(() => {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }, 4000); // Change image every 4 seconds
+    </script>
+</body>
+
+</html>

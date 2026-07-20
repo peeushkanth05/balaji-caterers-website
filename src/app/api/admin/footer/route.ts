@@ -13,12 +13,12 @@ export async function GET() {
       update: {},
       create: {
         id: "default",
-        aboutText: "Shree Balaji Caterers — Delhi NCR's premium wedding catering, fresh menus, floral decorators, and event management since 2011.",
+        aboutText: "Verma Caterers — Delhi NCR's premium wedding catering, fresh menus, floral decorators, and event management since 2011.",
         locationText: "Dwarka Sector 5, Madhu Vihar, New Delhi",
         mapsUrl: "https://www.google.com/maps/search/?api=1&query=28.5921,77.0460",
         phone: "+91 98104 83544",
         email: "vermasandeep124@gmail.com",
-        copyrightText: "© 2026 Shree Balaji Caterers. All Rights Reserved.",
+        copyrightText: "© 2026 Verma Caterers. All Rights Reserved.",
       },
     });
 
