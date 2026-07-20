@@ -294,13 +294,13 @@ export function Header() {
           
           {/* Logo Branding */}
           <Link href="/" aria-label="Verma Caterers Logo" className="flex items-center group py-1">
-            <div className="relative w-[150px] sm:w-[170px] md:w-[190px] lg:w-[220px] max-h-[42px] sm:max-h-[46px] md:max-h-[50px] lg:max-h-[56px] h-12 flex items-center justify-start transition-transform group-hover:scale-[1.02]">
+            <div className="relative w-[170px] sm:w-[200px] md:w-[230px] lg:w-[260px] h-12 sm:h-14 md:h-16 flex items-center justify-start transition-transform group-hover:scale-[1.02]">
               {/* Light Mode Logo */}
               <Image
                 src="/verma-logo-light.png"
                 alt="Verma Caterers Logo"
-                width={220}
-                height={56}
+                width={260}
+                height={64}
                 priority
                 className="w-full h-full object-contain dark:hidden"
               />
@@ -308,8 +308,8 @@ export function Header() {
               <Image
                 src="/verma-logo-dark.png"
                 alt="Verma Caterers Logo"
-                width={220}
-                height={56}
+                width={260}
+                height={64}
                 priority
                 className="w-full h-full object-contain hidden dark:block"
               />

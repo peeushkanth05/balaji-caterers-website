@@ -94,12 +94,12 @@ export function Footer() {
         {/* Brand & Socials Column */}
         <div className="md:col-span-5 space-y-5">
           <div className="flex items-center">
-            <div className="relative w-[180px] h-12 flex items-center justify-start">
+            <div className="relative w-[210px] h-16 flex items-center justify-start">
               <Image
                 src="/verma-logo-dark.png"
                 alt="Verma Caterers Logo"
-                width={180}
-                height={48}
+                width={210}
+                height={64}
                 className="w-full h-full object-contain"
               />
             </div>
