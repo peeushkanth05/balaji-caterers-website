@@ -229,12 +229,12 @@ export function Header() {
 
       {/* Top Bar Announcement */}
       {settings?.topBarActive && (
-        <div className="bg-slate-950 text-white py-2 px-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-[10px] font-bold tracking-wider uppercase border-b border-white/5 transition-all">
-          <div className="text-center sm:text-left flex-1 text-slate-300">
+        <div className="bg-slate-950 text-white py-2 px-4 sm:px-6 flex items-center justify-between gap-2 text-[10px] font-bold tracking-wider uppercase border-b border-white/5 transition-all">
+          <div className="text-center sm:text-left flex-1 text-slate-300 truncate">
             ✨ {settings.topBarText}
           </div>
 
-          <div className="flex items-center gap-6">
+          <div className="hidden sm:flex items-center gap-6">
             {/* Contact details */}
             {settings.showContact && (
               <div className="hidden md:flex items-center gap-4 text-slate-400">
@@ -510,7 +510,7 @@ export function Header() {
             )}
           </div>
 
-          {/* Mobile Hamburguer menu toggle */}
+          {/* Mobile Hamburger menu toggle */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="p-2 border border-slate-200 dark:border-slate-800 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-900 text-slate-600 dark:text-slate-300 md:hidden transition-colors"
@@ -520,107 +520,140 @@ export function Header() {
         </div>
       </nav>
 
-      {/* Mobile Drawer menu overlay */}
+      {/* Mobile Drawer menu full 100% opaque modal overlay */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="absolute top-full inset-x-0 bg-white/98 dark:bg-slate-950/98 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800/80 shadow-2xl p-6 md:hidden flex flex-col gap-6 z-30 max-h-[85vh] overflow-y-auto"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 bg-white dark:bg-slate-950 z-[100] md:hidden flex flex-col overflow-y-auto"
           >
-            <div className="flex flex-col gap-4 font-serif text-slate-800 dark:text-slate-200">
-              {menus.map((menu) => {
-                const isServices = menu.isServicesDropdown;
-                const isDropOpen = activeDropdownMenuId === menu.id;
-
-                if (isServices) {
-                  return (
-                    <div key={menu.id} className="flex flex-col gap-2">
-                      <button
-                        onClick={() => setActiveDropdownMenuId(isDropOpen ? null : menu.id)}
-                        className="flex items-center justify-between text-left hover:text-amber-500 transition-colors w-full font-bold"
-                      >
-                        <span>{menu.label}</span>
-                        <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isDropOpen ? "rotate-180 text-amber-500" : ""}`} />
-                      </button>
-
-                      {/* Dynamic mobile services accordion dropdown list */}
-                      <AnimatePresence>
-                        {isDropOpen && (
-                          <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: "auto", opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            className="overflow-hidden pl-4 border-l border-slate-100 dark:border-slate-800 flex flex-col gap-3 pt-2 pb-1"
-                          >
-                            {dbServices.map((ser) => (
-                              <a
-                                key={ser.id}
-                                href="/#services"
-                                onClick={() => setMobileMenuOpen(false)}
-                                className="text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors flex items-center gap-1.5"
-                              >
-                                {getServiceIcon(ser.icon)} {ser.title}
-                              </a>
-                            ))}
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                  );
-                }
-
-                return (
-                  <a
-                    key={menu.id}
-                    href={menu.link}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="hover:text-amber-600 transition-colors py-1 font-bold"
-                  >
-                    {menu.label}
-                  </a>
-                );
-              })}
+            {/* Mobile Modal Header */}
+            <div className="h-16 px-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between flex-shrink-0 bg-white dark:bg-slate-950">
+              <Link href="/" aria-label="Verma Caterers Logo" onClick={() => setMobileMenuOpen(false)}>
+                <div className="relative w-[180px] h-12 flex items-center justify-start">
+                  <Image
+                    src="/verma-logo-light.png"
+                    alt="Verma Caterers Logo"
+                    width={180}
+                    height={48}
+                    priority
+                    className="w-full h-full object-contain dark:hidden"
+                  />
+                  <Image
+                    src="/verma-logo-dark.png"
+                    alt="Verma Caterers Logo"
+                    width={180}
+                    height={48}
+                    priority
+                    className="w-full h-full object-contain hidden dark:block"
+                  />
+                </div>
+              </Link>
+              <button
+                onClick={() => setMobileMenuOpen(false)}
+                className="p-2 border border-slate-200 dark:border-slate-800 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-900 text-slate-600 dark:text-slate-300"
+              >
+                <X className="w-5 h-5" />
+              </button>
             </div>
 
-            {/* CTAs & Theme Switch at the bottom */}
-            <div className="flex flex-col gap-3 pt-4 border-t border-slate-100 dark:border-slate-800/80">
-              {activeActions.map((act) => (
-                <a
-                  key={act.id}
-                  href={act.link}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`w-full py-3 rounded-xl text-center text-xs font-bold shadow-sm ${
-                    act.style === "primary"
-                      ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white"
-                      : "border border-amber-500/40 text-amber-600 dark:text-amber-400"
-                  }`}
-                >
-                  {act.label}
-                </a>
-              ))}
+            {/* Mobile Modal Content */}
+            <div className="p-6 flex-1 flex flex-col justify-between gap-6">
+              <div className="flex flex-col gap-4 font-serif text-slate-800 dark:text-slate-200">
+                {menus.map((menu) => {
+                  const isServices = menu.isServicesDropdown;
+                  const isDropOpen = activeDropdownMenuId === menu.id;
 
-              {siteSettings?.enableThemeToggle && (
-                <button
-                  onClick={() => {
-                    toggleTheme();
-                    setMobileMenuOpen(false);
-                  }}
-                  className="w-full py-3 rounded-xl text-center text-xs font-bold bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center gap-2 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors mt-2"
-                >
-                  {theme === "light" ? (
-                    <>
-                      <Moon className="w-4 h-4 text-slate-600" /> Switch to Dark Mode
-                    </>
-                  ) : (
-                    <>
-                      <Sun className="w-4 h-4 text-amber-500" /> Switch to Light Mode
-                    </>
-                  )}
-                </button>
-              )}
+                  if (isServices) {
+                    return (
+                      <div key={menu.id} className="flex flex-col gap-2">
+                        <button
+                          onClick={() => setActiveDropdownMenuId(isDropOpen ? null : menu.id)}
+                          className="flex items-center justify-between text-left hover:text-amber-500 transition-colors w-full font-bold py-1"
+                        >
+                          <span>{menu.label}</span>
+                          <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isDropOpen ? "rotate-180 text-amber-500" : ""}`} />
+                        </button>
+
+                        {/* Dynamic mobile services accordion dropdown list */}
+                        <AnimatePresence>
+                          {isDropOpen && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              className="overflow-hidden pl-4 border-l-2 border-amber-500/40 flex flex-col gap-3 pt-2 pb-1"
+                            >
+                              {dbServices.map((ser) => (
+                                <a
+                                  key={ser.id}
+                                  href="/#services"
+                                  onClick={() => setMobileMenuOpen(false)}
+                                  className="text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors flex items-center gap-1.5"
+                                >
+                                  {getServiceIcon(ser.icon)} {ser.title}
+                                </a>
+                              ))}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    );
+                  }
+
+                  return (
+                    <a
+                      key={menu.id}
+                      href={menu.link}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="hover:text-amber-600 transition-colors py-1.5 font-bold text-base"
+                    >
+                      {menu.label}
+                    </a>
+                  );
+                })}
+              </div>
+
+              {/* CTAs & Theme Switch at the bottom */}
+              <div className="flex flex-col gap-3 pt-6 border-t border-slate-100 dark:border-slate-800">
+                {activeActions.map((act) => (
+                  <a
+                    key={act.id}
+                    href={act.link}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`w-full py-3.5 rounded-2xl text-center text-xs font-bold shadow-sm ${
+                      act.style === "primary"
+                        ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md shadow-amber-500/20"
+                        : "border border-amber-500/40 text-amber-600 dark:text-amber-400"
+                    }`}
+                  >
+                    {act.label}
+                  </a>
+                ))}
+
+                {siteSettings?.enableThemeToggle && (
+                  <button
+                    onClick={() => {
+                      toggleTheme();
+                      setMobileMenuOpen(false);
+                    }}
+                    className="w-full py-3.5 rounded-2xl text-center text-xs font-bold bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center gap-2 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                  >
+                    {theme === "light" ? (
+                      <>
+                        <Moon className="w-4 h-4 text-slate-600" /> Switch to Dark Mode
+                      </>
+                    ) : (
+                      <>
+                        <Sun className="w-4 h-4 text-amber-500" /> Switch to Light Mode
+                      </>
+                    )}
+                  </button>
+                )}
+              </div>
             </div>
           </motion.div>
         )}

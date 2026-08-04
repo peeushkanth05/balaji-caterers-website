@@ -262,7 +262,7 @@ export default async function HomePage() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans transition-colors">
       {/* Floating Action Buttons */}
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
+      <div className="fixed bottom-6 right-6 z-40 flex flex-col gap-3">
         <a
           href={`https://wa.me/${whatsapp}`}
           target="_blank"
