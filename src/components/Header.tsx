@@ -446,8 +446,6 @@ export function Header() {
                 );
               }
 
-              const isHome = menu.label.toLowerCase() === "home";
-
               return (
                 <a
                   key={menu.id}
@@ -455,9 +453,7 @@ export function Header() {
                   className="relative group text-slate-800 dark:text-slate-200 hover:text-amber-500 transition-colors font-bold"
                 >
                   <span>{menu.label}</span>
-                  {!isHome && (
-                    <span className="absolute bottom-[-4px] left-0 h-[2px] bg-amber-500 transition-all duration-300 w-0 group-hover:w-full" />
-                  )}
+                  <span className="absolute bottom-[-4px] left-0 h-[2px] bg-amber-500 transition-all duration-300 w-0 group-hover:w-full" />
                 </a>
               );
             })}
