@@ -33,7 +33,7 @@ async function main() {
   }
 
   // 2. Create Staff Admin User
-  const staffEmail = 'staff@vermacaterers.in';
+  const staffEmail = 'staff@vermacaterersevents.com';
   const existingStaff = await prisma.user.findUnique({
     where: { email: staffEmail },
   });

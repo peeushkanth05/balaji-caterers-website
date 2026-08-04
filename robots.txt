@@ -1,5 +1,5 @@
 # Robots.txt for Verma Caterers
-# https://vermacaterers.in/
+# https://vermacaterersevents.com/
 
 User-agent: *
 Allow: /
@@ -21,4 +21,4 @@ Disallow: /index_utf8.html
 Disallow: /server.js
 
 # Sitemap
-Sitemap: https://vermacaterers.in/sitemap.xml
+Sitemap: https://vermacaterersevents.com/sitemap.xml

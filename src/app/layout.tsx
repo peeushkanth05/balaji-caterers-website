@@ -19,7 +19,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://vermacaterers.in"),
+  metadataBase: new URL("https://vermacaterersevents.com"),
   title: "Verma Caterers | Best Catering & Event Services in Delhi NCR",
   description:
     "Verma Caterers offers premium catering, floral decoration, sound & DJ setup, mattress rental, and full event management in Delhi NCR.",
@@ -63,8 +63,8 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "Verma Caterers",
-    "url": "https://vermacaterers.in",
-    "logo": "https://vermacaterers.in/verma-logo-512.png",
+    "url": "https://vermacaterersevents.com",
+    "logo": "https://vermacaterersevents.com/verma-logo-512.png",
     "contactPoint": {
       "@type": "ContactPoint",
       "telephone": "+91-9810483544",
