@@ -61,15 +61,63 @@ export default function RootLayout({
 }>) {
   const organizationSchema = {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Verma Caterers",
-    "url": "https://vermacaterersevents.com",
-    "logo": "https://vermacaterersevents.com/verma-logo-512.png",
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "telephone": "+91-9810483544",
-      "contactType": "customer service"
-    }
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://vermacaterersevents.com/#organization",
+        "name": "Verma Caterers",
+        "url": "https://vermacaterersevents.com",
+        "logo": "https://vermacaterersevents.com/verma-logo-512.png",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+91-9810483544",
+          "contactType": "customer service",
+          "areaServed": "IN"
+        }
+      },
+      {
+        "@type": ["LocalBusiness", "FoodEstablishment"],
+        "@id": "https://vermacaterersevents.com/#localbusiness",
+        "name": "Verma Caterers & Event Management",
+        "image": "https://vermacaterersevents.com/verma-logo-512.png",
+        "url": "https://vermacaterersevents.com",
+        "telephone": "+91-9810483544",
+        "priceRange": "₹₹",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Dwarka Sector 5, Madhu Vihar",
+          "addressLocality": "New Delhi",
+          "addressRegion": "Delhi",
+          "postalCode": "110059",
+          "addressCountry": "IN"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 28.5921,
+          "longitude": 77.0460
+        },
+        "openingHoursSpecification": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+          "opens": "09:00",
+          "closes": "21:00"
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.9",
+          "reviewCount": "500"
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://vermacaterersevents.com/#website",
+        "url": "https://vermacaterersevents.com",
+        "name": "Verma Caterers",
+        "publisher": {
+          "@id": "https://vermacaterersevents.com/#organization"
+        }
+      }
+    ]
   };
 
   return (

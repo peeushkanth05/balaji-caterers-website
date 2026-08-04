@@ -212,6 +212,12 @@ export function Footer() {
               {policy.name}
             </button>
           ))}
+          <button
+            onClick={() => window.dispatchEvent(new Event("open-cookie-preferences"))}
+            className="hover:text-amber-500 text-amber-500/90 transition-colors"
+          >
+            Cookie Preferences
+          </button>
         </div>
       </div>
 
