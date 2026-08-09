@@ -1,9 +1,34 @@
+import { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PackagesPageClient } from "@/components/PackagesPageClient";
 
 export const revalidate = 0; // Fresh content on each request
+
+export const metadata: Metadata = {
+  title: "Catering Packages & Pricing | Verma Caterers Delhi NCR",
+  description:
+    "Explore luxury catering packages for weddings, corporate galas, and birthday celebrations in Delhi NCR. Custom menus, live counters & affordable per-plate pricing.",
+  alternates: {
+    canonical: "https://vermacaterersevents.com/packages",
+  },
+  openGraph: {
+    title: "Catering Packages & Pricing | Verma Caterers Delhi NCR",
+    description:
+      "Explore luxury catering packages for weddings, corporate galas, and birthday celebrations in Delhi NCR.",
+    url: "https://vermacaterersevents.com/packages",
+    siteName: "Verma Caterers",
+    images: [
+      {
+        url: "/verma-logo-512.png",
+        width: 512,
+        height: 512,
+        alt: "Verma Caterers Logo",
+      },
+    ],
+  },
+};
 
 export default async function PackagesPage() {
   let packages: any[] = [];
@@ -21,7 +46,7 @@ export default async function PackagesPage() {
     console.error("Failed to fetch packages for public page:", e);
   }
 
-  const cleanPackages = packages.map(pkg => ({
+  const cleanPackages = packages.map((pkg) => ({
     ...pkg,
     pricePerPerson: Number(pkg.pricePerPerson),
     discountValue: Number(pkg.discountValue),

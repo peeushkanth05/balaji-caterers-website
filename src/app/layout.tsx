@@ -3,8 +3,9 @@ import { Nunito, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
 import { FloatingSocials } from "@/components/FloatingSocials";
-
 import CookieBanner from "@/components/CookieBanner";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
+import { prisma } from "@/lib/prisma";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -24,6 +25,9 @@ export const metadata: Metadata = {
   description:
     "Verma Caterers offers premium catering, floral decoration, sound & DJ setup, mattress rental, and full event management in Delhi NCR.",
   manifest: "/manifest.json",
+  alternates: {
+    canonical: "https://vermacaterersevents.com",
+  },
   icons: {
     icon: [
       { url: "/favicon.ico" },
@@ -35,7 +39,9 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Verma Caterers | Best Catering & Event Services in Delhi NCR",
-    description: "Premium catering, floral décor, DJ & sound, and full event management services in Delhi NCR. 15+ years, 500+ events.",
+    description:
+      "Premium catering, floral décor, DJ & sound, and full event management services in Delhi NCR. 15+ years, 500+ events.",
+    url: "https://vermacaterersevents.com",
     siteName: "Verma Caterers",
     images: [
       {
@@ -49,16 +55,26 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Verma Caterers | Best Catering & Event Services in Delhi NCR",
-    description: "Premium catering, floral décor, DJ & sound, and full event management services in Delhi NCR.",
+    description:
+      "Premium catering, floral décor, DJ & sound, and full event management services in Delhi NCR.",
     images: ["/verma-logo-512.png"],
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  let settings: any = null;
+  try {
+    settings = await prisma.siteSetting.findUnique({
+      where: { id: "default" },
+    });
+  } catch (e) {
+    // Graceful fallback
+  }
+
   const organizationSchema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -72,7 +88,7 @@ export default function RootLayout({
           "@type": "ContactPoint",
           "telephone": "+91-9810483544",
           "contactType": "customer service",
-          "areaServed": "IN"
+          "areaServed": "Delhi NCR"
         }
       },
       {
@@ -87,7 +103,7 @@ export default function RootLayout({
           "@type": "PostalAddress",
           "streetAddress": "Dwarka Sector 5, Madhu Vihar",
           "addressLocality": "New Delhi",
-          "addressRegion": "Delhi",
+          "addressRegion": "Delhi NCR",
           "postalCode": "110059",
           "addressCountry": "IN"
         },
@@ -145,6 +161,7 @@ export default function RootLayout({
         />
       </head>
       <body className="font-sans antialiased min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors">
+        <GoogleAnalytics gaId={settings?.googleAnalyticsId} />
         <Providers>
           {children}
           <FloatingSocials />

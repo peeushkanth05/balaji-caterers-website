@@ -34,7 +34,18 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: portfolio.seoTitle || `${portfolio.title} | Verma Caterers`,
     description: portfolio.seoDescription || portfolio.shortDescription,
+    alternates: {
+      canonical: `https://vermacaterersevents.com/portfolio/${params.slug}`,
+    },
     openGraph: {
+      title: portfolio.seoTitle || portfolio.title,
+      description: portfolio.seoDescription || portfolio.shortDescription,
+      url: `https://vermacaterersevents.com/portfolio/${params.slug}`,
+      siteName: "Verma Caterers",
+      images: portfolio.coverImage ? [portfolio.coverImage] : [],
+    },
+    twitter: {
+      card: "summary_large_image",
       title: portfolio.seoTitle || portfolio.title,
       description: portfolio.seoDescription || portfolio.shortDescription,
       images: portfolio.coverImage ? [portfolio.coverImage] : [],
