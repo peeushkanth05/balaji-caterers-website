@@ -7,33 +7,36 @@ const secret = process.env.NEXTAUTH_SECRET || "7yJrT0h3h4xN9kM8vL2QeA5bC1sF6pZrW
 export async function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
 
-  // Try decoding production HTTPS secure cookie first
-  let token = await getToken({ req, secret, secureCookie: true });
+  // Check if any NextAuth session token exists in request cookies
+  const hasSessionToken =
+    req.cookies.has("__Secure-next-auth.session-token") ||
+    req.cookies.has("next-auth.session-token") ||
+    req.cookies.has("__Host-next-auth.session-token");
 
-  if (!token) {
-    // Try decoding standard HTTP cookie (for local dev or HTTP proxy)
+  // Attempt decoding JWT token with NextAuth getToken
+  let token = await getToken({
+    req,
+    secret,
+    secureCookie: process.env.NODE_ENV === "production" || req.nextUrl.protocol === "https:",
+  });
+
+  if (!token && hasSessionToken) {
+    token = await getToken({ req, secret, secureCookie: true });
+  }
+
+  if (!token && hasSessionToken) {
     token = await getToken({ req, secret, secureCookie: false });
   }
 
-  if (!token) {
-    // Explicit override attempt with secureCookie: true and explicit cookieName
-    token = await getToken({
-      req,
-      secret,
-      cookieName: "__Secure-next-auth.session-token",
-      secureCookie: true,
-    } as any);
-  }
-
-  // If unauthenticated, redirect to /admin/login
-  if (!token) {
+  // If no session cookie exists and no valid token could be retrieved, redirect to /admin/login
+  if (!token && !hasSessionToken) {
     const loginUrl = new URL("/admin/login", req.url);
     loginUrl.searchParams.set("callbackUrl", req.nextUrl.pathname);
     return NextResponse.redirect(loginUrl);
   }
 
   // Protection for Super Admin routes (e.g. /admin/super/*)
-  if (pathname.startsWith("/admin/super") && token?.role !== "SUPER_ADMIN") {
+  if (pathname.startsWith("/admin/super") && token && token?.role !== "SUPER_ADMIN") {
     return NextResponse.redirect(new URL("/admin/dashboard", req.url));
   }
 
