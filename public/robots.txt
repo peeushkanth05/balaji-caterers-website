@@ -1,13 +1,15 @@
-# Robots.txt for Verma Caterers & Events
+# robots.txt for Verma Caterers and Events
 # https://vermacaterersevents.com/
 
 User-agent: *
 Allow: /
 
-# Private & Administrative Routes
+# Disallow private and system directories
 Disallow: /admin/
+Disallow: /staging/
+Disallow: /tmp/
+Disallow: /.git/
 Disallow: /api/
-Disallow: /login
 
-# Sitemap
+# Sitemap location
 Sitemap: https://vermacaterersevents.com/sitemap.xml

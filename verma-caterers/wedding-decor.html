@@ -1,49 +1,3 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Grand Wedding Décor | Verma Caterers</title>
-    <meta name="description"
-        content="Creating breathtaking wedding setups that turn your special day into a magical celebration. Verma Caterers offers premium decor in Delhi NCR.">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Nunito:wght@300;400;600;700;800&display=swap&font-display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="style.css"> <!-- Main styles inherited if needed -->
-
-    <style>
-        :root {
-            --gold: #f5a623;
-            --deep-gold: #e08a00;
-            --saffron: #ff6b2b;
-            --cream: #fcf9f2;
-            --blush: #faeaea;
-            --white: #ffffff;
-            --text: #2c2c2c;
-            --muted: #666;
-            --shadow: 0 8px 40px rgba(245, 166, 35, 0.12);
-        }
-
-        body {
-            font-family: 'Nunito', sans-serif;
-            background: var(--cream);
-            color: var(--text);
-            overflow-x: hidden;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* Hero Section with Slideshow */
-        .decor-hero {
-            position: relative;
-            min-height: 80vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -557,13 +511,13 @@
         <p>Planning your event? Let Verma Caterers transform your venue into a breathtaking celebration space.</p>
         <a href="/#contact" class="btn-book">Book Your Event</a>
     </section>
+    </section>
 
     <!-- FOOTER -->
     <footer>
         <img src="logo.jpg" alt="Verma Caterers Logo" class="footer-logo-img">
-        <p>Your trusted partner for catering, floral decoration, sound setup, and complete event management in Delhi
-            NCR.</p>
-        <p>&copy; 2025 Verma Caterers. All rights reserved.</p>
+        <p>Your trusted partner for catering, floral decoration, sound setup, and complete event management in Delhi NCR.</p>
+        <p>&copy; 2026 Verma Caterers and Events. All rights reserved.</p>
     </footer>
 
     <!-- Lightbox Modal -->
@@ -613,17 +567,79 @@
                 lightbox.classList.remove('active');
             }
         });
-
-        // Hero Slideshow
-        const slides = document.querySelectorAll('.hero-slide');
-        let currentSlide = 0;
-
-        setInterval(() => {
-            slides[currentSlide].classList.remove('active');
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].classList.add('active');
-        }, 4000); // Change image every 4 seconds
     </script>
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/919810483544?text=Hi%20Verma%20Caterers%20and%20Events%2C%20I%20am%20interested%20in%20booking%20an%20event." class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Chat with Sandeep Verma on WhatsApp">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2a13 13 0 0 0-11 20L3 29l7-2a13 13 0 1 0 6-25zm0 24a11 11 0 0 1-5.6-1.5l-.4-.2-4.1 1.1 1.1-4-.3-.4A11 11 0 1 1 16 26zm6-8.2c-.3-.2-1.9-1-2.2-1.1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7 0a9 9 0 0 1-2.6-1.6 10 10 0 0 1-1.8-2.3c-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6a.6.6 0 0 0 0-.6c0-.2-.7-1.7-1-2.3-.3-.6-.6-.5-.8-.5h-.7c-.2 0-.7.1-1 .5s-1.3 1.3-1.3 3.1 1.4 3.6 1.5 3.8 2.7 4.1 6.5 5.8c.9.4 1.6.6 2.2.8.9.3 1.8.2 2.5.1.8-.1 2.5-1 2.8-2s.3-1.9.2-2c-.1-.1-.3-.2-.6-.4z"/></svg>
+        <span class="whatsapp-tooltip">Chat with Sandeep Verma</span>
+    </a>
+
+    <!-- Modal Form -->
+    <div class="quote-modal-overlay" id="quoteModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="quote-modal-container">
+            <button type="button" class="quote-modal-close" id="quoteModalClose" aria-label="Close quote modal">&times;</button>
+            <h2 class="quote-modal-title" id="modalTitle">Get Free Quote from Sandeep Verma</h2>
+            <p class="quote-modal-subtitle">Fill in your event details below for a customized catering &amp; decor proposal within 2 hours.</p>
+            <form id="quoteModalForm" action="https://formspree.io/f/FORM_ID" method="POST">
+                <input type="hidden" name="_next" value="https://vermacaterersevents.com/thank-you.html">
+                <div class="modal-form-group">
+                    <label for="quoteFullName">Full Name <span class="required">*</span></label>
+                    <input type="text" id="quoteFullName" name="fullName" class="modal-form-control" placeholder="e.g. Rahul Sharma" required>
+                </div>
+                <div class="modal-form-row">
+                    <div class="modal-form-group">
+                        <label for="quotePhone">Phone Number <span class="required">*</span></label>
+                        <input type="tel" id="quotePhone" name="phone" class="modal-form-control" placeholder="10-digit mobile number" pattern="[6-9]\d{9}" title="Please enter a valid 10-digit Indian mobile number" required>
+                    </div>
+                    <div class="modal-form-group">
+                        <label for="quoteEmail">Email Address (Optional)</label>
+                        <input type="email" id="quoteEmail" name="email" class="modal-form-control" placeholder="name@example.com">
+                    </div>
+                </div>
+                <div class="modal-form-row">
+                    <div class="modal-form-group">
+                        <label for="quoteEventType">Event Type <span class="required">*</span></label>
+                        <select id="quoteEventType" name="eventType" class="modal-form-control" required>
+                            <option value="">Select Event Type</option>
+                            <option value="Wedding" selected>Wedding</option>
+                            <option value="Birthday Party">Birthday Party</option>
+                            <option value="Corporate Event">Corporate Event</option>
+                            <option value="Engagement">Engagement</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="modal-form-group">
+                        <label for="quoteEventDate">Event Date <span class="required">*</span></label>
+                        <input type="date" id="quoteEventDate" name="eventDate" class="modal-form-control" required>
+                    </div>
+                </div>
+                <div class="modal-form-row">
+                    <div class="modal-form-group">
+                        <label for="quoteExpectedGuests">Expected Guests <span class="required">*</span></label>
+                        <select id="quoteExpectedGuests" name="expectedGuests" class="modal-form-control" required>
+                            <option value="">Select Guest Count</option>
+                            <option value="50-100">50 - 100 Guests</option>
+                            <option value="100-200">100 - 200 Guests</option>
+                            <option value="200-500">200 - 500 Guests</option>
+                            <option value="500-1000">500 - 1000 Guests</option>
+                            <option value="1000+">1000+ Guests</option>
+                        </select>
+                    </div>
+                    <div class="modal-form-group">
+                        <label for="quoteLocation">Location / Venue</label>
+                        <input type="text" id="quoteLocation" name="location" class="modal-form-control" placeholder="e.g. Dwarka / Gurgaon">
+                    </div>
+                </div>
+                <div class="modal-form-group">
+                    <label for="quoteMessage">Special Requirements / Message</label>
+                    <textarea id="quoteMessage" name="message" class="modal-form-control" rows="3" placeholder="Tell us about food preferences, themes, decor..."></textarea>
+                </div>
+                <button type="submit" class="modal-submit-btn">Get Free Quote from Sandeep Verma</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js" defer></script>
 </body>
 
 </html>
