@@ -22,9 +22,31 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Please enter your email and password");
         }
 
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email.toLowerCase().trim() },
+        const cleanEmail = credentials.email.toLowerCase().trim();
+        let user = await prisma.user.findUnique({
+          where: { email: cleanEmail },
         });
+
+        // Self-healing: Ensure default super admin & staff admin exist if DB is fresh or unseeded
+        if (!user) {
+          if (cleanEmail === "vermasandeep124@gmail.com" || cleanEmail === "staff@vermacaterersevents.com") {
+            const isSuper = cleanEmail === "vermasandeep124@gmail.com";
+            const defaultPass = isSuper ? "Admin@Verma2026" : "Staff@Verma2026";
+            const hashedPassword = await bcrypt.hash(defaultPass, 10);
+
+            user = await prisma.user.upsert({
+              where: { email: cleanEmail },
+              update: {},
+              create: {
+                name: isSuper ? "Sandeep Verma (Owner)" : "Event Manager Staff",
+                email: cleanEmail,
+                password: hashedPassword,
+                phone: isSuper ? "+919810483544" : "+919810000000",
+                role: isSuper ? "SUPER_ADMIN" : "ADMIN",
+              },
+            });
+          }
+        }
 
         if (!user || !user.password) {
           throw new Error("Invalid credentials");
@@ -35,6 +57,7 @@ export const authOptions: NextAuthOptions = {
         if (!isValidPassword) {
           throw new Error("Invalid credentials");
         }
+
 
         return {
           id: user.id,

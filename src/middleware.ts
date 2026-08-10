@@ -1,7 +1,7 @@
 import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 
-const authMiddleware = withAuth(
+export default withAuth(
   function middleware(req) {
     const token = req.nextauth.token;
     const pathname = req.nextUrl.pathname;
@@ -17,20 +17,10 @@ const authMiddleware = withAuth(
       authorized: ({ token }) => !!token,
     },
   }
-
 );
-
-export default async function middleware(req: any, event: any) {
-  const host = req.headers.get("host") || "localhost:3000";
-  const proto = req.headers.get("x-forwarded-proto") || "https";
-  process.env.NEXTAUTH_URL = `${proto}://${host}`;
-
-  return (authMiddleware as any)(req, event);
-}
 
 export const config = {
   matcher: [
-    "/admin",
     "/admin/dashboard/:path*",
     "/admin/portfolio/:path*",
     "/admin/leads/:path*",
@@ -39,5 +29,22 @@ export const config = {
     "/admin/gallery/:path*",
     "/admin/settings/:path*",
     "/admin/super/:path*",
+    "/admin/advertisements/:path*",
+    "/admin/alerts/:path*",
+    "/admin/blogs/:path*",
+    "/admin/clients/:path*",
+    "/admin/consent/:path*",
+    "/admin/contact/:path*",
+    "/admin/faqs/:path*",
+    "/admin/footer/:path*",
+    "/admin/header/:path*",
+    "/admin/hero/:path*",
+    "/admin/reports/:path*",
+    "/admin/sections/:path*",
+    "/admin/social/:path*",
+    "/admin/testimonials/:path*",
+    "/admin/users/:path*",
+    "/admin/venues/:path*",
+    "/admin/videos/:path*",
   ],
 };
