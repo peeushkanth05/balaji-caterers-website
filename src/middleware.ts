@@ -7,11 +7,19 @@ const secret = process.env.NEXTAUTH_SECRET || "7yJrT0h3h4xN9kM8vL2QeA5bC1sF6pZrW
 export async function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
 
-  // Try retrieving token with secureCookie: true first (for production HTTPS on custom domain)
-  let token = await getToken({ req, secret, secureCookie: true });
+  // Multi-tier token resolution to ensure NextAuth session token is decoded on Vercel production
+  let token = await getToken({ req, secret, cookieName: "__Secure-next-auth.session-token" });
   if (!token) {
-    // Fallback to standard cookie lookup (for local dev or proxies)
+    token = await getToken({ req, secret, cookieName: "next-auth.session-token" });
+  }
+  if (!token) {
+    token = await getToken({ req, secret, secureCookie: true });
+  }
+  if (!token) {
     token = await getToken({ req, secret, secureCookie: false });
+  }
+  if (!token) {
+    token = await getToken({ req, secret });
   }
 
   // If unauthenticated, redirect to /admin/login
