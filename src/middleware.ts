@@ -1,23 +1,33 @@
-import { withAuth } from "next-auth/middleware";
+import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-export default withAuth(
-  function middleware(req) {
-    const token = req.nextauth.token;
-    const pathname = req.nextUrl.pathname;
+const secret = process.env.NEXTAUTH_SECRET || "7yJrT0h3h4xN9kM8vL2QeA5bC1sF6pZrW8uYdI3nXoKqE7tG9mV2aL5cB0rN4sHx";
 
-    // Protection for Super Admin routes (e.g. /admin/super/*)
-    if (pathname.startsWith("/admin/super") && token?.role !== "SUPER_ADMIN") {
-      return NextResponse.redirect(new URL("/admin/dashboard", req.url));
-    }
-  },
-  {
-    secret: process.env.NEXTAUTH_SECRET || "7yJrT0h3h4xN9kM8vL2QeA5bC1sF6pZrW8uYdI3nXoKqE7tG9mV2aL5cB0rN4sHx",
-    callbacks: {
-      authorized: ({ token }) => !!token,
-    },
+export async function middleware(req: NextRequest) {
+  const pathname = req.nextUrl.pathname;
+
+  // Try retrieving token with secureCookie: true first (for production HTTPS on custom domain)
+  let token = await getToken({ req, secret, secureCookie: true });
+  if (!token) {
+    // Fallback to standard cookie lookup (for local dev or proxies)
+    token = await getToken({ req, secret, secureCookie: false });
   }
-);
+
+  // If unauthenticated, redirect to /admin/login
+  if (!token) {
+    const loginUrl = new URL("/admin/login", req.url);
+    loginUrl.searchParams.set("callbackUrl", req.nextUrl.pathname);
+    return NextResponse.redirect(loginUrl);
+  }
+
+  // Protection for Super Admin routes (e.g. /admin/super/*)
+  if (pathname.startsWith("/admin/super") && token?.role !== "SUPER_ADMIN") {
+    return NextResponse.redirect(new URL("/admin/dashboard", req.url));
+  }
+
+  return NextResponse.next();
+}
 
 export const config = {
   matcher: [
