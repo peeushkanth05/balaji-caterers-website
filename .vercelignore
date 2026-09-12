@@ -1,0 +1,10 @@
+# Legacy static HTML files and backups
+legacy_static_backup/
+verma-caterers/
+*.html
+*.ps1
+*.bat
+server.js
+generate-portfolio-pages.js
+optimize-images.js
+nginx-config.txt

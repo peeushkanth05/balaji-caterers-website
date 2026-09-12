@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { Send, Loader2 } from "lucide-react";
 
+import { trackContactFormStart, trackContactFormSubmit, trackWhatsAppClick } from "@/lib/gtag";
+
 const DEFAULT_FIELDS = [
   { id: "name", name: "name", label: "Your Name", placeholder: "Peeyush Kanth", required: true, isEnabled: true, displayOrder: 0, type: "text" },
   { id: "phone", name: "phone", label: "Mobile Number", placeholder: "+91 98765 43210", required: true, isEnabled: true, displayOrder: 1, type: "text" },
@@ -137,6 +139,7 @@ export function PublicForm({
       const result = await res.json();
 
       if (result.success) {
+        trackContactFormSubmit(eventType, serviceNeeded, guestCount);
         setStatusMsg({
           type: "success",
           text: settings?.successMessage || "✅ Enquiry Received! Our team will call you shortly.",
@@ -175,11 +178,11 @@ ${message ? "*Details:* " + message : ""}`.trim();
   };
 
   return (
-    <div className="bg-white dark:bg-slate-900 p-8 sm:p-10 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl transition-colors">
-      <h3 className="font-serif font-bold text-2xl text-slate-900 dark:text-white mb-2">
+    <div className="bg-white p-6 sm:p-10 rounded-3xl border border-slate-200/80 shadow-xl">
+      <div className="font-serif font-bold text-2xl text-slate-900 mb-2">
         {settings?.formTitle || "🎉 Request a Free Quote"}
-      </h3>
-      <p className="text-xs text-slate-500 dark:text-slate-400 mb-6">
+      </div>
+      <p className="text-xs text-slate-500 mb-6">
         {settings?.formDescription || "Fill out your event details below for a customized quotation."}
       </p>
 
@@ -187,8 +190,8 @@ ${message ? "*Details:* " + message : ""}`.trim();
         <div
           className={`mb-6 p-4 rounded-2xl text-xs font-bold ${
             statusMsg.type === "success"
-              ? "bg-emerald-50 dark:bg-emerald-950/20 text-emerald-800 dark:text-emerald-450 border border-emerald-200 dark:border-emerald-900/40"
-              : "bg-red-50 dark:bg-red-955/20 text-red-800 dark:text-red-450 border border-red-200 dark:border-red-900/40"
+              ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
+              : "bg-red-50 text-red-800 border border-red-200"
           }`}
         >
           {statusMsg.text}
@@ -204,25 +207,29 @@ ${message ? "*Details:* " + message : ""}`.trim();
 
             return (
               <div key={field.id} className={isWide ? "sm:col-span-2" : ""}>
-                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+                <label htmlFor={`form-field-${field.id}`} className="block text-xs font-bold text-slate-700 mb-1">
                   {field.label} {field.required && "*"}
                 </label>
 
                 {field.type === "textarea" ? (
                   <textarea
+                    id={`form-field-${field.id}`}
                     rows={3}
                     required={field.required}
                     value={val}
                     onChange={(e) => setter(e.target.value)}
                     placeholder={field.placeholder || ""}
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none"
+                    aria-label={field.label}
+                    className="w-full bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500 focus:outline-none transition-colors"
                   />
                 ) : field.type === "select" ? (
                   <select
+                    id={`form-field-${field.id}`}
                     required={field.required}
                     value={val}
                     onChange={(e) => setter(e.target.value)}
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none font-medium"
+                    aria-label={field.label}
+                    className="w-full bg-slate-50 border border-slate-200 text-slate-900 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500 focus:outline-none font-medium transition-colors"
                   >
                     <option value="">{field.placeholder || "Select Option"}</option>
                     {field.id === "eventType" ? (
@@ -241,12 +248,14 @@ ${message ? "*Details:* " + message : ""}`.trim();
                   </select>
                 ) : (
                   <input
+                    id={`form-field-${field.id}`}
                     type={field.type || "text"}
                     required={field.required}
                     value={val}
                     onChange={(e) => setter(e.target.value)}
                     placeholder={field.placeholder || ""}
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none"
+                    aria-label={field.label}
+                    className="w-full bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500 focus:outline-none transition-colors"
                   />
                 )}
               </div>

@@ -96,7 +96,7 @@ export function Footer() {
           <div className="flex items-center">
             <div className="relative w-[210px] h-16 flex items-center justify-start">
               <Image
-                src="/verma-logo-dark.png"
+                src="/verma-logo-dark.webp"
                 alt="Verma Caterers Logo"
                 width={210}
                 height={64}
@@ -105,7 +105,7 @@ export function Footer() {
             </div>
           </div>
 
-          <p className="text-slate-400 leading-relaxed max-w-sm text-[11px]">
+          <p className="text-slate-300 leading-relaxed max-w-sm text-[11px]">
             {footer.aboutText}
           </p>
 
@@ -118,7 +118,8 @@ export function Footer() {
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2.5 bg-white/5 hover:bg-amber-500 hover:text-white rounded-xl text-slate-400 transition-all shadow-md active:scale-95"
+                  aria-label={`Visit our ${link.platform} page`}
+                  className="p-3 bg-white/5 hover:bg-amber-500 hover:text-white rounded-xl text-slate-300 transition-all shadow-md active:scale-95 min-w-[44px] min-h-[44px] flex items-center justify-center"
                   title={link.platform}
                 >
                   {getPlatformIcon(link.platform)}
@@ -130,7 +131,7 @@ export function Footer() {
 
         {/* Navigation Quick Links Column */}
         <div className="md:col-span-3 space-y-4">
-          <h4 className="text-white font-bold text-[10px] uppercase tracking-wider">Quick Navigation</h4>
+          <div className="text-white font-bold text-[10px] uppercase tracking-wider">Quick Navigation</div>
           <ul className="space-y-2.5 font-semibold text-slate-400 text-[11px]">
             <li>
               <Link href="/" className="hover:text-white transition-colors">
@@ -162,7 +163,7 @@ export function Footer() {
 
         {/* Contacts & Coordinates Column */}
         <div className="md:col-span-4 space-y-4">
-          <h4 className="text-white font-bold text-[10px] uppercase tracking-wider">Our Location & Coordinates</h4>
+          <div className="text-white font-bold text-[10px] uppercase tracking-wider">Our Location & Coordinates</div>
           <ul className="space-y-3 text-slate-400 text-[11px]">
             <li className="flex items-start gap-2">
               <MapPin className="w-4 h-4 text-amber-500 flex-shrink-0 mt-0.5" />
@@ -175,17 +176,17 @@ export function Footer() {
                 >
                   {footer.locationText}
                 </a>
-                <span className="text-[9px] text-slate-500 block mt-0.5">Click to view on Google Maps</span>
+                <span className="text-[9px] text-slate-400 block mt-0.5">Click to view on Google Maps</span>
               </div>
             </li>
             <li className="flex items-center gap-2">
-              <Phone className="w-4 h-4 text-amber-500 flex-shrink-0" />
+              <Phone className="w-4 h-4 text-amber-400 flex-shrink-0" />
               <a href={`tel:${footer.phone.replace(/[^0-9+]/g, "")}`} className="hover:text-white transition-colors font-medium">
                 {footer.phone}
               </a>
             </li>
             <li className="flex items-center gap-2">
-              <Mail className="w-4 h-4 text-amber-500 flex-shrink-0" />
+              <Mail className="w-4 h-4 text-amber-400 flex-shrink-0" />
               <a href={`mailto:${footer.email}`} className="hover:text-white transition-colors font-medium">
                 {footer.email}
               </a>
@@ -197,24 +198,24 @@ export function Footer() {
 
       {/* Copyright & Policies Row */}
       <div className="max-w-7xl mx-auto pt-8 flex flex-col md:flex-row items-center justify-between gap-6">
-        <p className="text-slate-500 text-[10px] text-center md:text-left font-medium">
+        <p className="text-slate-400 text-[10px] text-center md:text-left font-medium">
           {footer.copyrightText}
         </p>
 
         {/* Policy Links Grid */}
-        <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+        <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-[10px] font-bold text-slate-350 uppercase tracking-wider">
           {legalPolicies.map((policy) => (
             <button
               key={policy.name}
               onClick={() => setActivePolicy({ title: policy.name, content: policy.content })}
-              className="hover:text-amber-500 transition-colors"
+              className="hover:text-amber-400 transition-colors"
             >
               {policy.name}
             </button>
           ))}
           <button
             onClick={() => window.dispatchEvent(new Event("open-cookie-preferences"))}
-            className="hover:text-amber-500 text-amber-500/90 transition-colors"
+            className="hover:text-amber-300 text-amber-400 font-semibold transition-colors"
           >
             Cookie Preferences
           </button>
@@ -224,16 +225,17 @@ export function Footer() {
       {/* Legal Policies Modal Overlay */}
       {activePolicy && (
         <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 rounded-3xl w-full max-w-2xl border border-slate-200 dark:border-slate-800 shadow-2xl flex flex-col max-h-[80vh] overflow-hidden">
+          <div className="bg-white text-slate-800 rounded-3xl w-full max-w-2xl border border-slate-200 shadow-2xl flex flex-col max-h-[80vh] overflow-hidden">
             {/* Modal Header */}
-            <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-950/20">
+            <div className="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
               <div className="flex items-center gap-2">
                 {getPolicyIcon(activePolicy.title)}
-                <h3 className="font-serif font-bold text-base text-slate-900 dark:text-white">{activePolicy.title}</h3>
+                <div className="font-serif font-bold text-base text-slate-900">{activePolicy.title}</div>
               </div>
               <button
                 onClick={() => setActivePolicy(null)}
-                className="p-1.5 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-xl text-slate-400 hover:text-slate-650 transition-colors"
+                aria-label="Close policy modal"
+                className="p-1.5 hover:bg-slate-200 rounded-xl text-slate-400 hover:text-slate-600 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
                 title="Close modal"
               >
                 <X className="w-4.5 h-4.5" />
@@ -244,21 +246,21 @@ export function Footer() {
             <div className="p-6 overflow-y-auto prose prose-slate max-w-none text-xs leading-relaxed space-y-4">
               {activePolicy.content.split("\n").map((line, lIdx) => {
                 if (line.startsWith("# ")) {
-                  return <h1 key={lIdx} className="text-lg font-serif font-bold text-slate-900 dark:text-white border-b pb-1 mt-4">{line.replace("# ", "")}</h1>;
+                  return <h1 key={lIdx} className="text-lg font-serif font-bold text-slate-900 border-b pb-1 mt-4">{line.replace("# ", "")}</h1>;
                 }
                 if (line.startsWith("## ")) {
-                  return <h2 key={lIdx} className="text-sm font-serif font-bold text-slate-800 dark:text-slate-250 mt-3">{line.replace("## ", "")}</h2>;
+                  return <h2 key={lIdx} className="text-sm font-serif font-bold text-slate-800 mt-3">{line.replace("## ", "")}</h2>;
                 }
                 if (!line.trim()) return null;
-                return <p key={lIdx} className="text-slate-655 dark:text-slate-400 font-medium">{line}</p>;
+                return <p key={lIdx} className="text-slate-600 font-medium">{line}</p>;
               })}
             </div>
 
             {/* Modal Footer */}
-            <div className="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/20 flex justify-end">
+            <div className="p-4 border-t border-slate-100 bg-slate-50/50 flex justify-end">
               <button
                 onClick={() => setActivePolicy(null)}
-                className="bg-slate-900 dark:bg-slate-800 hover:bg-slate-850 dark:hover:bg-slate-700 text-white font-bold text-[10px] uppercase py-2 px-5 rounded-xl transition-all"
+                className="bg-slate-900 hover:bg-slate-800 text-white font-bold text-[10px] uppercase py-2 px-5 rounded-xl transition-all"
               >
                 Close Policy
               </button>

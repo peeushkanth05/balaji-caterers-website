@@ -38,13 +38,13 @@ export function VideoGallerySection({ videos }: VideoGallerySectionProps) {
   return (
     <section id="videos" className="py-20 px-6 max-w-7xl mx-auto space-y-12">
       <div className="text-center max-w-2xl mx-auto space-y-2">
-        <span className="text-xs font-extrabold uppercase tracking-widest text-amber-600 inline-flex items-center gap-1">
+        <span className="text-xs font-extrabold uppercase tracking-widest text-amber-700 inline-flex items-center gap-1">
           <Sparkles className="w-3.5 h-3.5 fill-amber-500" /> Event Highlights
         </span>
-        <h2 className="text-3xl sm:text-4xl font-serif font-bold text-slate-900 dark:text-white">
+        <h2 className="text-3xl sm:text-4xl font-serif font-bold text-slate-900">
           Catering & Decor in Motion
         </h2>
-        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
+        <p className="text-xs sm:text-sm text-slate-600">
           Experience our high-profile catering setups, live food counters, and elegant setups in detail.
         </p>
       </div>
@@ -56,10 +56,10 @@ export function VideoGallerySection({ videos }: VideoGallerySectionProps) {
             <div
               key={vid.id}
               onClick={() => setActiveVideo(vid)}
-              className="flex-shrink-0 w-[280px] sm:w-[360px] bg-white dark:bg-slate-900 rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-lg transition-all hover:-translate-y-1 snap-start cursor-pointer group"
+              className="flex-shrink-0 w-[280px] sm:w-[360px] bg-white rounded-3xl overflow-hidden border border-slate-200/80 shadow-sm hover:shadow-lg transition-all hover:-translate-y-1 snap-start cursor-pointer group"
             >
               {/* Cover image with play button overlay */}
-              <div className="relative aspect-video bg-slate-100 dark:bg-slate-850 overflow-hidden">
+              <div className="relative aspect-video bg-slate-100 overflow-hidden">
                 <img
                   src={vid.thumbnailUrl}
                   alt={vid.title}
@@ -74,11 +74,11 @@ export function VideoGallerySection({ videos }: VideoGallerySectionProps) {
               </div>
 
               <div className="p-5 space-y-1.5">
-                <h3 className="font-serif font-bold text-slate-900 dark:text-white text-sm sm:text-base group-hover:text-amber-600 transition-colors line-clamp-1">
+                <div className="font-serif font-bold text-slate-900 text-sm sm:text-base group-hover:text-amber-600 transition-colors line-clamp-1">
                   {vid.title}
-                </h3>
+                </div>
                 {vid.description && (
-                  <p className="text-slate-500 dark:text-slate-400 text-[11px] sm:text-xs line-clamp-2 leading-relaxed">
+                  <p className="text-slate-500 text-[11px] sm:text-xs line-clamp-2 leading-relaxed">
                     {vid.description}
                   </p>
                 )}
@@ -96,7 +96,8 @@ export function VideoGallerySection({ videos }: VideoGallerySectionProps) {
             {/* Close Button */}
             <button
               onClick={() => setActiveVideo(null)}
-              className="absolute right-4 top-4 p-2 rounded-full bg-black/50 text-white hover:bg-black/80 transition-all active:scale-95 z-20"
+              aria-label="Close video modal"
+              className="absolute right-4 top-4 p-2.5 rounded-full bg-black/50 text-white hover:bg-black/80 transition-all active:scale-95 z-20 min-w-[44px] min-h-[44px] flex items-center justify-center"
               title="Close Video"
             >
               <X className="w-5 h-5" />

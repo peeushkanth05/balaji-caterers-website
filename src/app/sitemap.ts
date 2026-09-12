@@ -4,12 +4,12 @@ import { prisma } from "@/lib/prisma";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://vermacaterersevents.com";
 
-  // Static public routes
+  // Static public & Local SEO routes
   const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: `${baseUrl}/`,
       lastModified: new Date(),
-      changeFrequency: "weekly",
+      changeFrequency: "daily",
       priority: 1.0,
     },
     {
@@ -17,6 +17,60 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/wedding-catering-dwarka`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/wedding-catering-gurugram`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/catering-services-delhi-ncr`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/birthday-catering-dwarka`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.85,
+    },
+    {
+      url: `${baseUrl}/corporate-catering-gurugram`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.85,
+    },
+    {
+      url: `${baseUrl}/puja-kirtan-catering-delhi-ncr`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.85,
+    },
+    {
+      url: `${baseUrl}/small-gathering-catering-dwarka`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.85,
+    },
+    {
+      url: `${baseUrl}/blogs`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/blogs/wedding-catering-menu-guide-dwarka`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
     },
   ];
 
@@ -38,5 +92,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error("Error fetching portfolios for sitemap:", e);
   }
 
-  return [...staticRoutes, ...portfolioRoutes];
+  // Dynamic blog routes from database
+  let blogRoutes: MetadataRoute.Sitemap = [];
+  try {
+    const blogs = await prisma.blogPost.findMany({
+      select: { slug: true, updatedAt: true },
+    });
+
+    blogRoutes = blogs.map((b) => ({
+      url: `${baseUrl}/blogs/${b.slug}`,
+      lastModified: b.updatedAt || new Date(),
+      changeFrequency: "monthly",
+      priority: 0.75,
+    }));
+  } catch (e) {
+    console.error("Error fetching blogs for sitemap:", e);
+  }
+
+  return [...staticRoutes, ...portfolioRoutes, ...blogRoutes];
 }

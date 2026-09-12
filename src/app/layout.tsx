@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Nunito, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
@@ -19,11 +19,18 @@ const playfair = Playfair_Display({
   display: "swap",
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: "#0f172a",
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://vermacaterersevents.com"),
-  title: "Verma Caterers | Best Catering & Event Services in Delhi NCR",
+  title: "Verma Caterers & Events | Catering & Event Management in Delhi NCR",
   description:
-    "Verma Caterers offers premium catering, floral decoration, sound & DJ setup, mattress rental, and full event management in Delhi NCR.",
+    "Verma Caterers & Events offers premium wedding, party & corporate catering, floral décor, DJ setup, and full event management across Delhi, Dwarka & Gurugram.",
   manifest: "/manifest.json",
   alternates: {
     canonical: "https://vermacaterersevents.com",
@@ -38,11 +45,11 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
   openGraph: {
-    title: "Verma Caterers | Best Catering & Event Services in Delhi NCR",
+    title: "Verma Caterers & Events | Catering & Event Management in Delhi NCR",
     description:
-      "Premium catering, floral décor, DJ & sound, and full event management services in Delhi NCR. 15+ years, 500+ events.",
+      "Verma Caterers & Events offers premium wedding, party & corporate catering, floral décor, DJ setup, and full event management across Delhi, Dwarka & Gurugram.",
     url: "https://vermacaterersevents.com",
-    siteName: "Verma Caterers",
+    siteName: "Verma Caterers & Events",
     images: [
       {
         url: "/verma-logo-512.png",
@@ -54,9 +61,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Verma Caterers | Best Catering & Event Services in Delhi NCR",
+    title: "Verma Caterers & Events | Catering & Event Management in Delhi NCR",
     description:
-      "Premium catering, floral décor, DJ & sound, and full event management services in Delhi NCR.",
+      "Verma Caterers & Events offers premium wedding, party & corporate catering, floral décor, DJ setup, and full event management across Delhi, Dwarka & Gurugram.",
     images: ["/verma-logo-512.png"],
   },
 };
@@ -148,19 +155,14 @@ export default async function RootLayout({
             __html: `
               (function() {
                 try {
-                  var theme = localStorage.getItem('verma_theme');
-                  if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                    document.documentElement.classList.add('dark');
-                  } else {
-                    document.documentElement.classList.remove('dark');
-                  }
+                  document.documentElement.classList.remove('dark');
                 } catch (e) {}
               })();
             `,
           }}
         />
       </head>
-      <body className="font-sans antialiased min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors">
+      <body className="font-sans antialiased min-h-screen bg-slate-50 text-slate-900 transition-colors overflow-x-hidden">
         <GoogleAnalytics gaId={settings?.googleAnalyticsId} />
         <Providers>
           {children}

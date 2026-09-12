@@ -75,10 +75,10 @@ export function DynamicPortfolioSection({
       {featured.length > 0 && (
         <section className="space-y-6">
           <div className="text-center max-w-2xl mx-auto space-y-2">
-            <span className="text-xs font-extrabold uppercase tracking-widest text-amber-600 inline-flex items-center gap-1">
+            <span className="text-xs font-extrabold uppercase tracking-widest text-amber-800 inline-flex items-center gap-1">
               <Sparkles className="w-3.5 h-3.5 fill-amber-500" /> Featured Celebrations
             </span>
-            <h2 className="text-3xl sm:text-4xl font-serif font-bold text-slate-900 dark:text-white">
+            <h2 className="text-3xl sm:text-4xl font-serif font-bold text-slate-900">
               Grand Events Showcase
             </h2>
           </div>
@@ -89,13 +89,13 @@ export function DynamicPortfolioSection({
       {/* 2. Full Portfolio Showcase Section with Dynamic Categories, Search, and Grid */}
       <section id="portfolio" className="space-y-8 pt-6">
         <div className="text-center max-w-2xl mx-auto space-y-2">
-          <span className="text-xs font-extrabold uppercase tracking-widest text-amber-600 inline-flex items-center gap-1">
+          <span className="text-xs font-extrabold uppercase tracking-widest text-amber-800 inline-flex items-center gap-1">
             <Layers className="w-3.5 h-3.5" /> Full Event Gallery
           </span>
-          <h2 className="text-3xl sm:text-4xl font-serif font-bold text-slate-900 dark:text-white">
+          <h2 className="text-3xl sm:text-4xl font-serif font-bold text-slate-900">
             Explore Our Recent Projects
           </h2>
-          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+          <p className="text-xs sm:text-sm text-slate-600">
             Filter by service category or search for specific decorations, dishes, and setups.
           </p>
         </div>

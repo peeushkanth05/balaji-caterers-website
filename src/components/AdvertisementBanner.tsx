@@ -104,15 +104,15 @@ export function AdvertisementBanner({ ads }: { ads: Ad[] }) {
         <>
           <button
             onClick={prev}
-            className="absolute left-3 top-1/2 -translate-y-1/2 z-20 p-2.5 bg-white/20 backdrop-blur-sm hover:bg-white/40 text-white rounded-full transition-all opacity-0 group-hover:opacity-100"
-            aria-label="Previous"
+            className="absolute left-3 top-1/2 -translate-y-1/2 z-20 min-w-[44px] min-h-[44px] bg-black/40 backdrop-blur-sm hover:bg-black/60 text-white rounded-full transition-all flex items-center justify-center opacity-0 group-hover:opacity-100"
+            aria-label="Previous advertisement"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
           <button
             onClick={next}
-            className="absolute right-3 top-1/2 -translate-y-1/2 z-20 p-2.5 bg-white/20 backdrop-blur-sm hover:bg-white/40 text-white rounded-full transition-all opacity-0 group-hover:opacity-100"
-            aria-label="Next"
+            className="absolute right-3 top-1/2 -translate-y-1/2 z-20 min-w-[44px] min-h-[44px] bg-black/40 backdrop-blur-sm hover:bg-black/60 text-white rounded-full transition-all flex items-center justify-center opacity-0 group-hover:opacity-100"
+            aria-label="Next advertisement"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
@@ -123,13 +123,17 @@ export function AdvertisementBanner({ ads }: { ads: Ad[] }) {
               <button
                 key={idx}
                 onClick={() => setCurrent(idx)}
-                className={`w-2 h-2 rounded-full transition-all ${
-                  idx === current
-                    ? "bg-white w-5"
-                    : "bg-white/40 hover:bg-white/60"
-                }`}
-                aria-label={`Go to slide ${idx + 1}`}
-              />
+                className="min-w-[28px] min-h-[28px] p-1 flex items-center justify-center"
+                aria-label={`Go to ad slide ${idx + 1}`}
+              >
+                <span
+                  className={`h-2 rounded-full transition-all ${
+                    idx === current
+                      ? "bg-white w-5"
+                      : "bg-white/40 hover:bg-white/60 w-2"
+                  }`}
+                />
+              </button>
             ))}
           </div>
         </>

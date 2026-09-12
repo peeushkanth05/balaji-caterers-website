@@ -78,15 +78,16 @@ export default function CookieBanner() {
           </div>
           <div>
             <h4 className="font-serif font-bold text-slate-900 dark:text-white text-base">Cookie Preferences</h4>
-            <p className="text-[11px] text-slate-400 dark:text-slate-400">Manage your privacy settings</p>
+            <p className="text-[11px] text-slate-600 dark:text-slate-300">Manage your privacy settings</p>
           </div>
         </div>
         <button
           onClick={() => setShow(false)}
-          className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+          aria-label="Close cookie preferences"
+          className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors p-2.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 min-w-[44px] min-h-[44px] flex items-center justify-center"
           title="Close preferences"
         >
-          <X className="w-4 h-4" />
+          <X className="w-5 h-5" />
         </button>
       </div>
 

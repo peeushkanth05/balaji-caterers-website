@@ -63,14 +63,15 @@ export function FloatingSocials() {
   };
 
   return (
-    <div className="fixed left-5 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-3.5 bg-white/80 backdrop-blur-md p-3 rounded-2xl shadow-2xl border border-slate-200/50 hover:bg-white/95 transition-all">
+    <div className="fixed left-5 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-3 bg-white/80 backdrop-blur-md p-2.5 rounded-2xl shadow-2xl border border-slate-200/50 hover:bg-white/95 transition-all">
       {links.map((link) => (
         <a
           key={link.id}
           href={link.url}
           target="_blank"
           rel="noopener noreferrer"
-          className={`w-9 h-9 rounded-xl border flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 bg-white ${getColors(
+          aria-label={`Visit our ${link.platform} page`}
+          className={`w-11 h-11 rounded-xl border flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 bg-white ${getColors(
             link.platform
           )}`}
           title={link.platform}

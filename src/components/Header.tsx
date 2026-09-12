@@ -79,12 +79,31 @@ interface SiteSettings {
   defaultTheme?: string;
 }
 
+const DEFAULT_SETTINGS: HeaderSettings = {
+  stickyHeader: true,
+  topBarActive: true,
+  topBarText: "Delhi NCR's Premier Event & Catering Partner",
+  showSocials: true,
+  showContact: true,
+};
+
+const DEFAULT_MENUS: Menu[] = [
+  { id: "m1", label: "Services", link: "/#services", displayOrder: 0, isServicesDropdown: true, submenus: [] },
+  { id: "m2", label: "Packages", link: "/packages", displayOrder: 1, isServicesDropdown: false, submenus: [] },
+  { id: "m3", label: "Portfolio", link: "/#portfolio", displayOrder: 2, isServicesDropdown: false, submenus: [] },
+  { id: "m4", label: "About", link: "/#about", displayOrder: 3, isServicesDropdown: false, submenus: [] },
+  { id: "m5", label: "Contact", link: "/#contact", displayOrder: 4, isServicesDropdown: false, submenus: [] },
+];
+
+const DEFAULT_ACTIONS: HeaderAction[] = [
+  { id: "a1", label: "Book Now ✨", link: "/#contact", style: "primary", active: true, displayOrder: 0 },
+];
+
 export function Header() {
   const pathname = usePathname();
-  const [loading, setLoading] = useState(true);
-  const [settings, setSettings] = useState<HeaderSettings | null>(null);
-  const [menus, setMenus] = useState<Menu[]>([]);
-  const [actions, setActions] = useState<HeaderAction[]>([]);
+  const [settings, setSettings] = useState<HeaderSettings>(DEFAULT_SETTINGS);
+  const [menus, setMenus] = useState<Menu[]>(DEFAULT_MENUS);
+  const [actions, setActions] = useState<HeaderAction[]>(DEFAULT_ACTIONS);
   const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null);
   const [socialLinks, setSocialLinks] = useState<any[]>([]);
   const [theme, setTheme] = useState<"light" | "dark">("light");
@@ -108,8 +127,8 @@ export function Header() {
         const res = await fetch("/api/header");
         const data = await res.json();
         if (data.settings) setSettings(data.settings);
-        if (data.menus) setMenus(data.menus);
-        if (data.actions) setActions(data.actions);
+        if (data.menus && data.menus.length > 0) setMenus(data.menus);
+        if (data.actions && data.actions.length > 0) setActions(data.actions);
         if (data.siteSettings) setSiteSettings(data.siteSettings);
         if (data.socialLinks) setSocialLinks(data.socialLinks);
 
@@ -118,22 +137,11 @@ export function Header() {
         const servData = await servRes.json();
         if (servData.services) setDbServices(servData.services);
 
-        // Theme management
-        let initialTheme = localStorage.getItem("verma_theme") as "light" | "dark" | null;
-        if (!initialTheme && data.siteSettings) {
-          initialTheme = (data.siteSettings.defaultTheme || "light") as "light" | "dark";
-        }
-        const activeTheme = initialTheme || "light";
-        setTheme(activeTheme);
-        if (activeTheme === "dark") {
-          document.documentElement.classList.add("dark");
-        } else {
-          document.documentElement.classList.remove("dark");
-        }
+        // Standard light theme enforcement
+        setTheme("light");
+        document.documentElement.classList.remove("dark");
       } catch (e) {
         console.error("Failed to load header navigation", e);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -152,14 +160,8 @@ export function Header() {
   }, []);
 
   const toggleTheme = () => {
-    const nextTheme = theme === "light" ? "dark" : "light";
-    setTheme(nextTheme);
-    localStorage.setItem("verma_theme", nextTheme);
-    if (nextTheme === "dark") {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
+    setTheme("light");
+    document.documentElement.classList.remove("dark");
   };
 
   const getServiceIcon = (iconName: string) => {
@@ -192,28 +194,8 @@ export function Header() {
     !cateringServices.includes(s) && !decorAndSound.includes(s)
   );
 
-  if (loading) {
-    return (
-      <div className="w-full bg-white dark:bg-slate-950 h-20 border-b border-slate-100 dark:border-slate-800/40 flex items-center justify-between px-6 animate-pulse">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-slate-200 dark:bg-slate-800 rounded-full" />
-          <div className="space-y-1">
-            <div className="w-24 h-4 bg-slate-200 dark:bg-slate-800 rounded" />
-            <div className="w-16 h-3 bg-slate-200 dark:bg-slate-800 rounded" />
-          </div>
-        </div>
-        <div className="hidden md:flex gap-6">
-          <div className="w-16 h-4 bg-slate-200 dark:bg-slate-800 rounded" />
-          <div className="w-16 h-4 bg-slate-200 dark:bg-slate-800 rounded" />
-          <div className="w-16 h-4 bg-slate-200 dark:bg-slate-800 rounded" />
-        </div>
-        <div className="w-20 h-8 bg-slate-200 dark:bg-slate-800 rounded-lg" />
-      </div>
-    );
-  }
-
   const company = siteSettings?.companyName || "Verma Caterers";
-  const logo = siteSettings?.logoUrl || "/new-logo.png";
+  const logo = siteSettings?.logoUrl || "/new-logo.webp";
   const phoneVal = siteSettings?.phone || "+91 98104 83544";
   const emailVal = siteSettings?.email || "vermasandeep124@gmail.com";
 
@@ -223,7 +205,7 @@ export function Header() {
   const stickyClass = settings?.stickyHeader ? "sticky top-0 z-40" : "relative z-40";
 
   return (
-    <div className={`${stickyClass} w-full transition-all`}>
+    <header className={`${stickyClass} w-full transition-all`}>
       {/* Alert Announcement Ticker */}
       <AlertTickerMarquee />
 
@@ -271,6 +253,7 @@ export function Header() {
                       rel="noopener noreferrer"
                       className="hover:text-white transition-colors"
                       title={link.platform}
+                      aria-label={`Visit our ${link.platform} page`}
                     >
                       {getPlatformIcon(link.platform)}
                     </a>
@@ -297,7 +280,7 @@ export function Header() {
             <div className="relative w-[170px] sm:w-[200px] md:w-[230px] lg:w-[260px] h-12 sm:h-14 md:h-16 flex items-center justify-start transition-transform group-hover:scale-[1.02]">
               {/* Light Mode Logo */}
               <Image
-                src="/verma-logo-light.png"
+                src="/verma-logo-light.webp"
                 alt="Verma Caterers Logo"
                 width={260}
                 height={64}
@@ -306,7 +289,7 @@ export function Header() {
               />
               {/* Dark Mode Logo */}
               <Image
-                src="/verma-logo-dark.png"
+                src="/verma-logo-dark.webp"
                 alt="Verma Caterers Logo"
                 width={260}
                 height={64}
@@ -329,7 +312,11 @@ export function Header() {
                     onMouseEnter={() => setMegaMenuOpen(true)}
                     onMouseLeave={() => setMegaMenuOpen(false)}
                   >
-                    <button className="hover:text-amber-500 transition-colors flex items-center gap-1 font-bold text-slate-800 dark:text-slate-200">
+                    <button
+                      aria-label="Toggle services dropdown menu"
+                      aria-expanded={megaMenuOpen}
+                      className="hover:text-amber-500 transition-colors flex items-center gap-1 font-bold text-slate-800 dark:text-slate-200"
+                    >
                       {menu.label}
                       <ChevronDown className={`w-3.5 h-3.5 opacity-70 transition-transform duration-300 ${megaMenuOpen ? "rotate-180 text-amber-500" : ""}`} />
                     </button>
@@ -348,7 +335,7 @@ export function Header() {
                             
                             {/* Column 1: Core Catering */}
                             <div className="md:col-span-3 space-y-4">
-                              <h4 className="text-[10px] font-extrabold uppercase tracking-widest text-amber-600 dark:text-amber-400 border-b border-slate-100 dark:border-slate-850 pb-2">
+                              <h4 className="text-[10px] font-extrabold uppercase tracking-widest text-amber-800 dark:text-amber-400 border-b border-slate-100 dark:border-slate-850 pb-2">
                                 🍽️ Gourmet Catering
                               </h4>
                               <ul className="space-y-3">
@@ -369,7 +356,7 @@ export function Header() {
 
                             {/* Column 2: Floral decor & Sound production */}
                             <div className="md:col-span-3 space-y-4">
-                              <h4 className="text-[10px] font-extrabold uppercase tracking-widest text-amber-600 dark:text-amber-400 border-b border-slate-100 dark:border-slate-850 pb-2">
+                              <h4 className="text-[10px] font-extrabold uppercase tracking-widest text-amber-800 dark:text-amber-400 border-b border-slate-100 dark:border-slate-850 pb-2">
                                 ✨ Design & Decor
                               </h4>
                               <ul className="space-y-3">
@@ -390,7 +377,7 @@ export function Header() {
 
                             {/* Column 3: Rentals & management */}
                             <div className="md:col-span-3 space-y-4">
-                              <h4 className="text-[10px] font-extrabold uppercase tracking-widest text-amber-600 dark:text-amber-400 border-b border-slate-100 dark:border-slate-850 pb-2">
+                              <h4 className="text-[10px] font-extrabold uppercase tracking-widest text-amber-800 dark:text-amber-400 border-b border-slate-100 dark:border-slate-850 pb-2">
                                 🤝 Event Management
                               </h4>
                               <ul className="space-y-3">
@@ -413,7 +400,7 @@ export function Header() {
                             <div className="md:col-span-3 bg-slate-50 dark:bg-slate-850/80 p-5 rounded-2xl border border-slate-100 dark:border-slate-800/40 flex flex-col justify-between space-y-3">
                               <div className="relative h-28 rounded-xl overflow-hidden shadow-sm">
                                 <Image
-                                  src="/grand_wedding_decor/3dce2ebd-b344-485c-80e0-88cad120d299.jpg"
+                                  src="/grand_wedding_decor/3dce2ebd-b344-485c-80e0-88cad120d299.webp"
                                   alt="Premium Catering Setup"
                                   fill
                                   sizes="200px"
@@ -485,6 +472,7 @@ export function Header() {
             {siteSettings?.enableThemeToggle && (
               <button
                 onClick={toggleTheme}
+                aria-label={`Switch to ${theme === "light" ? "Dark" : "Light"} Theme`}
                 className="w-14 h-7 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/60 p-0.5 relative transition-colors duration-300 flex items-center justify-between cursor-pointer"
                 title={`Switch to ${theme === "light" ? "Dark" : "Light"} Theme`}
               >
@@ -509,7 +497,8 @@ export function Header() {
           {/* Mobile Hamburger menu toggle */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 border border-slate-200 dark:border-slate-800 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-900 text-slate-600 dark:text-slate-300 md:hidden transition-colors"
+            aria-label="Toggle navigation menu"
+            className="p-2.5 border border-slate-200 dark:border-slate-800 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-900 text-slate-600 dark:text-slate-300 md:hidden transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <MenuIcon className="w-5 h-5" />}
           </button>
@@ -531,7 +520,7 @@ export function Header() {
               <Link href="/" aria-label="Verma Caterers Logo" onClick={() => setMobileMenuOpen(false)}>
                 <div className="relative w-[180px] h-12 flex items-center justify-start">
                   <Image
-                    src="/verma-logo-light.png"
+                    src="/verma-logo-light.webp"
                     alt="Verma Caterers Logo"
                     width={180}
                     height={48}
@@ -539,7 +528,7 @@ export function Header() {
                     className="w-full h-full object-contain dark:hidden"
                   />
                   <Image
-                    src="/verma-logo-dark.png"
+                    src="/verma-logo-dark.webp"
                     alt="Verma Caterers Logo"
                     width={180}
                     height={48}
@@ -550,7 +539,8 @@ export function Header() {
               </Link>
               <button
                 onClick={() => setMobileMenuOpen(false)}
-                className="p-2 border border-slate-200 dark:border-slate-800 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-900 text-slate-600 dark:text-slate-300"
+                aria-label="Close navigation menu"
+                className="p-2 border border-slate-200 dark:border-slate-800 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-900 text-slate-600 dark:text-slate-300 min-w-[44px] min-h-[44px] flex items-center justify-center"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -654,6 +644,6 @@ export function Header() {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </header>
   );
 }

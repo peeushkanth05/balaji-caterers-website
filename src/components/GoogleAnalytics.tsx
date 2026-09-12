@@ -1,51 +1,24 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Script from "next/script";
 
 interface GoogleAnalyticsProps {
   gaId?: string;
 }
 
-const DEFAULT_GA_ID = "G-XZGBPFOHBR";
+const DEFAULT_GA_ID = "G-XZGBPF0HBR";
 
 export function GoogleAnalytics({ gaId }: GoogleAnalyticsProps) {
-  const activeGaId = (gaId && gaId.trim() !== "") ? gaId.trim() : DEFAULT_GA_ID;
-  const [enabled, setEnabled] = useState(false);
+  let activeGaId = gaId && gaId.trim() !== "" ? gaId.trim() : DEFAULT_GA_ID;
 
-  useEffect(() => {
-    // Validate format G-XXXXXXXXXX
-    if (!activeGaId || !/^G-[A-Z0-9]+$/i.test(activeGaId)) {
-      setEnabled(false);
-      return;
-    }
+  // Sanitize common typo where letter 'O' was used instead of digit '0'
+  if (activeGaId.toUpperCase() === "G-XZGBPFOHBR") {
+    activeGaId = DEFAULT_GA_ID;
+  }
 
-    // Check cookie consent preferences
-    const savedConsent = localStorage.getItem("verma_cookie_consent");
-    if (savedConsent) {
-      try {
-        const parsed = JSON.parse(savedConsent);
-        if (parsed.analyticsConsent === false) {
-          setEnabled(false);
-          return;
-        }
-      } catch (e) {
-        // Fallback to enabled if parse fails
-      }
-    }
-
-    // Enable in production browser environment
-    if (typeof window !== "undefined") {
-      const isLocalhost =
-        window.location.hostname === "localhost" ||
-        window.location.hostname === "127.0.0.1";
-      if (!isLocalhost) {
-        setEnabled(true);
-      }
-    }
-  }, [activeGaId]);
-
-  if (!enabled || !activeGaId) return null;
+  if (!activeGaId || !/^G-[A-Z0-9]+$/i.test(activeGaId)) {
+    return null;
+  }
 
   return (
     <>
@@ -59,11 +32,11 @@ export function GoogleAnalytics({ gaId }: GoogleAnalyticsProps) {
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
           gtag('config', '${activeGaId}', {
-            page_path: window.location.pathname,
-            anonymize_ip: true
+            page_path: window.location.pathname
           });
         `}
       </Script>
     </>
   );
 }
+

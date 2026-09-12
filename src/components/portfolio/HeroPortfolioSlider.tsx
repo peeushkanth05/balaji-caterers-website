@@ -51,6 +51,10 @@ export function HeroPortfolioSlider({
   if (!portfolios || portfolios.length === 0) return null;
 
   const current = portfolios[currentIndex];
+  let coverUrl = (current.coverImage || "/new-logo.webp").replace(/\.(jpg|jpeg|png)$/i, ".webp");
+  if (coverUrl.includes("/api/media/")) {
+    coverUrl += "?w=1000";
+  }
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
@@ -81,7 +85,7 @@ export function HeroPortfolioSlider({
           className="absolute inset-0 z-0"
         >
           <img
-            src={current.coverImage || "/new-logo.png"}
+            src={coverUrl}
             alt={current.altText || current.title}
             className="w-full h-full object-cover"
           />
@@ -185,13 +189,18 @@ export function HeroPortfolioSlider({
               <button
                 key={idx}
                 onClick={() => setCurrentIndex(idx)}
-                className={`transition-all ${
-                  idx === currentIndex
-                    ? "w-8 h-2.5 bg-amber-500 rounded-full"
-                    : "w-2.5 h-2.5 bg-white/40 hover:bg-white/80 rounded-full"
-                }`}
+                aria-label={`Go to slide ${idx + 1}`}
+                className="min-w-[28px] min-h-[28px] p-1 flex items-center justify-center transition-all"
                 title={`Go to slide ${idx + 1}`}
-              />
+              >
+                <span
+                  className={`transition-all ${
+                    idx === currentIndex
+                      ? "w-8 h-2.5 bg-amber-500 rounded-full"
+                      : "w-2.5 h-2.5 bg-white/40 hover:bg-white/80 rounded-full"
+                  }`}
+                />
+              </button>
             ))}
           </div>
 
@@ -199,6 +208,7 @@ export function HeroPortfolioSlider({
           <div className="flex items-center gap-3">
             <button
               onClick={handlePrev}
+              aria-label="Previous project"
               className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-amber-500 hover:text-slate-950 hover:border-amber-500 text-white flex items-center justify-center transition-all active:scale-95 shadow-lg"
               title="Previous project"
             >
@@ -206,6 +216,7 @@ export function HeroPortfolioSlider({
             </button>
             <button
               onClick={handleNext}
+              aria-label="Next project"
               className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-amber-500 hover:text-slate-950 hover:border-amber-500 text-white flex items-center justify-center transition-all active:scale-95 shadow-lg"
               title="Next project"
             >

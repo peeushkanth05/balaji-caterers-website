@@ -31,12 +31,16 @@ import {
   HelpCircle,
   FileText,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const { data: session, status } = useSession();
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    document.documentElement.classList.remove("dark");
+  }, []);
 
   // Don't wrap the login page with the admin sidebar layout
   if (pathname === "/admin/login") {
@@ -98,7 +102,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   ];
 
   return (
-    <div className="min-h-screen bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col md:flex-row transition-colors">
+    <div className="min-h-screen bg-slate-100 text-slate-900 flex flex-col md:flex-row transition-colors">
       {/* Mobile Top Header */}
       <div className="md:hidden bg-slate-900 text-white p-4 flex items-center justify-between border-b border-slate-800">
         <div className="flex items-center">

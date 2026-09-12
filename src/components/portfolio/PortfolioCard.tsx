@@ -11,6 +11,10 @@ interface PortfolioCardProps {
 
 export function PortfolioCard({ portfolio }: PortfolioCardProps) {
   const galleryCount = portfolio.galleryImages ? portfolio.galleryImages.length : 0;
+  let coverUrl = (portfolio.coverImage || "/new-logo.webp").replace(/\.(jpg|jpeg|png)$/i, ".webp");
+  if (coverUrl.includes("/api/media/")) {
+    coverUrl += "?w=600";
+  }
 
   return (
     <motion.div
@@ -19,15 +23,16 @@ export function PortfolioCard({ portfolio }: PortfolioCardProps) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.4 }}
-      className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between"
+      className="bg-white rounded-3xl border border-slate-200/80 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between"
     >
       <div>
         {/* Cover Image Container */}
-        <div className="h-60 sm:h-64 relative bg-slate-100 dark:bg-slate-850 overflow-hidden">
+        <div className="h-60 sm:h-64 relative bg-slate-100 overflow-hidden">
           <img
-            src={portfolio.coverImage || "/new-logo.png"}
+            src={coverUrl}
             alt={portfolio.altText || portfolio.title}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            loading="lazy"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
@@ -40,8 +45,8 @@ export function PortfolioCard({ portfolio }: PortfolioCardProps) {
               </span>
             )}
             {portfolio.featured && (
-              <span className="px-2.5 py-1 rounded-full bg-amber-500 text-slate-950 text-[10px] font-extrabold uppercase tracking-wider shadow-md flex items-center gap-1">
-                <Sparkles className="w-3 h-3 fill-slate-950" /> Featured
+              <span className="px-2.5 py-1 rounded-full bg-amber-500 text-white text-[10px] font-extrabold uppercase tracking-wider shadow-md flex items-center gap-1">
+                <Sparkles className="w-3 h-3 fill-white" /> Featured
               </span>
             )}
           </div>
@@ -56,11 +61,11 @@ export function PortfolioCard({ portfolio }: PortfolioCardProps) {
 
         {/* Card Body */}
         <div className="p-6 space-y-3">
-          <h3 className="font-serif font-bold text-xl text-slate-900 dark:text-white group-hover:text-amber-600 transition-colors line-clamp-2">
+          <div className="font-serif font-bold text-xl text-slate-900 group-hover:text-amber-600 transition-colors line-clamp-2">
             {portfolio.title}
-          </h3>
+          </div>
 
-          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed line-clamp-3">
+          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed line-clamp-3">
             {portfolio.shortDescription}
           </p>
 
@@ -70,13 +75,13 @@ export function PortfolioCard({ portfolio }: PortfolioCardProps) {
               {portfolio.tags.slice(0, 3).map((tag, idx) => (
                 <span
                   key={idx}
-                  className="inline-flex items-center gap-1 text-[10px] font-semibold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md"
+                  className="inline-flex items-center gap-1 text-[10px] font-semibold text-slate-700 bg-slate-100 px-2 py-0.5 rounded-md"
                 >
                   <Tag className="w-2.5 h-2.5 text-amber-500" /> {tag}
                 </span>
               ))}
               {portfolio.tags.length > 3 && (
-                <span className="text-[10px] text-slate-400 dark:text-slate-500 font-semibold self-center">
+                <span className="text-[10px] text-slate-500 font-semibold self-center">
                   +{portfolio.tags.length - 3} more
                 </span>
               )}
@@ -86,10 +91,10 @@ export function PortfolioCard({ portfolio }: PortfolioCardProps) {
       </div>
 
       {/* Card Footer */}
-      <div className="px-6 pb-6 pt-2 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between">
+      <div className="px-6 pb-6 pt-2 border-t border-slate-100 flex items-center justify-between">
         <Link
           href={`/portfolio/${portfolio.slug}`}
-          className="w-full py-2.5 px-4 rounded-xl bg-slate-900 dark:bg-slate-800 hover:bg-amber-500 dark:hover:bg-amber-500 text-white hover:text-slate-950 dark:hover:text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all group-hover:shadow-md"
+          className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-md active:scale-95"
         >
           <span>View Details & Photos</span>
           <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
