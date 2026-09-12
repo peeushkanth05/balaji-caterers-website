@@ -11,10 +11,82 @@ interface BlogDetailProps {
   params: { slug: string };
 }
 
+async function getBlogPost(slug: string) {
+  try {
+    const blog = await prisma.blogPost.findUnique({
+      where: { slug },
+    });
+    if (blog) return blog;
+  } catch (e) {}
+
+  if (slug === "wedding-catering-menu-guide-dwarka") {
+    return {
+      id: "fallback-wedding-guide",
+      title: "How to Design the Perfect Royal Wedding Menu in Dwarka & Delhi NCR",
+      slug: "wedding-catering-menu-guide-dwarka",
+      excerpt: "A step-by-step guide to balancing starters, main course, and dessert live counters for 100 to 1000+ wedding guests.",
+      category: "Wedding Catering",
+      createdAt: new Date(),
+      coverImage: "https://images.unsplash.com/photo-1555244162-803834f70033?w=1000",
+      content: `
+        <h3>1. Start with High-Impact Welcome Drinks & Starters</h3>
+        <p>The first 45 minutes set the tone for your wedding reception. For couples planning <a href="/wedding-catering-dwarka" class="text-amber-800 font-semibold underline hover:text-amber-600">wedding catering in Dwarka</a> or grand receptions with <a href="/wedding-catering-gurugram" class="text-amber-800 font-semibold underline hover:text-amber-600">wedding catering in Gurugram</a>, offering 4 to 6 hot starters alongside refreshing mocktail stations ensures guests feel welcomed immediately. Popular choices include Paneer Tikka, Dahi Ke Kebab, and Crispy Spring Rolls.</p>
+        
+        <h3>2. Structure the Main Course Buffet</h3>
+        <p>Ensure a balanced multi-cuisine main course containing rich gravy dishes (like Dal Makhani and Paneer Butter Masala), light vegetable options, aromatic rice (Biryani or Kashmiri Pulao), and freshly baked breads (Naan, Missi Roti, Tandoori Roti). You can view transparent per-plate pricing in our <a href="/packages" class="text-amber-800 font-semibold underline hover:text-amber-600">catering packages & pricing</a> guide.</p>
+        
+        <h3>3. Add Live Food Counters for Visual Appeal</h3>
+        <p>Live stalls add energy to wedding functions. Consider incorporating live Delhi Chaat, Pasta counters, Dim Sum stations, or a South Indian Dosa counter provided by professional <a href="/catering-services-delhi-ncr" class="text-amber-800 font-semibold underline hover:text-amber-600">catering services in Delhi NCR</a>.</p>
+        
+        <h3>4. Don't Compromise on Desserts</h3>
+        <p>End the meal on a sweet note with traditional hot Halwa (Moong Dal or Gajar), Gulab Jamun, Kulfi, and live Ice Cream counters.</p>
+      `,
+    };
+  }
+
+  if (slug === "puja-kirtan-satvik-catering-tips") {
+    return {
+      id: "fallback-puja-guide",
+      title: "Puja & Kirtan Catering Guide: Satvik & No Onion-Garlic Essentials",
+      slug: "puja-kirtan-satvik-catering-tips",
+      excerpt: "Important guidelines for preparing traditional Prashad, Bedmi Poori, and Satvik thalis for Mata Ki Chowki & Sundarkand Path.",
+      category: "Religious Events",
+      createdAt: new Date(),
+      coverImage: "https://images.unsplash.com/photo-1533144893879-c65f9d453392?w=1000",
+      content: `
+        <h3>1. Purity and Sanctity in Preparation</h3>
+        <p>Religious ceremonies like Mata Ki Chowki, Sundarkand, and Griha Pravesh demand strict purity. Our specialized <a href="/puja-kirtan-catering-delhi-ncr" class="text-amber-800 font-semibold underline hover:text-amber-600">Satvik puja catering in Delhi NCR</a> prepares prasadam and traditional feasts with dedicated pure-vegetarian utensils and zero onion or garlic.</p>
+        
+        <h3>2. Traditional Prasadam & Feast Menus</h3>
+        <p>Popular Satvik menus include Desi Ghee Halwa, Poori, Aloo Tamatar Sabzi, Chana Prashad, and Kheer. Explore full menu options on our <a href="/catering-services-delhi-ncr" class="text-amber-800 font-semibold underline hover:text-amber-600">catering services page</a>.</p>
+      `,
+    };
+  }
+
+  if (slug === "small-gathering-catering-guest-calculator") {
+    return {
+      id: "fallback-small-gathering-guide",
+      title: "Catering Food Quantity Guide for 50, 100 & 200 Guests",
+      slug: "small-gathering-catering-guest-calculator",
+      excerpt: "Avoid food waste and shortage with our expert guest quantity planning formulas for house parties and anniversary functions.",
+      category: "Planning Tips",
+      createdAt: new Date(),
+      coverImage: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=1000",
+      content: `
+        <h3>1. Calculating Portions for Home Parties</h3>
+        <p>Hosting 20 to 100 guests at home requires smart portion calculation. For intimate home functions, see our <a href="/small-gathering-catering-dwarka" class="text-amber-800 font-semibold underline hover:text-amber-600">small gathering catering in Dwarka</a> options, or plan your next milestone event with our <a href="/birthday-catering-dwarka" class="text-amber-800 font-semibold underline hover:text-amber-600">birthday party catering in Dwarka</a> team.</p>
+        
+        <h3>2. Estimating Per-Plate Pricing</h3>
+        <p>Compare menu combinations and per-plate rates on our <a href="/packages" class="text-amber-800 font-semibold underline hover:text-amber-600">catering packages page</a>.</p>
+      `,
+    };
+  }
+
+  return null;
+}
+
 export async function generateMetadata({ params }: BlogDetailProps): Promise<Metadata> {
-  const blog = await prisma.blogPost.findUnique({
-    where: { slug: params.slug },
-  });
+  const blog = await getBlogPost(params.slug);
 
   if (!blog) {
     return {
@@ -26,7 +98,7 @@ export async function generateMetadata({ params }: BlogDetailProps): Promise<Met
     title: `${blog.title} | Verma Caterers`,
     description: blog.excerpt || blog.title,
     alternates: {
-      canonical: `https://vermacaterersevents.com/blogs/${blog.slug}`,
+      canonical: `https://vermacaterersevents.com/blogs/${params.slug}`,
     },
     openGraph: {
       title: blog.title,
@@ -37,45 +109,19 @@ export async function generateMetadata({ params }: BlogDetailProps): Promise<Met
 }
 
 export default async function BlogDetailPage({ params }: BlogDetailProps) {
-  let blog: any = null;
+  const blog = await getBlogPost(params.slug);
+
+  if (!blog) {
+    notFound();
+  }
+
   let services: any[] = [];
   let settings: any = null;
 
   try {
-    blog = await prisma.blogPost.findUnique({
-      where: { slug: params.slug },
-    });
     services = await prisma.service.findMany({ where: { isActive: true } });
     settings = await prisma.siteSetting.findUnique({ where: { id: "default" } });
   } catch (e) {}
-
-  if (!blog) {
-    // Check fallback sample content if slug matches standard guides
-    if (params.slug === "wedding-catering-menu-guide-dwarka") {
-      blog = {
-        title: "How to Design the Perfect Royal Wedding Menu in Dwarka & Delhi NCR",
-        excerpt: "A step-by-step guide to balancing starters, main course, and dessert live counters for 100 to 1000+ wedding guests.",
-        category: "Wedding Catering",
-        createdAt: new Date(),
-        coverImage: "https://images.unsplash.com/photo-1555244162-803834f70033?w=1000",
-        content: `
-          <h3>1. Start with High-Impact Welcome Drinks & Starters</h3>
-          <p>The first 45 minutes set the tone for your wedding reception. In Dwarka and Gurugram weddings, offering 4 to 6 hot starters alongside refreshing mocktail stations ensures guests feel welcomed immediately. Popular choices include Paneer Tikka, Dahi Ke Kebab, and Crispy Spring Rolls.</p>
-          
-          <h3>2. Structure the Main Course Buffet</h3>
-          <p>Ensure a balanced multi-cuisine main course containing rich gravy dishes (like Dal Makhani and Paneer Butter Masala), light vegetable options, aromatic rice (Biryani or Kashmiri Pulao), and freshly baked breads (Naan, Missi Roti, Tandoori Roti).</p>
-          
-          <h3>3. Add Live Food Counters for Visual Appeal</h3>
-          <p>Live stalls add energy to wedding functions. Consider incorporating live Delhi Chaat, Pasta counters, Dim Sum stations, or a South Indian Dosa counter.</p>
-          
-          <h3>4. Don't Compromise on Desserts</h3>
-          <p>End the meal on a sweet note with traditional hot Halwa (Moong Dal or Gajar), Gulab Jamun, Kulfi, and live Ice Cream counters.</p>
-        `,
-      };
-    } else {
-      notFound();
-    }
-  }
 
   const articleSchema = {
     "@context": "https://schema.org",
