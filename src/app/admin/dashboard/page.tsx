@@ -1,4 +1,5 @@
 import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
@@ -18,8 +19,13 @@ import {
 
 export default async function AdminDashboardPage() {
   const session = await getServerSession(authOptions);
-  const userName = session?.user?.name || "Admin";
-  const userRole = (session?.user as any)?.role || "ADMIN";
+
+  if (!session || !session.user) {
+    redirect("/admin/login");
+  }
+
+  const userName = session.user.name || "Admin";
+  const userRole = (session.user as any)?.role || "ADMIN";
 
   // Fetch metrics from Prisma
   let totalLeads = 0;
@@ -98,7 +104,7 @@ export default async function AdminDashboardPage() {
             <span className="text-amber-500 font-bold text-xs uppercase tracking-wider">Control Center Overview</span>
             <Sparkles className="w-4 h-4 text-amber-500" />
           </div>
-          <h1 className="text-3xl font-serif font-bold text-slate-900 dark:text-white">
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-white">
             Welcome back, {userName}!
           </h1>
           <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
@@ -176,7 +182,7 @@ export default async function AdminDashboardPage() {
         {/* Dynamic Category Proportions */}
         <div className="lg:col-span-7 bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
           <div>
-            <h3 className="font-serif font-bold text-lg text-slate-900 dark:text-white flex items-center gap-2">
+            <h3 className="font-bold text-lg text-slate-900 dark:text-white flex items-center gap-2">
               <Layers className="w-5 h-5 text-amber-500" /> Event Distribution
             </h3>
             <p className="text-slate-500 dark:text-slate-400 text-xs mt-0.5">Breakdown of recent inquiries by event type</p>
@@ -212,7 +218,7 @@ export default async function AdminDashboardPage() {
         {/* Lead Pipeline Funnel */}
         <div className="lg:col-span-5 bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
           <div>
-            <h3 className="font-serif font-bold text-lg text-slate-900 dark:text-white flex items-center gap-2">
+            <h3 className="font-bold text-lg text-slate-900 dark:text-white flex items-center gap-2">
               <TrendingUp className="w-5 h-5 text-amber-500" /> CRM Pipeline Stage
             </h3>
             <p className="text-slate-500 dark:text-slate-400 text-xs mt-0.5">Active conversion funnel breakdown</p>
@@ -251,7 +257,7 @@ export default async function AdminDashboardPage() {
           <div>
             <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
               <div>
-                <h3 className="font-serif font-bold text-lg text-slate-900 dark:text-white">Recent Customer Enquiries</h3>
+                <h3 className="font-bold text-lg text-slate-900 dark:text-white">Recent Customer Enquiries</h3>
                 <p className="text-slate-500 dark:text-slate-400 text-xs mt-0.5">Latest form submissions from website</p>
               </div>
               <Link
@@ -318,7 +324,7 @@ export default async function AdminDashboardPage() {
         {/* Audit Logs Timeline */}
         <div className="lg:col-span-5 bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6 flex flex-col justify-between">
           <div>
-            <h3 className="font-serif font-bold text-lg text-slate-900 dark:text-white flex items-center gap-2">
+            <h3 className="font-bold text-lg text-slate-900 dark:text-white flex items-center gap-2">
               <Activity className="w-5 h-5 text-amber-500" /> Recent Actions Log
             </h3>
             <p className="text-slate-500 dark:text-slate-400 text-xs mt-0.5">Timeline of recent site modification actions</p>
@@ -339,7 +345,7 @@ export default async function AdminDashboardPage() {
                     <p className="font-bold text-slate-800 dark:text-white">
                       {log.user.name} <span className="font-normal text-slate-500 dark:text-slate-400">({log.action})</span>
                     </p>
-                    <p className="text-[10px] text-slate-600 dark:text-slate-400 font-mono mt-0.5">{log.details}</p>
+                    <p className="text-[10px] text-slate-600 dark:text-slate-400 mt-0.5">{log.details}</p>
                     <span className="text-[9px] text-slate-400 dark:text-slate-500 block mt-1 flex items-center gap-1">
                       <Calendar className="w-3 h-3" />
                       {new Date(log.createdAt).toLocaleString("en-IN")}
