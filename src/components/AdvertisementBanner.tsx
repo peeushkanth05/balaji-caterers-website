@@ -76,7 +76,7 @@ export function AdvertisementBanner({ ads }: { ads: Ad[] }) {
                 {ad.brandName}
               </span>
             )}
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-white leading-tight drop-shadow-lg">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white leading-tight drop-shadow-lg">
               {ad.title}
             </h2>
             {ad.description && (

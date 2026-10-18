@@ -62,7 +62,7 @@ export default function BackupPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
         <div>
-          <h1 className="text-2xl font-serif font-bold text-slate-900 flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
             <Database className="w-6 h-6 text-amber-500" /> Database Backup Manager
           </h1>
           <p className="text-slate-500 text-xs mt-1">
@@ -99,7 +99,7 @@ export default function BackupPage() {
       {/* Backup Log History */}
       <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
         <div className="p-6 border-b border-slate-100 flex items-center justify-between">
-          <h2 className="text-lg font-serif font-bold text-slate-900">Backup Logs History</h2>
+          <h2 className="text-lg font-bold text-slate-900">Backup Logs History</h2>
           <button
             onClick={fetchBackups}
             className="p-2 hover:bg-slate-50 text-slate-500 rounded-xl transition-colors"

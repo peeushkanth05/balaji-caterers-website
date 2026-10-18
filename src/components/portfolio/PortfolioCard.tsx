@@ -23,18 +23,18 @@ export function PortfolioCard({ portfolio }: PortfolioCardProps) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.4 }}
-      className="bg-white rounded-3xl border border-slate-200/80 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between"
+      className="bg-white dark:bg-slate-900 rounded-2xl sm:rounded-3xl border border-slate-200/80 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-md hover:border-amber-400/60 dark:hover:border-amber-500/40 transition-all duration-300 group flex flex-col justify-between"
     >
       <div>
         {/* Cover Image Container */}
-        <div className="h-60 sm:h-64 relative bg-slate-100 overflow-hidden">
+        <div className="h-60 sm:h-64 relative bg-slate-100 dark:bg-slate-800 overflow-hidden">
           <img
             src={coverUrl}
             alt={portfolio.altText || portfolio.title}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             loading="lazy"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
           {/* Badges */}
           <div className="absolute top-3 left-3 flex flex-wrap gap-2 z-10">
@@ -61,11 +61,11 @@ export function PortfolioCard({ portfolio }: PortfolioCardProps) {
 
         {/* Card Body */}
         <div className="p-6 space-y-3">
-          <div className="font-serif font-bold text-xl text-slate-900 group-hover:text-amber-600 transition-colors line-clamp-2">
+          <div className="font-bold text-xl text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors line-clamp-2">
             {portfolio.title}
           </div>
 
-          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed line-clamp-3">
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed line-clamp-3">
             {portfolio.shortDescription}
           </p>
 
@@ -75,13 +75,13 @@ export function PortfolioCard({ portfolio }: PortfolioCardProps) {
               {portfolio.tags.slice(0, 3).map((tag, idx) => (
                 <span
                   key={idx}
-                  className="inline-flex items-center gap-1 text-[10px] font-semibold text-slate-700 bg-slate-100 px-2 py-0.5 rounded-md"
+                  className="inline-flex items-center gap-1 text-[10px] font-semibold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md"
                 >
                   <Tag className="w-2.5 h-2.5 text-amber-500" /> {tag}
                 </span>
               ))}
               {portfolio.tags.length > 3 && (
-                <span className="text-[10px] text-slate-500 font-semibold self-center">
+                <span className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold self-center">
                   +{portfolio.tags.length - 3} more
                 </span>
               )}
@@ -91,10 +91,10 @@ export function PortfolioCard({ portfolio }: PortfolioCardProps) {
       </div>
 
       {/* Card Footer */}
-      <div className="px-6 pb-6 pt-2 border-t border-slate-100 flex items-center justify-between">
+      <div className="px-6 pb-6 pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
         <Link
           href={`/portfolio/${portfolio.slug}`}
-          className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-md active:scale-95"
+          className="w-full py-2.5 px-4 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-semibold text-xs flex items-center justify-center gap-2 transition-all shadow-sm active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500"
         >
           <span>View Details & Photos</span>
           <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

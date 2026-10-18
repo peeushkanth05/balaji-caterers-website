@@ -35,12 +35,33 @@ export async function GET() {
           secondaryBtnLink: "#portfolio",
           sliderAutoPlay: true,
           sliderSpeed: 5000,
+          statistics: {
+            create: [
+              { icon: "🏆", number: "500+", title: "Events Managed", sortOrder: 1, isEnabled: true },
+              { icon: "⭐", number: "15+", title: "Years Experience", sortOrder: 2, isEnabled: true },
+              { icon: "💗", number: "1000+", title: "Happy Families", sortOrder: 3, isEnabled: true },
+              { icon: "💯", number: "100%", title: "Satisfaction", sortOrder: 4, isEnabled: true },
+            ],
+          },
         },
         include: {
           statistics: { orderBy: { sortOrder: "asc" } },
           images: { orderBy: { displayOrder: "asc" } },
           floatingCards: { orderBy: { sortOrder: "asc" } },
         },
+      });
+    } else if (!hero.statistics || hero.statistics.length === 0) {
+      await prisma.heroStatistic.createMany({
+        data: [
+          { heroSectionId: "default", icon: "🏆", number: "500+", title: "Events Managed", sortOrder: 1, isEnabled: true },
+          { heroSectionId: "default", icon: "⭐", number: "15+", title: "Years Experience", sortOrder: 2, isEnabled: true },
+          { heroSectionId: "default", icon: "💗", number: "1000+", title: "Happy Families", sortOrder: 3, isEnabled: true },
+          { heroSectionId: "default", icon: "💯", number: "100%", title: "Satisfaction", sortOrder: 4, isEnabled: true },
+        ],
+      });
+      hero.statistics = await prisma.heroStatistic.findMany({
+        where: { heroSectionId: "default" },
+        orderBy: { sortOrder: "asc" },
       });
     }
 

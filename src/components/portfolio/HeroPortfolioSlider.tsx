@@ -122,7 +122,7 @@ export function HeroPortfolioSlider({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-white leading-tight"
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight"
           >
             {current.title}
           </motion.h2>
@@ -168,7 +168,7 @@ export function HeroPortfolioSlider({
           >
             <Link
               href={`/portfolio/${current.slug}`}
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-sm shadow-xl shadow-amber-500/30 transition-all hover:scale-105 active:scale-95"
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm shadow-md shadow-amber-500/25 transition-all hover:scale-105 active:scale-95"
             >
               <Eye className="w-4 h-4" /> View Full Event Gallery
             </Link>

@@ -136,7 +136,7 @@ export function FrontendGallery({ items }: { items: any[] }) {
                 <span className="text-xs font-bold uppercase tracking-wider text-amber-400">
                   {activeLightbox.category}
                 </span>
-                <h3 className="font-serif font-bold text-xl text-white">
+                <h3 className="font-bold text-xl text-white">
                   {activeLightbox.title}
                 </h3>
               </div>

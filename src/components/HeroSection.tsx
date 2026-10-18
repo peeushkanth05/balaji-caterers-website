@@ -4,16 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Sparkles,
-  ChevronLeft,
-  ChevronRight,
-  Phone,
-  ArrowRight,
-  Star,
-  ShieldCheck,
-  Award,
-} from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { HeroSectionData } from "@/types/hero";
 
 interface HeroSectionProps {
@@ -22,48 +13,88 @@ interface HeroSectionProps {
   whatsapp?: string;
 }
 
-export function HeroSection({ hero, phone = "+91 98104 83544", whatsapp = "919810483544" }: HeroSectionProps) {
+export function HeroSection({
+  hero,
+  phone = "+91 98104 83544",
+  whatsapp = "919810483544",
+}: HeroSectionProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // Fallbacks if DB hero is null or disabled
   const isEnabled = hero?.isEnabled ?? true;
   const badgeShow = hero?.badgeShow ?? true;
-  const badgeText = hero?.badgeText || "Delhi NCR's Premier Event Partner";
-  const badgeIcon = hero?.badgeIcon || "⭐";
-  const heading = hero?.heading || "Every Celebration, Perfectly Crafted.";
+  const badgeText = hero?.badgeText || "Weddings · Catering · Event Management";
+
+  const rawHeading = hero?.heading || "Exceptional Events. Unforgettable Experiences.";
+  // Extract two-part headline if available
+  let headlinePart1 = rawHeading;
+  let headlinePart2 = hero?.headingHighlight || "";
+
+  if (!headlinePart2 && rawHeading.includes(".")) {
+    const parts = rawHeading.split(".");
+    headlinePart1 = parts[0].trim() + ".";
+    headlinePart2 = parts.slice(1).join(".").trim();
+  }
+
   const subheading =
     hero?.subheading ||
-    "From grand royal weddings to intimate family gatherings — Verma Caterers brings you world-class catering, stunning floral décor, seamless sound, and complete event management.";
-  const primaryBtnText = hero?.primaryBtnText || "Book Your Event ✨";
+    "Premium catering, beautiful décor and seamless event management for weddings, corporate gatherings and special celebrations across Delhi NCR.";
+  const primaryBtnText = hero?.primaryBtnText || "Get a Free Quote";
   const primaryBtnLink = hero?.primaryBtnLink || "#contact";
-  const secondaryBtnText = hero?.secondaryBtnText || "View Our Work 🎨";
+  const secondaryBtnText = hero?.secondaryBtnText || "Explore Our Work";
   const secondaryBtnLink = hero?.secondaryBtnLink || "#portfolio";
 
-  const statistics = hero?.statistics && hero.statistics.length > 0
-    ? hero.statistics.filter((s) => s.isEnabled)
-    : [
-        { id: "s1", icon: "🏆", number: "500+", title: "Events Managed", sortOrder: 1, isEnabled: true, heroSectionId: "default" },
-        { id: "s2", icon: "⭐", number: "15+", title: "Years Experience", sortOrder: 2, isEnabled: true, heroSectionId: "default" },
-        { id: "s3", icon: "❤️", number: "1000+", title: "Happy Families", sortOrder: 3, isEnabled: true, heroSectionId: "default" },
-        { id: "s4", icon: "💯", number: "100%", title: "Satisfaction", sortOrder: 4, isEnabled: true, heroSectionId: "default" },
-      ];
+  // Service highlights - 3 core differentiators
+  const serviceHighlights =
+    hero?.floatingCards && hero.floatingCards.length >= 3
+      ? hero.floatingCards.filter((c) => c.isEnabled).slice(0, 3)
+      : [
+          { title: "Premium Catering", description: "Custom menus" },
+          { title: "Wedding Décor", description: "Event styling" },
+          { title: "Complete Events", description: "End-to-end execution" },
+        ];
 
-  const slides = hero?.images && hero.images.length > 0
-    ? hero.images.filter((img) => img.isEnabled)
-    : [
-        { id: "i1", imageUrl: "/grand_wedding_decor/3dce2ebd-b344-485c-80e0-88cad120d299.webp", altText: "Grand Royal Wedding Mandap", displayOrder: 1, isEnabled: true, heroSectionId: "default", mobileImageUrl: "", caption: "" },
-        { id: "i2", imageUrl: "/grand_wedding_decor/7b473ea8-3932-41ab-bac7-910973b59980.webp", altText: "Lavish Food Buffets", displayOrder: 2, isEnabled: true, heroSectionId: "default", mobileImageUrl: "", caption: "" },
-        { id: "i3", imageUrl: "/grand_wedding_decor/93f97c61-cb64-4b24-b9ed-3cef9082b0f4.webp", altText: "Floral Stage Design", displayOrder: 3, isEnabled: true, heroSectionId: "default", mobileImageUrl: "", caption: "" },
-      ];
+  // Statistics counters
+  const statistics =
+    hero?.statistics && hero.statistics.length > 0
+      ? hero.statistics.filter((s) => s.isEnabled)
+      : [
+          { id: "s1", icon: "", number: "500+", title: "Events Managed", sortOrder: 1 },
+          { id: "s2", icon: "", number: "15+", title: "Years Experience", sortOrder: 2 },
+          { id: "s3", icon: "", number: "1000+", title: "Happy Families", sortOrder: 3 },
+          { id: "s4", icon: "", number: "100%", title: "Satisfaction", sortOrder: 4 },
+        ];
 
-  const floatingCards = hero?.floatingCards && hero.floatingCards.length > 0
-    ? hero.floatingCards.filter((card) => card.isEnabled)
-    : [
-        { id: "fc1", icon: "🍽️", title: "Catering", description: "North & Fusion", color: "amber", link: "", sortOrder: 1, isEnabled: true, heroSectionId: "default" },
-        { id: "fc2", icon: "🌸", title: "Floral Décor", description: "Custom Mandaps", color: "orange", link: "", sortOrder: 2, isEnabled: true, heroSectionId: "default" },
-        { id: "fc3", icon: "📢", title: "Sound & DJ", description: "Pro Audio & Lights", color: "blue", link: "", sortOrder: 3, isEnabled: true, heroSectionId: "default" },
-        { id: "fc4", icon: "🎉", title: "Full Events", description: "End-to-End Execution", color: "emerald", link: "", sortOrder: 4, isEnabled: true, heroSectionId: "default" },
-      ];
+  // Authentic event photography slides
+  const slides =
+    hero?.images && hero.images.length > 0
+      ? hero.images.filter((img) => img.isEnabled)
+      : [
+          {
+            id: "i1",
+            imageUrl: "/grand_wedding_decor/3dce2ebd-b344-485c-80e0-88cad120d299.webp",
+            altText: "Grand Royal Wedding Mandap by Verma Caterers",
+            caption: "Royal Wedding Mandap & Floral Decor",
+          },
+          {
+            id: "i2",
+            imageUrl: "/grand_wedding_decor/7b473ea8-3932-41ab-bac7-910973b59980.webp",
+            altText: "Lavish Food Buffets & Live Counters",
+            caption: "Lavish Food Buffets & Live Counters",
+          },
+          {
+            id: "i3",
+            imageUrl: "/grand_wedding_decor/93f97c61-cb64-4b24-b9ed-3cef9082b0f4.webp",
+            altText: "Floral Stage Design & Ambient Lighting",
+            caption: "Floral Stage Design & Ambient Lighting",
+          },
+          {
+            id: "i4",
+            imageUrl: "/grand_wedding_decor/fd3ad0c0-af52-4014-9461-a00f49abc506.webp",
+            altText: "Luxury Event Seating & Reception Arrangement",
+            caption: "Complete Event Management Execution",
+          },
+        ];
 
   // Carousel timer
   const autoPlay = hero?.sliderAutoPlay ?? true;
@@ -80,129 +111,84 @@ export function HeroSection({ hero, phone = "+91 98104 83544", whatsapp = "91981
   if (!isEnabled) return null;
 
   return (
-    <section className="relative overflow-hidden pt-8 pb-16 md:pt-12 md:pb-24 bg-gradient-to-b from-amber-500/10 via-slate-50 to-white">
-      {/* Background Subtle Pattern & Ambient Glows */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-amber-400/20 rounded-full blur-3xl -z-10 pointer-events-none" />
-      <div className="absolute top-1/3 right-10 w-80 h-80 bg-orange-400/15 rounded-full blur-3xl -z-10 pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
-          {/* Left Column — Copy & CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-6 space-y-6 text-center lg:text-left"
-          >
-            {/* Badge */}
+    <section className="relative overflow-hidden bg-[#F8F7F3] text-slate-900 dark:bg-slate-950 dark:text-white transition-colors">
+      <div className="mx-auto max-w-7xl px-5 py-12 sm:px-8 sm:py-16 lg:py-20">
+        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+          {/* Left Column: Copy & CTAs */}
+          <div className="max-w-2xl">
             {badgeShow && (
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-100/80 border border-amber-300 text-amber-900 font-bold text-xs shadow-sm">
-                <span>{badgeIcon}</span>
-                <span>{badgeText}</span>
-              </div>
+              <span className="inline-flex items-center rounded-full border border-amber-300 bg-amber-50 px-4 py-2 text-xs sm:text-sm font-semibold tracking-wide text-amber-900 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-200">
+                {badgeText}
+              </span>
             )}
 
-            {/* Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-slate-900 leading-[1.15]">
-              {heading}
+            <h1 className="mt-6 text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl text-slate-900 dark:text-white">
+              {headlinePart1}
+              {headlinePart2 && (
+                <span className="mt-1 block text-amber-600 dark:text-amber-500">
+                  {headlinePart2}
+                </span>
+              )}
             </h1>
 
-            {/* Subheading */}
-            <p className="text-slate-600 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
+            <p className="mt-6 max-w-xl text-base leading-7 text-slate-600 dark:text-slate-300 sm:text-lg font-normal">
               {subheading}
             </p>
 
-            {/* Action CTAs */}
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
-              <motion.div
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                className="w-full sm:w-auto"
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Link
+                href={primaryBtnLink}
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-amber-500 px-6 py-3 font-semibold text-white transition hover:bg-amber-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-95 shadow-md shadow-amber-500/20"
               >
-                <Link
-                  href={primaryBtnLink}
-                  className="relative group overflow-hidden w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-base shadow-xl shadow-amber-500/25 transition-all text-center flex items-center justify-center gap-2"
-                >
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none"
-                    initial={{ x: "-100%" }}
-                    animate={{ x: "100%" }}
-                    transition={{
-                      repeat: Infinity,
-                      repeatType: "loop",
-                      duration: 2,
-                      ease: "linear",
-                    }}
-                  />
-                  <span>{primaryBtnText}</span>
-                  <ArrowRight className="w-4.5 h-4.5 transition-transform group-hover:translate-x-1" />
-                </Link>
-              </motion.div>
-
-              <motion.div
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                className="w-full sm:w-auto"
+                {primaryBtnText} <span aria-hidden="true">→</span>
+              </Link>
+              <Link
+                href={secondaryBtnLink}
+                className="inline-flex min-h-12 items-center justify-center rounded-xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-900 transition hover:border-amber-500 dark:border-slate-700 dark:bg-slate-900 dark:text-white active:scale-95 shadow-sm"
               >
-                <Link
-                  href={secondaryBtnLink}
-                  className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-800 font-bold text-base shadow-sm transition-all hover:border-amber-300 text-center flex items-center justify-center gap-2"
-                >
-                  <span>{secondaryBtnText}</span>
-                </Link>
-              </motion.div>
+                {secondaryBtnText}
+              </Link>
             </div>
 
-            {/* Floating Service Cards Grid */}
-            {floatingCards.length > 0 && (
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-slate-200/80">
-                {floatingCards.map((card) => (
-                  <motion.div
-                    key={card.id}
-                    whileHover={{ y: -5, boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.08)", borderColor: "#f59e0b" }}
-                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    className="p-3 rounded-2xl bg-white border border-slate-200/80 shadow-sm text-left cursor-pointer transition-colors"
-                  >
-                    <div className="text-xl mb-1">{card.icon}</div>
-                    <span className="font-bold text-xs text-slate-900 truncate block">{card.title}</span>
-                    <p className="text-[11px] text-slate-500 truncate">{card.description}</p>
-                  </motion.div>
-                ))}
-              </div>
-            )}
-          </motion.div>
+            {/* Service Highlights (3 columns) */}
+            <div className="mt-8 grid grid-cols-3 gap-3 border-t border-slate-200 pt-5 dark:border-slate-800">
+              {serviceHighlights.map((hl, idx) => (
+                <div key={idx}>
+                  <p className="font-semibold text-slate-900 dark:text-slate-100 text-xs sm:text-sm md:text-base">
+                    {hl.title}
+                  </p>
+                  <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                    {hl.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
 
-          {/* Right Column — Interactive Image Slider Carousel */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="lg:col-span-6 relative"
-          >
-            <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
+          {/* Right Column: Authentic Event Photography Carousel */}
+          <div className="relative">
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl sm:rounded-3xl border border-slate-200/80 bg-slate-100 dark:border-slate-800 dark:bg-slate-900 shadow-xl">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentSlide}
-                  initial={{ opacity: 0, scale: 1.05 }}
+                  initial={{ opacity: 0, scale: 1.02 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.7 }}
+                  transition={{ duration: 0.5 }}
                   className="relative w-full h-full"
                 >
                   <Image
                     src={slides[currentSlide]?.imageUrl || "/grand_wedding_decor/3dce2ebd-b344-485c-80e0-88cad120d299.webp"}
-                    alt={slides[currentSlide]?.altText || "Verma Caterers Event"}
+                    alt={slides[currentSlide]?.altText || "Verma Caterers authentic event"}
                     fill
                     priority
-                    fetchPriority="high"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 640px"
                     className="object-cover"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 50vw"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent" />
-                  
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent pointer-events-none" />
+
                   {slides[currentSlide]?.caption && (
-                    <div className="absolute bottom-4 left-4 right-4 bg-slate-900/70 backdrop-blur-md p-3 rounded-xl text-white text-xs font-semibold">
+                    <div className="absolute bottom-4 left-4 right-4 rounded-xl bg-slate-900/75 p-3 text-xs font-medium text-white backdrop-blur-sm sm:text-sm">
                       {slides[currentSlide].caption}
                     </div>
                   )}
@@ -215,19 +201,17 @@ export function HeroSection({ hero, phone = "+91 98104 83544", whatsapp = "91981
                   <button
                     onClick={() => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)}
                     aria-label="Previous slide"
-                    className="absolute left-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-slate-900/40 hover:bg-slate-900/80 text-white flex items-center justify-center backdrop-blur-sm transition-all"
-                    title="Previous Slide"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full bg-slate-950/50 text-white backdrop-blur-sm transition hover:bg-slate-950/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
                   >
-                    <ChevronLeft className="w-6 h-6" />
+                    <ChevronLeft className="h-6 w-6" />
                   </button>
 
                   <button
                     onClick={() => setCurrentSlide((prev) => (prev + 1) % slides.length)}
                     aria-label="Next slide"
-                    className="absolute right-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-slate-900/40 hover:bg-slate-900/80 text-white flex items-center justify-center backdrop-blur-sm transition-all"
-                    title="Next Slide"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full bg-slate-950/50 text-white backdrop-blur-sm transition hover:bg-slate-950/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
                   >
-                    <ChevronRight className="w-6 h-6" />
+                    <ChevronRight className="h-6 w-6" />
                   </button>
 
                   {/* Pagination Dots */}
@@ -237,8 +221,10 @@ export function HeroSection({ hero, phone = "+91 98104 83544", whatsapp = "91981
                         key={idx}
                         onClick={() => setCurrentSlide(idx)}
                         aria-label={`Go to slide ${idx + 1}`}
-                        className={`h-2.5 rounded-full transition-all flex items-center justify-center ${
-                          idx === currentSlide ? "w-6 bg-amber-400" : "w-2.5 bg-white/60 hover:bg-white"
+                        className={`h-2 rounded-full transition-all ${
+                          idx === currentSlide
+                            ? "w-6 bg-amber-400"
+                            : "w-2 bg-white/70 hover:bg-white"
                         }`}
                       />
                     ))}
@@ -246,28 +232,23 @@ export function HeroSection({ hero, phone = "+91 98104 83544", whatsapp = "91981
                 </>
               )}
             </div>
-          </motion.div>
-
+          </div>
         </div>
 
-        {/* Dynamic Statistics Counters Bar */}
+        {/* Statistics Strip */}
         {statistics.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="mt-12 lg:mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 bg-white p-6 rounded-3xl border border-slate-200/90 shadow-lg"
-          >
-            {statistics.map((stat) => (
-              <div key={stat.id} className="text-center p-3 rounded-2xl bg-slate-50 border border-slate-100">
-                <div className="text-2xl mb-1">{stat.icon}</div>
-                <div className="text-2xl sm:text-3xl font-serif font-bold text-amber-600">
+          <div className="mt-12 sm:mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 rounded-2xl border border-slate-200/80 bg-white p-5 sm:p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 transition-colors">
+            {statistics.map((stat, sIdx) => (
+              <div key={stat.id || sIdx} className="text-center p-2 sm:p-3">
+                <div className="text-2xl sm:text-3xl font-bold tracking-tight text-amber-600 dark:text-amber-500">
                   {stat.number}
                 </div>
-                <p className="text-xs font-semibold text-slate-600 mt-0.5">{stat.title}</p>
+                <p className="mt-1 text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-400">
+                  {stat.title}
+                </p>
               </div>
             ))}
-          </motion.div>
+          </div>
         )}
       </div>
     </section>

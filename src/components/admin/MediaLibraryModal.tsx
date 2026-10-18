@@ -329,7 +329,7 @@ export function MediaLibraryModal({
         {/* Header Tab Bar */}
         <div className="px-8 py-5 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-50">
           <div>
-            <h3 className="font-serif font-bold text-xl text-slate-900">{title}</h3>
+            <h3 className="font-bold text-xl text-slate-900">{title}</h3>
             <p className="text-slate-500 text-xs mt-0.5">
               Securely manage cloud media directory. Files are dynamically converted to WebP formats.
             </p>

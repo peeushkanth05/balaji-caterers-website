@@ -77,7 +77,7 @@ export default function CookieBanner() {
             <Cookie className="w-5 h-5" />
           </div>
           <div>
-            <h4 className="font-serif font-bold text-slate-900 dark:text-white text-base">Cookie Preferences</h4>
+            <h4 className="font-bold text-slate-900 dark:text-white text-base">Cookie Preferences</h4>
             <p className="text-[11px] text-slate-600 dark:text-slate-300">Manage your privacy settings</p>
           </div>
         </div>

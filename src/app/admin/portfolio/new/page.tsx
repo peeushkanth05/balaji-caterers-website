@@ -202,7 +202,7 @@ export default function NewPortfolioPage() {
 
       {/* Header */}
       <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
-        <h1 className="text-2xl font-serif font-bold text-slate-900 flex items-center gap-2">
+        <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
           <FolderKanban className="w-6 h-6 text-amber-500" /> Create New Portfolio Item
         </h1>
         <p className="text-slate-500 text-xs mt-1">
@@ -244,7 +244,7 @@ export default function NewPortfolioPage() {
                 required
                 value={slug}
                 onChange={(e) => setSlug(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 px-3 text-sm font-mono focus:ring-2 focus:ring-amber-500"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 px-3 text-sm focus:ring-2 focus:ring-amber-500"
               />
             </div>
           </div>

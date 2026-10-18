@@ -192,7 +192,7 @@ export default function BlogsAdminPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
         <div>
-          <h1 className="text-2xl font-serif font-bold text-slate-900 flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
             <BookOpen className="w-6 h-6 text-amber-500" /> Blog Guide CMS
           </h1>
           <p className="text-slate-500 text-xs mt-1">
@@ -270,7 +270,7 @@ export default function BlogsAdminPage() {
                       {b.authorName}
                     </span>
                   </div>
-                  <h3 className="font-serif font-bold text-slate-900 text-base leading-snug line-clamp-2">
+                  <h3 className="font-bold text-slate-900 text-base leading-snug line-clamp-2">
                     {b.title}
                   </h3>
                   <p className="text-slate-500 text-xs leading-relaxed line-clamp-2">{b.excerpt || b.content}</p>
@@ -317,7 +317,7 @@ export default function BlogsAdminPage() {
       {modalOpen && (
         <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl w-full max-w-2xl p-6 max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-100">
-            <h2 className="text-xl font-serif font-bold text-slate-900 mb-4">
+            <h2 className="text-xl font-bold text-slate-900 mb-4">
               {editingId ? "Edit Blog Post" : "Write Blog Post"}
             </h2>
 

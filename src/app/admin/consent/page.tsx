@@ -31,7 +31,7 @@ export default function ConsentLogsPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
         <div>
-          <h1 className="text-2xl font-serif font-bold text-slate-900 flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
             <ShieldCheck className="w-6 h-6 text-amber-500" /> DPDP Consent Audit Trail
           </h1>
           <p className="text-slate-500 text-xs mt-1">
@@ -43,7 +43,7 @@ export default function ConsentLogsPage() {
       {/* Logs Table */}
       <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
         <div className="p-6 border-b border-slate-100 flex items-center justify-between">
-          <h2 className="text-lg font-serif font-bold text-slate-900">User Agreement Audits</h2>
+          <h2 className="text-lg font-bold text-slate-900">User Agreement Audits</h2>
           <button
             onClick={fetchLogs}
             className="p-2 hover:bg-slate-50 text-slate-500 rounded-xl transition-colors"
@@ -83,7 +83,7 @@ export default function ConsentLogsPage() {
                         timeStyle: "short",
                       })}
                     </td>
-                    <td className="py-4 px-6 font-mono text-[10px] text-slate-600">{log.ipAddress}</td>
+                    <td className="py-4 px-6 text-[10px] text-slate-600">{log.ipAddress}</td>
                     <td className="py-4 px-6 text-slate-500 max-w-[200px] truncate" title={log.userAgent}>
                       {log.userAgent}
                     </td>

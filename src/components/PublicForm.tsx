@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Send, Loader2 } from "lucide-react";
+import { Send, Loader2, MessageCircle } from "lucide-react";
 
 import { trackContactFormStart, trackContactFormSubmit, trackWhatsAppClick } from "@/lib/gtag";
 
@@ -27,6 +27,7 @@ export function PublicForm({
 }) {
   const [loading, setLoading] = useState(false);
   const [statusMsg, setStatusMsg] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [whatsappHandoffUrl, setWhatsappHandoffUrl] = useState<string | null>(null);
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -140,6 +141,16 @@ export function PublicForm({
 
       if (result.success) {
         trackContactFormSubmit(eventType, serviceNeeded, guestCount);
+        const cleanPhone = (whatsappNumber || "919810483544").replace(/[^0-9]/g, "");
+        const waText = `Hello Verma Caterers! I just submitted an enquiry:
+*Name:* ${name}
+*Phone:* ${phone}
+${email ? "*Email:* " + email + "\n" : ""}*Event:* ${eventType}
+${serviceNeeded ? "*Service Needed:* " + serviceNeeded + "\n" : ""}${eventDate ? "*Event Date:* " + eventDate + "\n" : ""}*Expected Guests:* ${guestCount || "Not specified"}
+${message ? "*Details:* " + message : ""}`.trim();
+
+        setWhatsappHandoffUrl(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(waText)}`);
+
         setStatusMsg({
           type: "success",
           text: settings?.successMessage || "✅ Enquiry Received! Our team will call you shortly.",
@@ -178,23 +189,40 @@ ${message ? "*Details:* " + message : ""}`.trim();
   };
 
   return (
-    <div className="bg-white p-6 sm:p-10 rounded-3xl border border-slate-200/80 shadow-xl">
-      <div className="font-serif font-bold text-2xl text-slate-900 mb-2">
-        {settings?.formTitle || "🎉 Request a Free Quote"}
+    <div className="bg-white dark:bg-slate-900 p-6 sm:p-10 rounded-2xl sm:rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors">
+      <div className="font-bold text-2xl tracking-tight text-slate-900 dark:text-white mb-2">
+        {settings?.formTitle || "Request a Free Quote"}
       </div>
-      <p className="text-xs text-slate-500 mb-6">
+      <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mb-6 font-normal">
         {settings?.formDescription || "Fill out your event details below for a customized quotation."}
       </p>
 
       {statusMsg && (
         <div
-          className={`mb-6 p-4 rounded-2xl text-xs font-bold ${
+          className={`mb-6 p-4 rounded-xl text-xs font-semibold ${
             statusMsg.type === "success"
-              ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
-              : "bg-red-50 text-red-800 border border-red-200"
+              ? "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60"
+              : "bg-red-50 dark:bg-red-950/40 text-red-800 dark:text-red-300 border border-red-200 dark:border-red-800/60"
           }`}
         >
-          {statusMsg.text}
+          <p>{statusMsg.text}</p>
+          {whatsappHandoffUrl && (
+            <div className="mt-3 pt-3 border-t border-emerald-200/80 dark:border-emerald-800/60 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <span className="font-medium text-emerald-900 dark:text-emerald-300 text-[11px]">
+                Want instant assistance? Chat directly with our catering manager:
+              </span>
+              <a
+                href={whatsappHandoffUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackWhatsAppClick("enquiry_success_handoff")}
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-sm transition-all active:scale-95 flex-shrink-0"
+              >
+                <MessageCircle className="w-3.5 h-3.5" />
+                <span>Chat on WhatsApp</span>
+              </a>
+            </div>
+          )}
         </div>
       )}
 
@@ -207,7 +235,7 @@ ${message ? "*Details:* " + message : ""}`.trim();
 
             return (
               <div key={field.id} className={isWide ? "sm:col-span-2" : ""}>
-                <label htmlFor={`form-field-${field.id}`} className="block text-xs font-bold text-slate-700 mb-1">
+                <label htmlFor={`form-field-${field.id}`} className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                   {field.label} {field.required && "*"}
                 </label>
 
@@ -220,7 +248,7 @@ ${message ? "*Details:* " + message : ""}`.trim();
                     onChange={(e) => setter(e.target.value)}
                     placeholder={field.placeholder || ""}
                     aria-label={field.label}
-                    className="w-full bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500 focus:outline-none transition-colors"
+                    className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500 focus:outline-none transition-colors"
                   />
                 ) : field.type === "select" ? (
                   <select
@@ -229,18 +257,18 @@ ${message ? "*Details:* " + message : ""}`.trim();
                     value={val}
                     onChange={(e) => setter(e.target.value)}
                     aria-label={field.label}
-                    className="w-full bg-slate-50 border border-slate-200 text-slate-900 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500 focus:outline-none font-medium transition-colors"
+                    className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500 focus:outline-none font-medium transition-colors"
                   >
                     <option value="">{field.placeholder || "Select Option"}</option>
                     {field.id === "eventType" ? (
                       dropdownEventTypes.map((opt) => (
-                        <option key={opt} value={opt}>
+                        <option key={opt} value={opt} className="bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
                           {opt}
                         </option>
                       ))
                     ) : (
                       dropdownServices.map((opt) => (
-                        <option key={opt} value={opt}>
+                        <option key={opt} value={opt} className="bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
                           {opt}
                         </option>
                       ))
@@ -255,7 +283,7 @@ ${message ? "*Details:* " + message : ""}`.trim();
                     onChange={(e) => setter(e.target.value)}
                     placeholder={field.placeholder || ""}
                     aria-label={field.label}
-                    className="w-full bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500 focus:outline-none transition-colors"
+                    className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500 focus:outline-none transition-colors"
                   />
                 )}
               </div>
@@ -266,9 +294,9 @@ ${message ? "*Details:* " + message : ""}`.trim();
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-4 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-base shadow-lg shadow-amber-500/25 flex items-center justify-center gap-2 transition-all active:scale-[0.99] mt-2"
+          className="w-full py-3.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-semibold text-sm shadow-sm flex items-center justify-center gap-2 transition-all active:scale-[0.99] mt-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500 disabled:opacity-70 cursor-pointer"
         >
-          {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />} {settings?.submitBtnText || "Send My Enquiry"}
+          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />} {settings?.submitBtnText || "Send My Enquiry"}
         </button>
       </form>
     </div>

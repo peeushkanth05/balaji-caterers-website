@@ -112,7 +112,7 @@ export default function StaffManagementPage() {
           <div className="flex items-center gap-2 text-amber-400 text-xs font-bold uppercase tracking-wider mb-1">
             <ShieldCheck className="w-4 h-4" /> Super Admin Zone
           </div>
-          <h1 className="text-3xl font-serif font-bold">Staff & Access Control</h1>
+          <h1 className="text-3xl font-bold">Staff & Access Control</h1>
           <p className="text-slate-400 text-xs mt-1">
             Only Super Admins can manage staff accounts, assign roles, and revoke permissions.
           </p>
@@ -147,7 +147,7 @@ export default function StaffManagementPage() {
       ) : (
         <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
           <div className="p-6 border-b border-slate-100">
-            <h2 className="font-serif font-bold text-xl text-slate-900">
+            <h2 className="font-bold text-xl text-slate-900">
               Active Staff & Admin Accounts ({users.length})
             </h2>
           </div>
@@ -202,7 +202,7 @@ export default function StaffManagementPage() {
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl border border-slate-200">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="font-serif font-bold text-xl text-slate-900">
+              <h3 className="font-bold text-xl text-slate-900">
                 Add New Staff Member
               </h3>
               <button

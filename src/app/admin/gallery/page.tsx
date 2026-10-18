@@ -113,7 +113,7 @@ export default function GalleryAdminPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
         <div>
-          <h1 className="text-2xl font-serif font-bold text-slate-900">
+          <h1 className="text-2xl font-bold text-slate-900">
             Portfolio & Gallery Management
           </h1>
           <p className="text-slate-500 text-xs mt-1">
@@ -194,7 +194,7 @@ export default function GalleryAdminPage() {
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl border border-slate-200">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="font-serif font-bold text-xl text-slate-900">
+              <h3 className="font-bold text-xl text-slate-900">
                 Upload Portfolio Photo
               </h3>
               <button

@@ -87,7 +87,7 @@ export function PortfolioDetailView({
             )}
           </div>
 
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-white leading-tight">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
             {portfolio.title}
           </h1>
 
@@ -113,7 +113,7 @@ export function PortfolioDetailView({
         <div className="lg:col-span-8 space-y-10">
           {/* Detailed Overview */}
           <div className="bg-white p-8 rounded-3xl border border-slate-200/80 shadow-sm space-y-4">
-            <h2 className="text-2xl font-serif font-bold text-slate-900">
+            <h2 className="text-2xl font-bold text-slate-900">
               Project Overview & Highlights
             </h2>
             <div className="prose prose-slate max-w-none text-slate-600 text-sm leading-relaxed whitespace-pre-line">
@@ -140,7 +140,7 @@ export function PortfolioDetailView({
           {portfolio.galleryImages && portfolio.galleryImages.length > 0 && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-2xl font-serif font-bold text-slate-900">
+                <h3 className="text-2xl font-bold text-slate-900">
                   Event Photo Gallery
                 </h3>
                 <span className="text-xs font-semibold text-slate-500">
@@ -162,7 +162,7 @@ export function PortfolioDetailView({
               <span className="text-[10px] font-extrabold uppercase tracking-widest text-amber-400">
                 Planning a Similar Event?
               </span>
-              <h3 className="font-serif font-bold text-2xl text-white mt-1">
+              <h3 className="font-bold text-2xl text-white mt-1">
                 Book Verma Caterers
               </h3>
               <p className="text-slate-300 text-xs mt-2 leading-relaxed">
@@ -243,7 +243,7 @@ export function PortfolioDetailView({
       {relatedPortfolios.length > 0 && (
         <section className="space-y-6 pt-6">
           <div className="flex items-center justify-between">
-            <h3 className="text-2xl font-serif font-bold text-slate-900">
+            <h3 className="text-2xl font-bold text-slate-900">
               Related Projects You May Like
             </h3>
           </div>

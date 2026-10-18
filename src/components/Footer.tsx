@@ -23,10 +23,25 @@ import {
   Info,
 } from "lucide-react";
 
+const DEFAULT_FOOTER = {
+  aboutText:
+    "Verma Caterers offers premium wedding, corporate, and private party catering with pure vegetarian multi-cuisine menus, live food stations, floral decor, sound systems, and end-to-end event production across Delhi, Dwarka, Gurugram, and Noida.",
+  locationText: "Dwarka Sector 5, Madhu Vihar, New Delhi - 110059",
+  mapsUrl: "https://maps.google.com/?q=Verma+Caterers+Dwarka+Sector+5",
+  phone: "+91 98104 83544",
+  email: "vermasandeep124@gmail.com",
+  copyrightText: "© 2026 Verma Caterers & Events. All rights reserved.",
+  privacyPolicy: "We respect your privacy and are committed to protecting your personal data.",
+  termsOfService: "Terms and conditions apply to all catering bookings and event contracts.",
+  refundPolicy: "Refunds are processed according to our cancellation and booking timeline.",
+  cancellationPolicy: "Advance booking amounts are refundable up to 14 days before the event.",
+  cookiePolicy: "We use essential cookies to maintain security and improve user experience.",
+  disclaimer: "All event setups, menus, and equipment rentals are subject to booking availability.",
+};
+
 export function Footer() {
-  const [footer, setFooter] = useState<any>(null);
+  const [footer, setFooter] = useState<any>(DEFAULT_FOOTER);
   const [socials, setSocials] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
 
   // Policy Modal state
   const [activePolicy, setActivePolicy] = useState<{ title: string; content: string } | null>(null);
@@ -36,10 +51,8 @@ export function Footer() {
       .then((res) => res.json())
       .then((data) => {
         if (data.footer) setFooter(data.footer);
-        if (data.socialLinks) setSocials(data.socialLinks);
       })
-      .catch((err) => console.error("Footer fetch failed:", err))
-      .finally(() => setLoading(false));
+      .catch((err) => console.error("Footer fetch failed:", err));
   }, []);
 
   const getPlatformIcon = (platform: string) => {
@@ -66,18 +79,6 @@ export function Footer() {
     }
   };
 
-  if (loading || !footer) {
-    return (
-      <footer className="bg-slate-950 text-slate-400 py-16 px-6 border-t border-white/5 text-xs text-center">
-        <div className="max-w-7xl mx-auto animate-pulse flex flex-col items-center gap-4">
-          <div className="w-32 h-6 bg-slate-800 rounded-md" />
-          <div className="w-64 h-4 bg-slate-800 rounded-md" />
-          <div className="w-48 h-4 bg-slate-800 rounded-md" />
-        </div>
-      </footer>
-    );
-  }
-
   const legalPolicies = [
     { name: "Privacy Policy", content: footer.privacyPolicy },
     { name: "Terms & Conditions", content: footer.termsOfService },
@@ -87,12 +88,23 @@ export function Footer() {
     { name: "Disclaimer", content: footer.disclaimer },
   ];
 
+  // Close modal on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && activePolicy) {
+        setActivePolicy(null);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [activePolicy]);
+
   return (
     <footer className="bg-slate-950 text-slate-400 py-16 px-6 border-t border-white/5 text-xs">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 pb-12 border-b border-white/5">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-8 pb-12 border-b border-white/5">
         
         {/* Brand & Socials Column */}
-        <div className="md:col-span-5 space-y-5">
+        <div className="md:col-span-4 space-y-5">
           <div className="flex items-center">
             <div className="relative w-[210px] h-16 flex items-center justify-start">
               <Image
@@ -130,7 +142,7 @@ export function Footer() {
         </div>
 
         {/* Navigation Quick Links Column */}
-        <div className="md:col-span-3 space-y-4">
+        <div className="md:col-span-2 space-y-4">
           <div className="text-white font-bold text-[10px] uppercase tracking-wider">Quick Navigation</div>
           <ul className="space-y-2.5 font-semibold text-slate-400 text-[11px]">
             <li>
@@ -139,19 +151,24 @@ export function Footer() {
               </Link>
             </li>
             <li>
-              <a href="/#about" className="hover:text-white transition-colors">
-                About & Why Us
-              </a>
-            </li>
-            <li>
-              <a href="/#services" className="hover:text-white transition-colors">
-                Offered Services
-              </a>
-            </li>
-            <li>
               <Link href="/packages" className="hover:text-white transition-colors">
                 Catering Packages
               </Link>
+            </li>
+            <li>
+              <a href="/#portfolio" className="hover:text-white transition-colors">
+                Event Portfolio
+              </a>
+            </li>
+            <li>
+              <Link href="/blogs" className="hover:text-white transition-colors">
+                Catering Guides & Blog
+              </Link>
+            </li>
+            <li>
+              <a href="/#about" className="hover:text-white transition-colors">
+                About & Why Us
+              </a>
             </li>
             <li>
               <a href="/#contact" className="hover:text-white transition-colors">
@@ -161,8 +178,50 @@ export function Footer() {
           </ul>
         </div>
 
+        {/* Catering Locations Column */}
+        <div className="md:col-span-3 space-y-4">
+          <div className="text-white font-bold text-[10px] uppercase tracking-wider">Catering by Location</div>
+          <ul className="space-y-2 font-medium text-slate-400 text-[11px]">
+            <li>
+              <Link href="/wedding-catering-dwarka" className="hover:text-amber-400 transition-colors">
+                Wedding Catering Dwarka
+              </Link>
+            </li>
+            <li>
+              <Link href="/wedding-catering-gurugram" className="hover:text-amber-400 transition-colors">
+                Wedding Catering Gurugram
+              </Link>
+            </li>
+            <li>
+              <Link href="/catering-services-delhi-ncr" className="hover:text-amber-400 transition-colors">
+                Delhi NCR & Noida Catering
+              </Link>
+            </li>
+            <li>
+              <Link href="/corporate-catering-gurugram" className="hover:text-amber-400 transition-colors">
+                Corporate Catering Gurugram
+              </Link>
+            </li>
+            <li>
+              <Link href="/birthday-catering-dwarka" className="hover:text-amber-400 transition-colors">
+                Birthday Catering Dwarka
+              </Link>
+            </li>
+            <li>
+              <Link href="/puja-kirtan-catering-delhi-ncr" className="hover:text-amber-400 transition-colors">
+                Satvik & Puja Catering
+              </Link>
+            </li>
+            <li>
+              <Link href="/small-gathering-catering-dwarka" className="hover:text-amber-400 transition-colors">
+                Small Gathering Catering
+              </Link>
+            </li>
+          </ul>
+        </div>
+
         {/* Contacts & Coordinates Column */}
-        <div className="md:col-span-4 space-y-4">
+        <div className="md:col-span-3 space-y-4">
           <div className="text-white font-bold text-[10px] uppercase tracking-wider">Our Location & Coordinates</div>
           <ul className="space-y-3 text-slate-400 text-[11px]">
             <li className="flex items-start gap-2">
@@ -203,7 +262,7 @@ export function Footer() {
         </p>
 
         {/* Policy Links Grid */}
-        <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-[10px] font-bold text-slate-350 uppercase tracking-wider">
+        <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
           {legalPolicies.map((policy) => (
             <button
               key={policy.name}
@@ -225,17 +284,17 @@ export function Footer() {
       {/* Legal Policies Modal Overlay */}
       {activePolicy && (
         <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white text-slate-800 rounded-3xl w-full max-w-2xl border border-slate-200 shadow-2xl flex flex-col max-h-[80vh] overflow-hidden">
+          <div className="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 rounded-3xl w-full max-w-2xl border border-slate-200 dark:border-slate-800 shadow-2xl flex flex-col max-h-[80vh] overflow-hidden">
             {/* Modal Header */}
-            <div className="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+            <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/40">
               <div className="flex items-center gap-2">
                 {getPolicyIcon(activePolicy.title)}
-                <div className="font-serif font-bold text-base text-slate-900">{activePolicy.title}</div>
+                <div className="font-bold text-base text-slate-900 dark:text-white">{activePolicy.title}</div>
               </div>
               <button
                 onClick={() => setActivePolicy(null)}
                 aria-label="Close policy modal"
-                className="p-1.5 hover:bg-slate-200 rounded-xl text-slate-400 hover:text-slate-600 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
+                className="p-1.5 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
                 title="Close modal"
               >
                 <X className="w-4.5 h-4.5" />
@@ -243,24 +302,24 @@ export function Footer() {
             </div>
 
             {/* Modal Content */}
-            <div className="p-6 overflow-y-auto prose prose-slate max-w-none text-xs leading-relaxed space-y-4">
+            <div className="p-6 overflow-y-auto prose prose-slate dark:prose-invert max-w-none text-xs leading-relaxed space-y-4">
               {activePolicy.content.split("\n").map((line, lIdx) => {
                 if (line.startsWith("# ")) {
-                  return <h1 key={lIdx} className="text-lg font-serif font-bold text-slate-900 border-b pb-1 mt-4">{line.replace("# ", "")}</h1>;
+                  return <h1 key={lIdx} className="text-lg font-bold text-slate-900 dark:text-white border-b dark:border-slate-800 pb-1 mt-4">{line.replace("# ", "")}</h1>;
                 }
                 if (line.startsWith("## ")) {
-                  return <h2 key={lIdx} className="text-sm font-serif font-bold text-slate-800 mt-3">{line.replace("## ", "")}</h2>;
+                  return <h2 key={lIdx} className="text-sm font-bold text-slate-800 dark:text-slate-200 mt-3">{line.replace("## ", "")}</h2>;
                 }
                 if (!line.trim()) return null;
-                return <p key={lIdx} className="text-slate-600 font-medium">{line}</p>;
+                return <p key={lIdx} className="text-slate-600 dark:text-slate-300 font-medium">{line}</p>;
               })}
             </div>
 
             {/* Modal Footer */}
-            <div className="p-4 border-t border-slate-100 bg-slate-50/50 flex justify-end">
+            <div className="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/40 flex justify-end">
               <button
                 onClick={() => setActivePolicy(null)}
-                className="bg-slate-900 hover:bg-slate-800 text-white font-bold text-[10px] uppercase py-2 px-5 rounded-xl transition-all"
+                className="bg-amber-500 hover:bg-amber-600 text-white font-bold text-[10px] uppercase py-2.5 px-6 rounded-xl transition-all shadow-sm active:scale-95"
               >
                 Close Policy
               </button>

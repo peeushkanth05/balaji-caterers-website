@@ -144,7 +144,7 @@ export default function PortfolioCategoriesAdminPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
         <div>
-          <h1 className="text-2xl font-serif font-bold text-slate-900 flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
             <Layers className="w-6 h-6 text-amber-500" /> Category Manager
           </h1>
           <p className="text-slate-500 text-xs mt-1">
@@ -202,8 +202,8 @@ export default function PortfolioCategoriesAdminPage() {
                   </div>
                 </div>
 
-                <h3 className="font-serif font-bold text-lg text-slate-900">{cat.categoryName}</h3>
-                <p className="text-xs text-slate-400 font-mono">slug: {cat.slug}</p>
+                <h3 className="font-bold text-lg text-slate-900">{cat.categoryName}</h3>
+                <p className="text-xs text-slate-400">slug: {cat.slug}</p>
                 {cat.description && (
                   <p className="text-xs text-slate-600 leading-relaxed line-clamp-2">{cat.description}</p>
                 )}
@@ -241,7 +241,7 @@ export default function PortfolioCategoriesAdminPage() {
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl border border-slate-200 space-y-6">
             <div className="flex items-center justify-between">
-              <h3 className="font-serif font-bold text-xl text-slate-900">
+              <h3 className="font-bold text-xl text-slate-900">
                 {editingId ? "Edit Category" : "Add New Category"}
               </h3>
               <button
@@ -277,7 +277,7 @@ export default function PortfolioCategoriesAdminPage() {
                   required
                   value={slug}
                   onChange={(e) => setSlug(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 px-3 text-sm font-mono focus:ring-2 focus:ring-amber-500"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 px-3 text-sm focus:ring-2 focus:ring-amber-500"
                 />
               </div>
 

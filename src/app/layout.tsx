@@ -1,21 +1,17 @@
 import type { Metadata, Viewport } from "next";
-import { Nunito, Playfair_Display } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
 import { FloatingSocials } from "@/components/FloatingSocials";
+import { MobileStickyBar } from "@/components/MobileStickyBar";
 import CookieBanner from "@/components/CookieBanner";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { prisma } from "@/lib/prisma";
 
-const nunito = Nunito({
+const roboto = Roboto({
+  weight: ["300", "400", "500", "700"],
   subsets: ["latin"],
-  variable: "--font-nunito",
-  display: "swap",
-});
-
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-playfair",
+  variable: "--font-roboto",
   display: "swap",
 });
 
@@ -74,13 +70,22 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   let settings: any = null;
+  let verifiedTestimonials: any[] = [];
   try {
     settings = await prisma.siteSetting.findUnique({
       where: { id: "default" },
     });
+    verifiedTestimonials = await prisma.testimonial.findMany({
+      where: { isEnabled: true },
+    });
   } catch (e) {
     // Graceful fallback
   }
+
+  const reviewCount = verifiedTestimonials.length;
+  const avgRating = reviewCount > 0
+    ? (verifiedTestimonials.reduce((acc, t) => acc + (t.rating || 5), 0) / reviewCount).toFixed(1)
+    : null;
 
   const organizationSchema = {
     "@context": "https://schema.org",
@@ -88,12 +93,12 @@ export default async function RootLayout({
       {
         "@type": "Organization",
         "@id": "https://vermacaterersevents.com/#organization",
-        "name": "Verma Caterers",
+        "name": "Verma Caterers & Events",
         "url": "https://vermacaterersevents.com",
         "logo": "https://vermacaterersevents.com/verma-logo-512.png",
         "contactPoint": {
           "@type": "ContactPoint",
-          "telephone": "+91-9810483544",
+          "telephone": settings?.phone || "+91-9810483544",
           "contactType": "customer service",
           "areaServed": "Delhi NCR"
         }
@@ -101,14 +106,14 @@ export default async function RootLayout({
       {
         "@type": ["LocalBusiness", "FoodEstablishment"],
         "@id": "https://vermacaterersevents.com/#localbusiness",
-        "name": "Verma Caterers & Event Management",
+        "name": "Verma Caterers & Events",
         "image": "https://vermacaterersevents.com/verma-logo-512.png",
         "url": "https://vermacaterersevents.com",
-        "telephone": "+91-9810483544",
+        "telephone": settings?.phone || "+91-9810483544",
         "priceRange": "₹₹",
         "address": {
           "@type": "PostalAddress",
-          "streetAddress": "Dwarka Sector 5, Madhu Vihar",
+          "streetAddress": settings?.address || "Dwarka Sector 5, Madhu Vihar",
           "addressLocality": "New Delhi",
           "addressRegion": "Delhi NCR",
           "postalCode": "110059",
@@ -125,17 +130,19 @@ export default async function RootLayout({
           "opens": "09:00",
           "closes": "21:00"
         },
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "reviewCount": "500"
-        }
+        ...(reviewCount > 0 && avgRating ? {
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": avgRating,
+            "reviewCount": reviewCount.toString()
+          }
+        } : {})
       },
       {
         "@type": "WebSite",
         "@id": "https://vermacaterersevents.com/#website",
         "url": "https://vermacaterersevents.com",
-        "name": "Verma Caterers",
+        "name": "Verma Caterers & Events",
         "publisher": {
           "@id": "https://vermacaterersevents.com/#organization"
         }
@@ -144,7 +151,7 @@ export default async function RootLayout({
   };
 
   return (
-    <html lang="en" className={`${nunito.variable} ${playfair.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${roboto.variable} ${roboto.className}`} suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
@@ -155,18 +162,25 @@ export default async function RootLayout({
             __html: `
               (function() {
                 try {
-                  document.documentElement.classList.remove('dark');
+                  var saved = localStorage.getItem('theme');
+                  var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  if (saved === 'dark' || (!saved && prefersDark)) {
+                    document.documentElement.classList.add('dark');
+                  } else {
+                    document.documentElement.classList.remove('dark');
+                  }
                 } catch (e) {}
               })();
             `,
           }}
         />
       </head>
-      <body className="font-sans antialiased min-h-screen bg-slate-50 text-slate-900 transition-colors overflow-x-hidden">
+      <body className="font-sans antialiased min-h-screen bg-[#F8F7F3] text-[#111827] dark:bg-slate-950 dark:text-slate-100 transition-colors overflow-x-hidden">
         <GoogleAnalytics gaId={settings?.googleAnalyticsId} />
         <Providers>
           {children}
           <FloatingSocials />
+          <MobileStickyBar phone={settings?.phone} whatsapp={settings?.whatsappNumber} />
           <CookieBanner />
         </Providers>
       </body>

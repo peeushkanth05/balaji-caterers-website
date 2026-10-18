@@ -61,7 +61,7 @@ export default async function PackagesPage() {
         {/* Hero Section */}
         <section className="bg-gradient-to-r from-amber-500/10 via-orange-500/5 to-transparent py-20 px-6">
           <div className="max-w-7xl mx-auto text-center space-y-4">
-            <h1 className="text-4xl sm:text-5xl font-serif font-bold text-slate-900">
+            <h1 className="text-4xl sm:text-5xl font-bold text-slate-900">
               Our Premium Catering Packages
             </h1>
             <p className="max-w-2xl mx-auto text-sm text-slate-600">
@@ -72,7 +72,11 @@ export default async function PackagesPage() {
 
         {/* Packages Grid client */}
         <section className="py-16 px-6 max-w-7xl mx-auto">
-          <PackagesPageClient packages={cleanPackages} />
+          <PackagesPageClient
+            packages={cleanPackages}
+            whatsapp={settings?.whatsappNumber}
+            phone={settings?.phone}
+          />
         </section>
       </div>
 

@@ -1,7 +1,68 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+// In-memory rate limiter for public lead submissions
+// Max 5 submissions per IP per 10 minutes window
+const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
+const MAX_REQUESTS_PER_WINDOW = 5;
+
+interface RateLimitRecord {
+  count: number;
+  resetTime: number;
+}
+
+const rateLimitMap = new Map<string, RateLimitRecord>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const record = rateLimitMap.get(ip);
+
+  // Periodic cleanup if map grows
+  if (rateLimitMap.size > 5000) {
+    for (const [key, val] of rateLimitMap.entries()) {
+      if (now > val.resetTime) {
+        rateLimitMap.delete(key);
+      }
+    }
+  }
+
+  if (!record || now > record.resetTime) {
+    rateLimitMap.set(ip, {
+      count: 1,
+      resetTime: now + RATE_LIMIT_WINDOW_MS,
+    });
+    return false;
+  }
+
+  if (record.count >= MAX_REQUESTS_PER_WINDOW) {
+    return true;
+  }
+
+  record.count += 1;
+  return false;
+}
+
+function getClientIp(req: Request): string {
+  const xForwardedFor = req.headers.get("x-forwarded-for");
+  if (xForwardedFor) {
+    return xForwardedFor.split(",")[0].trim();
+  }
+  const xRealIp = req.headers.get("x-real-ip");
+  if (xRealIp) {
+    return xRealIp.trim();
+  }
+  return "anonymous";
+}
+
 export async function POST(req: Request) {
+  const clientIp = getClientIp(req);
+  if (isRateLimited(clientIp)) {
+    return NextResponse.json(
+      { success: false, error: "Too many enquiries submitted. Please try again later." },
+      { status: 429 }
+    );
+  }
+
   try {
     const body = await req.json();
     let { name, phone, email, eventType, serviceNeeded, eventDate, guestCount, message } = body;

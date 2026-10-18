@@ -67,7 +67,7 @@ export default async function BlogsListingPage() {
             <span className="text-xs font-extrabold uppercase tracking-widest text-amber-800 inline-flex items-center gap-1.5 bg-amber-100 px-3.5 py-1 rounded-full">
               <BookOpen className="w-4 h-4" /> Catering & Event Guides
             </span>
-            <h1 className="text-3xl sm:text-5xl font-serif font-bold text-slate-900">
+            <h1 className="text-3xl sm:text-5xl font-bold text-slate-900">
               Planning Tips, Menu Ideas & Event Insights
             </h1>
             <p className="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
@@ -99,7 +99,7 @@ export default async function BlogsListingPage() {
                       <Calendar className="w-3.5 h-3.5" />
                       <span>{new Date(b.publishedAt || b.createdAt || Date.now()).toLocaleDateString("en-IN", { month: "short", day: "numeric", year: "numeric" })}</span>
                     </div>
-                    <h2 className="font-serif font-bold text-lg text-slate-900 group-hover:text-amber-800 transition-colors line-clamp-2">
+                    <h2 className="font-bold text-lg text-slate-900 group-hover:text-amber-800 transition-colors line-clamp-2">
                       {b.title}
                     </h2>
                     <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed">

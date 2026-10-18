@@ -36,7 +36,7 @@ export function PortfolioGrid({ portfolios, loading = false }: PortfolioGridProp
     return (
       <div className="bg-white rounded-3xl p-12 text-center text-slate-400 border border-slate-200 shadow-sm max-w-lg mx-auto">
         <FolderX className="w-12 h-12 mx-auto mb-3 opacity-30 text-slate-400" />
-        <h4 className="font-serif font-bold text-slate-800 text-lg">No Portfolios Found</h4>
+        <h4 className="font-bold text-slate-800 text-lg">No Portfolios Found</h4>
         <p className="text-xs text-slate-500 mt-1">
           Try clearing your search query or choosing a different category filter above.
         </p>

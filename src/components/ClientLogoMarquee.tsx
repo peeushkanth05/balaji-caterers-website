@@ -24,8 +24,8 @@ export default function ClientLogoMarquee() {
   return (
     <div className="bg-white dark:bg-slate-900 py-12 overflow-hidden relative border-t border-slate-100 dark:border-slate-800 transition-colors">
       <div className="max-w-7xl mx-auto px-6 mb-8 text-center">
-        <span className="text-[10px] font-bold tracking-widest text-amber-500 uppercase">Trusted By</span>
-        <h2 className="text-xl md:text-2xl font-serif font-bold text-slate-900 dark:text-white mt-1">Our Corporate & Special Clients</h2>
+        <span className="text-[10px] font-bold tracking-widest text-amber-700 uppercase">Trusted By</span>
+        <h2 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white mt-1">Our Corporate & Special Clients</h2>
       </div>
 
       {/* Infinite scrolling line of logo images */}

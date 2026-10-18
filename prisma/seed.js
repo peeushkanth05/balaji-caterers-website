@@ -13,17 +13,22 @@ async function main() {
   });
 
   if (!existingSuperAdmin) {
-    const hashedPassword = await bcrypt.hash('Admin@Verma2026', 10);
-    const superAdmin = await prisma.user.create({
-      data: {
-        name: 'Sandeep Verma (Owner)',
-        email: superAdminEmail,
-        password: hashedPassword,
-        phone: '+919810483544',
-        role: 'SUPER_ADMIN',
-      },
-    });
-    console.log('Created Super Admin:', superAdmin.email);
+    const adminPassword = process.env.INITIAL_ADMIN_PASSWORD;
+    if (!adminPassword) {
+      console.warn('Skipping initial Super Admin creation: INITIAL_ADMIN_PASSWORD environment variable is not set.');
+    } else {
+      const hashedPassword = await bcrypt.hash(adminPassword, 10);
+      const superAdmin = await prisma.user.create({
+        data: {
+          name: 'Sandeep Verma (Owner)',
+          email: superAdminEmail,
+          password: hashedPassword,
+          phone: '+919810483544',
+          role: 'SUPER_ADMIN',
+        },
+      });
+      console.log('Created Super Admin:', superAdmin.email);
+    }
   } else {
     await prisma.user.update({
       where: { id: existingSuperAdmin.id },
@@ -54,18 +59,23 @@ async function main() {
   };
 
   if (!existingStaff) {
-    const hashedPassword = await bcrypt.hash('Staff@Verma2026', 10);
-    const staff = await prisma.user.create({
-      data: {
-        name: 'Event Manager Staff',
-        email: staffEmail,
-        password: hashedPassword,
-        phone: '+919810000000',
-        role: 'ADMIN',
-        permissions: JSON.stringify(defaultPerms),
-      },
-    });
-    console.log('Created Staff Admin:', staff.email);
+    const staffPassword = process.env.INITIAL_STAFF_PASSWORD;
+    if (!staffPassword) {
+      console.warn('Skipping initial Staff Admin creation: INITIAL_STAFF_PASSWORD environment variable is not set.');
+    } else {
+      const hashedPassword = await bcrypt.hash(staffPassword, 10);
+      const staff = await prisma.user.create({
+        data: {
+          name: 'Event Manager Staff',
+          email: staffEmail,
+          password: hashedPassword,
+          phone: '+919810000000',
+          role: 'ADMIN',
+          permissions: JSON.stringify(defaultPerms),
+        },
+      });
+      console.log('Created Staff Admin:', staff.email);
+    }
   } else {
     await prisma.user.update({
       where: { id: existingStaff.id },
@@ -315,7 +325,7 @@ async function main() {
         create: [
           { icon: '🏆', number: '500+', title: 'Events Managed', sortOrder: 1 },
           { icon: '⭐', number: '15+', title: 'Years Experience', sortOrder: 2 },
-          { icon: '❤️', number: '1000+', title: 'Happy Families', sortOrder: 3 },
+          { icon: '💗', number: '1000+', title: 'Happy Families', sortOrder: 3 },
           { icon: '💯', number: '100%', title: 'Satisfaction', sortOrder: 4 },
         ],
       },

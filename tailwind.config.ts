@@ -10,24 +10,29 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        brand: {
+          navy: "#111827",
+          gold: "#c69a38",
+          amber: "#f59e0b",
+          ivory: "#f8f7f3",
+          dark: "#111827",
+          muted: "#64748b",
+          offwhite: "#f8f7f3",
+        },
         gold: {
-          DEFAULT: "#f5a623",
-          deep: "#e08a00",
-          light: "#fff8ee",
+          DEFAULT: "#c69a38",
+          deep: "#a37a24",
+          light: "#faf6ed",
         },
         saffron: {
-          DEFAULT: "#ff6b2b",
-          dark: "#e55a1b",
-        },
-        brand: {
-          dark: "#1a1a1a",
-          muted: "#666666",
-          offwhite: "#fffdf8",
+          DEFAULT: "#f59e0b",
+          dark: "#d97706",
         },
       },
       fontFamily: {
-        serif: ["var(--font-playfair)", "Playfair Display", "serif"],
-        sans: ["var(--font-nunito)", "Nunito", "sans-serif"],
+        sans: ["var(--font-roboto)", "Roboto", "sans-serif"],
+        serif: ["var(--font-roboto)", "Roboto", "sans-serif"],
+        mono: ["var(--font-roboto)", "Roboto", "monospace"],
       },
       boxShadow: {
         gold: "0 8px 40px rgba(245, 166, 35, 0.18)",

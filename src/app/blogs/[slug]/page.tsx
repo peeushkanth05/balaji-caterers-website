@@ -11,6 +11,26 @@ interface BlogDetailProps {
   params: { slug: string };
 }
 
+export const dynamicParams = true;
+
+export async function generateStaticParams() {
+  const fallbackSlugs = [
+    "wedding-catering-menu-guide-dwarka",
+    "puja-kirtan-satvik-catering-tips",
+    "small-gathering-catering-guest-calculator",
+  ];
+
+  try {
+    const dbBlogs = await prisma.blogPost.findMany({
+      select: { slug: true },
+    });
+    const allSlugs = Array.from(new Set([...fallbackSlugs, ...dbBlogs.map((b) => b.slug)]));
+    return allSlugs.map((slug) => ({ slug }));
+  } catch (error) {
+    return fallbackSlugs.map((slug) => ({ slug }));
+  }
+}
+
 async function getBlogPost(slug: string) {
   try {
     const blog = await prisma.blogPost.findUnique({
@@ -172,7 +192,7 @@ export default async function BlogDetailPage({ params }: BlogDetailProps) {
               </span>
             </div>
 
-            <h1 className="text-3xl sm:text-5xl font-serif font-bold text-slate-900 leading-tight">
+            <h1 className="text-3xl sm:text-5xl font-bold text-slate-900 leading-tight">
               {blog.title}
             </h1>
           </header>
@@ -195,7 +215,7 @@ export default async function BlogDetailPage({ params }: BlogDetailProps) {
 
           {/* Call to Action Box inside Article */}
           <div className="bg-gradient-to-r from-amber-900 to-amber-950 text-white p-8 rounded-3xl space-y-4 border border-amber-500/30 shadow-xl my-12">
-            <h3 className="text-xl font-serif font-bold text-amber-300">
+            <h3 className="text-xl font-bold text-amber-300">
               Planning a Wedding, Birthday, or Event in Delhi NCR?
             </h3>
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">

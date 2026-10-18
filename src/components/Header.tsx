@@ -88,15 +88,15 @@ const DEFAULT_SETTINGS: HeaderSettings = {
 };
 
 const DEFAULT_MENUS: Menu[] = [
-  { id: "m1", label: "Services", link: "/#services", displayOrder: 0, isServicesDropdown: true, submenus: [] },
-  { id: "m2", label: "Packages", link: "/packages", displayOrder: 1, isServicesDropdown: false, submenus: [] },
-  { id: "m3", label: "Portfolio", link: "/#portfolio", displayOrder: 2, isServicesDropdown: false, submenus: [] },
-  { id: "m4", label: "About", link: "/#about", displayOrder: 3, isServicesDropdown: false, submenus: [] },
-  { id: "m5", label: "Contact", link: "/#contact", displayOrder: 4, isServicesDropdown: false, submenus: [] },
+  { id: "m0", label: "Home", link: "/", displayOrder: 0, isServicesDropdown: false, submenus: [] },
+  { id: "m1", label: "Services", link: "/#services", displayOrder: 1, isServicesDropdown: true, submenus: [] },
+  { id: "m2", label: "Packages", link: "/packages", displayOrder: 2, isServicesDropdown: false, submenus: [] },
+  { id: "m3", label: "Portfolios", link: "/#portfolio", displayOrder: 3, isServicesDropdown: false, submenus: [] },
+  { id: "m4", label: "Contact", link: "/#contact", displayOrder: 4, isServicesDropdown: false, submenus: [] },
 ];
 
 const DEFAULT_ACTIONS: HeaderAction[] = [
-  { id: "a1", label: "Book Now ✨", link: "/#contact", style: "primary", active: true, displayOrder: 0 },
+  { id: "a1", label: "Get a Quote", link: "/#contact", style: "primary", active: true, displayOrder: 0 },
 ];
 
 export function Header() {
@@ -122,6 +122,12 @@ export function Header() {
   const [megaMenuOpen, setMegaMenuOpen] = useState(false);
 
   useEffect(() => {
+    // Initialize theme from HTML or localStorage
+    const isDark =
+      document.documentElement.classList.contains("dark") ||
+      (typeof window !== "undefined" && localStorage.getItem("theme") === "dark");
+    setTheme(isDark ? "dark" : "light");
+
     const fetchHeaderData = async () => {
       try {
         const res = await fetch("/api/header");
@@ -136,10 +142,6 @@ export function Header() {
         const servRes = await fetch("/api/services");
         const servData = await servRes.json();
         if (servData.services) setDbServices(servData.services);
-
-        // Standard light theme enforcement
-        setTheme("light");
-        document.documentElement.classList.remove("dark");
       } catch (e) {
         console.error("Failed to load header navigation", e);
       }
@@ -155,13 +157,31 @@ export function Header() {
       }
     };
 
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMobileMenuOpen(false);
+        setMegaMenuOpen(false);
+      }
+    };
+
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
   }, []);
 
   const toggleTheme = () => {
-    setTheme("light");
-    document.documentElement.classList.remove("dark");
+    const nextTheme = theme === "light" ? "dark" : "light";
+    setTheme(nextTheme);
+    if (nextTheme === "dark") {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
   };
 
   const getServiceIcon = (iconName: string) => {
@@ -300,7 +320,7 @@ export function Header() {
           </Link>
 
           {/* Desktop Nav Structure */}
-          <div className="hidden md:flex items-center gap-8 font-serif text-sm font-semibold text-slate-800 dark:text-slate-200">
+          <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-800 dark:text-slate-200">
             {menus.map((menu) => {
               const isServices = menu.isServicesDropdown;
               
@@ -419,7 +439,7 @@ export function Header() {
                               </div>
                               <Link
                                 href="/packages"
-                                className="inline-flex items-center justify-center gap-1 text-[10px] font-bold uppercase tracking-wider text-amber-500 hover:text-amber-600 transition-colors"
+                                className="inline-flex items-center justify-center gap-1 text-[10px] font-bold uppercase tracking-wider text-amber-700 hover:text-amber-800 transition-colors"
                               >
                                 View Packages <ArrowRight className="w-3 h-3" />
                               </Link>
@@ -451,8 +471,8 @@ export function Header() {
             {activeActions.slice(0, 2).map((act, idx) => {
               const isPrimary = act.style === "primary" || idx === 0;
               const styleClass = isPrimary
-                ? "bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-md shadow-amber-500/20 active:scale-95"
-                : "border border-amber-500/30 text-amber-600 hover:bg-amber-500/10 dark:text-amber-400 active:scale-95";
+                ? "bg-amber-500 hover:bg-amber-600 text-white shadow-md shadow-amber-500/20 active:scale-95"
+                : "border border-amber-500/40 text-amber-700 dark:text-amber-400 hover:bg-amber-500/10 active:scale-95";
 
               return (
                 <a
@@ -548,7 +568,7 @@ export function Header() {
 
             {/* Mobile Modal Content */}
             <div className="p-6 flex-1 flex flex-col justify-between gap-6">
-              <div className="flex flex-col gap-4 font-serif text-slate-800 dark:text-slate-200">
+              <div className="flex flex-col gap-4 text-slate-800 dark:text-slate-200">
                 {menus.map((menu) => {
                   const isServices = menu.isServicesDropdown;
                   const isDropOpen = activeDropdownMenuId === menu.id;

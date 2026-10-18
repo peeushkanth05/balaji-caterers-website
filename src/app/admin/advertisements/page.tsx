@@ -321,7 +321,7 @@ export default function AdvertisementsAdminPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
         <div>
-          <h1 className="text-2xl font-serif font-bold text-slate-900 flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
             <Megaphone className="w-6 h-6 text-amber-500" /> Advertisement Banners
           </h1>
           <p className="text-slate-500 text-xs mt-1">
@@ -440,7 +440,7 @@ export default function AdvertisementsAdminPage() {
                 {/* Card Body */}
                 <div className="p-5 space-y-3">
                   <div>
-                    <h3 className="font-serif font-bold text-slate-900 text-base leading-snug">{ad.title}</h3>
+                    <h3 className="font-bold text-slate-900 text-base leading-snug">{ad.title}</h3>
                     {ad.brandName && (
                       <p className="text-[10px] text-amber-600 font-bold uppercase tracking-wider mt-0.5">{ad.brandName}</p>
                     )}
@@ -516,7 +516,7 @@ export default function AdvertisementsAdminPage() {
       {modalOpen && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl w-full max-w-2xl p-6 max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-100">
-            <h2 className="text-xl font-serif font-bold text-slate-900 mb-5">
+            <h2 className="text-xl font-bold text-slate-900 mb-5">
               {editingId ? "Edit Advertisement" : "Create New Advertisement"}
             </h2>
 

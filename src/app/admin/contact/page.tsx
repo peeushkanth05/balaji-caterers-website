@@ -172,7 +172,7 @@ export default function ContactSettingsPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
         <div>
-          <h1 className="text-2xl font-serif font-bold text-slate-900 flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
             <Mail className="w-6 h-6 text-amber-500" /> Contact & Enquiry Section Settings
           </h1>
           <p className="text-slate-500 text-xs mt-1">
@@ -198,7 +198,7 @@ export default function ContactSettingsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Column A: Contact details */}
           <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
-            <h3 className="font-serif font-bold text-lg text-slate-950 border-b pb-2 border-slate-100 flex items-center gap-1.5">
+            <h3 className="font-bold text-lg text-slate-950 border-b pb-2 border-slate-100 flex items-center gap-1.5">
               <Phone className="w-4 h-4 text-amber-500" /> Contact Details Info
             </h3>
 
@@ -260,7 +260,7 @@ export default function ContactSettingsPage() {
 
           {/* Column B: Form Meta settings */}
           <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
-            <h3 className="font-serif font-bold text-lg text-slate-950 border-b pb-2 border-slate-100 flex items-center gap-1.5">
+            <h3 className="font-bold text-lg text-slate-950 border-b pb-2 border-slate-100 flex items-center gap-1.5">
               <Mail className="w-4 h-4 text-amber-500" /> Form Headers & Responses
             </h3>
 
@@ -312,7 +312,7 @@ export default function ContactSettingsPage() {
 
         {/* Section 2: Form Field Manager Grid */}
         <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
-          <h3 className="font-serif font-bold text-lg text-slate-950 border-b pb-2 border-slate-100">
+          <h3 className="font-bold text-lg text-slate-950 border-b pb-2 border-slate-100">
             Form Inputs Field Settings
           </h3>
           <div className="overflow-x-auto">
@@ -383,7 +383,7 @@ export default function ContactSettingsPage() {
           {/* Event Types Dropdown CMS */}
           <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
             <div>
-              <h3 className="font-serif font-bold text-lg text-slate-900">Event Types Dropdown Values</h3>
+              <h3 className="font-bold text-lg text-slate-900">Event Types Dropdown Values</h3>
               <p className="text-[10px] text-slate-400 mt-0.5">Manage event type dropdown list. Search and reorder using controls.</p>
             </div>
 
@@ -460,7 +460,7 @@ export default function ContactSettingsPage() {
           {/* Services Dropdown CMS */}
           <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
             <div>
-              <h3 className="font-serif font-bold text-lg text-slate-900">Services Dropdown Values</h3>
+              <h3 className="font-bold text-lg text-slate-900">Services Dropdown Values</h3>
               <p className="text-[10px] text-slate-400 mt-0.5">Manage services dropdown options. Search and reorder using controls.</p>
             </div>
 

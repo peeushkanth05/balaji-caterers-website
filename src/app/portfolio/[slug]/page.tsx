@@ -12,6 +12,21 @@ interface PageProps {
   params: { slug: string };
 }
 
+export const dynamicParams = true;
+
+export async function generateStaticParams() {
+  try {
+    const portfolios = await prisma.portfolio.findMany({
+      where: { active: true },
+      select: { slug: true },
+    });
+    return portfolios.map((p) => ({ slug: p.slug }));
+  } catch (error) {
+    console.error("Failed to generate static params for portfolio:", error);
+    return [];
+  }
+}
+
 // Generate dynamic SEO Metadata for each portfolio item
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const portfolio = await prisma.portfolio.findUnique({

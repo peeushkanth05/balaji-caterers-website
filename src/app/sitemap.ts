@@ -72,6 +72,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.7,
     },
+    {
+      url: `${baseUrl}/blogs/puja-kirtan-satvik-catering-tips`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/blogs/small-gathering-catering-guest-calculator`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
   ];
 
   // Dynamic portfolio routes from database
@@ -109,5 +121,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error("Error fetching blogs for sitemap:", e);
   }
 
-  return [...staticRoutes, ...portfolioRoutes, ...blogRoutes];
+  const allRoutes = [...staticRoutes, ...portfolioRoutes, ...blogRoutes];
+  const uniqueRoutesMap = new Map<string, MetadataRoute.Sitemap[number]>();
+  for (const route of allRoutes) {
+    if (!uniqueRoutesMap.has(route.url)) {
+      uniqueRoutesMap.set(route.url, route);
+    }
+  }
+
+  return Array.from(uniqueRoutesMap.values());
 }

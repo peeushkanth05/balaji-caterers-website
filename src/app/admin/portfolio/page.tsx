@@ -119,7 +119,7 @@ export default function PortfolioAdminPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
         <div>
-          <h1 className="text-2xl font-serif font-bold text-slate-900 flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
             <FolderKanban className="w-6 h-6 text-amber-500" /> Enterprise Portfolio Manager
           </h1>
           <p className="text-slate-500 text-xs mt-1">
@@ -222,7 +222,7 @@ export default function PortfolioAdminPage() {
                         </div>
                         <div>
                           <h4 className="font-bold text-slate-900 text-sm line-clamp-1">{item.title}</h4>
-                          <span className="text-[10px] text-slate-400 font-mono">/portfolio/{item.slug}</span>
+                          <span className="text-[10px] text-slate-400">/portfolio/{item.slug}</span>
                         </div>
                       </div>
                     </td>

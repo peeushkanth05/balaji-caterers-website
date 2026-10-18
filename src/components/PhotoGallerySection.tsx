@@ -45,17 +45,17 @@ export function PhotoGallerySection({ galleryItems }: PhotoGallerySectionProps) 
   }, [galleryItems]);
 
   return (
-    <section id="gallery" className="py-24 bg-slate-50/50 overflow-hidden space-y-12 transition-colors">
+    <section id="gallery" className="py-20 lg:py-24 bg-white/60 dark:bg-slate-950/60 border-t border-slate-200/60 dark:border-slate-800 overflow-hidden space-y-12 transition-colors">
       {/* Section Header */}
       <div className="text-center max-w-2xl mx-auto space-y-3 px-6">
-        <span className="text-xs font-extrabold uppercase tracking-widest text-amber-700 inline-flex items-center gap-1.5 bg-amber-50 px-3 py-1 rounded-full border border-amber-200/60">
-          <ImageIcon className="w-3.5 h-3.5" /> Premium Creations Catalog
+        <span className="text-xs font-bold uppercase tracking-widest text-amber-700 dark:text-amber-400 inline-flex items-center gap-1.5 bg-amber-50 dark:bg-amber-950/60 px-3 py-1 rounded-full border border-amber-200/60 dark:border-amber-800/60">
+          <ImageIcon className="w-3.5 h-3.5" /> Event & Food Gallery
         </span>
-        <h2 className="text-3xl sm:text-4xl font-serif font-bold text-slate-900 leading-tight">
+        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white leading-tight">
           Visual Culinary & Banqueting Gallery
         </h2>
-        <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-          Scroll through our catering preparations, premium presentation setups, and thematic decorations.
+        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
+          Explore our authentic catering setups, live food counters, table arrangements, and thematic floral decors across Delhi NCR.
         </p>
       </div>
 
@@ -88,7 +88,7 @@ export function PhotoGallerySection({ galleryItems }: PhotoGallerySectionProps) 
                       {item.category}
                     </span>
                   )}
-                  <div className="font-serif font-bold text-sm truncate">{item.title}</div>
+                  <div className="font-bold text-sm truncate">{item.title}</div>
                 </div>
               </div>
             </div>
@@ -96,8 +96,8 @@ export function PhotoGallerySection({ galleryItems }: PhotoGallerySectionProps) 
         </div>
 
         {/* Shadow Overlays */}
-        <div className="absolute top-0 bottom-0 left-0 w-16 bg-gradient-to-r from-slate-50 to-transparent pointer-events-none z-10" />
-        <div className="absolute top-0 bottom-0 right-0 w-16 bg-gradient-to-l from-slate-50 to-transparent pointer-events-none z-10" />
+        <div className="absolute top-0 bottom-0 left-0 w-16 bg-gradient-to-r from-white dark:from-slate-950 to-transparent pointer-events-none z-10" />
+        <div className="absolute top-0 bottom-0 right-0 w-16 bg-gradient-to-l from-white dark:from-slate-950 to-transparent pointer-events-none z-10" />
       </div>
 
       {/* View More / Expand Section */}
@@ -105,22 +105,22 @@ export function PhotoGallerySection({ galleryItems }: PhotoGallerySectionProps) 
         {!expanded ? (
           <button
             onClick={() => setExpanded(true)}
-            className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs py-3.5 px-8 rounded-2xl shadow-lg transition-all hover:scale-[1.02] active:scale-95 uppercase tracking-wider"
+            className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white font-semibold text-xs py-3 px-7 rounded-xl shadow-sm transition-all active:scale-95 uppercase tracking-wider focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500"
           >
-            Explore Full Snaps Gallery <ChevronRight className="w-4 h-4 text-amber-500" />
+            Explore Full Gallery <ChevronRight className="w-4 h-4 text-white" />
           </button>
         ) : (
           <div className="space-y-8 animate-fade-in max-w-7xl mx-auto">
             {/* Category Filter Pills */}
-            <div className="flex flex-wrap items-center justify-center gap-2 border-t border-slate-200 pt-8">
+            <div className="flex flex-wrap items-center justify-center gap-2 border-t border-slate-200 dark:border-slate-800 pt-8">
               {categories.map((cat: any) => (
                 <button
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
-                  className={`px-4.5 py-1.5 rounded-full text-xs font-bold transition-all border ${
+                  className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all border ${
                     activeCategory === cat
-                      ? "bg-amber-500 border-amber-500 text-white shadow-md shadow-amber-500/10"
-                      : "bg-white border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-amber-600"
+                      ? "bg-amber-500 border-amber-500 text-white shadow-sm"
+                      : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-amber-600 dark:hover:text-amber-400"
                   }`}
                 >
                   {cat}
@@ -153,7 +153,7 @@ export function PhotoGallerySection({ galleryItems }: PhotoGallerySectionProps) 
                           {item.category}
                         </span>
                       )}
-                      <h4 className="font-serif font-bold text-xs sm:text-sm mt-1.5 truncate">
+                      <h4 className="font-bold text-xs sm:text-sm mt-1.5 truncate">
                         {item.title}
                       </h4>
                     </div>
@@ -199,7 +199,7 @@ export function PhotoGallerySection({ galleryItems }: PhotoGallerySectionProps) 
                 className="max-w-full max-h-[70vh] object-contain rounded-2xl shadow-2xl border border-white/5"
               />
               <div className="text-center text-white mt-4 space-y-1">
-                <div className="font-serif font-bold text-base sm:text-lg">
+                <div className="font-bold text-base sm:text-lg">
                   {lightboxImg.title}
                 </div>
                 {lightboxImg.category && (

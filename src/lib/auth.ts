@@ -23,58 +23,20 @@ export const authOptions: NextAuthOptions = {
         }
 
         const cleanEmail = credentials.email.toLowerCase().trim();
-        const isSuper = cleanEmail === "vermasandeep124@gmail.com";
-        const isStaff = cleanEmail === "staff@vermacaterersevents.com";
 
-        let user = await prisma.user.findUnique({
+        const user = await prisma.user.findUnique({
           where: { email: cleanEmail },
         });
-
-        // Self-healing: Ensure default super admin & staff admin exist if DB is fresh or unseeded
-        if (!user) {
-          if (isSuper || isStaff) {
-            const defaultPass = isSuper ? "Admin@Verma2026" : "Staff@Verma2026";
-            const hashedPassword = await bcrypt.hash(defaultPass, 10);
-
-            user = await prisma.user.upsert({
-              where: { email: cleanEmail },
-              update: {
-                password: hashedPassword,
-              },
-              create: {
-                name: isSuper ? "Sandeep Verma (Owner)" : "Event Manager Staff",
-                email: cleanEmail,
-                password: hashedPassword,
-                phone: isSuper ? "+919810483544" : "+919810000000",
-                role: isSuper ? "SUPER_ADMIN" : "ADMIN",
-              },
-            });
-          }
-        }
 
         if (!user || !user.password) {
           throw new Error("Invalid credentials");
         }
 
-        let isValidPassword = await bcrypt.compare(credentials.password, user.password);
-
-        // Self-healing password repair for primary admin credentials if hash in DB was legacy/stale
-        if (!isValidPassword) {
-          if ((isSuper && credentials.password === "Admin@Verma2026") || (isStaff && credentials.password === "Staff@Verma2026")) {
-            const newHash = await bcrypt.hash(credentials.password, 10);
-            await prisma.user.update({
-              where: { id: user.id },
-              data: { password: newHash },
-            });
-            isValidPassword = true;
-          }
-        }
+        const isValidPassword = await bcrypt.compare(credentials.password, user.password);
 
         if (!isValidPassword) {
           throw new Error("Invalid credentials");
         }
-
-
 
         return {
           id: user.id,
@@ -110,5 +72,5 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-  secret: process.env.NEXTAUTH_SECRET || "7yJrT0h3h4xN9kM8vL2QeA5bC1sF6pZrW8uYdI3nXoKqE7tG9mV2aL5cB0rN4sHx",
+  secret: process.env.NEXTAUTH_SECRET,
 };

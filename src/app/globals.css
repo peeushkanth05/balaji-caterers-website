@@ -3,28 +3,63 @@
 @tailwind utilities;
 
 @layer base {
-  html, body {
+  :root {
+    --brand-navy: #111827;
+    --brand-gold: #c69a38;
+    --brand-amber: #f59e0b;
+    --brand-ivory: #f8f7f3;
+    --gold: #c69a38;
+    --deep-gold: #a37a24;
+    --saffron: #f59e0b;
+  }
+
+  .dark {
+    --brand-navy: #f8f7f3;
+    --brand-gold: #d4af37;
+    --brand-amber: #f59e0b;
+    --brand-ivory: #0f172a;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
     overflow-x: hidden;
     max-width: 100vw;
   }
 
-  :root {
-    --gold: #f5a623;
-    --deep-gold: #e08a00;
-    --saffron: #ff6b2b;
+  body {
+    @apply antialiased bg-[#F8F7F3] text-[#111827] dark:bg-slate-950 dark:text-slate-100 transition-colors selection:bg-amber-100 selection:text-amber-900 dark:selection:bg-amber-900/40 dark:selection:text-amber-200;
+    font-family: var(--font-roboto), Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    overflow-x: hidden;
+    max-width: 100vw;
   }
 
-  body {
-    @apply bg-slate-50 text-slate-900 font-sans antialiased selection:bg-amber-100 selection:text-amber-900;
+  button,
+  input,
+  select,
+  textarea,
+  optgroup {
+    font: inherit;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--brand-gold);
+    outline-offset: 3px;
   }
 }
 
-.glass-card {
-  @apply bg-white/80 backdrop-blur-md border border-amber-500/10 shadow-xl shadow-amber-500/5 rounded-2xl;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 .gradient-button {
-  @apply bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold transition-all duration-200 shadow-md shadow-amber-500/25 active:scale-[0.98];
+  @apply bg-amber-500 hover:bg-amber-600 text-white font-bold transition-all duration-200 shadow-md shadow-amber-500/20 active:scale-[0.98];
 }
 
 /* Targeted theme transitions for body and header elements */

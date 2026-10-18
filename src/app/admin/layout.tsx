@@ -30,6 +30,7 @@ import {
   BookOpen,
   HelpCircle,
   FileText,
+  Smile,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -75,6 +76,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { name: "Analytics & Reports", href: "/admin/reports", icon: BarChart3, module: "dashboard" },
     { name: "Section Manager", href: "/admin/sections", icon: ListOrdered, module: "homepageSections" },
     { name: "Hero Banner CMS", href: "/admin/hero", icon: Sparkles, module: "settings" },
+    { name: "Emoji & Icon Manager", href: "/admin/emojis", icon: Smile, module: "settings" },
     { name: "Portfolio CMS", href: "/admin/portfolio", icon: FolderKanban, module: "portfolio" },
     { name: "Portfolio Categories", href: "/admin/portfolio/categories", icon: Layers, module: "portfolio" },
     { name: "Leads & Enquiries", href: "/admin/leads", icon: Users, module: "enquiries" },

@@ -330,7 +330,7 @@ export default function AdminHeaderManagerPage() {
       {/* Header Info */}
       <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-serif font-bold text-slate-900 flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
             <Navigation className="w-6 h-6 text-amber-500" /> Dynamic Header Management
           </h1>
           <p className="text-slate-500 text-xs mt-1">
@@ -475,7 +475,7 @@ export default function AdminHeaderManagerPage() {
                 >
                   <div className="text-xs">
                     <p className="font-bold text-slate-800">{act.label}</p>
-                    <p className="text-[10px] text-slate-400 font-mono">{act.link}</p>
+                    <p className="text-[10px] text-slate-400">{act.link}</p>
                     <span className="text-[9px] bg-slate-200 text-slate-600 px-1 py-0.5 rounded uppercase font-bold tracking-wider mt-1 inline-block">
                       {act.style} style
                     </span>
@@ -549,7 +549,7 @@ export default function AdminHeaderManagerPage() {
 
                       <div className="text-xs flex flex-wrap items-center gap-1.5">
                         <span className="font-bold text-slate-900">{menu.label}</span>
-                        <span className="text-[10px] text-slate-500 font-mono">({menu.link})</span>
+                        <span className="text-[10px] text-slate-500">({menu.link})</span>
                         {menu.isServicesDropdown && (
                           <span className="bg-blue-50 border border-blue-100 text-blue-700 text-[9px] font-extrabold px-1.5 py-0.25 rounded-md uppercase">Services dropdown</span>
                         )}
@@ -608,7 +608,7 @@ export default function AdminHeaderManagerPage() {
                           <div key={sub.id} className="flex items-center justify-between pt-3 text-[11px]">
                              <div className="font-medium text-slate-700 flex items-center gap-1.5">
                                {sub.label}{" "}
-                               <span className="text-[9px] font-mono text-slate-400">({sub.link})</span>
+                               <span className="text-[9px] text-slate-400">({sub.link})</span>
                                {!sub.isActive && (
                                  <span className="bg-red-50 border border-red-100 text-red-700 text-[8px] font-bold px-1 py-0.25 rounded">Inactive</span>
                                )}
@@ -647,7 +647,7 @@ export default function AdminHeaderManagerPage() {
             onSubmit={handleMenuSubmit}
             className="bg-white rounded-3xl p-6 w-full max-w-md border border-slate-200 shadow-xl space-y-4"
           >
-            <h3 className="font-serif font-bold text-lg text-slate-900">
+            <h3 className="font-bold text-lg text-slate-900">
               {menuForm.id ? "Edit Navigation Link" : "Add Navigation Link"}
             </h3>
 
@@ -727,7 +727,7 @@ export default function AdminHeaderManagerPage() {
             onSubmit={handleSubmenuSubmit}
             className="bg-white rounded-3xl p-6 w-full max-w-md border border-slate-200 shadow-xl space-y-4"
           >
-            <h3 className="font-serif font-bold text-lg text-slate-900">
+            <h3 className="font-bold text-lg text-slate-900">
               {submenuForm.id ? "Edit Dropdown Link" : "Add Dropdown Link"}
             </h3>
 
@@ -794,7 +794,7 @@ export default function AdminHeaderManagerPage() {
             onSubmit={handleActionSubmit}
             className="bg-white rounded-3xl p-6 w-full max-w-md border border-slate-200 shadow-xl space-y-4"
           >
-            <h3 className="font-serif font-bold text-lg text-slate-900">
+            <h3 className="font-bold text-lg text-slate-900">
               {actionForm.id ? "Edit Action Button" : "Add Action Button"}
             </h3>
 

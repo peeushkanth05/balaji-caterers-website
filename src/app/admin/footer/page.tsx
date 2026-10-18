@@ -95,7 +95,7 @@ export default function AdminFooterPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
         <div>
-          <h1 className="text-2xl font-serif font-bold text-slate-900 flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
             📂 Footer CMS Manager
           </h1>
           <p className="text-slate-500 text-xs mt-1">
@@ -150,7 +150,7 @@ export default function AdminFooterPage() {
           {/* Tab 1: General Info */}
           {activeTab === "general" && (
             <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
-              <h2 className="text-base font-serif font-bold text-slate-900 border-b pb-2 border-slate-100">
+              <h2 className="text-base font-bold text-slate-900 border-b pb-2 border-slate-100">
                 Company Details & Location
               </h2>
 
@@ -238,7 +238,7 @@ export default function AdminFooterPage() {
                   rows={8}
                   value={privacyPolicy}
                   onChange={(e) => setPrivacyPolicy(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2 px-3 text-xs font-mono focus:ring-1 focus:ring-amber-500 focus:outline-none"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2 px-3 text-xs focus:ring-1 focus:ring-amber-500 focus:outline-none"
                 />
               </div>
 
@@ -251,7 +251,7 @@ export default function AdminFooterPage() {
                   rows={8}
                   value={termsOfService}
                   onChange={(e) => setTermsOfService(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2 px-3 text-xs font-mono focus:ring-1 focus:ring-amber-500 focus:outline-none"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2 px-3 text-xs focus:ring-1 focus:ring-amber-500 focus:outline-none"
                 />
               </div>
 
@@ -264,7 +264,7 @@ export default function AdminFooterPage() {
                   rows={8}
                   value={refundPolicy}
                   onChange={(e) => setRefundPolicy(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2 px-3 text-xs font-mono focus:ring-1 focus:ring-amber-500 focus:outline-none"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2 px-3 text-xs focus:ring-1 focus:ring-amber-500 focus:outline-none"
                 />
               </div>
 
@@ -277,7 +277,7 @@ export default function AdminFooterPage() {
                   rows={8}
                   value={cancellationPolicy}
                   onChange={(e) => setCancellationPolicy(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2 px-3 text-xs font-mono focus:ring-1 focus:ring-amber-500 focus:outline-none"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2 px-3 text-xs focus:ring-1 focus:ring-amber-500 focus:outline-none"
                 />
               </div>
 
@@ -290,7 +290,7 @@ export default function AdminFooterPage() {
                   rows={8}
                   value={cookiePolicy}
                   onChange={(e) => setCookiePolicy(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2 px-3 text-xs font-mono focus:ring-1 focus:ring-amber-500 focus:outline-none"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2 px-3 text-xs focus:ring-1 focus:ring-amber-500 focus:outline-none"
                 />
               </div>
 
@@ -303,7 +303,7 @@ export default function AdminFooterPage() {
                   rows={8}
                   value={disclaimer}
                   onChange={(e) => setDisclaimer(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2 px-3 text-xs font-mono focus:ring-1 focus:ring-amber-500 focus:outline-none"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2 px-3 text-xs focus:ring-1 focus:ring-amber-500 focus:outline-none"
                 />
               </div>
 

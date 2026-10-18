@@ -28,6 +28,8 @@ import {
   Calendar,
 } from "lucide-react";
 
+import { ensureDefaultHeroStatistics } from "@/lib/hero-stats";
+
 export const revalidate = 0; // Fresh content on each request
 
 export default async function HomePage() {
@@ -63,6 +65,15 @@ export default async function HomePage() {
         floatingCards: { where: { isEnabled: true }, orderBy: { sortOrder: "asc" } },
       },
     });
+
+    if (hero && (!hero.statistics || hero.statistics.length === 0)) {
+      try {
+        const defaultStats = await ensureDefaultHeroStatistics();
+        hero.statistics = defaultStats.filter((s: any) => s.isEnabled);
+      } catch (e) {
+        // Fallback handled in HeroSection
+      }
+    }
 
     services = await prisma.service.findMany({
       where: { isActive: true },
@@ -187,18 +198,18 @@ export default async function HomePage() {
     if (homeSections.length === 0) {
       const defaultTypes = [
         { sectionType: "hero", name: "Hero Banner" },
-        { sectionType: "about", name: "Why Choose Us / About" },
         { sectionType: "services", name: "Offered Services" },
+        { sectionType: "portfolio", name: "Featured Portfolio & Showcase" },
+        { sectionType: "about", name: "Why Choose Us / About" },
         { sectionType: "packages", name: "Catering Packages" },
-        { sectionType: "videos", name: "Event Videos Slider" },
-        { sectionType: "testimonials", name: "Client Reviews" },
-        { sectionType: "gallery", name: "Photo Gallery Grid" },
-        { sectionType: "portfolio", name: "Grand Projects Showcase" },
-        { sectionType: "cta", name: "Call To Action Banner" },
+        { sectionType: "gallery", name: "Event & Food Gallery" },
+        { sectionType: "testimonials", name: "Customer Testimonials" },
+        { sectionType: "videos", name: "Video Gallery" },
         { sectionType: "partners", name: "Partner Banquets & Venues" },
         { sectionType: "clients", name: "Corporate Client Logos" },
         { sectionType: "blogs", name: "Catering Guides & Blogs" },
         { sectionType: "faqs", name: "Frequently Asked Questions" },
+        { sectionType: "cta", name: "Final Call To Action Banner" },
         { sectionType: "contact", name: "Request a Free Quote" },
         { sectionType: "footer", name: "Footer Info & Copyright" },
       ];
@@ -260,26 +271,26 @@ export default async function HomePage() {
   const aboutSubtitle = settings?.aboutSubtitle || "With 15+ years of experience and 500+ successful events in Delhi NCR, we bring passion, precision, and a personal touch to every celebration.";
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans transition-colors">
+    <div className="min-h-screen bg-[#F8F7F3] dark:bg-slate-950 text-[#111827] dark:text-slate-100 font-sans transition-colors">
       {/* Floating Action Buttons */}
-      <div className="fixed bottom-6 right-6 z-40 flex flex-col gap-3">
+      <div className="fixed bottom-6 right-6 z-40 hidden md:flex flex-col gap-3">
         <a
           href={`https://wa.me/${whatsapp}`}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Chat on WhatsApp"
-          className="w-14 h-14 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full flex items-center justify-center shadow-xl shadow-emerald-500/30 transition-all hover:scale-110 active:scale-95"
+          aria-label="Chat with Verma Caterers on WhatsApp"
+          className="w-13 h-13 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full flex items-center justify-center shadow-lg shadow-emerald-500/25 transition-all hover:scale-105 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-500"
           title="Chat on WhatsApp"
         >
-          <MessageSquare className="w-7 h-7" />
+          <MessageSquare className="w-6 h-6" />
         </a>
         <a
           href={`tel:${phone.replace(/[^0-9+]/g, "")}`}
           aria-label="Call Verma Caterers"
-          className="w-14 h-14 bg-amber-500 hover:bg-amber-600 text-white rounded-full flex items-center justify-center shadow-xl shadow-amber-500/30 transition-all hover:scale-110 active:scale-95"
+          className="w-13 h-13 bg-amber-500 hover:bg-amber-600 text-white rounded-full flex items-center justify-center shadow-lg shadow-amber-500/25 transition-all hover:scale-105 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-500"
           title="Call Now"
         >
-          <Phone className="w-7 h-7" />
+          <Phone className="w-6 h-6" />
         </a>
       </div>
 
@@ -339,58 +350,58 @@ export default async function HomePage() {
 
             case "about":
               return (
-                <section key={sec.id} id="about" className="py-20 px-6 max-w-7xl mx-auto">
+                <section key={sec.id} id="about" className="py-20 px-5 sm:px-8 max-w-7xl mx-auto transition-colors">
                   <div className="text-center max-w-3xl mx-auto mb-14">
-                    <span className="text-xs font-bold uppercase tracking-wider text-amber-700">{aboutTag}</span>
-                    <h2 className="text-3xl sm:text-4xl font-serif font-bold text-slate-900 mt-1">
+                    <span className="text-xs font-bold uppercase tracking-wider text-amber-700 dark:text-amber-400">{aboutTag}</span>
+                    <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white mt-1">
                       {aboutTitle}
                     </h2>
-                    <p className="text-slate-600 text-sm mt-3 leading-relaxed">
+                    <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base mt-3 leading-relaxed">
                       {aboutSubtitle}
                     </p>
-                    <p className="text-slate-500 text-xs mt-3 leading-relaxed">
-                      <strong>Verma Caterers & Events</strong> is a trusted catering and event management company serving Delhi, Dwarka, Gurugram, and the wider Delhi NCR area. We specialize in wedding catering, corporate catering, private party buffets, floral decorations, and sound & DJ setups with personalized owner-directed service.
+                    <p className="text-slate-500 dark:text-slate-400 text-xs sm:text-sm mt-3 leading-relaxed font-normal">
+                      <strong>Verma Caterers & Events</strong> is a trusted catering and event management company serving Delhi, Dwarka, Gurugram, and the wider Delhi NCR area. We specialize in wedding catering, corporate gatherings, private buffets, floral decorations, and sound & DJ setups with personalized owner-directed service.
                     </p>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div className="bg-white p-8 rounded-3xl border border-slate-200/80 shadow-sm text-center space-y-3">
-                      <div className="w-12 h-12 bg-amber-100 rounded-2xl flex items-center justify-center mx-auto text-amber-700">
+                    <div className="bg-white dark:bg-slate-900 p-7 rounded-2xl sm:rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-md transition-all text-center space-y-3">
+                      <div className="w-12 h-12 bg-amber-50 dark:bg-amber-950/60 border border-amber-200/50 dark:border-amber-800/50 rounded-xl flex items-center justify-center mx-auto text-amber-700 dark:text-amber-400">
                         <Award className="w-6 h-6" />
                       </div>
-                      <div className="font-bold text-lg text-slate-900">15+ Years Trust</div>
-                      <p className="text-xs text-slate-500 leading-relaxed">
-                        Over a decade of serving Delhi NCR families with reliable, high-quality event services.
+                      <div className="font-bold text-lg text-slate-900 dark:text-white">15+ Years Trust</div>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-normal">
+                        Over a decade of serving Delhi NCR families with reliable, authentic catering and event services.
                       </p>
                     </div>
 
-                    <div className="bg-white p-8 rounded-3xl border border-slate-200/80 shadow-sm text-center space-y-3">
-                      <div className="w-12 h-12 bg-orange-100 rounded-2xl flex items-center justify-center mx-auto text-orange-600">
+                    <div className="bg-white dark:bg-slate-900 p-7 rounded-2xl sm:rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-md transition-all text-center space-y-3">
+                      <div className="w-12 h-12 bg-amber-50 dark:bg-amber-950/60 border border-amber-200/50 dark:border-amber-800/50 rounded-xl flex items-center justify-center mx-auto text-amber-600 dark:text-amber-400">
                         <ShieldCheck className="w-6 h-6" />
                       </div>
-                      <div className="font-bold text-lg text-slate-900">One-Stop Solution</div>
-                      <p className="text-xs text-slate-500 leading-relaxed">
-                        Catering, décor, sound, lighting, mattress & cooler rental — everything under one roof.
+                      <div className="font-bold text-lg text-slate-900 dark:text-white">One-Stop Solution</div>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-normal">
+                        Catering, décor, sound, lighting, mattress & cooler rental — everything seamlessly coordinated.
                       </p>
                     </div>
 
-                    <div className="bg-white p-8 rounded-3xl border border-slate-200/80 shadow-sm text-center space-y-3">
-                      <div className="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center mx-auto text-emerald-600">
+                    <div className="bg-white dark:bg-slate-900 p-7 rounded-2xl sm:rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-md transition-all text-center space-y-3">
+                      <div className="w-12 h-12 bg-amber-50 dark:bg-amber-950/60 border border-amber-200/50 dark:border-amber-800/50 rounded-xl flex items-center justify-center mx-auto text-amber-600 dark:text-amber-400">
                         <HeartHandshake className="w-6 h-6" />
                       </div>
-                      <div className="font-bold text-lg text-slate-900">Customized Menus</div>
-                      <p className="text-xs text-slate-500 leading-relaxed">
-                        Tailored to your specific theme, budget, guest count, and dietary preferences.
+                      <div className="font-bold text-lg text-slate-900 dark:text-white">Customized Menus</div>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-normal">
+                        Bespoke menu curations tailored to your specific gathering size, palate, and celebration style.
                       </p>
                     </div>
 
-                    <div className="bg-white p-8 rounded-3xl border border-slate-200/80 shadow-sm text-center space-y-3">
-                      <div className="w-12 h-12 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto text-purple-600">
+                    <div className="bg-white dark:bg-slate-900 p-7 rounded-2xl sm:rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-md transition-all text-center space-y-3">
+                      <div className="w-12 h-12 bg-amber-50 dark:bg-amber-950/60 border border-amber-200/50 dark:border-amber-800/50 rounded-xl flex items-center justify-center mx-auto text-amber-600 dark:text-amber-400">
                         <CheckCircle2 className="w-6 h-6" />
                       </div>
-                      <div className="font-bold text-lg text-slate-900">Owner Direct</div>
-                      <p className="text-xs text-slate-500 leading-relaxed">
-                        Owned & directed by Sandeep Verma — personal attention for every event.
+                      <div className="font-bold text-lg text-slate-900 dark:text-white">Owner Supervision</div>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-normal">
+                        Owned & personally supervised by Sandeep Verma — ensuring uncompromised food quality and service.
                       </p>
                     </div>
                   </div>
@@ -402,53 +413,62 @@ export default async function HomePage() {
 
             case "packages":
               return packages.length > 0 ? (
-                <section key={sec.id} id="packages" className="py-20 px-6 max-w-7xl mx-auto">
+                <section key={sec.id} id="packages" className="py-20 px-5 sm:px-8 max-w-7xl mx-auto transition-colors">
                   <div className="text-center max-w-2xl mx-auto mb-16">
-                    <span className="text-xs font-bold uppercase tracking-wider text-amber-700">Catering Menu</span>
-                    <h2 className="text-3xl sm:text-4xl font-serif font-bold text-slate-900 mt-1">
+                    <span className="text-xs font-bold uppercase tracking-wider text-amber-700 dark:text-amber-400">Curated Menus</span>
+                    <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white mt-1">
                       Featured Catering Packages
                     </h2>
+                    <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm mt-2">
+                      Transparent pricing and customizable meal tiers designed for weddings, family parties, and corporate banquets.
+                    </p>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {packages.map((pkg) => (
                       <div
                         key={pkg.id}
-                        className="bg-white p-8 rounded-3xl border border-slate-200/80 shadow-sm flex flex-col justify-between"
+                        className="bg-white dark:bg-slate-900 p-7 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-amber-400/60 dark:hover:border-amber-500/40 transition-all flex flex-col justify-between group"
                       >
                         <div>
-                          <span className="text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200/60">
+                          <span className="text-[11px] font-semibold uppercase tracking-wider px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200/60 dark:border-amber-800/60">
                             {pkg.category}
                           </span>
-                          <h3 className="font-serif font-bold text-2xl text-slate-900 mt-3 mb-1">{pkg.name}</h3>
+                          <h3 className="font-bold text-2xl text-slate-900 dark:text-white mt-3 mb-1">{pkg.name}</h3>
                           <div className="mb-4">
-                            {pkg.discountType && pkg.discountType !== "none" && pkg.discountValue > 0 ? (
-                              <div className="space-y-1">
-                                <div className="flex items-baseline gap-2">
-                                  <span className="text-3xl font-bold text-amber-700">₹{pkg.discountedPrice}</span>
-                                  <span className="text-sm text-slate-400 line-through">₹{pkg.pricePerPerson}</span>
-                                  <span className="text-xs text-slate-500 font-normal">/ plate</span>
+                            {pkg.pricePerPerson > 0 ? (
+                              pkg.discountType && pkg.discountType !== "none" && pkg.discountValue > 0 ? (
+                                <div className="space-y-1">
+                                  <div className="flex items-baseline gap-2">
+                                    <span className="text-3xl font-bold text-amber-600 dark:text-amber-500">₹{pkg.discountedPrice}</span>
+                                    <span className="text-sm text-slate-400 line-through">₹{pkg.pricePerPerson}</span>
+                                    <span className="text-xs text-slate-500 dark:text-slate-400 font-normal">/ plate</span>
+                                  </div>
+                                  <span className="inline-block text-[10px] font-bold px-2.5 py-0.5 rounded bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800/60">
+                                    {pkg.discountType === "percentage" ? `${pkg.discountValue}% OFF` : `₹${pkg.discountValue} OFF`}
+                                  </span>
                                 </div>
-                                <span className="inline-block text-[10px] font-bold px-2.5 py-1 rounded bg-red-50 text-red-700 border border-red-200">
-                                  {pkg.discountType === "percentage" ? `${pkg.discountValue}% OFF` : `₹${pkg.discountValue} OFF`}
-                                </span>
-                              </div>
+                              ) : (
+                                <div className="text-3xl font-bold text-amber-600 dark:text-amber-500">
+                                  ₹{pkg.pricePerPerson} <span className="text-xs font-normal text-slate-500 dark:text-slate-400">/ plate</span>
+                                </div>
+                              )
                             ) : (
-                              <div className="text-3xl font-bold text-amber-700">
-                                ₹{pkg.pricePerPerson} <span className="text-xs font-normal text-slate-500">/ plate</span>
+                              <div className="text-lg font-bold text-amber-600 dark:text-amber-500">
+                                Enquiry-Based Custom Pricing
                               </div>
                             )}
                           </div>
-                          <p className="text-xs text-slate-600 leading-relaxed mb-4">{pkg.description}</p>
+                          <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">{pkg.description}</p>
                           {pkg.features && (
-                            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 text-xs text-slate-700">
+                            <div className="p-4 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-100 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
                               <strong>Includes:</strong> {pkg.features}
                             </div>
                           )}
                         </div>
                         <a
                           href="#contact"
-                          className="mt-6 w-full text-center py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-xs shadow-md transition-all active:scale-95"
+                          className="mt-6 w-full text-center py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-semibold text-xs shadow-sm transition-all active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500"
                         >
                           Request Package Quote
                         </a>
@@ -475,7 +495,7 @@ export default async function HomePage() {
 
             case "portfolio":
               return (
-                <section key={sec.id} id="portfolio-section" className="py-20 px-6 max-w-7xl mx-auto">
+                <section key={sec.id} id="portfolio" className="py-20 px-6 max-w-7xl mx-auto scroll-mt-24">
                   <DynamicPortfolioSection
                     initialCategories={categories}
                     initialFeatured={featuredPortfolios}
@@ -491,95 +511,69 @@ export default async function HomePage() {
               return <ClientLogoMarquee key={sec.id} />;
 
             case "blogs":
+              if (dbBlogs.length === 0) return null;
               return (
                 <section key={sec.id} id="blogs" className="py-20 px-6 max-w-7xl mx-auto space-y-12">
-                  <div className="text-center max-w-2xl mx-auto space-y-2">
-                    <span className="text-xs font-extrabold uppercase tracking-widest text-amber-700">Event Journal</span>
-                    <h2 className="text-3xl sm:text-4xl font-serif font-bold text-slate-900">
-                      Catering Guides & Planning Tips
-                    </h2>
+                  <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 max-w-7xl mx-auto border-b border-slate-200/80 dark:border-slate-800 pb-6">
+                    <div className="space-y-2 text-center md:text-left">
+                      <span className="text-xs font-extrabold uppercase tracking-widest text-amber-700 dark:text-amber-400">Event Journal</span>
+                      <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">
+                        Catering Guides & Planning Tips
+                      </h2>
+                    </div>
+                    <Link
+                      href="/blogs"
+                      className="text-amber-800 dark:text-amber-400 hover:text-amber-600 dark:hover:text-amber-300 font-bold text-xs uppercase tracking-wider inline-flex items-center gap-1.5 self-center md:self-end"
+                    >
+                      View All Guides & Articles &rarr;
+                    </Link>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {dbBlogs.length > 0 ? (
-                      dbBlogs.map((b) => (
-                        <Link
-                          key={b.id}
-                          href={`/blogs/${b.slug}`}
-                          className="bg-white rounded-3xl border border-slate-200/80 shadow-sm overflow-hidden hover:shadow-md transition-shadow group flex flex-col justify-between"
-                        >
-                          <div>
-                            <div className="h-48 bg-slate-100 relative overflow-hidden">
-                              {b.coverImage ? (
-                                <img
-                                  src={b.coverImage}
-                                  alt={b.title}
-                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                />
-                              ) : (
-                                <div className="w-full h-full flex items-center justify-center text-slate-400">
-                                  <BookOpen className="w-12 h-12" />
-                                </div>
-                              )}
-                              <span className="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-sm text-white text-[9px] font-bold px-2.5 py-0.5 rounded-full uppercase">
-                                {b.category}
-                              </span>
-                            </div>
-                            <div className="p-6 space-y-3">
-                              <span className="text-[10px] font-bold text-amber-700 uppercase flex items-center gap-1.5">
-                                <Calendar className="w-3.5 h-3.5" />
-                                {new Date(b.publishDate).toLocaleDateString("en-US", {
-                                  month: "short",
-                                  day: "numeric",
-                                  year: "numeric",
-                                })}
-                              </span>
-                              <h3 className="font-serif font-bold text-lg text-slate-900 leading-snug line-clamp-2 group-hover:text-amber-600 transition-colors">
-                                {b.title}
-                              </h3>
-                              <p className="text-xs text-slate-500 leading-relaxed line-clamp-3">
-                                {b.excerpt || b.content}
-                              </p>
-                            </div>
-                          </div>
-                          <div className="p-6 pt-0 text-amber-600 font-bold text-xs uppercase tracking-wider group-hover:underline">
-                            Read Guide &rarr;
-                          </div>
-                        </Link>
-                      ))
-                    ) : (
-                      <>
-                        <div className="bg-white rounded-3xl border border-slate-200/80 shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-                          <div className="h-48 bg-slate-100 relative overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1555244162-803834f70033?w=500" alt="Blog 1" className="w-full h-full object-cover" />
+                    {dbBlogs.map((b) => (
+                      <Link
+                        key={b.id}
+                        href={`/blogs/${b.slug}`}
+                        className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm overflow-hidden hover:shadow-md transition-shadow group flex flex-col justify-between"
+                      >
+                        <div>
+                          <div className="h-48 bg-slate-100 dark:bg-slate-800 relative overflow-hidden">
+                            {b.coverImage ? (
+                              <img
+                                src={b.coverImage}
+                                alt={b.title}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                              />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center text-slate-400">
+                                <BookOpen className="w-12 h-12" />
+                              </div>
+                            )}
+                            <span className="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-sm text-white text-[9px] font-bold px-2.5 py-0.5 rounded-full uppercase">
+                              {b.category}
+                            </span>
                           </div>
                           <div className="p-6 space-y-3">
-                            <span className="text-[10px] font-bold text-amber-700 uppercase">Catering Trends</span>
-                            <h3 className="font-serif font-bold text-lg text-slate-900 leading-snug">How to Design the Perfect Wedding Menu</h3>
-                            <p className="text-xs text-slate-500 leading-relaxed">Discover current guest dining trends, custom live counters, and must-have menu spreads for your big day.</p>
+                            <span className="text-[10px] font-bold text-amber-700 dark:text-amber-400 uppercase flex items-center gap-1.5">
+                              <Calendar className="w-3.5 h-3.5" />
+                              {new Date(b.publishDate).toLocaleDateString("en-US", {
+                                month: "short",
+                                day: "numeric",
+                                year: "numeric",
+                              })}
+                            </span>
+                            <h3 className="font-bold text-lg text-slate-900 dark:text-white leading-snug line-clamp-2 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                              {b.title}
+                            </h3>
+                            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-3">
+                              {b.excerpt || b.content}
+                            </p>
                           </div>
                         </div>
-                        <div className="bg-white rounded-3xl border border-slate-200/80 shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-                          <div className="h-48 bg-slate-100 relative overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=500" alt="Blog 2" className="w-full h-full object-cover" />
-                          </div>
-                          <div className="p-6 space-y-3">
-                            <span className="text-[10px] font-bold text-amber-700 uppercase">Planning Tips</span>
-                            <h3 className="font-serif font-bold text-lg text-slate-900 leading-snug">Estimating Guest Count & Plate Waste</h3>
-                            <p className="text-xs text-slate-500 leading-relaxed">A practical guide to accurately calculating guest counts and avoiding plate wastage during large banquets.</p>
-                          </div>
+                        <div className="p-6 pt-0 text-amber-600 dark:text-amber-400 font-bold text-xs uppercase tracking-wider group-hover:underline">
+                          Read Guide &rarr;
                         </div>
-                        <div className="bg-white rounded-3xl border border-slate-200/80 shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-                          <div className="h-48 bg-slate-100 relative overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1533144893879-c65f9d453392?w=500" alt="Blog 3" className="w-full h-full object-cover" />
-                          </div>
-                          <div className="p-6 space-y-3">
-                            <span className="text-[10px] font-bold text-amber-700 uppercase">Setup & Design</span>
-                            <h3 className="font-serif font-bold text-lg text-slate-900 leading-snug">Selecting Theme Decor for Puja & Jagran</h3>
-                            <p className="text-xs text-slate-500 leading-relaxed">Ensure a beautiful spiritual stage setup with clean traditional seating, lights, and flower garlands.</p>
-                          </div>
-                        </div>
-                      </>
-                    )}
+                      </Link>
+                    ))}
                   </div>
                 </section>
               );
@@ -588,10 +582,46 @@ export default async function HomePage() {
               return <FaqSection key={sec.id} />;
 
             case "cta":
-              if (advertisements.length === 0) return null;
               return (
-                <section key={sec.id} id="cta" className="px-6">
-                  <AdvertisementBanner ads={advertisements} />
+                <section key={sec.id} id="cta" className="py-16 px-5 sm:px-8 max-w-7xl mx-auto">
+                  {advertisements.length > 0 && (
+                    <div className="mb-10">
+                      <AdvertisementBanner ads={advertisements} />
+                    </div>
+                  )}
+                  <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-950 via-slate-900 to-amber-950 p-8 sm:p-12 lg:p-16 text-white text-center shadow-xl border border-amber-500/20">
+                    <div className="absolute -top-24 -right-24 w-72 h-72 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+                    <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-amber-600/10 rounded-full blur-3xl pointer-events-none" />
+                    <div className="relative z-10 max-w-2xl mx-auto space-y-4">
+                      <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-400/30">
+                        ✨ Unmatched Hospitality & Authentic Taste
+                      </span>
+                      <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white">
+                        Let’s Plan Your Next Celebration
+                      </h2>
+                      <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-xl mx-auto">
+                        Tell us about your event, guest count and requirements. Our team will help you plan the right catering and event arrangements.
+                      </p>
+                      <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <a
+                          href="#contact"
+                          className="w-full sm:w-auto inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-amber-500 px-8 py-3.5 text-sm font-bold text-white shadow-lg shadow-amber-500/25 transition hover:bg-amber-600 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500"
+                        >
+                          Request a Free Quote
+                          <span aria-hidden="true">→</span>
+                        </a>
+                        {phone && (
+                          <a
+                            href={`tel:${phone.replace(/[^0-9+]/g, "")}`}
+                            className="w-full sm:w-auto inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/10 backdrop-blur-sm px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-white/20 active:scale-95"
+                          >
+                            <Phone className="w-4 h-4 text-amber-400" />
+                            <span>Call: {phone}</span>
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 </section>
               );
 
@@ -601,15 +631,15 @@ export default async function HomePage() {
               const displayAddress = contactSettings?.address || address;
 
               return (
-                <section key={sec.id} id="contact" className="py-20 px-6 max-w-7xl mx-auto">
+                <section key={sec.id} id="contact" className="py-20 px-5 sm:px-8 max-w-7xl mx-auto scroll-mt-24">
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
                     {/* Info */}
                     <div className="lg:col-span-5 space-y-8">
                       <div>
-                        <span className="text-xs font-bold uppercase tracking-wider text-amber-700">
+                        <span className="text-xs font-bold uppercase tracking-wider text-amber-700 dark:text-amber-400">
                           {contactSettings?.sectionTitle || "Get In Touch"}
                         </span>
-                        <h2 className="text-3xl font-serif font-bold text-slate-900 mt-1">
+                        <h2 className="text-3xl font-bold text-slate-900 dark:text-white mt-1">
                           {contactSettings?.sectionHeading || "Let's Plan Your Dream Event"}
                         </h2>
                       </div>
@@ -617,12 +647,12 @@ export default async function HomePage() {
                       <div className="space-y-6">
                         {displayPhone && (
                           <div className="flex items-start gap-4">
-                            <div className="p-3 bg-amber-100 text-amber-700 rounded-2xl">
+                            <div className="p-3 bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 rounded-2xl border border-amber-200/50 dark:border-amber-800/50">
                               <Phone className="w-6 h-6" />
                             </div>
                             <div>
-                              <div className="font-bold text-sm text-slate-900">Phone / WhatsApp</div>
-                              <a href={`tel:${displayPhone.replace(/[^0-9+]/g, "")}`} className="text-sm font-semibold text-amber-700 hover:underline">
+                              <div className="font-bold text-sm text-slate-900 dark:text-white">Phone / WhatsApp</div>
+                              <a href={`tel:${displayPhone.replace(/[^0-9+]/g, "")}`} className="text-sm font-semibold text-amber-700 dark:text-amber-400 hover:underline">
                                 {displayPhone}
                               </a>
                             </div>
@@ -631,12 +661,12 @@ export default async function HomePage() {
  
                         {displayEmail && (
                           <div className="flex items-start gap-4">
-                            <div className="p-3 bg-orange-100 text-orange-700 rounded-2xl">
+                            <div className="p-3 bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 rounded-2xl border border-amber-200/50 dark:border-amber-800/50">
                               <Mail className="w-6 h-6" />
                             </div>
                             <div>
-                              <div className="font-bold text-sm text-slate-900">Email Address</div>
-                              <a href={`mailto:${displayEmail}`} className="text-sm font-semibold text-amber-700 hover:underline">
+                              <div className="font-bold text-sm text-slate-900 dark:text-white">Email Address</div>
+                              <a href={`mailto:${displayEmail}`} className="text-sm font-semibold text-amber-700 dark:text-amber-400 hover:underline">
                                 {displayEmail}
                               </a>
                             </div>
@@ -645,12 +675,12 @@ export default async function HomePage() {
  
                         {displayAddress && (
                           <div className="flex items-start gap-4">
-                            <div className="p-3 bg-emerald-100 text-emerald-700 rounded-2xl">
+                            <div className="p-3 bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 rounded-2xl border border-emerald-200/50 dark:border-emerald-800/50">
                               <MapPin className="w-6 h-6" />
                             </div>
                             <div>
-                              <div className="font-bold text-sm text-slate-900">Location</div>
-                              <p className="text-xs text-slate-600 mt-0.5">{displayAddress}</p>
+                              <div className="font-bold text-sm text-slate-900 dark:text-white">Location</div>
+                              <p className="text-xs text-slate-600 dark:text-slate-300 mt-0.5">{displayAddress}</p>
                             </div>
                           </div>
                         )}

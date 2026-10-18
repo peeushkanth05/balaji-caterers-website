@@ -4,7 +4,7 @@ export default function NotFound() {
   return (
     <div className="min-h-screen bg-slate-900 text-white flex items-center justify-center p-6 text-center">
       <div className="space-y-4 max-w-md">
-        <h1 className="text-6xl font-serif font-bold text-amber-500">404</h1>
+        <h1 className="text-6xl font-bold text-amber-500">404</h1>
         <h2 className="text-2xl font-bold">Page Not Found</h2>
         <p className="text-slate-400 text-sm">
           The page or portfolio item you are looking for does not exist or has been moved.

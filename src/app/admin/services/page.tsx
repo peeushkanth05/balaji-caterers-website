@@ -138,7 +138,7 @@ export default function ServicesAdminPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
         <div>
-          <h1 className="text-2xl font-serif font-bold text-slate-900 flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
             <Sparkles className="w-6 h-6 text-amber-500" /> Offered Services CMS
           </h1>
           <p className="text-slate-500 text-xs mt-1">
@@ -213,7 +213,7 @@ export default function ServicesAdminPage() {
                   </div>
                 </div>
 
-                <h3 className="font-serif font-bold text-lg text-slate-900 mb-1">{s.title}</h3>
+                <h3 className="font-bold text-lg text-slate-900 mb-1">{s.title}</h3>
                 <p className="text-xs text-slate-500 leading-relaxed mb-4">{s.description}</p>
                 <span className="inline-block text-[11px] font-bold px-3 py-1 rounded-full bg-amber-100 text-amber-800 border border-amber-200">
                   {s.tag}
@@ -244,7 +244,7 @@ export default function ServicesAdminPage() {
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl border border-slate-200">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="font-serif font-bold text-xl text-slate-900">
+              <h3 className="font-bold text-xl text-slate-900">
                 {editingId ? "Edit Service" : "Add New Service"}
               </h3>
               <button

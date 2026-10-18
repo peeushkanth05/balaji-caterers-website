@@ -78,7 +78,7 @@ export function DynamicPortfolioSection({
             <span className="text-xs font-extrabold uppercase tracking-widest text-amber-800 inline-flex items-center gap-1">
               <Sparkles className="w-3.5 h-3.5 fill-amber-500" /> Featured Celebrations
             </span>
-            <h2 className="text-3xl sm:text-4xl font-serif font-bold text-slate-900">
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900">
               Grand Events Showcase
             </h2>
           </div>
@@ -92,7 +92,7 @@ export function DynamicPortfolioSection({
           <span className="text-xs font-extrabold uppercase tracking-widest text-amber-800 inline-flex items-center gap-1">
             <Layers className="w-3.5 h-3.5" /> Full Event Gallery
           </span>
-          <h2 className="text-3xl sm:text-4xl font-serif font-bold text-slate-900">
+          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900">
             Explore Our Recent Projects
           </h2>
           <p className="text-xs sm:text-sm text-slate-600">

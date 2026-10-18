@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import {
   Sparkles,
   Save,
@@ -13,6 +14,7 @@ import {
   Image as ImageIcon,
   BarChart2,
   Layers,
+  Smile,
 } from "lucide-react";
 import { HeroSectionData } from "@/types/hero";
 import { MediaLibraryModal } from "@/components/admin/MediaLibraryModal";
@@ -355,7 +357,7 @@ export default function AdminHeroCMSPage() {
       {/* Page Header */}
       <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-serif font-bold text-slate-900 flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
             <Sparkles className="w-6 h-6 text-amber-500" /> Hero Section CMS Engine
           </h1>
           <p className="text-slate-500 text-xs mt-1">
@@ -533,13 +535,21 @@ export default function AdminHeroCMSPage() {
       {activeTab === "stats" && (
         <div className="space-y-6">
           <div className="flex justify-between items-center bg-white p-4 rounded-2xl border border-slate-200">
-            <h3 className="font-serif font-bold text-slate-900 text-lg">Active Statistics Items</h3>
-            <button
-              onClick={openNewStatModal}
-              className="px-4 py-2 bg-amber-500 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm"
-            >
-              <Plus className="w-4 h-4" /> Add Stat Counter
-            </button>
+            <h3 className="font-bold text-slate-900 text-lg">Active Statistics Items</h3>
+            <div className="flex items-center gap-2">
+              <Link
+                href="/admin/emojis"
+                className="px-4 py-2 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors"
+              >
+                <Smile className="w-4 h-4 text-amber-600" /> Emoji & Icon Manager
+              </Link>
+              <button
+                onClick={openNewStatModal}
+                className="px-4 py-2 bg-amber-500 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm"
+              >
+                <Plus className="w-4 h-4" /> Add Stat Counter
+              </button>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -547,7 +557,7 @@ export default function AdminHeroCMSPage() {
               <div key={stat.id} className="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
                 <div>
                   <div className="text-xl mb-1">{stat.icon}</div>
-                  <h4 className="text-xl font-bold font-serif text-amber-600">{stat.number}</h4>
+                  <h4 className="text-xl font-bold text-amber-600">{stat.number}</h4>
                   <p className="text-xs text-slate-600 font-semibold">{stat.title}</p>
                 </div>
 
@@ -577,7 +587,7 @@ export default function AdminHeroCMSPage() {
       {activeTab === "slides" && (
         <div className="space-y-6">
           <div className="flex justify-between items-center bg-white p-4 rounded-2xl border border-slate-200">
-            <h3 className="font-serif font-bold text-slate-900 text-lg">Hero Carousel Slides</h3>
+            <h3 className="font-bold text-slate-900 text-lg">Hero Carousel Slides</h3>
             <button
               onClick={openNewImageModal}
               className="px-4 py-2 bg-amber-500 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm"
@@ -623,7 +633,7 @@ export default function AdminHeroCMSPage() {
       {activeTab === "cards" && (
         <div className="space-y-6">
           <div className="flex justify-between items-center bg-white p-4 rounded-2xl border border-slate-200">
-            <h3 className="font-serif font-bold text-slate-900 text-lg">Floating Feature Badges</h3>
+            <h3 className="font-bold text-slate-900 text-lg">Floating Feature Badges</h3>
             <button
               onClick={openNewCardModal}
               className="px-4 py-2 bg-amber-500 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm"
@@ -668,7 +678,7 @@ export default function AdminHeroCMSPage() {
       {statModalOpen && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <form onSubmit={handleStatSubmit} className="bg-white rounded-3xl p-6 max-w-md w-full space-y-4 shadow-xl">
-            <h3 className="font-serif font-bold text-lg text-slate-900">
+            <h3 className="font-bold text-lg text-slate-900">
               {editingStatId ? "Edit Statistic Counter" : "Add Statistic Counter"}
             </h3>
             <div>
@@ -697,7 +707,7 @@ export default function AdminHeroCMSPage() {
       {imageModalOpen && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <form onSubmit={handleImageSubmit} className="bg-white rounded-3xl p-6 max-w-md w-full space-y-4 shadow-xl">
-            <h3 className="font-serif font-bold text-lg text-slate-900">
+            <h3 className="font-bold text-lg text-slate-900">
               {editingImageId ? "Edit Hero Slide Image" : "Add Hero Slide Image"}
             </h3>
             <div>
@@ -709,7 +719,7 @@ export default function AdminHeroCMSPage() {
                   value={imageUrl}
                   onChange={(e) => setImageUrl(e.target.value)}
                   placeholder="Click Select to pick from Library..."
-                  className="flex-1 bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs focus:ring-1 focus:ring-amber-500 font-mono"
+                  className="flex-1 bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs focus:ring-1 focus:ring-amber-500"
                 />
                 <button
                   type="button"
@@ -742,7 +752,7 @@ export default function AdminHeroCMSPage() {
       {cardModalOpen && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <form onSubmit={handleCardSubmit} className="bg-white rounded-3xl p-6 max-w-md w-full space-y-4 shadow-xl">
-            <h3 className="font-serif font-bold text-lg text-slate-900">
+            <h3 className="font-bold text-lg text-slate-900">
               {editingCardId ? "Edit Floating Feature Card" : "Add Floating Feature Card"}
             </h3>
             <div className="grid grid-cols-2 gap-4">
