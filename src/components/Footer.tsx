@@ -156,6 +156,11 @@ export function Footer() {
               </Link>
             </li>
             <li>
+              <Link href="/gallery" className="hover:text-white transition-colors">
+                Photo Gallery
+              </Link>
+            </li>
+            <li>
               <a href="/#portfolio" className="hover:text-white transition-colors">
                 Event Portfolio
               </a>

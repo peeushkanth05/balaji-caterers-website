@@ -91,8 +91,9 @@ const DEFAULT_MENUS: Menu[] = [
   { id: "m0", label: "Home", link: "/", displayOrder: 0, isServicesDropdown: false, submenus: [] },
   { id: "m1", label: "Services", link: "/#services", displayOrder: 1, isServicesDropdown: true, submenus: [] },
   { id: "m2", label: "Packages", link: "/packages", displayOrder: 2, isServicesDropdown: false, submenus: [] },
-  { id: "m3", label: "Portfolios", link: "/#portfolio", displayOrder: 3, isServicesDropdown: false, submenus: [] },
-  { id: "m4", label: "Contact", link: "/#contact", displayOrder: 4, isServicesDropdown: false, submenus: [] },
+  { id: "m3", label: "Gallery", link: "/gallery", displayOrder: 3, isServicesDropdown: false, submenus: [] },
+  { id: "m4", label: "Portfolios", link: "/#portfolio", displayOrder: 4, isServicesDropdown: false, submenus: [] },
+  { id: "m5", label: "Contact", link: "/#contact", displayOrder: 5, isServicesDropdown: false, submenus: [] },
 ];
 
 const DEFAULT_ACTIONS: HeaderAction[] = [

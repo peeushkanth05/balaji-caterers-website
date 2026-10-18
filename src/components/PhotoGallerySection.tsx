@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Link from "next/link";
 import { X, Image as ImageIcon, ZoomIn, Eye, ChevronRight } from "lucide-react";
 
 interface GalleryItem {
@@ -16,8 +17,6 @@ interface PhotoGallerySectionProps {
 
 export function PhotoGallerySection({ galleryItems }: PhotoGallerySectionProps) {
   const [lightboxImg, setLightboxImg] = useState<GalleryItem | null>(null);
-  const [expanded, setExpanded] = useState(false);
-  const [activeCategory, setActiveCategory] = useState("All");
   const [speed, setSpeed] = useState<"slow" | "normal" | "fast">("normal");
   const [isPaused, setIsPaused] = useState(false);
   const [hoverPaused, setHoverPaused] = useState(false);
@@ -35,18 +34,6 @@ export function PhotoGallerySection({ galleryItems }: PhotoGallerySectionProps) 
         return 65;
     }
   }, [speed]);
-
-  // Get unique categories for grid filter
-  const categories = useMemo(() => {
-    const list = new Set(galleryItems.map((item) => item.category).filter(Boolean));
-    return ["All", ...Array.from(list)];
-  }, [galleryItems]);
-
-  // Filter items based on selected category
-  const filteredItems = useMemo(() => {
-    if (activeCategory === "All") return galleryItems;
-    return galleryItems.filter((item) => item.category === activeCategory);
-  }, [galleryItems, activeCategory]);
 
   const getWebpUrl = (url: string) => {
     if (!url) return "/new-logo.webp";
@@ -216,78 +203,15 @@ export function PhotoGallerySection({ galleryItems }: PhotoGallerySectionProps) 
         }}
       />
 
-      {/* View More / Expand Section */}
+      {/* View Full Gallery in Dedicated Page */}
       <div className="text-center pt-2 px-6">
-        {!expanded ? (
-          <button
-            onClick={() => setExpanded(true)}
-            className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white font-semibold text-xs py-3 px-7 rounded-xl shadow-sm transition-all active:scale-95 uppercase tracking-wider focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500"
-          >
-            Explore Full Gallery ({galleryItems.length} Photos) <ChevronRight className="w-4 h-4 text-white" />
-          </button>
-        ) : (
-          <div className="space-y-8 animate-fade-in max-w-7xl mx-auto">
-            {/* Category Filter Pills */}
-            <div className="flex flex-wrap items-center justify-center gap-2 border-t border-slate-200 dark:border-slate-800 pt-8">
-              {categories.map((cat: any) => (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all border ${
-                    activeCategory === cat
-                      ? "bg-amber-500 border-amber-500 text-white shadow-sm"
-                      : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-amber-600 dark:hover:text-amber-400"
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
-
-            {/* Grid Layout */}
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 pt-4">
-              {filteredItems.map((item) => (
-                <div
-                  key={`${item.id}-grid`}
-                  onClick={() => setLightboxImg(item)}
-                  className="group relative aspect-square bg-slate-100 rounded-3xl overflow-hidden border border-slate-200/60 shadow-sm cursor-pointer hover:shadow-lg transition-all hover:scale-[1.02]"
-                >
-                  <img
-                    src={item.imageUrl}
-                    alt={item.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    loading="lazy"
-                  />
-                  {/* Hover overlay detail */}
-                  <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-4 text-white">
-                    <span className="self-end p-2 rounded-full bg-white/20 backdrop-blur-sm hover:scale-110 active:scale-95 transition-transform">
-                      <ZoomIn className="w-4 h-4" />
-                    </span>
-                    <div>
-                      {item.category && (
-                        <span className="text-[8px] font-extrabold uppercase tracking-widest bg-amber-500 text-white px-2 py-0.5 rounded-full">
-                          {item.category}
-                        </span>
-                      )}
-                      <h4 className="font-bold text-xs sm:text-sm mt-1.5 truncate">
-                        {item.title}
-                      </h4>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="pt-4">
-              <button
-                onClick={() => setExpanded(false)}
-                className="inline-flex items-center gap-2 border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold text-xs py-3 px-6 rounded-2xl transition-colors uppercase tracking-wider"
-              >
-                Collapse Gallery View
-              </button>
-            </div>
-          </div>
-        )}
+        <Link
+          href="/gallery"
+          className="inline-flex items-center gap-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs py-3.5 px-8 rounded-xl shadow-md shadow-amber-500/20 transition-all active:scale-95 uppercase tracking-wider focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500"
+        >
+          <span>Explore Full Gallery ({galleryItems.length} Photos)</span>
+          <ChevronRight className="w-4 h-4 text-white" />
+        </Link>
       </div>
 
       {/* Image Lightbox modal */}
