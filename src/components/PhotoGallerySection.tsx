@@ -18,6 +18,23 @@ export function PhotoGallerySection({ galleryItems }: PhotoGallerySectionProps) 
   const [lightboxImg, setLightboxImg] = useState<GalleryItem | null>(null);
   const [expanded, setExpanded] = useState(false);
   const [activeCategory, setActiveCategory] = useState("All");
+  const [speed, setSpeed] = useState<"slow" | "normal" | "fast">("normal");
+  const [isPaused, setIsPaused] = useState(false);
+  const [hoverPaused, setHoverPaused] = useState(false);
+
+  // Speed in seconds for full loop
+  const speedSeconds = useMemo(() => {
+    switch (speed) {
+      case "slow":
+        return 95; // Calm, luxurious glide
+      case "normal":
+        return 65; // Balanced, smooth reading speed
+      case "fast":
+        return 40; // Brisk overview
+      default:
+        return 65;
+    }
+  }, [speed]);
 
   // Get unique categories for grid filter
   const categories = useMemo(() => {
@@ -37,15 +54,49 @@ export function PhotoGallerySection({ galleryItems }: PhotoGallerySectionProps) 
     return url.replace(/\.(jpg|jpeg|png)$/i, ".webp");
   };
 
-  // Double list for infinite marquee slider
-  const marqueeItems = useMemo(() => {
+  // Base list of items for the infinite marquee (take up to 14 high quality items)
+  const baseItems = useMemo(() => {
     if (galleryItems.length === 0) return [];
-    const base = galleryItems.slice(0, 8);
-    return [...base, ...base];
+    return galleryItems.slice(0, 14);
   }, [galleryItems]);
 
+  const renderCard = (item: GalleryItem, keyPrefix: string, idx: number) => (
+    <div
+      key={`${keyPrefix}-${item.id}-${idx}`}
+      onClick={() => setLightboxImg(item)}
+      className="relative w-72 aspect-[4/3] sm:w-80 rounded-3xl overflow-hidden shadow-md border border-slate-200/60 dark:border-slate-800 group flex-shrink-0 transition-transform duration-300 hover:scale-[1.02] hover:shadow-xl cursor-pointer bg-slate-100 dark:bg-slate-900"
+    >
+      <img
+        src={getWebpUrl(item.imageUrl)}
+        alt={item.title}
+        className="w-full h-full object-cover"
+        loading="lazy"
+      />
+      {/* Overlays */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-80 group-hover:opacity-95 transition-opacity" />
+
+      <div className="absolute inset-0 flex flex-col justify-between p-5 text-white">
+        <button
+          aria-label={`Zoom in on ${item.title}`}
+          className="self-end p-2 bg-white/20 backdrop-blur-md rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white/30"
+        >
+          <ZoomIn className="w-4 h-4 text-white" />
+        </button>
+
+        <div className="space-y-1">
+          {item.category && (
+            <span className="text-[9px] font-bold tracking-widest uppercase bg-amber-500 text-white px-2.5 py-0.5 rounded-full inline-block shadow-sm">
+              {item.category}
+            </span>
+          )}
+          <div className="font-bold text-sm truncate">{item.title}</div>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
-    <section id="gallery" className="py-20 lg:py-24 bg-white/60 dark:bg-slate-950/60 border-t border-slate-200/60 dark:border-slate-800 overflow-hidden space-y-12 transition-colors">
+    <section id="gallery" className="py-20 lg:py-24 bg-white/60 dark:bg-slate-950/60 border-t border-slate-200/60 dark:border-slate-800 overflow-hidden space-y-10 transition-colors">
       {/* Section Header */}
       <div className="text-center max-w-2xl mx-auto space-y-3 px-6">
         <span className="text-xs font-bold uppercase tracking-widest text-amber-700 dark:text-amber-400 inline-flex items-center gap-1.5 bg-amber-50 dark:bg-amber-950/60 px-3 py-1 rounded-full border border-amber-200/60 dark:border-amber-800/60">
@@ -57,57 +108,122 @@ export function PhotoGallerySection({ galleryItems }: PhotoGallerySectionProps) 
         <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
           Explore our authentic catering setups, live food counters, table arrangements, and thematic floral decors across Delhi NCR.
         </p>
+
+        {/* Speed & Pause Controls Bar */}
+        <div className="pt-2 flex items-center justify-center gap-2 text-xs">
+          <button
+            onClick={() => setIsPaused(!isPaused)}
+            aria-label={isPaused ? "Resume gallery scroll" : "Pause gallery scroll"}
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-semibold border transition-all ${
+              isPaused
+                ? "bg-amber-500 text-white border-amber-500 shadow-sm"
+                : "bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:border-amber-500"
+            }`}
+          >
+            <span>{isPaused ? "▶ Resume" : "⏸ Pause"}</span>
+          </button>
+
+          <div className="inline-flex items-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-0.5">
+            <button
+              onClick={() => { setSpeed("slow"); setIsPaused(false); }}
+              aria-label="Set slow speed"
+              className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all ${
+                speed === "slow"
+                  ? "bg-amber-500 text-white shadow-sm"
+                  : "text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400"
+              }`}
+            >
+              Slow
+            </button>
+            <button
+              onClick={() => { setSpeed("normal"); setIsPaused(false); }}
+              aria-label="Set normal smooth speed"
+              className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all ${
+                speed === "normal"
+                  ? "bg-amber-500 text-white shadow-sm"
+                  : "text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400"
+              }`}
+            >
+              Smooth
+            </button>
+            <button
+              onClick={() => { setSpeed("fast"); setIsPaused(false); }}
+              aria-label="Set fast speed"
+              className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all ${
+                speed === "fast"
+                  ? "bg-amber-500 text-white shadow-sm"
+                  : "text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400"
+              }`}
+            >
+              Fast
+            </button>
+          </div>
+        </div>
       </div>
 
-      {/* Infinite Scrolling Horizontal Marquee */}
-      <div className="w-full relative py-2 overflow-hidden select-none">
-        <div className="flex w-max gap-6 animate-marquee hover:[animation-play-state:paused] cursor-pointer">
-          {marqueeItems.map((item, idx) => (
-            <div
-              key={`${item.id}-marquee-${idx}`}
-              onClick={() => setLightboxImg(item)}
-              className="relative w-72 aspect-[4/3] sm:w-80 rounded-3xl overflow-hidden shadow-md border border-slate-200/60 group flex-shrink-0 transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg"
-            >
-              <img
-                src={getWebpUrl(item.imageUrl)}
-                alt={item.title}
-                className="w-full h-full object-cover"
-                loading="lazy"
-              />
-              {/* Overlays */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
-              
-              <div className="absolute inset-0 flex flex-col justify-between p-5 text-white">
-                <button aria-label={`Zoom in on ${item.title}`} className="self-end p-2 bg-white/20 backdrop-blur-md rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-                  <ZoomIn className="w-4 h-4 text-white" />
-                </button>
-                
-                <div className="space-y-1">
-                  {item.category && (
-                    <span className="text-[8px] font-extrabold tracking-widest uppercase bg-amber-500 text-white px-2 py-0.5 rounded-full inline-block">
-                      {item.category}
-                    </span>
-                  )}
-                  <div className="font-bold text-sm truncate">{item.title}</div>
-                </div>
-              </div>
-            </div>
-          ))}
+      {/* Infinite Scrolling Horizontal Marquee with Perfectly Seamless Dual Track */}
+      <div
+        className="w-full relative py-2 overflow-hidden select-none"
+        onMouseEnter={() => setHoverPaused(true)}
+        onMouseLeave={() => setHoverPaused(false)}
+      >
+        <div className="flex w-max">
+          {/* Primary Track */}
+          <div
+            className="flex gap-6 pr-6 shrink-0 gallery-marquee-track"
+            style={{
+              animation: `seamlessGalleryScroll ${speedSeconds}s linear infinite`,
+              animationPlayState: isPaused || hoverPaused ? "paused" : "running",
+            }}
+          >
+            {baseItems.map((item, idx) => renderCard(item, "track1", idx))}
+          </div>
+
+          {/* Duplicate Track (for 100% seamless wrap) */}
+          <div
+            className="flex gap-6 pr-6 shrink-0 gallery-marquee-track"
+            aria-hidden="true"
+            style={{
+              animation: `seamlessGalleryScroll ${speedSeconds}s linear infinite`,
+              animationPlayState: isPaused || hoverPaused ? "paused" : "running",
+            }}
+          >
+            {baseItems.map((item, idx) => renderCard(item, "track2", idx))}
+          </div>
         </div>
 
         {/* Shadow Overlays */}
-        <div className="absolute top-0 bottom-0 left-0 w-16 bg-gradient-to-r from-white dark:from-slate-950 to-transparent pointer-events-none z-10" />
-        <div className="absolute top-0 bottom-0 right-0 w-16 bg-gradient-to-l from-white dark:from-slate-950 to-transparent pointer-events-none z-10" />
+        <div className="absolute top-0 bottom-0 left-0 w-20 bg-gradient-to-r from-[#F8F7F3] dark:from-slate-950 to-transparent pointer-events-none z-10" />
+        <div className="absolute top-0 bottom-0 right-0 w-20 bg-gradient-to-l from-[#F8F7F3] dark:from-slate-950 to-transparent pointer-events-none z-10" />
       </div>
 
+      {/* Keyframe animation injected inline to avoid any dependency conflicts */}
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+            @keyframes seamlessGalleryScroll {
+              0% {
+                transform: translate3d(0, 0, 0);
+              }
+              100% {
+                transform: translate3d(-100%, 0, 0);
+              }
+            }
+            .gallery-marquee-track {
+              will-change: transform;
+            }
+          `,
+        }}
+      />
+
       {/* View More / Expand Section */}
-      <div className="text-center pt-4 px-6">
+      <div className="text-center pt-2 px-6">
         {!expanded ? (
           <button
             onClick={() => setExpanded(true)}
             className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white font-semibold text-xs py-3 px-7 rounded-xl shadow-sm transition-all active:scale-95 uppercase tracking-wider focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500"
           >
-            Explore Full Gallery <ChevronRight className="w-4 h-4 text-white" />
+            Explore Full Gallery ({galleryItems.length} Photos) <ChevronRight className="w-4 h-4 text-white" />
           </button>
         ) : (
           <div className="space-y-8 animate-fade-in max-w-7xl mx-auto">
