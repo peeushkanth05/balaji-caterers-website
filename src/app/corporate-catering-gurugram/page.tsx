@@ -48,6 +48,7 @@ export default async function CorporateCateringGurugramPage() {
         "name": "Corporate Catering in Gurugram",
         "provider": {
           "@type": "LocalBusiness",
+          "@id": "https://vermacaterersevents.com/#localbusiness",
           "name": "Verma Caterers & Events",
           "telephone": "+91-9810483544"
         },

@@ -2,11 +2,19 @@ import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const FALLBACK_SECRET = "7yJrT0h3h4xN9kM8vL2QeA5bC1sF6pZrW8uYdI3nXoKqE7tG9mV2aL5cB0rN4sHx";
-
 export async function middleware(req: NextRequest) {
-  const secret = process.env.NEXTAUTH_SECRET || FALLBACK_SECRET;
+  const secret = process.env.NEXTAUTH_SECRET || (process.env.NODE_ENV !== "production" ? "dev-only-local-secret-do-not-use-in-production" : undefined);
   const pathname = req.nextUrl.pathname;
+
+  // Fail securely in production if NEXTAUTH_SECRET is not configured
+  if (!secret) {
+    if (pathname.startsWith("/api/")) {
+      return NextResponse.json({ error: "Unauthorized: Missing authentication configuration" }, { status: 401 });
+    }
+    const loginUrl = new URL("/admin/login", req.url);
+    loginUrl.searchParams.set("callbackUrl", req.nextUrl.pathname);
+    return NextResponse.redirect(loginUrl);
+  }
 
   // Check if any NextAuth session token exists in request cookies
   const hasSessionToken =

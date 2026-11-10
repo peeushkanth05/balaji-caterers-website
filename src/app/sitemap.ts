@@ -1,92 +1,107 @@
-import { MetadataRoute } from "next";
+﻿import { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://vermacaterersevents.com";
 
+  // Stable baseline date for verified static content (avoids daily churn in GSC)
+  const staticContentDate = new Date("2026-10-30T00:00:00.000Z");
+
   // Static public & Local SEO routes
   const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: `${baseUrl}/`,
-      lastModified: new Date(),
-      changeFrequency: "daily",
+      lastModified: staticContentDate,
+      changeFrequency: "weekly",
       priority: 1.0,
     },
     {
       url: `${baseUrl}/packages`,
-      lastModified: new Date(),
+      lastModified: staticContentDate,
       changeFrequency: "weekly",
       priority: 0.9,
     },
     {
       url: `${baseUrl}/gallery`,
-      lastModified: new Date(),
+      lastModified: staticContentDate,
       changeFrequency: "weekly",
       priority: 0.9,
     },
     {
       url: `${baseUrl}/wedding-catering-dwarka`,
-      lastModified: new Date(),
+      lastModified: staticContentDate,
       changeFrequency: "weekly",
       priority: 0.9,
     },
     {
       url: `${baseUrl}/wedding-catering-gurugram`,
-      lastModified: new Date(),
+      lastModified: staticContentDate,
       changeFrequency: "weekly",
       priority: 0.9,
     },
     {
       url: `${baseUrl}/catering-services-delhi-ncr`,
-      lastModified: new Date(),
+      lastModified: staticContentDate,
       changeFrequency: "weekly",
       priority: 0.9,
     },
     {
       url: `${baseUrl}/birthday-catering-dwarka`,
-      lastModified: new Date(),
+      lastModified: staticContentDate,
       changeFrequency: "weekly",
       priority: 0.85,
     },
     {
       url: `${baseUrl}/corporate-catering-gurugram`,
-      lastModified: new Date(),
+      lastModified: staticContentDate,
       changeFrequency: "weekly",
       priority: 0.85,
     },
     {
       url: `${baseUrl}/puja-kirtan-catering-delhi-ncr`,
-      lastModified: new Date(),
+      lastModified: staticContentDate,
       changeFrequency: "weekly",
       priority: 0.85,
     },
     {
       url: `${baseUrl}/small-gathering-catering-dwarka`,
-      lastModified: new Date(),
+      lastModified: staticContentDate,
       changeFrequency: "weekly",
       priority: 0.85,
     },
     {
       url: `${baseUrl}/blogs`,
-      lastModified: new Date(),
+      lastModified: staticContentDate,
       changeFrequency: "weekly",
       priority: 0.8,
     },
     {
+      url: `${baseUrl}/privacy-policy`,
+      lastModified: staticContentDate,
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/terms-of-service`,
+      lastModified: staticContentDate,
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+    {
       url: `${baseUrl}/blogs/wedding-catering-menu-guide-dwarka`,
-      lastModified: new Date(),
+      lastModified: staticContentDate,
       changeFrequency: "monthly",
       priority: 0.7,
     },
     {
       url: `${baseUrl}/blogs/puja-kirtan-satvik-catering-tips`,
-      lastModified: new Date(),
+      lastModified: staticContentDate,
       changeFrequency: "monthly",
       priority: 0.7,
     },
     {
       url: `${baseUrl}/blogs/small-gathering-catering-guest-calculator`,
-      lastModified: new Date(),
+      lastModified: staticContentDate,
       changeFrequency: "monthly",
       priority: 0.7,
     },
@@ -102,7 +117,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     portfolioRoutes = portfolios.map((p) => ({
       url: `${baseUrl}/portfolio/${p.slug}`,
-      lastModified: p.updatedAt || new Date(),
+      lastModified: p.updatedAt || staticContentDate,
       changeFrequency: "monthly",
       priority: 0.8,
     }));
@@ -119,7 +134,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     blogRoutes = blogs.map((b) => ({
       url: `${baseUrl}/blogs/${b.slug}`,
-      lastModified: b.updatedAt || new Date(),
+      lastModified: b.updatedAt || staticContentDate,
       changeFrequency: "monthly",
       priority: 0.75,
     }));

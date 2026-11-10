@@ -48,6 +48,7 @@ export default async function PujaKirtanCateringDelhiNcrPage() {
         "name": "Puja & Kirtan Satvik Catering",
         "provider": {
           "@type": "LocalBusiness",
+          "@id": "https://vermacaterersevents.com/#localbusiness",
           "name": "Verma Caterers & Events",
           "telephone": "+91-9810483544"
         },

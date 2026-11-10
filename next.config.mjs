@@ -23,6 +23,27 @@ const nextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
   },
+  async redirects() {
+    return [
+      { source: '/wedding-caterers-dwarka.html', destination: '/wedding-catering-dwarka', permanent: true },
+      { source: '/wedding-decorator-dwarka-sector-5.html', destination: '/wedding-catering-dwarka', permanent: true },
+      { source: '/wedding-decor.html', destination: '/wedding-catering-dwarka', permanent: true },
+      { source: '/catering-services-gurgaon.html', destination: '/wedding-catering-gurugram', permanent: true },
+      { source: '/corporate-catering-south-delhi.html', destination: '/corporate-catering-gurugram', permanent: true },
+      { source: '/birthday-party-catering-noida.html', destination: '/birthday-catering-dwarka', permanent: true },
+      { source: '/birthday-celebration.html', destination: '/birthday-catering-dwarka', permanent: true },
+      { source: '/candle-lit-mandap.html', destination: '/gallery', permanent: true },
+      { source: '/delicious-spreads.html', destination: '/packages', permanent: true },
+      { source: '/dj-sound-setup.html', destination: '/gallery', permanent: true },
+      { source: '/floral-stage-design.html', destination: '/gallery', permanent: true },
+      { source: '/live-food-counters.html', destination: '/gallery', permanent: true },
+      { source: '/cooler-arrangement.html', destination: '/', permanent: true },
+      { source: '/thank-you.html', destination: '/', permanent: true },
+      { source: '/index.html', destination: '/', permanent: true },
+      { source: '/privacy-policy.html', destination: '/privacy-policy', permanent: true },
+      { source: '/terms-of-service.html', destination: '/terms-of-service', permanent: true },
+    ];
+  },
   async headers() {
     return [
       {

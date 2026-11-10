@@ -96,6 +96,19 @@ const DEFAULT_MENUS: Menu[] = [
   { id: "m5", label: "Contact", link: "/#contact", displayOrder: 5, isServicesDropdown: false, submenus: [] },
 ];
 
+// Map service titles to dedicated SEO landing pages
+function getServiceHref(title: string): string {
+  const lower = title.toLowerCase();
+  if (lower.includes("wedding")) return "/wedding-catering-dwarka";
+  if (lower.includes("birthday")) return "/birthday-catering-dwarka";
+  if (lower.includes("puja") || lower.includes("kirtan")) return "/puja-kirtan-catering-delhi-ncr";
+  if (lower.includes("small gathering")) return "/small-gathering-catering-dwarka";
+  if (lower.includes("corporate")) return "/corporate-catering-gurugram";
+  if (lower.includes("cater")) return "/catering-services-delhi-ncr";
+  if (lower.includes("floral") || lower.includes("decor") || lower.includes("sound") || lower.includes("dj")) return "/gallery";
+  return "/#services";
+}
+
 const DEFAULT_ACTIONS: HeaderAction[] = [
   { id: "a1", label: "Get a Quote", link: "/#contact", style: "primary", active: true, displayOrder: 0 },
 ];
@@ -362,7 +375,7 @@ export function Header() {
                               <ul className="space-y-3">
                                 {cateringServices.map((ser) => (
                                   <li key={ser.id} className="group/item">
-                                    <Link href="/#services" className="block text-left">
+                                    <Link href={getServiceHref(ser.title)} onClick={() => setMegaMenuOpen(false)} className="block text-left">
                                       <span className="text-xs font-bold text-slate-800 dark:text-slate-200 group-hover/item:text-amber-500 transition-colors flex items-center gap-1.5">
                                         {getServiceIcon(ser.icon)} {ser.title}
                                       </span>
@@ -383,7 +396,7 @@ export function Header() {
                               <ul className="space-y-3">
                                 {decorAndSound.map((ser) => (
                                   <li key={ser.id} className="group/item">
-                                    <Link href="/#services" className="block text-left">
+                                    <Link href={getServiceHref(ser.title)} onClick={() => setMegaMenuOpen(false)} className="block text-left">
                                       <span className="text-xs font-bold text-slate-800 dark:text-slate-200 group-hover/item:text-amber-500 transition-colors flex items-center gap-1.5">
                                         {getServiceIcon(ser.icon)} {ser.title}
                                       </span>
@@ -404,7 +417,7 @@ export function Header() {
                               <ul className="space-y-3">
                                 {rentalsAndManagement.map((ser) => (
                                   <li key={ser.id} className="group/item">
-                                    <Link href="/#services" className="block text-left">
+                                    <Link href={getServiceHref(ser.title)} onClick={() => setMegaMenuOpen(false)} className="block text-left">
                                       <span className="text-xs font-bold text-slate-800 dark:text-slate-200 group-hover/item:text-amber-500 transition-colors flex items-center gap-1.5">
                                         {getServiceIcon(ser.icon)} {ser.title}
                                       </span>
@@ -597,7 +610,7 @@ export function Header() {
                               {dbServices.map((ser) => (
                                 <a
                                   key={ser.id}
-                                  href="/#services"
+                                  href={getServiceHref(ser.title)}
                                   onClick={() => setMobileMenuOpen(false)}
                                   className="text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors flex items-center gap-1.5"
                                 >

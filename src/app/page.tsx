@@ -272,25 +272,25 @@ export default async function HomePage() {
 
   return (
     <div className="min-h-screen bg-[#F8F7F3] dark:bg-slate-950 text-[#111827] dark:text-slate-100 font-sans transition-colors">
-      {/* Floating Action Buttons */}
-      <div className="fixed bottom-6 right-6 z-40 hidden md:flex flex-col gap-3">
+      {/* Floating Action Buttons (Desktop Web) */}
+      <div className="fixed bottom-6 right-6 z-40 hidden md:flex flex-col gap-3.5 items-center pointer-events-auto">
         <a
           href={`https://wa.me/${whatsapp}`}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Chat with Verma Caterers on WhatsApp"
-          className="w-13 h-13 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full flex items-center justify-center shadow-lg shadow-emerald-500/25 transition-all hover:scale-105 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-500"
+          className="w-14 h-14 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full flex items-center justify-center shadow-lg hover:shadow-xl shadow-emerald-500/30 transition-all duration-300 hover:scale-110 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-500 shrink-0"
           title="Chat on WhatsApp"
         >
-          <MessageSquare className="w-6 h-6" />
+          <MessageSquare className="w-6 h-6 stroke-[2.2] shrink-0" />
         </a>
         <a
           href={`tel:${phone.replace(/[^0-9+]/g, "")}`}
           aria-label="Call Verma Caterers"
-          className="w-13 h-13 bg-amber-500 hover:bg-amber-600 text-white rounded-full flex items-center justify-center shadow-lg shadow-amber-500/25 transition-all hover:scale-105 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-500"
+          className="w-14 h-14 bg-amber-500 hover:bg-amber-600 text-white rounded-full flex items-center justify-center shadow-lg hover:shadow-xl shadow-amber-500/30 transition-all duration-300 hover:scale-110 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500 shrink-0"
           title="Call Now"
         >
-          <Phone className="w-6 h-6" />
+          <Phone className="w-6 h-6 stroke-[2.2] shrink-0" />
         </a>
       </div>
 

@@ -48,6 +48,7 @@ export default async function SmallGatheringCateringDwarkaPage() {
         "name": "Small Gathering & House Party Catering in Dwarka",
         "provider": {
           "@type": "LocalBusiness",
+          "@id": "https://vermacaterersevents.com/#localbusiness",
           "name": "Verma Caterers & Events",
           "telephone": "+91-9810483544"
         },
