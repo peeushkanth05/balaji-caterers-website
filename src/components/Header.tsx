@@ -303,8 +303,8 @@ export function Header() {
       <nav
         className={`w-full transition-all duration-300 ${
           scrolled || !settings?.stickyHeader
-            ? "bg-white/95 dark:bg-slate-950/95 backdrop-blur-md shadow-lg h-16 border-b border-amber-500/10"
-            : "bg-white/90 dark:bg-slate-950/90 backdrop-blur-sm h-20"
+            ? "bg-[#FCFBF7]/95 dark:bg-slate-950/95 backdrop-blur-md shadow-sm h-16 border-b border-stone-200/60 dark:border-slate-800"
+            : "bg-[#F8F7F3]/90 dark:bg-slate-950/90 backdrop-blur-sm h-20"
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
@@ -473,8 +473,8 @@ export function Header() {
             {activeActions.slice(0, 2).map((act, idx) => {
               const isPrimary = act.style === "primary" || idx === 0;
               const styleClass = isPrimary
-                ? "bg-amber-500 hover:bg-amber-600 text-white shadow-md shadow-amber-500/20 active:scale-95"
-                : "border border-amber-500/40 text-amber-700 dark:text-amber-400 hover:bg-amber-500/10 active:scale-95";
+                ? "bg-amber-600 hover:bg-amber-700 text-white shadow-sm hover:shadow active:scale-95 transition-all rounded-full px-5 py-2.5"
+                : "border border-amber-600/40 text-amber-800 dark:text-amber-400 hover:bg-amber-500/10 active:scale-95 transition-all rounded-full px-5 py-2.5";
 
               return (
                 <a

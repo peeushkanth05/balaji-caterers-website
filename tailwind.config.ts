@@ -10,10 +10,17 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        cream: {
+          50: "#FCFBF7",
+          100: "#F8F7F3",
+          200: "#EFECE3",
+          300: "#E2DDD1",
+        },
         brand: {
           navy: "#111827",
           gold: "#c69a38",
           amber: "#f59e0b",
+          orange: "#ea580c",
           ivory: "#f8f7f3",
           dark: "#111827",
           muted: "#64748b",

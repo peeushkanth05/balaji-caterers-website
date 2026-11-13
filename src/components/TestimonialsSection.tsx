@@ -38,7 +38,7 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
           {testimonials.map((t) => (
             <div
               key={t.id}
-              className="flex-shrink-0 w-[290px] sm:w-[380px] bg-white dark:bg-slate-900 rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-slate-200/80 dark:border-slate-800 shadow-sm flex flex-col justify-between hover:shadow-md hover:border-amber-400/60 dark:hover:border-amber-500/40 transition-all snap-start relative group"
+              className="flex-shrink-0 w-[290px] sm:w-[380px] bg-white/80 dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-stone-200/80 dark:border-slate-800 shadow-xs flex flex-col justify-between hover:shadow-sm hover:border-amber-500/40 transition-all snap-start relative group"
             >
               {/* Quote mark ornament */}
               <Quote className="absolute right-6 top-6 w-10 h-10 text-slate-100 dark:text-slate-800 group-hover:text-amber-50 dark:group-hover:text-amber-950/40 transition-colors pointer-events-none" />

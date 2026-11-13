@@ -189,12 +189,12 @@ ${message ? "*Details:* " + message : ""}`.trim();
   };
 
   return (
-    <div className="bg-white dark:bg-slate-900 p-6 sm:p-10 rounded-2xl sm:rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors">
-      <div className="font-bold text-2xl tracking-tight text-slate-900 dark:text-white mb-2">
-        {settings?.formTitle || "Request a Free Quote"}
+    <div className="bg-white/90 dark:bg-slate-900 p-6 sm:p-10 rounded-3xl border border-stone-200/80 dark:border-slate-800 shadow-xs transition-colors">
+      <div className="font-extrabold text-2xl tracking-tight text-slate-900 dark:text-white mb-2">
+        {settings?.formTitle || "Request a Curated Tasting & Quote"}
       </div>
       <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mb-6 font-normal">
-        {settings?.formDescription || "Fill out your event details below for a customized quotation."}
+        {settings?.formDescription || "Share your event vision with our culinary directors for a custom proposal."}
       </p>
 
       {statusMsg && (
@@ -294,7 +294,7 @@ ${message ? "*Details:* " + message : ""}`.trim();
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-semibold text-sm shadow-sm flex items-center justify-center gap-2 transition-all active:scale-[0.99] mt-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500 disabled:opacity-70 cursor-pointer"
+          className="w-full py-3.5 rounded-full bg-amber-600 hover:bg-amber-700 text-white font-semibold text-sm shadow-xs flex items-center justify-center gap-2 transition-all active:scale-[0.99] mt-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 disabled:opacity-70 cursor-pointer"
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />} {settings?.submitBtnText || "Send My Enquiry"}
         </button>
