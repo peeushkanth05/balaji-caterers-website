@@ -240,6 +240,13 @@ export function Header() {
 
   return (
     <header className={`${stickyClass} w-full transition-all`}>
+      {/* Website Development Notice */}
+      <div className="w-full bg-amber-500/10 dark:bg-amber-950/40 border-b border-amber-500/25 py-2 px-4 text-center">
+        <p className="text-xs sm:text-[13px] font-medium text-amber-950 dark:text-amber-200 tracking-normal m-0 leading-snug">
+          🚧 Our Website Is Currently Under Development. We’ll Be Back With an Improved Experience Soon!
+        </p>
+      </div>
+
       {/* Alert Announcement Ticker */}
       <AlertTickerMarquee />
 
