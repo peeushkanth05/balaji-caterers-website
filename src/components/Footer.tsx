@@ -42,6 +42,7 @@ const DEFAULT_FOOTER = {
 export function Footer() {
   const [footer, setFooter] = useState<any>(DEFAULT_FOOTER);
   const [socials, setSocials] = useState<any[]>([]);
+  const [logoUrl, setLogoUrl] = useState<string>("/verma-logo-dark.webp");
 
   // Policy Modal state
   const [activePolicy, setActivePolicy] = useState<{ title: string; content: string } | null>(null);
@@ -51,6 +52,8 @@ export function Footer() {
       .then((res) => res.json())
       .then((data) => {
         if (data.footer) setFooter(data.footer);
+        if (data.socialLinks) setSocials(data.socialLinks);
+        if (data.siteSettings?.logoUrl) setLogoUrl(data.siteSettings.logoUrl);
       })
       .catch((err) => console.error("Footer fetch failed:", err));
   }, []);
@@ -107,11 +110,9 @@ export function Footer() {
         <div className="md:col-span-4 space-y-5">
           <div className="flex items-center">
             <div className="relative w-[210px] h-16 flex items-center justify-start">
-              <Image
-                src="/verma-logo-dark.webp"
+              <img
+                src={logoUrl || "/verma-logo-dark.webp"}
                 alt="Verma Caterers Logo"
-                width={210}
-                height={64}
                 className="w-full h-full object-contain"
               />
             </div>

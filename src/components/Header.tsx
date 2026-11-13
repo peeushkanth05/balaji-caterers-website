@@ -312,23 +312,11 @@ export function Header() {
           {/* Logo Branding */}
           <Link href="/" aria-label="Verma Caterers Logo" className="flex items-center group py-1">
             <div className="relative w-[170px] sm:w-[200px] md:w-[230px] lg:w-[260px] h-12 sm:h-14 md:h-16 flex items-center justify-start transition-transform group-hover:scale-[1.02]">
-              {/* Light Mode Logo */}
-              <Image
-                src="/verma-logo-light.webp"
-                alt="Verma Caterers Logo"
-                width={260}
-                height={64}
-                priority
-                className="w-full h-full object-contain dark:hidden"
-              />
-              {/* Dark Mode Logo */}
-              <Image
-                src="/verma-logo-dark.webp"
-                alt="Verma Caterers Logo"
-                width={260}
-                height={64}
-                priority
-                className="w-full h-full object-contain hidden dark:block"
+              {/* Dynamic Logo from Backend Settings */}
+              <img
+                src={siteSettings?.logoUrl || "/verma-logo-light.webp"}
+                alt={company + " Logo"}
+                className="w-full h-full object-contain"
               />
             </div>
           </Link>
@@ -553,21 +541,10 @@ export function Header() {
             <div className="h-16 px-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between flex-shrink-0 bg-white dark:bg-slate-950">
               <Link href="/" aria-label="Verma Caterers Logo" onClick={() => setMobileMenuOpen(false)}>
                 <div className="relative w-[180px] h-12 flex items-center justify-start">
-                  <Image
-                    src="/verma-logo-light.webp"
-                    alt="Verma Caterers Logo"
-                    width={180}
-                    height={48}
-                    priority
-                    className="w-full h-full object-contain dark:hidden"
-                  />
-                  <Image
-                    src="/verma-logo-dark.webp"
-                    alt="Verma Caterers Logo"
-                    width={180}
-                    height={48}
-                    priority
-                    className="w-full h-full object-contain hidden dark:block"
+                  <img
+                    src={siteSettings?.logoUrl || "/verma-logo-light.webp"}
+                    alt={company + " Logo"}
+                    className="w-full h-full object-contain"
                   />
                 </div>
               </Link>

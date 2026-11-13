@@ -26,7 +26,12 @@ export async function GET() {
       orderBy: { displayOrder: "asc" },
     });
 
-    return NextResponse.json({ footer, socialLinks });
+    const siteSettings = await prisma.siteSetting.findUnique({
+      where: { id: "default" },
+      select: { logoUrl: true, companyName: true },
+    });
+
+    return NextResponse.json({ footer, socialLinks, siteSettings });
   } catch (error) {
     console.error("Footer GET Error:", error);
     return NextResponse.json({ error: "Failed to fetch footer settings" }, { status: 500 });
