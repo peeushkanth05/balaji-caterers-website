@@ -6,11 +6,26 @@ import { prisma } from "@/lib/prisma";
 import { BookOpen, Calendar, ArrowRight, Sparkles } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Catering Guides & Event Planning Blogs | Verma Caterers",
+  title: "Catering Guides & Event Planning Blogs | Verma Caterers Delhi NCR",
   description:
-    "Explore expert guides on wedding menu planning, puja catering checklists, corporate event tips, and guest quantity calculators in Dwarka & Delhi NCR.",
+    "Expert catering guides on wedding menus, guest food quantity calculators, Satvik puja catering, and corporate lunch planning across Delhi, Dwarka & Gurugram.",
   alternates: {
     canonical: "https://vermacaterersevents.com/blogs",
+  },
+  openGraph: {
+    title: "Catering Guides & Event Planning Blogs | Verma Caterers Delhi NCR",
+    description:
+      "Expert catering guides on wedding menus, food quantity calculators, and event planning across Delhi, Dwarka & Gurugram.",
+    url: "https://vermacaterersevents.com/blogs",
+    siteName: "Verma Caterers & Events",
+    images: [
+      {
+        url: "/verma-logo-512.png",
+        width: 512,
+        height: 512,
+        alt: "Verma Caterers Blog & Guides",
+      },
+    ],
   },
 };
 
@@ -57,8 +72,41 @@ export default async function BlogsListingPage() {
 
   const displayBlogs = blogs.length > 0 ? blogs : fallbackBlogs;
 
+  const blogsSchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://vermacaterersevents.com"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Catering Guides & Blog",
+            "item": "https://vermacaterersevents.com/blogs"
+          }
+        ]
+      },
+      {
+        "@type": "CollectionPage",
+        "name": "Catering Guides & Event Planning Blogs",
+        "description": "Expert advice on wedding menu selection, guest food quantity planning, and catering tips across Delhi NCR.",
+        "url": "https://vermacaterersevents.com/blogs"
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogsSchema) }}
+      />
       <Header />
 
       <main className="flex-grow pt-24 pb-16">

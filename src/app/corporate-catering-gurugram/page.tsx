@@ -13,6 +13,21 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://vermacaterersevents.com/corporate-catering-gurugram",
   },
+  openGraph: {
+    title: "Corporate Event & Buffet Catering in Gurugram | Cyber City & DLF",
+    description:
+      "Professional corporate catering in Gurugram Cyber City, Udyog Vihar & Golf Course Extension. Executive lunch boxes, corporate galas & seminar buffets.",
+    url: "https://vermacaterersevents.com/corporate-catering-gurugram",
+    siteName: "Verma Caterers & Events",
+    images: [
+      {
+        url: "/verma-logo-512.png",
+        width: 512,
+        height: 512,
+        alt: "Corporate Catering in Gurugram",
+      },
+    ],
+  },
 };
 
 export default async function CorporateCateringGurugramPage() {
@@ -47,7 +62,7 @@ export default async function CorporateCateringGurugramPage() {
         "@type": "Service",
         "name": "Corporate Catering in Gurugram",
         "provider": {
-          "@type": "LocalBusiness",
+          "@type": ["Caterer", "LocalBusiness"],
           "@id": "https://vermacaterersevents.com/#localbusiness",
           "name": "Verma Caterers & Events",
           "telephone": "+91-9810483544"

@@ -13,6 +13,21 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://vermacaterersevents.com/small-gathering-catering-dwarka",
   },
+  openGraph: {
+    title: "Small Gathering & House Party Catering in Dwarka | 20-100 Guests",
+    description:
+      "Intimate family gathering catering in Dwarka, Delhi. Mini buffets, live snack counters, housewarmings, anniversary parties & get-togethers.",
+    url: "https://vermacaterersevents.com/small-gathering-catering-dwarka",
+    siteName: "Verma Caterers & Events",
+    images: [
+      {
+        url: "/verma-logo-512.png",
+        width: 512,
+        height: 512,
+        alt: "Small Gathering Catering in Dwarka",
+      },
+    ],
+  },
 };
 
 export default async function SmallGatheringCateringDwarkaPage() {
@@ -47,7 +62,7 @@ export default async function SmallGatheringCateringDwarkaPage() {
         "@type": "Service",
         "name": "Small Gathering & House Party Catering in Dwarka",
         "provider": {
-          "@type": "LocalBusiness",
+          "@type": ["Caterer", "LocalBusiness"],
           "@id": "https://vermacaterersevents.com/#localbusiness",
           "name": "Verma Caterers & Events",
           "telephone": "+91-9810483544"

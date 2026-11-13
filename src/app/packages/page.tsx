@@ -7,16 +7,16 @@ import { PackagesPageClient } from "@/components/PackagesPageClient";
 export const revalidate = 0; // Fresh content on each request
 
 export const metadata: Metadata = {
-  title: "Catering Packages & Pricing | Verma Caterers Delhi NCR",
+  title: "Catering Packages & Per Plate Pricing | Verma Caterers Delhi NCR",
   description:
-    "Explore luxury catering packages for weddings, corporate galas, and birthday celebrations in Delhi NCR. Custom menus, live counters & affordable per-plate pricing.",
+    "Explore transparent catering packages for weddings, corporate galas & birthdays across Delhi, Dwarka & Gurugram. Multi-cuisine menus, live counters & custom budget quotes.",
   alternates: {
     canonical: "https://vermacaterersevents.com/packages",
   },
   openGraph: {
-    title: "Catering Packages & Pricing | Verma Caterers Delhi NCR",
+    title: "Catering Packages & Per Plate Pricing | Verma Caterers Delhi NCR",
     description:
-      "Explore luxury catering packages for weddings, corporate galas, and birthday celebrations in Delhi NCR.",
+      "Explore transparent catering packages for weddings, corporate galas & birthdays across Delhi, Dwarka & Gurugram. Multi-cuisine menus, live counters & custom quotes.",
     url: "https://vermacaterersevents.com/packages",
     siteName: "Verma Caterers",
     images: [
@@ -53,8 +53,56 @@ export default async function PackagesPage() {
     discountedPrice: Number(pkg.discountedPrice),
   }));
 
+  const packagesSchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://vermacaterersevents.com"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Catering Packages",
+            "item": "https://vermacaterersevents.com/packages"
+          }
+        ]
+      },
+      {
+        "@type": "ItemList",
+        "name": "Catering Packages & Pricing",
+        "description": "Customizable multi-cuisine catering packages for weddings, corporate dining, and private events in Delhi NCR.",
+        "itemListElement": cleanPackages.map((pkg, idx) => ({
+          "@type": "ListItem",
+          "position": idx + 1,
+          "item": {
+            "@type": "Offer",
+            "name": pkg.name,
+            "description": pkg.description,
+            "price": pkg.discountedPrice || pkg.pricePerPerson,
+            "priceCurrency": "INR",
+            "url": "https://vermacaterersevents.com/packages",
+            "seller": {
+              "@type": "Caterer",
+              "name": "Verma Caterers & Events"
+            }
+          }
+        }))
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans flex flex-col justify-between transition-colors">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(packagesSchema) }}
+      />
       <div>
         <Header />
 

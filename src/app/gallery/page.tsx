@@ -9,16 +9,16 @@ import { Image as ImageIcon, ChevronRight } from "lucide-react";
 export const revalidate = 0; // Fresh content on each request
 
 export const metadata: Metadata = {
-  title: "Event & Food Photo Gallery | Verma Caterers & Events Delhi NCR",
+  title: "Catering & Event Photo Gallery | Verma Caterers Delhi NCR",
   description:
-    "Explore our complete authentic photography gallery showcasing wedding catering, multi-cuisine live food counters, mandap decorations, floral stage styling, and banquet setups across Delhi, Dwarka & Gurugram.",
+    "Explore authentic photography of wedding catering, live food counters, mandap decorations, floral stage setups & corporate events across Delhi, Dwarka & Gurugram.",
   alternates: {
     canonical: "https://vermacaterersevents.com/gallery",
   },
   openGraph: {
-    title: "Event & Food Photo Gallery | Verma Caterers & Events Delhi NCR",
+    title: "Catering & Event Photo Gallery | Verma Caterers Delhi NCR",
     description:
-      "Explore our authentic photography gallery showcasing wedding catering, live food counters, mandap decorations, and banquet setups across Delhi NCR.",
+      "Explore authentic photography of wedding catering, live food counters, mandap decorations, floral stage setups & corporate events across Delhi NCR.",
     url: "https://vermacaterersevents.com/gallery",
     siteName: "Verma Caterers & Events",
     images: [
@@ -32,9 +32,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Event & Food Photo Gallery | Verma Caterers & Events Delhi NCR",
+    title: "Catering & Event Photo Gallery | Verma Caterers Delhi NCR",
     description:
-      "Explore our authentic photography gallery showcasing wedding catering, live food counters, and banquet setups across Delhi NCR.",
+      "Explore authentic photography of wedding catering, live food counters, mandap decorations, and banquet setups across Delhi NCR.",
     images: ["/verma-logo-512.png"],
   },
 };
@@ -56,8 +56,31 @@ export default async function GalleryPage() {
     console.error("Failed to load gallery items for gallery page:", e);
   }
 
+  const gallerySchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://vermacaterersevents.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Photo Gallery",
+        "item": "https://vermacaterersevents.com/gallery"
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen bg-[#F8F7F3] dark:bg-slate-950 text-[#111827] dark:text-slate-100 font-sans flex flex-col justify-between transition-colors">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(gallerySchema) }}
+      />
       <div>
         <Header />
 

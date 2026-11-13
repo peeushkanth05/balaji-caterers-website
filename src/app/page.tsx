@@ -33,6 +33,27 @@ import { ensureDefaultHeroStatistics } from "@/lib/hero-stats";
 export const revalidate = 0; // Fresh content on each request
 
 export default async function HomePage() {
+  let siteFaqs: any[] = [];
+  try {
+    siteFaqs = await prisma.faq.findMany({
+      where: { isActive: true },
+      orderBy: { priority: "asc" },
+      take: 6,
+    });
+  } catch (e) {}
+
+  const faqSchema = siteFaqs.length > 0 ? {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": siteFaqs.map((f: any) => ({
+      "@type": "Question",
+      "name": f.question.trim(),
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": f.answer.trim()
+      }
+    }))
+  } : null;
   // Fetch dynamic content from Prisma DB
   let services: any[] = [];
   let packages: any[] = [];
@@ -272,6 +293,12 @@ export default async function HomePage() {
 
   return (
     <div className="min-h-screen bg-[#F8F7F3] dark:bg-slate-950 text-[#111827] dark:text-slate-100 font-sans transition-colors">
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
       {/* Floating Action Buttons (Desktop Web) */}
       <div className="fixed bottom-6 right-6 z-40 hidden md:flex flex-col gap-3.5 items-center pointer-events-auto">
         <a

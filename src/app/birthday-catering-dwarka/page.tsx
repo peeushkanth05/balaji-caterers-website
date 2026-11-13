@@ -13,6 +13,21 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://vermacaterersevents.com/birthday-catering-dwarka",
   },
+  openGraph: {
+    title: "Birthday Party Catering in Dwarka | Kids & Adult Birthday Menus",
+    description:
+      "Specialized birthday catering services in Dwarka, Delhi. Live counters, finger foods & custom birthday party buffets.",
+    url: "https://vermacaterersevents.com/birthday-catering-dwarka",
+    siteName: "Verma Caterers & Events",
+    images: [
+      {
+        url: "/verma-logo-512.png",
+        width: 512,
+        height: 512,
+        alt: "Birthday Party Catering in Dwarka",
+      },
+    ],
+  },
 };
 
 export default async function BirthdayCateringDwarkaPage() {
@@ -47,7 +62,7 @@ export default async function BirthdayCateringDwarkaPage() {
         "@type": "Service",
         "name": "Birthday Party Catering in Dwarka",
         "provider": {
-          "@type": "LocalBusiness",
+          "@type": ["Caterer", "LocalBusiness"],
           "@id": "https://vermacaterersevents.com/#localbusiness",
           "name": "Verma Caterers & Events",
           "telephone": "+91-9810483544"

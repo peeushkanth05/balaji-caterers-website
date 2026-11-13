@@ -13,6 +13,21 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://vermacaterersevents.com/puja-kirtan-catering-delhi-ncr",
   },
+  openGraph: {
+    title: "Puja & Kirtan Pure Veg Catering in Delhi NCR | Satvik & No Onion-Garlic",
+    description:
+      "Pure vegetarian Satvik catering for Mata Ki Chowki, Sundarkand, Griha Pravesh & Havans in Dwarka, Delhi NCR. No onion-garlic options with authentic prashad & thalis.",
+    url: "https://vermacaterersevents.com/puja-kirtan-catering-delhi-ncr",
+    siteName: "Verma Caterers & Events",
+    images: [
+      {
+        url: "/verma-logo-512.png",
+        width: 512,
+        height: 512,
+        alt: "Puja & Kirtan Satvik Catering Delhi NCR",
+      },
+    ],
+  },
 };
 
 export default async function PujaKirtanCateringDelhiNcrPage() {
@@ -47,7 +62,7 @@ export default async function PujaKirtanCateringDelhiNcrPage() {
         "@type": "Service",
         "name": "Puja & Kirtan Satvik Catering",
         "provider": {
-          "@type": "LocalBusiness",
+          "@type": ["Caterer", "LocalBusiness"],
           "@id": "https://vermacaterersevents.com/#localbusiness",
           "name": "Verma Caterers & Events",
           "telephone": "+91-9810483544"

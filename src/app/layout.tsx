@@ -104,13 +104,44 @@ export default async function RootLayout({
         }
       },
       {
-        "@type": ["LocalBusiness", "FoodEstablishment"],
+        "@type": ["Caterer", "FoodEstablishment", "LocalBusiness"],
         "@id": "https://vermacaterersevents.com/#localbusiness",
         "name": "Verma Caterers & Events",
         "image": "https://vermacaterersevents.com/verma-logo-512.png",
         "url": "https://vermacaterersevents.com",
         "telephone": settings?.phone || "+91-9810483544",
         "priceRange": "₹₹",
+        "servesCuisine": [
+          "North Indian",
+          "South Indian",
+          "Mughlai",
+          "Chinese",
+          "Continental",
+          "Satvik"
+        ],
+        "hasMenu": "https://vermacaterersevents.com/packages",
+        "areaServed": [
+          {
+            "@type": "AdministrativeArea",
+            "name": "Delhi NCR"
+          },
+          {
+            "@type": "City",
+            "name": "Dwarka"
+          },
+          {
+            "@type": "City",
+            "name": "New Delhi"
+          },
+          {
+            "@type": "City",
+            "name": "Gurugram"
+          },
+          {
+            "@type": "City",
+            "name": "Noida"
+          }
+        ],
         "address": {
           "@type": "PostalAddress",
           "streetAddress": settings?.address || "Dwarka Sector 5, Madhu Vihar",

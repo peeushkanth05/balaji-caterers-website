@@ -13,6 +13,21 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://vermacaterersevents.com/wedding-catering-dwarka",
   },
+  openGraph: {
+    title: "Wedding Catering in Dwarka | Best Marriage Caterers & Decor",
+    description:
+      "Verma Caterers provides royal wedding catering in Dwarka Sector 1 to 24, Madhu Vihar, Palam & Delhi NCR. Live counters, authentic buffets & mandap decor.",
+    url: "https://vermacaterersevents.com/wedding-catering-dwarka",
+    siteName: "Verma Caterers & Events",
+    images: [
+      {
+        url: "/verma-logo-512.png",
+        width: 512,
+        height: 512,
+        alt: "Wedding Catering Dwarka",
+      },
+    ],
+  },
 };
 
 export default async function WeddingCateringDwarkaPage() {
@@ -47,7 +62,7 @@ export default async function WeddingCateringDwarkaPage() {
         "@type": "Service",
         "name": "Wedding Catering in Dwarka",
         "provider": {
-          "@type": "LocalBusiness",
+          "@type": ["Caterer", "LocalBusiness"],
           "@id": "https://vermacaterersevents.com/#localbusiness",
           "name": "Verma Caterers & Events",
           "telephone": "+91-9810483544",
@@ -155,6 +170,31 @@ export default async function WeddingCateringDwarkaPage() {
                 <li><strong>Main Course:</strong> Dal Makhani, Paneer Butter Masala, Malai Kofta, Mix Veg, Kashmiri Pulao & Assorted Naans</li>
                 <li><strong>Desserts:</strong> Hot Gulab Jamun, Moong Dal Halwa, Rabri Jalebi & Live Ice Cream Counters</li>
               </ul>
+            </div>
+
+            {/* Cross-Link Explore Packages & Guides */}
+            <div className="p-6 bg-white rounded-3xl border border-slate-200/80 shadow-sm space-y-3">
+              <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">
+                Explore Catering Menus & Regional Guides
+              </h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Planning your wedding across different venues in Delhi NCR? Review our per-plate pricing in our{" "}
+                <Link href="/packages" className="text-amber-800 font-semibold underline hover:text-amber-600">
+                  Catering Packages
+                </Link>
+                , read our expert{" "}
+                <Link href="/blogs/wedding-catering-menu-guide-dwarka" className="text-amber-800 font-semibold underline hover:text-amber-600">
+                  Dwarka Wedding Menu Guide
+                </Link>
+                , or view luxury setups for{" "}
+                <Link href="/wedding-catering-gurugram" className="text-amber-800 font-semibold underline hover:text-amber-600">
+                  Wedding Catering in Gurugram
+                </Link>{" "}
+                and{" "}
+                <Link href="/catering-services-delhi-ncr" className="text-amber-800 font-semibold underline hover:text-amber-600">
+                  Delhi NCR Catering Services
+                </Link>.
+              </p>
             </div>
           </div>
 

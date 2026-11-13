@@ -13,6 +13,21 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://vermacaterersevents.com/catering-services-delhi-ncr",
   },
+  openGraph: {
+    title: "Best Catering Services in Delhi NCR | Verma Caterers & Events",
+    description:
+      "Top rated catering and event management across Delhi, Dwarka, Gurugram, Noida & Faridabad. Pure veg buffet catering, live stalls, floral decor & DJ.",
+    url: "https://vermacaterersevents.com/catering-services-delhi-ncr",
+    siteName: "Verma Caterers & Events",
+    images: [
+      {
+        url: "/verma-logo-512.png",
+        width: 512,
+        height: 512,
+        alt: "Best Catering Services Delhi NCR",
+      },
+    ],
+  },
 };
 
 export default async function CateringServicesDelhiNcrPage() {
@@ -47,7 +62,7 @@ export default async function CateringServicesDelhiNcrPage() {
         "@type": "Service",
         "name": "Catering Services in Delhi NCR",
         "provider": {
-          "@type": "LocalBusiness",
+          "@type": ["Caterer", "LocalBusiness"],
           "@id": "https://vermacaterersevents.com/#localbusiness",
           "name": "Verma Caterers & Events",
           "telephone": "+91-9810483544"
@@ -134,6 +149,31 @@ export default async function CateringServicesDelhiNcrPage() {
                   <span className="text-xs font-semibold text-slate-800">{feat}</span>
                 </div>
               ))}
+            </div>
+
+            {/* Cross-Link Hub */}
+            <div className="p-6 bg-white rounded-3xl border border-slate-200/80 shadow-sm space-y-3">
+              <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">
+                Explore Catering Packages & Specific Locations
+              </h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Looking for specialized regional menus? Check our per-plate estimates in{" "}
+                <Link href="/packages" className="text-amber-800 font-semibold underline hover:text-amber-600">
+                  Catering Packages
+                </Link>
+                , or view localized event solutions for{" "}
+                <Link href="/wedding-catering-dwarka" className="text-amber-800 font-semibold underline hover:text-amber-600">
+                  Wedding Catering in Dwarka
+                </Link>
+                ,{" "}
+                <Link href="/wedding-catering-gurugram" className="text-amber-800 font-semibold underline hover:text-amber-600">
+                  Wedding Catering in Gurugram
+                </Link>
+                , and{" "}
+                <Link href="/puja-kirtan-catering-delhi-ncr" className="text-amber-800 font-semibold underline hover:text-amber-600">
+                  Satvik Puja & Kirtan Catering
+                </Link>.
+              </p>
             </div>
           </div>
 

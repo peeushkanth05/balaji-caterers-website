@@ -13,6 +13,21 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://vermacaterersevents.com/wedding-catering-gurugram",
   },
+  openGraph: {
+    title: "Wedding Catering Services in Gurugram | DLF & Sohna Road Caterers",
+    description:
+      "Verma Caterers offers luxury wedding catering in Gurugram, DLF Phase 1-5, Golf Course Road, Sohna Road & Cyber City. Royal food buffets, live counters & decor.",
+    url: "https://vermacaterersevents.com/wedding-catering-gurugram",
+    siteName: "Verma Caterers & Events",
+    images: [
+      {
+        url: "/verma-logo-512.png",
+        width: 512,
+        height: 512,
+        alt: "Wedding Catering Gurugram",
+      },
+    ],
+  },
 };
 
 export default async function WeddingCateringGurugramPage() {
@@ -47,7 +62,7 @@ export default async function WeddingCateringGurugramPage() {
         "@type": "Service",
         "name": "Wedding Catering in Gurugram",
         "provider": {
-          "@type": "LocalBusiness",
+          "@type": ["Caterer", "LocalBusiness"],
           "@id": "https://vermacaterersevents.com/#localbusiness",
           "name": "Verma Caterers & Events",
           "telephone": "+91-9810483544"
@@ -134,6 +149,31 @@ export default async function WeddingCateringGurugramPage() {
                   <span className="text-xs font-semibold text-slate-800">{feat}</span>
                 </div>
               ))}
+            </div>
+
+            {/* Cross-Link Explore Packages & Locations */}
+            <div className="p-6 bg-white rounded-3xl border border-slate-200/80 shadow-sm space-y-3">
+              <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">
+                Explore Catering Packages & Regional Hubs
+              </h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Review transparent pricing on our{" "}
+                <Link href="/packages" className="text-amber-800 font-semibold underline hover:text-amber-600">
+                  Catering Packages & Pricing
+                </Link>
+                , discover our dedicated services for{" "}
+                <Link href="/corporate-catering-gurugram" className="text-amber-800 font-semibold underline hover:text-amber-600">
+                  Corporate Catering in Gurugram
+                </Link>
+                , or view{" "}
+                <Link href="/wedding-catering-dwarka" className="text-amber-800 font-semibold underline hover:text-amber-600">
+                  Wedding Catering in Dwarka
+                </Link>{" "}
+                and{" "}
+                <Link href="/catering-services-delhi-ncr" className="text-amber-800 font-semibold underline hover:text-amber-600">
+                  Delhi NCR Catering Services
+                </Link>.
+              </p>
             </div>
           </div>
 
