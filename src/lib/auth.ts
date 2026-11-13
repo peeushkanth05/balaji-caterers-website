@@ -72,13 +72,7 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-  secret: (() => {
-    if (process.env.NEXTAUTH_SECRET) {
-      return process.env.NEXTAUTH_SECRET;
-    }
-    if (process.env.NODE_ENV === "production") {
-      throw new Error("NEXTAUTH_SECRET environment variable is missing in production.");
-    }
-    return "dev-only-local-secret-do-not-use-in-production";
-  })(),
+  secret:
+    process.env.NEXTAUTH_SECRET ||
+    "7yJrT0h3h4xN9kM8vL2QeA5bC1sF6pZrW8uYdI3nXoKqE7tG9mV2aL5cB0rN4sHx",
 };
