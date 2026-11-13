@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Send, Loader2, MessageCircle } from "lucide-react";
+import { getLeadAttribution } from "@/lib/attribution";
 
 import { trackContactFormStart, trackContactFormSubmit, trackWhatsAppClick } from "@/lib/gtag";
 
@@ -119,6 +120,8 @@ export function PublicForm({
     setLoading(true);
     setStatusMsg(null);
 
+    const attribution = getLeadAttribution();
+
     const payload = {
       name,
       phone,
@@ -128,6 +131,7 @@ export function PublicForm({
       eventDate,
       guestCount,
       message,
+      ...attribution,
     };
 
     try {

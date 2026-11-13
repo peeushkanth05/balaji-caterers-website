@@ -34,7 +34,17 @@ model Lead {
   message      String?
   status       String    @default("NEW") // "NEW" | "CONTACTED" | "QUOTATION_SENT" | "BOOKED" | "COMPLETED" | "CANCELLED"
   notes        String?
-  assignedTo   String? // User ID
+
+  // Lead Attribution & Marketing Analytics
+  sourcePage   String?   // Origin URL path (e.g., "/wedding-catering-dwarka", "/packages")
+  referrer     String?   // Traffic referrer (e.g., "https://google.com", "direct")
+  utmSource    String?   // e.g. "google", "instagram", "facebook"
+  utmMedium    String?   // e.g. "cpc", "bio", "reels"
+  utmCampaign  String?   // e.g. "dwarka-wedding-season"
+  utmTerm      String?   // Search keywords
+  utmContent   String?   // Ad variation / creative ID
+
+  assignedTo   String?   // User ID
   assignedUser User?     @relation(fields: [assignedTo], references: [id], onDelete: SetNull)
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
@@ -42,6 +52,8 @@ model Lead {
   @@index([status])
   @@index([assignedTo])
   @@index([createdAt])
+  @@index([sourcePage])
+  @@index([utmSource])
 }
 
 model Package {

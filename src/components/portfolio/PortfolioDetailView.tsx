@@ -17,6 +17,7 @@ import {
 import { PortfolioData } from "@/types/portfolio";
 import { PortfolioGalleryLightbox } from "./PortfolioGalleryLightbox";
 import { PortfolioCard } from "./PortfolioCard";
+import { PublicForm } from "@/components/PublicForm";
 
 interface PortfolioDetailViewProps {
   portfolio: PortfolioData;
@@ -153,6 +154,30 @@ export function PortfolioDetailView({
               />
             </div>
           )}
+
+          {/* Priority 3: Case Study Conversion Block */}
+          <div className="bg-[#FCFBF7] dark:bg-slate-900/80 rounded-3xl p-6 sm:p-10 border border-stone-200/80 dark:border-slate-800 shadow-xs space-y-6 mt-8">
+            <div className="max-w-2xl">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-800 dark:text-amber-400 text-xs font-bold uppercase tracking-wider">
+                <Sparkles className="w-3.5 h-3.5" /> Bespoke Event Planning
+              </span>
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-2">
+                Love this setup? Let&apos;s create something similar for your event.
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-2 leading-relaxed">
+                Connect directly with our culinary masters and event designers to customize this exact catering menu, floral décor, and theme for your celebration in Delhi NCR.
+              </p>
+            </div>
+
+            <PublicForm
+              whatsappNumber={whatsappNumber}
+              settings={{
+                formTitle: `Book Experience: ${portfolio.title}`,
+                formDescription: "Share your date and estimated guests to receive our tailored proposal.",
+                submitBtnText: "Book This Experience"
+              }}
+            />
+          </div>
         </div>
 
         {/* Right Sidebar: Booking CTA Card */}

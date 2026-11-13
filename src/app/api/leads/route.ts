@@ -65,14 +65,41 @@ export async function POST(req: Request) {
 
   try {
     const body = await req.json();
-    let { name, phone, email, eventType, serviceNeeded, eventDate, guestCount, message } = body;
+    let {
+      name,
+      phone,
+      email,
+      eventType,
+      serviceNeeded,
+      eventDate,
+      guestCount,
+      message,
+      // Lead attribution & campaign source
+      sourcePage,
+      referrer,
+      utmSource,
+      utmMedium,
+      utmCampaign,
+      utmTerm,
+      utmContent,
+    } = body;
 
     // Trim and sanitize inputs
-    name = (name || "").trim();
-    phone = (phone || "").trim();
-    email = (email || "").trim();
-    eventType = (eventType || "").trim();
-    message = (message || "").trim();
+    name = (name || "").trim().slice(0, 100);
+    phone = (phone || "").trim().slice(0, 20);
+    email = (email || "").trim().slice(0, 120);
+    eventType = (eventType || "").trim().slice(0, 80);
+    serviceNeeded = serviceNeeded ? String(serviceNeeded).trim().slice(0, 120) : null;
+    message = (message || "").trim().slice(0, 1000);
+
+    // Sanitize attribution strings
+    const cleanSourcePage = sourcePage ? String(sourcePage).trim().slice(0, 255) : null;
+    const cleanReferrer = referrer ? String(referrer).trim().slice(0, 255) : null;
+    const cleanUtmSource = utmSource ? String(utmSource).trim().slice(0, 100) : null;
+    const cleanUtmMedium = utmMedium ? String(utmMedium).trim().slice(0, 100) : null;
+    const cleanUtmCampaign = utmCampaign ? String(utmCampaign).trim().slice(0, 100) : null;
+    const cleanUtmTerm = utmTerm ? String(utmTerm).trim().slice(0, 100) : null;
+    const cleanUtmContent = utmContent ? String(utmContent).trim().slice(0, 100) : null;
 
     if (!name || !phone || !eventType) {
       return NextResponse.json(
@@ -108,6 +135,13 @@ export async function POST(req: Request) {
         eventDate: eventDate ? new Date(eventDate) : null,
         guestCount: guestCount ? parseInt(guestCount.toString(), 10) : null,
         message: message || null,
+        sourcePage: cleanSourcePage,
+        referrer: cleanReferrer,
+        utmSource: cleanUtmSource,
+        utmMedium: cleanUtmMedium,
+        utmCampaign: cleanUtmCampaign,
+        utmTerm: cleanUtmTerm,
+        utmContent: cleanUtmContent,
         status: "NEW",
       },
     });

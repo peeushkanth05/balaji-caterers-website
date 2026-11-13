@@ -361,6 +361,15 @@ export default function LeadManagementPage() {
                       <div className="text-xs text-amber-600 font-medium">
                         {lead.service || "General Package"} &bull; {lead.guestCount ? `${lead.guestCount} Guests` : "Guests unspecified"}
                       </div>
+                      {lead.sourcePage && (
+                        <div className="mt-1 inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 text-[10px] font-medium border border-slate-200">
+                          <span>📍</span>
+                          <span className="truncate max-w-[140px]">{lead.sourcePage}</span>
+                          {lead.utmSource && (
+                            <span className="text-amber-600 font-semibold uppercase">({lead.utmSource})</span>
+                          )}
+                        </div>
+                      )}
                     </td>
 
                     <td className="px-6 py-4 text-xs text-slate-600">
@@ -451,6 +460,33 @@ export default function LeadManagementPage() {
             {selectedLead.message && (
               <div className="mb-4 p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900">
                 <strong>Customer Message:</strong> "{selectedLead.message}"
+              </div>
+            )}
+
+            {/* Attribution Details */}
+            {(selectedLead.sourcePage || selectedLead.utmSource || selectedLead.referrer) && (
+              <div className="mb-4 p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-700 space-y-1">
+                <div className="font-bold text-[11px] uppercase tracking-wider text-slate-500 mb-1">
+                  Lead Traffic Attribution
+                </div>
+                {selectedLead.sourcePage && (
+                  <div>
+                    <span className="text-slate-400">Source Page:</span> <strong className="text-slate-800">{selectedLead.sourcePage}</strong>
+                  </div>
+                )}
+                {selectedLead.referrer && (
+                  <div>
+                    <span className="text-slate-400">Referrer:</span> <span className="text-slate-700">{selectedLead.referrer}</span>
+                  </div>
+                )}
+                {selectedLead.utmSource && (
+                  <div>
+                    <span className="text-slate-400">Campaign UTM:</span>{" "}
+                    <span className="font-semibold text-amber-700">
+                      {selectedLead.utmSource} {selectedLead.utmMedium ? `/ ${selectedLead.utmMedium}` : ""} {selectedLead.utmCampaign ? `(${selectedLead.utmCampaign})` : ""}
+                    </span>
+                  </div>
+                )}
               </div>
             )}
 

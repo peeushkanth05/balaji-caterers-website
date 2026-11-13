@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { UtensilsCrossed, Star, CheckCircle2, ChevronRight, Calculator, MessageCircle, Users, Sparkles } from "lucide-react";
 import { trackWhatsAppClick } from "@/lib/gtag";
+import { PublicForm } from "@/components/PublicForm";
 
 interface Package {
   id: string;
@@ -156,13 +157,39 @@ Please send the complete customized menu options.`
                 <span>Get Full Menu on WhatsApp</span>
               </a>
               <a
-                href="/#contact"
-                className="py-3 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs flex items-center justify-center transition-all border border-white/10"
+                href="#packages-enquiry"
+                className="py-3 px-4 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs flex items-center justify-center transition-all shadow-sm active:scale-95"
               >
-                Book Tasting
+                Inquire Below ↓
               </a>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Embedded Package Enquiry Section for Desktop & Direct Submissions */}
+      <div id="packages-enquiry" className="scroll-mt-28 bg-[#FCFBF7] dark:bg-slate-900/60 p-6 sm:p-10 rounded-3xl border border-stone-200/80 dark:border-slate-800 shadow-xs">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-8">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-800 dark:text-amber-400 text-xs font-bold uppercase tracking-wider">
+              <Sparkles className="w-3.5 h-3.5" /> Book Your Custom Menu
+            </span>
+            <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-2">
+              Request Quotation for {activeCalcPkg?.name || "Selected Package"}
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">
+              Estimated for {guests} guests at ₹{activeRate}/plate (Est. Total: ₹{estimatedTotal.toLocaleString("en-IN")}). Submit your event details to receive our chef-crafted menu.
+            </p>
+          </div>
+          <PublicForm
+            whatsappNumber={whatsapp}
+            availableServices={packages.map(p => ({ id: p.id, title: p.name }))}
+            settings={{
+              formTitle: "Instant Catering Enquiry",
+              formDescription: `Submit your details for ${activeCalcPkg?.name || "our catering packages"} (Estimated: ${guests} guests).`,
+              submitBtnText: "Send Enquiry & Lock Price"
+            }}
+          />
         </div>
       </div>
 
