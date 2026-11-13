@@ -63,7 +63,7 @@ export function FloatingSocials() {
   };
 
   return (
-    <div className="fixed left-5 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-3 bg-white/80 backdrop-blur-md p-2.5 rounded-2xl shadow-2xl border border-slate-200/50 hover:bg-white/95 transition-all">
+    <div className="fixed left-3 lg:left-5 bottom-8 z-40 hidden md:flex flex-col gap-2.5 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md p-2 rounded-2xl shadow-xl border border-stone-200/80 dark:border-slate-800 transition-all">
       {links.map((link) => (
         <a
           key={link.id}

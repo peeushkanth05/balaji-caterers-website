@@ -8,15 +8,11 @@ import * as THREE from "three";
 // 3D Fine Dining Cloche (Luxury Serving Dome & Golden Base)
 function GourmetCloche() {
   const groupRef = useRef<THREE.Group>(null);
-  const ringRef = useRef<THREE.Mesh>(null);
 
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
     if (groupRef.current) {
       groupRef.current.rotation.y = t * 0.25;
-    }
-    if (ringRef.current) {
-      ringRef.current.rotation.z = -t * 0.4;
     }
   });
 
@@ -33,25 +29,24 @@ function GourmetCloche() {
         />
       </mesh>
 
-      {/* Polished Marble Center Inset */}
+      {/* Polished Warm Cream Center Inset */}
       <mesh position={[0, -0.58, 0]} receiveShadow>
         <cylinderGeometry args={[2.3, 2.3, 0.04, 64]} />
         <meshStandardMaterial
-          color="#fbfaf6"
-          metalness={0.1}
-          roughness={0.15}
+          color="#fdfbf7"
+          metalness={0.05}
+          roughness={0.3}
         />
       </mesh>
 
       {/* Elegant Dining Cloche Dome */}
       <mesh position={[0, 0.15, 0]} castShadow>
         <sphereGeometry args={[1.85, 48, 28, 0, Math.PI * 2, 0, Math.PI * 0.48]} />
-        <meshPhysicalMaterial
-          color="#faf8f2"
-          metalness={0.65}
-          roughness={0.22}
-          clearcoat={0.6}
-          clearcoatRoughness={0.15}
+        <meshStandardMaterial
+          color="#fefefe"
+          metalness={0.85}
+          roughness={0.15}
+          envMapIntensity={1.5}
         />
       </mesh>
 
@@ -69,31 +64,17 @@ function GourmetCloche() {
       <mesh position={[0, 1.25, 0]} castShadow>
         <sphereGeometry args={[0.22, 32, 32]} />
         <meshStandardMaterial
-          color="#ea580c"
-          metalness={0.85}
-          roughness={0.18}
+          color="#d4af37"
+          metalness={0.9}
+          roughness={0.15}
         />
       </mesh>
       <mesh position={[0, 1.08, 0]}>
-        <cylinderGeometry args={[0.07, 0.12, 0.25, 24]} />
-        <meshStandardMaterial
-          color="#d4af37"
-          metalness={0.9}
-          roughness={0.2}
-        />
-      </mesh>
-
-      {/* Floating Accent Orbit Rings */}
-      <mesh ref={ringRef} position={[0, 0.4, 0]} rotation={[Math.PI / 4, 0, 0]}>
-        <torusGeometry args={[2.8, 0.015, 16, 80]} />
+        <cylinderGeometry args={[0.08, 0.14, 0.25, 24]} />
         <meshStandardMaterial
           color="#f59e0b"
-          emissive="#f59e0b"
-          emissiveIntensity={0.3}
-          metalness={0.8}
-          roughness={0.3}
-          transparent
-          opacity={0.7}
+          metalness={0.9}
+          roughness={0.2}
         />
       </mesh>
 
