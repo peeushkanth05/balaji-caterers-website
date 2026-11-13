@@ -199,13 +199,33 @@ export function Footer() {
               </Link>
             </li>
             <li>
-              <Link href="/catering-services-delhi-ncr" className="hover:text-amber-400 transition-colors">
-                Delhi NCR & Noida Catering
+              <Link href="/wedding-catering-noida" className="hover:text-amber-400 transition-colors">
+                Wedding Catering Noida
+              </Link>
+            </li>
+            <li>
+              <Link href="/wedding-catering-south-delhi" className="hover:text-amber-400 transition-colors">
+                Wedding Catering South Delhi
+              </Link>
+            </li>
+            <li>
+              <Link href="/wedding-catering-west-delhi" className="hover:text-amber-400 transition-colors">
+                Wedding Catering West Delhi
+              </Link>
+            </li>
+            <li>
+              <Link href="/corporate-catering-noida" className="hover:text-amber-400 transition-colors">
+                Corporate Catering Noida
               </Link>
             </li>
             <li>
               <Link href="/corporate-catering-gurugram" className="hover:text-amber-400 transition-colors">
                 Corporate Catering Gurugram
+              </Link>
+            </li>
+            <li>
+              <Link href="/catering-services-delhi-ncr" className="hover:text-amber-400 transition-colors">
+                Delhi NCR & Noida Catering
               </Link>
             </li>
             <li>
