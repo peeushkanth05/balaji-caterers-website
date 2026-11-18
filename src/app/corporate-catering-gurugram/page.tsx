@@ -7,14 +7,14 @@ import { prisma } from "@/lib/prisma";
 import { MapPin, Phone, MessageCircle, CheckCircle2 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Corporate Event & Buffet Catering in Gurugram | Cyber City & DLF",
+  title: "Corporate Catering in Gurugram | Verma Caterers & Events",
   description:
     "Professional corporate catering in Gurugram Cyber City, Udyog Vihar & Golf Course Extension. Executive lunch boxes, corporate galas & seminar buffets.",
   alternates: {
     canonical: "https://vermacaterersevents.com/corporate-catering-gurugram",
   },
   openGraph: {
-    title: "Corporate Event & Buffet Catering in Gurugram | Cyber City & DLF",
+    title: "Corporate Catering in Gurugram | Verma Caterers & Events",
     description:
       "Professional corporate catering in Gurugram Cyber City, Udyog Vihar & Golf Course Extension. Executive lunch boxes, corporate galas & seminar buffets.",
     url: "https://vermacaterersevents.com/corporate-catering-gurugram",

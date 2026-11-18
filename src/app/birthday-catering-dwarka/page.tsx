@@ -7,14 +7,14 @@ import { prisma } from "@/lib/prisma";
 import { MapPin, Phone, MessageCircle, CheckCircle2 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Birthday Party Catering in Dwarka | Kids & Adult Birthday Menus",
+  title: "Birthday Party Catering in Dwarka | Verma Caterers & Events",
   description:
     "Specialized birthday catering services in Dwarka, Delhi. Delicious finger foods, live burger/pizza stalls, pasta counters, mocktails & custom birthday menus.",
   alternates: {
     canonical: "https://vermacaterersevents.com/birthday-catering-dwarka",
   },
   openGraph: {
-    title: "Birthday Party Catering in Dwarka | Kids & Adult Birthday Menus",
+    title: "Birthday Party Catering in Dwarka | Verma Caterers & Events",
     description:
       "Specialized birthday catering services in Dwarka, Delhi. Live counters, finger foods & custom birthday party buffets.",
     url: "https://vermacaterersevents.com/birthday-catering-dwarka",

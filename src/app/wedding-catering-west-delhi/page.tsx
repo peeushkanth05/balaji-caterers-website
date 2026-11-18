@@ -7,16 +7,16 @@ import { prisma } from "@/lib/prisma";
 import { Sparkles, Phone, MessageCircle, CheckCircle2, MapPin } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Wedding Catering in West Delhi | Janakpuri & Rajouri Garden Caterers",
+  title: "Wedding Catering in West Delhi | Verma Caterers & Events",
   description:
-    "Top wedding and marriage caterers across West Delhi, Janakpuri, Rajouri Garden, Punjabi Bagh & Paschim Vihar. Grand royal vegetarian buffets, live stalls & decor.",
+    "Top wedding and marriage caterers across West Delhi, Janakpuri, Rajouri Garden, Punjabi Bagh & Paschim Vihar. Grand royal multi-cuisine buffets, live stalls & decor.",
   alternates: {
     canonical: "https://vermacaterersevents.com/wedding-catering-west-delhi",
   },
   openGraph: {
-    title: "Wedding Catering in West Delhi | Janakpuri & Rajouri Garden Caterers",
+    title: "Wedding Catering in West Delhi | Verma Caterers & Events",
     description:
-      "Top wedding and marriage caterers across West Delhi, Janakpuri, Rajouri Garden, Punjabi Bagh & Paschim Vihar. Grand royal vegetarian buffets, live stalls & decor.",
+      "Top wedding and marriage caterers across West Delhi, Janakpuri, Rajouri Garden, Punjabi Bagh & Paschim Vihar. Grand royal multi-cuisine buffets, live stalls & decor.",
     url: "https://vermacaterersevents.com/wedding-catering-west-delhi",
     siteName: "Verma Caterers & Events",
     images: [

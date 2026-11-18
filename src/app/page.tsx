@@ -667,7 +667,7 @@ export default async function HomePage() {
                           {contactSettings?.sectionTitle || "Get In Touch"}
                         </span>
                         <h2 className="text-3xl font-bold text-slate-900 dark:text-white mt-1">
-                          {contactSettings?.sectionHeading || "Let's Plan Your Dream Event"}
+                          {contactSettings?.sectionHeading || "Plan Your Event With Us"}
                         </h2>
                       </div>
  

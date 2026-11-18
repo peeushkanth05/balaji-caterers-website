@@ -4,6 +4,7 @@ import { useState } from "react";
 import { UtensilsCrossed, Star, CheckCircle2, ChevronRight, Calculator, MessageCircle, Users, Sparkles } from "lucide-react";
 import { trackWhatsAppClick } from "@/lib/gtag";
 import { PublicForm } from "@/components/PublicForm";
+import { BUSINESS_CONFIG } from "@/lib/config";
 
 interface Package {
   id: string;
@@ -249,19 +250,33 @@ Please send the complete customized menu options.`
                           <span className="text-sm text-slate-400 line-through">₹{pkg.pricePerPerson}</span>
                           <span className="text-xs text-slate-500 dark:text-slate-400">/ plate</span>
                         </div>
+                        <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
+                          + GST @ {BUSINESS_CONFIG.gstRate}
+                        </div>
                         <span className="inline-block text-[10px] font-bold px-2 py-0.5 rounded bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800/60">
                           {pkg.discountType === "percentage" ? `${pkg.discountValue}% OFF` : `₹${pkg.discountValue} OFF`}
                         </span>
                       </div>
                     ) : (
-                      <div className="text-3xl font-extrabold text-amber-600 dark:text-amber-500">
-                        ₹{pkg.pricePerPerson} <span className="text-xs font-normal text-slate-500 dark:text-slate-400">/ plate</span>
+                      <div>
+                        <div className="text-3xl font-extrabold text-amber-600 dark:text-amber-500">
+                          ₹{pkg.pricePerPerson} <span className="text-xs font-normal text-slate-500 dark:text-slate-400">/ plate</span>
+                        </div>
+                        <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium mt-0.5">
+                          + GST @ {BUSINESS_CONFIG.gstRate}
+                        </div>
                       </div>
                     )}
                   </div>
 
                   <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mb-6">
                     {pkg.description}
+                  </p>
+                  <p className="text-[11px] font-semibold text-emerald-700 dark:text-emerald-400 mb-4 bg-emerald-50 dark:bg-emerald-950/40 p-2 rounded-lg border border-emerald-200/50 dark:border-emerald-800/50 flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full border border-emerald-600 flex items-center justify-center p-0.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
+                    </span>
+                    Veg-only version available on request
                   </p>
 
                   {/* Features List */}

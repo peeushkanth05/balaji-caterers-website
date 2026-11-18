@@ -7,14 +7,14 @@ import { prisma } from "@/lib/prisma";
 import { Sparkles, Phone, MessageCircle, CheckCircle2, MapPin } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Wedding Catering in Noida & Greater Noida | Royal Marriage Caterers",
+  title: "Wedding Catering in Noida & Greater Noida | Verma Caterers & Events",
   description:
     "Verma Caterers offers luxury wedding catering across Noida Sector 15 to 137, Expressway & Greater Noida. Authentic multi-cuisine royal buffets, live counters & decor.",
   alternates: {
     canonical: "https://vermacaterersevents.com/wedding-catering-noida",
   },
   openGraph: {
-    title: "Wedding Catering in Noida & Greater Noida | Royal Marriage Caterers",
+    title: "Wedding Catering in Noida & Greater Noida | Verma Caterers & Events",
     description:
       "Verma Caterers offers luxury wedding catering across Noida Sector 15 to 137, Expressway & Greater Noida. Authentic multi-cuisine royal buffets, live counters & decor.",
     url: "https://vermacaterersevents.com/wedding-catering-noida",
@@ -108,7 +108,7 @@ export default async function WeddingCateringNoidaPage() {
               <MapPin className="w-3.5 h-3.5" /> Noida & Greater Noida
             </span>
             <h1 className="text-3xl sm:text-5xl font-bold leading-tight">
-              Royal Wedding Catering Services in Noida
+              Wedding Catering in Noida & Greater Noida
             </h1>
             <p className="text-slate-300 text-sm sm:text-base max-w-3xl leading-relaxed">
               Crafting unforgettable wedding dining experiences across Noida banquets, farmhouses, and luxury societies. From authentic North & South Indian multi-course feasts to live interactive culinary stalls, we ensure complete hospitality and hygiene excellence.

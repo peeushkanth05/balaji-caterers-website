@@ -7,16 +7,16 @@ import { prisma } from "@/lib/prisma";
 import { MapPin, Phone, MessageCircle, CheckCircle2 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Best Catering Services in Delhi NCR | Verma Caterers & Events",
+  title: "Catering Services in Delhi NCR | Verma Caterers & Events",
   description:
-    "Top rated catering and event management across Delhi, Dwarka, Gurugram, Noida & Faridabad. Pure veg buffet catering, live stalls, floral decor & DJ.",
+    "Catering and event management across Dwarka, West Delhi, South Delhi, Gurugram, Noida & Greater Noida (Delhi NCR). Veg and non-veg menus, with pure-veg, Jain and satvik options on request.",
   alternates: {
     canonical: "https://vermacaterersevents.com/catering-services-delhi-ncr",
   },
   openGraph: {
-    title: "Best Catering Services in Delhi NCR | Verma Caterers & Events",
+    title: "Catering Services in Delhi NCR | Verma Caterers & Events",
     description:
-      "Top rated catering and event management across Delhi, Dwarka, Gurugram, Noida & Faridabad. Pure veg buffet catering, live stalls, floral decor & DJ.",
+      "Catering and event management across Dwarka, West Delhi, South Delhi, Gurugram, Noida & Greater Noida (Delhi NCR). Veg and non-veg menus, with pure-veg, Jain and satvik options on request.",
     url: "https://vermacaterersevents.com/catering-services-delhi-ncr",
     siteName: "Verma Caterers & Events",
     images: [

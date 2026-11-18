@@ -7,14 +7,14 @@ import { prisma } from "@/lib/prisma";
 import { MapPin, Phone, MessageCircle, CheckCircle2 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Wedding Catering Services in Gurugram | DLF & Sohna Road Caterers",
+  title: "Wedding Catering in Gurugram | Verma Caterers & Events",
   description:
     "Verma Caterers offers luxury wedding catering in Gurugram, DLF Phase 1-5, Golf Course Road, Sohna Road & Cyber City. Royal food buffets, live counters & decor.",
   alternates: {
     canonical: "https://vermacaterersevents.com/wedding-catering-gurugram",
   },
   openGraph: {
-    title: "Wedding Catering Services in Gurugram | DLF & Sohna Road Caterers",
+    title: "Wedding Catering in Gurugram | Verma Caterers & Events",
     description:
       "Verma Caterers offers luxury wedding catering in Gurugram, DLF Phase 1-5, Golf Course Road, Sohna Road & Cyber City. Royal food buffets, live counters & decor.",
     url: "https://vermacaterersevents.com/wedding-catering-gurugram",
