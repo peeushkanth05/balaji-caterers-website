@@ -4,6 +4,7 @@ import { useState } from "react";
 import { UtensilsCrossed, Star, CheckCircle2, ChevronRight, Calculator, MessageCircle, Users, Sparkles } from "lucide-react";
 import { trackWhatsAppClick } from "@/lib/gtag";
 import { PublicForm } from "@/components/PublicForm";
+import { BUSINESS_CONFIG } from "@/lib/config";
 
 interface Package {
   id: string;
@@ -73,8 +74,7 @@ Please send the complete customized menu options.`
               Select your expected guest count and choose a menu tier to view estimated investment including live food counters, buffet setup, and hospitality service staff.
             </p>
 
-            {/* Guest Slider */}
-            <div className="space-y-2 pt-2">
+            <div className="space-y-3 pt-2">
               <div className="flex items-center justify-between text-xs font-bold">
                 <span className="text-slate-300 flex items-center gap-1.5">
                   <Users className="w-3.5 h-3.5 text-amber-400" /> Expected Guests:
@@ -83,6 +83,25 @@ Please send the complete customized menu options.`
                   {guests} Guests
                 </span>
               </div>
+
+              {/* Quick Guest Selector Buttons */}
+              <div className="flex flex-wrap gap-1.5">
+                {[50, 100, 150, 200, 300, 500, 1000, 1500].map((num) => (
+                  <button
+                    key={num}
+                    type="button"
+                    onClick={() => setGuests(num)}
+                    className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all border ${
+                      guests === num
+                        ? "bg-amber-500 text-slate-950 border-amber-400 shadow-sm"
+                        : "bg-slate-850/80 text-slate-300 border-slate-700/80 hover:border-slate-500"
+                    }`}
+                  >
+                    {num}{num === 1500 ? "+" : ""}
+                  </button>
+                ))}
+              </div>
+
               <input
                 type="range"
                 min="50"
@@ -93,11 +112,6 @@ Please send the complete customized menu options.`
                 aria-label="Expected guest count slider"
                 className="w-full h-2.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500"
               />
-              <div className="flex justify-between text-[10px] text-slate-400">
-                <span>50 Guests (Intimate)</span>
-                <span>500 (Grand Banquet)</span>
-                <span>1500+ (Royal Gala)</span>
-              </div>
             </div>
 
             {/* Package selector */}
@@ -138,7 +152,7 @@ Please send the complete customized menu options.`
               <span className="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-2 py-0.5 rounded font-bold">
                 ₹{activeRate}/plate
               </span>
-              <span>&bull; for {guests} guests</span>
+              <span>&bull; for {guests} guests (+ GST @ {BUSINESS_CONFIG.gstRate})</span>
             </div>
 
             <p className="text-[11px] text-slate-400 leading-normal">
@@ -249,19 +263,33 @@ Please send the complete customized menu options.`
                           <span className="text-sm text-slate-400 line-through">₹{pkg.pricePerPerson}</span>
                           <span className="text-xs text-slate-500 dark:text-slate-400">/ plate</span>
                         </div>
+                        <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
+                          + GST @ {BUSINESS_CONFIG.gstRate}
+                        </div>
                         <span className="inline-block text-[10px] font-bold px-2 py-0.5 rounded bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800/60">
                           {pkg.discountType === "percentage" ? `${pkg.discountValue}% OFF` : `₹${pkg.discountValue} OFF`}
                         </span>
                       </div>
                     ) : (
-                      <div className="text-3xl font-extrabold text-amber-600 dark:text-amber-500">
-                        ₹{pkg.pricePerPerson} <span className="text-xs font-normal text-slate-500 dark:text-slate-400">/ plate</span>
+                      <div>
+                        <div className="text-3xl font-extrabold text-amber-600 dark:text-amber-500">
+                          ₹{pkg.pricePerPerson} <span className="text-xs font-normal text-slate-500 dark:text-slate-400">/ plate</span>
+                        </div>
+                        <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium mt-0.5">
+                          + GST @ {BUSINESS_CONFIG.gstRate}
+                        </div>
                       </div>
                     )}
                   </div>
 
                   <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mb-6">
                     {pkg.description}
+                  </p>
+                  <p className="text-[11px] font-semibold text-emerald-700 dark:text-emerald-400 mb-4 bg-emerald-50 dark:bg-emerald-950/40 p-2 rounded-lg border border-emerald-200/50 dark:border-emerald-800/50 flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full border border-emerald-600 flex items-center justify-center p-0.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
+                    </span>
+                    Veg-only version available on request
                   </p>
 
                   {/* Features List */}

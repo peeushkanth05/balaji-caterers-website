@@ -7,14 +7,14 @@ import { prisma } from "@/lib/prisma";
 import { Briefcase, Phone, MessageCircle, CheckCircle2, MapPin } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Corporate Catering in Noida & Expressway | Office Lunches & Galas",
+  title: "Corporate Catering in Noida & Greater Noida | Verma Caterers & Events",
   description:
     "Professional corporate catering services across Noida Sector 62, 125, 135 & Expressway. Executive buffets, conference lunches, high-tea & annual corporate meets.",
   alternates: {
     canonical: "https://vermacaterersevents.com/corporate-catering-noida",
   },
   openGraph: {
-    title: "Corporate Catering in Noida & Expressway | Office Lunches & Galas",
+    title: "Corporate Catering in Noida & Greater Noida | Verma Caterers & Events",
     description:
       "Professional corporate catering services across Noida Sector 62, 125, 135 & Expressway. Executive buffets, conference lunches, high-tea & corporate galas.",
     url: "https://vermacaterersevents.com/corporate-catering-noida",

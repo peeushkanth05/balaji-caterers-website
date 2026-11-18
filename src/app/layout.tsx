@@ -31,6 +31,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://vermacaterersevents.com",
   },
+  verification: {
+    google: "{{OWNER: GSC verification code}}",
+  },
   icons: {
     icon: [
       { url: "/favicon.ico" },
@@ -182,7 +185,7 @@ export default async function RootLayout({
   };
 
   return (
-    <html lang="en" className={`${roboto.variable} ${roboto.className}`} suppressHydrationWarning>
+    <html lang="en-IN" className={`${roboto.variable} ${roboto.className}`} suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
@@ -206,7 +209,7 @@ export default async function RootLayout({
           }}
         />
       </head>
-      <body className="font-sans antialiased min-h-screen bg-[#F8F7F3] text-[#111827] dark:bg-slate-950 dark:text-slate-100 transition-colors overflow-x-hidden">
+      <body className="font-sans antialiased min-h-screen bg-[#F8F7F3] text-[#111827] dark:bg-slate-950 dark:text-slate-100 transition-colors overflow-x-hidden pb-16 sm:pb-0">
         <GoogleAnalytics gaId={settings?.googleAnalyticsId} />
         <Providers>
           {children}

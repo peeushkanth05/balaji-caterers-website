@@ -14,6 +14,14 @@ export function CategoryFilterBar({
   activeCategory,
   onSelectCategory,
 }: CategoryFilterBarProps) {
+  // Generic filter logic: hide any category that has 0 items (if count is provided)
+  const validCategories = categories.filter((c) => {
+    if (c._count && c._count.portfolios !== undefined) {
+      return c._count.portfolios > 0;
+    }
+    return true;
+  });
+
   const allCategories: PortfolioCategoryData[] = [
     {
       id: "all",
@@ -24,7 +32,7 @@ export function CategoryFilterBar({
       active: true,
       _count: undefined,
     },
-    ...categories,
+    ...validCategories,
   ];
 
   return (

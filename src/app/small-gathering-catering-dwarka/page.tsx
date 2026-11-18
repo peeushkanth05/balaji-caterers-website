@@ -7,14 +7,14 @@ import { prisma } from "@/lib/prisma";
 import { MapPin, Phone, MessageCircle, CheckCircle2 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Small Gathering & House Party Catering in Dwarka | 20-100 Guests",
+  title: "Small Gathering Catering in Dwarka | Verma Caterers & Events",
   description:
     "Intimate family gathering catering in Dwarka, Delhi. Mini buffets, live snack counters, housewarmings, anniversary parties & get-togethers.",
   alternates: {
     canonical: "https://vermacaterersevents.com/small-gathering-catering-dwarka",
   },
   openGraph: {
-    title: "Small Gathering & House Party Catering in Dwarka | 20-100 Guests",
+    title: "Small Gathering Catering in Dwarka | Verma Caterers & Events",
     description:
       "Intimate family gathering catering in Dwarka, Delhi. Mini buffets, live snack counters, housewarmings, anniversary parties & get-togethers.",
     url: "https://vermacaterersevents.com/small-gathering-catering-dwarka",

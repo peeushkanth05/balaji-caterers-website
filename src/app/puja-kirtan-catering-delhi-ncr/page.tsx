@@ -7,16 +7,16 @@ import { prisma } from "@/lib/prisma";
 import { MapPin, Phone, MessageCircle, CheckCircle2 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Puja & Kirtan Pure Veg Catering in Delhi NCR | Satvik & No Onion-Garlic",
+  title: "Puja & Kirtan Catering in Delhi NCR | Verma Caterers & Events",
   description:
-    "Pure vegetarian Satvik catering for Mata Ki Chowki, Sundarkand, Griha Pravesh & Havans in Dwarka, Delhi NCR. No onion-garlic options with authentic prashad & thalis.",
+    "Pure-veg and satvik catering for Mata Ki Chowki, Sundarkand, Griha Pravesh & Havans in Dwarka, Delhi NCR. No onion-garlic options with authentic prashad & thalis.",
   alternates: {
     canonical: "https://vermacaterersevents.com/puja-kirtan-catering-delhi-ncr",
   },
   openGraph: {
-    title: "Puja & Kirtan Pure Veg Catering in Delhi NCR | Satvik & No Onion-Garlic",
+    title: "Puja & Kirtan Catering in Delhi NCR | Verma Caterers & Events",
     description:
-      "Pure vegetarian Satvik catering for Mata Ki Chowki, Sundarkand, Griha Pravesh & Havans in Dwarka, Delhi NCR. No onion-garlic options with authentic prashad & thalis.",
+      "Pure-veg and satvik catering for Mata Ki Chowki, Sundarkand, Griha Pravesh & Havans in Dwarka, Delhi NCR. No onion-garlic options with authentic prashad & thalis.",
     url: "https://vermacaterersevents.com/puja-kirtan-catering-delhi-ncr",
     siteName: "Verma Caterers & Events",
     images: [

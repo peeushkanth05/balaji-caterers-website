@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -63,7 +63,7 @@ export default function PrivacyPolicyPage() {
                 <li>Phone Number / WhatsApp Number</li>
                 <li>Email Address</li>
                 <li>Event Type, Tentative Date, Venue Location, and Expected Guest Count</li>
-                <li>Dietary preferences (e.g. Pure Vegetarian, Satvik, Jain, Multi-Cuisine)</li>
+                <li>Dietary preferences (e.g. Vegetarian, Non-Vegetarian, Satvik, Jain, Multi-Cuisine)</li>
               </ul>
 
               <h2 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white pt-4">
@@ -107,7 +107,7 @@ export default function PrivacyPolicyPage() {
                 </p>
                 <p className="flex items-center gap-2 text-slate-600 dark:text-slate-300">
                   <Mail className="w-4 h-4 text-amber-500 shrink-0" />
-                  <a href="mailto:vermasandeep124@gmail.com" className="hover:text-amber-700 font-semibold">vermasandeep124@gmail.com</a>
+                  <a href="mailto:bookings@vermacaterersevents.com" className="hover:text-amber-700 font-semibold">bookings@vermacaterersevents.com</a>
                 </p>
               </div>
             </div>

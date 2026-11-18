@@ -7,14 +7,14 @@ import { prisma } from "@/lib/prisma";
 import { Sparkles, Phone, MessageCircle, CheckCircle2, MapPin } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Wedding Catering in South Delhi | Chattarpur Farmhouse Caterers",
+  title: "Wedding Catering in South Delhi | Verma Caterers & Events",
   description:
     "Luxury wedding catering across South Delhi, Chattarpur farmhouses, Vasant Kunj, Saket & Greater Kailash. Bespoke royal buffets, gourmet live counters & mandap decor.",
   alternates: {
     canonical: "https://vermacaterersevents.com/wedding-catering-south-delhi",
   },
   openGraph: {
-    title: "Wedding Catering in South Delhi | Chattarpur Farmhouse Caterers",
+    title: "Wedding Catering in South Delhi | Verma Caterers & Events",
     description:
       "Luxury wedding catering across South Delhi, Chattarpur farmhouses, Vasant Kunj, Saket & Greater Kailash. Bespoke royal buffets, gourmet live counters & mandap decor.",
     url: "https://vermacaterersevents.com/wedding-catering-south-delhi",
