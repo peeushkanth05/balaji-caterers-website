@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { BUSINESS_CONFIG } from "@/lib/config";
 
 export interface DefaultHeroStatistic {
   icon: string;
@@ -9,10 +10,9 @@ export interface DefaultHeroStatistic {
 }
 
 export const DEFAULT_HERO_STATISTICS: DefaultHeroStatistic[] = [
-  { icon: "🏆", number: "500+", title: "Events Managed", sortOrder: 1, isEnabled: true },
-  { icon: "⭐", number: "15+", title: "Years Experience", sortOrder: 2, isEnabled: true },
-  { icon: "💗", number: "1000+", title: "Happy Families", sortOrder: 3, isEnabled: true },
-  { icon: "💯", number: "100%", title: "Satisfaction", sortOrder: 4, isEnabled: true },
+  { icon: "🏆", number: BUSINESS_CONFIG.experienceStats[1].value, title: BUSINESS_CONFIG.experienceStats[1].label, sortOrder: 1, isEnabled: true },
+  { icon: "⭐", number: BUSINESS_CONFIG.experienceStats[0].value, title: BUSINESS_CONFIG.experienceStats[0].label, sortOrder: 2, isEnabled: true },
+  { icon: "💗", number: BUSINESS_CONFIG.experienceStats[2].value, title: BUSINESS_CONFIG.experienceStats[2].label, sortOrder: 3, isEnabled: true },
 ];
 
 /**

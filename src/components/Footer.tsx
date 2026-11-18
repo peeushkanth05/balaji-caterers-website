@@ -25,12 +25,12 @@ import {
 
 const DEFAULT_FOOTER = {
   aboutText:
-    "Verma Caterers offers premium wedding, corporate, and private party catering with pure vegetarian multi-cuisine menus, live food stations, floral decor, sound systems, and end-to-end event production across Delhi, Dwarka, Gurugram, and Noida.",
-  locationText: "Dwarka Sector 5, Madhu Vihar, New Delhi - 110059",
+    "Verma Caterers & Events offers premium wedding, corporate, and private party catering with veg and non-veg menus, with pure-veg, Jain and satvik options on request. Serving Dwarka, West Delhi, South Delhi, Gurugram, Noida & Greater Noida (Delhi NCR).",
+  locationText: "Dwarka Sector 5, Madhu Vihar, New Delhi 110059",
   mapsUrl: "https://maps.google.com/?q=Verma+Caterers+Dwarka+Sector+5",
   phone: "+91 98104 83544",
-  email: "vermasandeep124@gmail.com",
-  copyrightText: "© 2026 Verma Caterers & Events. All rights reserved.",
+  email: "bookings@vermacaterersevents.com",
+  copyrightText: `© ${new Date().getFullYear()} Verma Caterers & Events. All rights reserved.`,
   privacyPolicy: "We respect your privacy and are committed to protecting your personal data.",
   termsOfService: "Terms and conditions apply to all catering bookings and event contracts.",
   refundPolicy: "Refunds are processed according to our cancellation and booking timeline.",

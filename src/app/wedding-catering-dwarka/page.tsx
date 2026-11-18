@@ -7,14 +7,14 @@ import { prisma } from "@/lib/prisma";
 import { Sparkles, Phone, MessageCircle, CheckCircle2, MapPin, Star } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Wedding Catering in Dwarka | Best Marriage Caterers & Decor",
+  title: "Wedding Catering in Dwarka | Verma Caterers & Events",
   description:
     "Verma Caterers provides royal wedding catering in Dwarka Sector 1 to 24, Madhu Vihar, Palam & Delhi NCR. Live counters, authentic North/South Indian buffets & mandap decor.",
   alternates: {
     canonical: "https://vermacaterersevents.com/wedding-catering-dwarka",
   },
   openGraph: {
-    title: "Wedding Catering in Dwarka | Best Marriage Caterers & Decor",
+    title: "Wedding Catering in Dwarka | Verma Caterers & Events",
     description:
       "Verma Caterers provides royal wedding catering in Dwarka Sector 1 to 24, Madhu Vihar, Palam & Delhi NCR. Live counters, authentic buffets & mandap decor.",
     url: "https://vermacaterersevents.com/wedding-catering-dwarka",
