@@ -59,6 +59,27 @@ export default async function WeddingCateringDwarkaPage() {
         ]
       },
       {
+        "@type": "FoodEstablishment",
+        "@id": "https://vermacaterersevents.com/#business",
+        "name": "Verma Caterers & Events",
+        "url": "https://vermacaterersevents.com/",
+        "logo": "https://vermacaterersevents.com/verma-logo-512.png",
+        "image": "https://vermacaterersevents.com/verma-logo-512.png",
+        "telephone": "+91-9810483544",
+        "email": "bookings@vermacaterersevents.com",
+        "priceRange": "₹₹",
+        "servesCuisine": ["North Indian", "Continental", "Chinese", "Street Food", "Desserts"],
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Madhu Vihar, Dwarka Sector 5",
+          "addressLocality": "New Delhi",
+          "postalCode": "110059",
+          "addressRegion": "Delhi",
+          "addressCountry": "IN"
+        },
+        "areaServed": ["Dwarka", "West Delhi", "South Delhi", "Gurugram", "Noida", "Greater Noida"]
+      },
+      {
         "@type": "Service",
         "name": "Wedding Catering in Dwarka",
         "provider": {
