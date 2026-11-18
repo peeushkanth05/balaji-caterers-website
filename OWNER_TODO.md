@@ -39,9 +39,9 @@
   - *Target file:* `src/data/testimonials.ts`
   - *Required fields:* First name + initial (e.g., "Rohit S."), event type ("Wedding Reception"), locality ("Dwarka Sector 10"), month/year ("Nov 2026"), short quote.
   - *Status:* Currently an empty array; the testimonials section is safely hidden until you add real reviews.
-- [ ] **Google Business Profile (GBP):** Send the verified URL of your Google Maps listing (e.g. `https://g.page/r/...` or `https://maps.app.goo.gl/...`).
-  - *Referenced in:* `src/lib/config.ts` (`googleBusinessProfileUrl`)
-  - *Current value:* `{{OWNER: Google Business Profile URL}}`
+- [x] **Google Business Profile (GBP):** Connected!
+  - *URL:* `https://g.page/r/CYDtkWSK2D7TEBI/review`
+  - *Status:* Activated in `src/lib/config.ts` and now live.
 
 ---
 
