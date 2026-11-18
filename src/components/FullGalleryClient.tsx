@@ -34,6 +34,7 @@ export function FullGalleryClient({
 }: FullGalleryClientProps) {
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [visibleCount, setVisibleCount] = useState<number>(24);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   // Extract unique categories
@@ -165,45 +166,59 @@ export function FullGalleryClient({
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-          {filteredItems.map((item, index) => (
-            <div
-              key={item.id}
-              onClick={() => setLightboxIndex(index)}
-              className="group relative aspect-[4/3] bg-slate-100 dark:bg-slate-900 rounded-2xl sm:rounded-3xl overflow-hidden border border-slate-200/80 dark:border-slate-800 shadow-sm cursor-pointer hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
-            >
-              <img
-                src={getWebpUrl(item.imageUrl)}
-                alt={item.title}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                loading="lazy"
-              />
+        <div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+            {filteredItems.slice(0, visibleCount).map((item, index) => (
+              <div
+                key={item.id}
+                onClick={() => setLightboxIndex(index)}
+                className="group relative aspect-[4/3] bg-slate-100 dark:bg-slate-900 rounded-2xl sm:rounded-3xl overflow-hidden border border-slate-200/80 dark:border-slate-800 shadow-sm cursor-pointer hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
+              >
+                <img
+                  src={getWebpUrl(item.imageUrl)}
+                  alt={item.title === "Uploaded Photo" ? `${item.category || "Event"} celebration setup by Verma Caterers & Events` : item.title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
+                  decoding="async"
+                />
 
-              {/* Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent opacity-75 group-hover:opacity-90 transition-opacity" />
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent opacity-75 group-hover:opacity-90 transition-opacity" />
 
-              {/* Content overlay */}
-              <div className="absolute inset-0 flex flex-col justify-between p-4 sm:p-5 text-white">
-                <button
-                  aria-label={`View enlarged photo of ${item.title}`}
-                  className="self-end p-2 rounded-full bg-white/20 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all hover:bg-white/30 hover:scale-110 active:scale-95"
-                >
-                  <ZoomIn className="w-4 h-4 text-white" />
-                </button>
+                {/* Content overlay */}
+                <div className="absolute inset-0 flex flex-col justify-between p-4 sm:p-5 text-white">
+                  <button
+                    aria-label={`View enlarged photo of ${item.title}`}
+                    className="self-end p-2 rounded-full bg-white/20 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all hover:bg-white/30 hover:scale-110 active:scale-95"
+                  >
+                    <ZoomIn className="w-4 h-4 text-white" />
+                  </button>
 
-                <div className="space-y-1">
-                  {item.category && (
-                    <span className="text-[9px] font-bold tracking-wider uppercase bg-amber-500 text-white px-2 py-0.5 rounded-full inline-block shadow-sm">
-                      {item.category}
-                    </span>
-                  )}
-                  <h3 className="font-bold text-xs sm:text-sm truncate drop-shadow-sm">
-                    {item.title}
-                  </h3>
+                  <div className="space-y-1">
+                    {item.category && (
+                      <span className="text-[9px] font-bold tracking-wider uppercase bg-amber-500 text-white px-2 py-0.5 rounded-full inline-block shadow-sm">
+                        {item.category}
+                      </span>
+                    )}
+                    <h3 className="font-bold text-xs sm:text-sm truncate drop-shadow-sm">
+                      {item.title === "Uploaded Photo" ? `${item.category || "Event"} Celebration` : item.title}
+                    </h3>
+                  </div>
                 </div>
               </div>
+            ))}
+          </div>
+
+          {filteredItems.length > visibleCount && (
+            <div className="text-center pt-6">
+              <button
+                onClick={() => setVisibleCount((prev) => prev + 24)}
+                className="py-3 px-8 rounded-full bg-slate-900 dark:bg-slate-850 hover:bg-amber-500 text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-md"
+              >
+                Load More Photographs ({filteredItems.length - visibleCount} remaining)
+              </button>
             </div>
-          ))}
+          )}
         </div>
       )}
 
