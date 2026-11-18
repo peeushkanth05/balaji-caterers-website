@@ -28,7 +28,7 @@ export const BUSINESS_CONFIG = {
   // Owner provided verification placeholders (empty or placeholder values are not rendered)
   fssaiNumber: "{{OWNER: FSSAI licence number}}",
   gstin: "{{OWNER: GSTIN or remove}}",
-  googleBusinessProfileUrl: "{{OWNER: Google Business Profile URL}}",
+  googleBusinessProfileUrl: "https://g.page/r/CYDtkWSK2D7TEBI/review",
   socialLinks: {
     instagram: "{{OWNER: Instagram URL}}",
     facebook: "{{OWNER: Facebook URL}}",
