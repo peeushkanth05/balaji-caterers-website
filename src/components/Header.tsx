@@ -104,9 +104,11 @@ function getServiceHref(title: string): string {
   if (lower.includes("puja") || lower.includes("kirtan")) return "/puja-kirtan-catering-delhi-ncr";
   if (lower.includes("small gathering")) return "/small-gathering-catering-dwarka";
   if (lower.includes("corporate")) return "/corporate-catering-gurugram";
+  if (lower.includes("floral") || lower.includes("decor")) return "/services/floral-decoration";
+  if (lower.includes("sound") || lower.includes("dj") || lower.includes("lighting")) return "/services/sound-dj-lighting";
+  if (lower.includes("cooler") || lower.includes("mattress") || lower.includes("anchor") || lower.includes("add-on") || lower.includes("rental")) return "/services/add-ons";
   if (lower.includes("cater")) return "/catering-services-delhi-ncr";
-  if (lower.includes("floral") || lower.includes("decor") || lower.includes("sound") || lower.includes("dj")) return "/gallery";
-  return "/#services";
+  return "/services";
 }
 
 const DEFAULT_ACTIONS: HeaderAction[] = [

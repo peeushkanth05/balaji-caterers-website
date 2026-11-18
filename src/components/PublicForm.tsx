@@ -18,11 +18,11 @@ const DEFAULT_FIELDS = [
 ];
 
 export function PublicForm({
-  whatsappNumber,
+  whatsappNumber = "919810483544",
   availableServices = [],
   settings,
 }: {
-  whatsappNumber: string;
+  whatsappNumber?: string;
   availableServices?: any[];
   settings?: any;
 }) {
