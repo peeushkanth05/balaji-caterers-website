@@ -74,8 +74,7 @@ Please send the complete customized menu options.`
               Select your expected guest count and choose a menu tier to view estimated investment including live food counters, buffet setup, and hospitality service staff.
             </p>
 
-            {/* Guest Slider */}
-            <div className="space-y-2 pt-2">
+            <div className="space-y-3 pt-2">
               <div className="flex items-center justify-between text-xs font-bold">
                 <span className="text-slate-300 flex items-center gap-1.5">
                   <Users className="w-3.5 h-3.5 text-amber-400" /> Expected Guests:
@@ -84,6 +83,25 @@ Please send the complete customized menu options.`
                   {guests} Guests
                 </span>
               </div>
+
+              {/* Quick Guest Selector Buttons */}
+              <div className="flex flex-wrap gap-1.5">
+                {[50, 100, 150, 200, 300, 500, 1000, 1500].map((num) => (
+                  <button
+                    key={num}
+                    type="button"
+                    onClick={() => setGuests(num)}
+                    className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all border ${
+                      guests === num
+                        ? "bg-amber-500 text-slate-950 border-amber-400 shadow-sm"
+                        : "bg-slate-850/80 text-slate-300 border-slate-700/80 hover:border-slate-500"
+                    }`}
+                  >
+                    {num}{num === 1500 ? "+" : ""}
+                  </button>
+                ))}
+              </div>
+
               <input
                 type="range"
                 min="50"
@@ -94,11 +112,6 @@ Please send the complete customized menu options.`
                 aria-label="Expected guest count slider"
                 className="w-full h-2.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500"
               />
-              <div className="flex justify-between text-[10px] text-slate-400">
-                <span>50 Guests (Intimate)</span>
-                <span>500 (Grand Banquet)</span>
-                <span>1500+ (Royal Gala)</span>
-              </div>
             </div>
 
             {/* Package selector */}
@@ -139,7 +152,7 @@ Please send the complete customized menu options.`
               <span className="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-2 py-0.5 rounded font-bold">
                 ₹{activeRate}/plate
               </span>
-              <span>&bull; for {guests} guests</span>
+              <span>&bull; for {guests} guests (+ GST @ {BUSINESS_CONFIG.gstRate})</span>
             </div>
 
             <p className="text-[11px] text-slate-400 leading-normal">
