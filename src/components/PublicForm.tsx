@@ -115,8 +115,27 @@ export function PublicForm({
     }
   };
 
+  // Honeypot anti-spam field
+  const [honey, setHoney] = useState("");
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (honey) {
+      // Silently discard spam bots filling the honeypot
+      return;
+    }
+
+    // Indian phone number validation: 10 digits, optional +91 prefix
+    const cleanPhoneDigits = phone.replace(/[^0-9]/g, "");
+    const isValidPhone = cleanPhoneDigits.length === 10 || (cleanPhoneDigits.length === 12 && cleanPhoneDigits.startsWith("91"));
+    if (!isValidPhone) {
+      setStatusMsg({
+        type: "error",
+        text: "Please enter a valid 10-digit Indian mobile number.",
+      });
+      return;
+    }
+
     setLoading(true);
     setStatusMsg(null);
 
@@ -240,7 +259,7 @@ ${message ? "*Details:* " + message : ""}`.trim();
             return (
               <div key={field.id} className={isWide ? "sm:col-span-2" : ""}>
                 <label htmlFor={`form-field-${field.id}`} className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
-                  {field.label} {field.required && "*"}
+                  {field.label.replace(/\s*\*\s*$/, "")} {field.required ? "*" : ""}
                 </label>
 
                 {field.type === "textarea" ? (
@@ -287,6 +306,9 @@ ${message ? "*Details:* " + message : ""}`.trim();
                     onChange={(e) => setter(e.target.value)}
                     placeholder={field.placeholder || ""}
                     aria-label={field.label}
+                    autoComplete={field.id === "name" ? "name" : field.id === "phone" ? "tel" : field.id === "email" ? "email" : undefined}
+                    inputMode={field.id === "phone" ? "tel" : field.id === "guestCount" ? "numeric" : undefined}
+                    min={field.id === "eventDate" ? new Date().toISOString().split("T")[0] : undefined}
                     className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500 focus:outline-none transition-colors"
                   />
                 )}
@@ -295,12 +317,29 @@ ${message ? "*Details:* " + message : ""}`.trim();
           })}
         </div>
 
+        {/* Honeypot field (hidden from real users) */}
+        <div className="hidden" aria-hidden="true">
+          <label htmlFor="website-url-check">Leave empty</label>
+          <input
+            id="website-url-check"
+            type="text"
+            tabIndex={-1}
+            autoComplete="off"
+            value={honey}
+            onChange={(e) => setHoney(e.target.value)}
+          />
+        </div>
+
+        <p className="text-[11px] text-slate-500 leading-tight">
+          By submitting, you agree to be contacted by phone or WhatsApp regarding your enquiry. See our <a href="/privacy-policy" className="text-amber-600 underline">Privacy Policy</a>.
+        </p>
+
         <button
           type="submit"
           disabled={loading}
           className="w-full py-3.5 rounded-full bg-amber-600 hover:bg-amber-700 text-white font-semibold text-sm shadow-xs flex items-center justify-center gap-2 transition-all active:scale-[0.99] mt-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 disabled:opacity-70 cursor-pointer"
         >
-          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />} {settings?.submitBtnText || "Send My Enquiry"}
+          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />} Get a Free Quote
         </button>
       </form>
     </div>
