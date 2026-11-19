@@ -3,20 +3,9 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Sparkles, Utensils, Award, ShieldCheck } from "lucide-react";
 import { HeroSectionData } from "@/types/hero";
-
-// Lazy-load 3D stage with high-performance SSR disabled
-const HeroScene3D = dynamic(() => import("./HeroScene3D"), {
-  ssr: false,
-  loading: () => (
-    <div className="w-full h-[380px] sm:h-[460px] lg:h-[500px] flex items-center justify-center">
-      <div className="w-16 h-16 rounded-full border-2 border-amber-500/20 border-t-amber-500 animate-spin" />
-    </div>
-  ),
-});
 
 interface HeroSectionProps {
   hero: HeroSectionData | null;
@@ -30,7 +19,6 @@ export function HeroSection({
   whatsapp = "919810483544",
 }: HeroSectionProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [activeView, setActiveView] = useState<"3d" | "photos">("3d");
 
   // Fallbacks if DB hero is null or disabled
   const isEnabled = hero?.isEnabled ?? true;
@@ -178,112 +166,73 @@ export function HeroSection({
             </div>
           </div>
 
-          {/* Right Column: 3D Cloche Showcase with Photo Toggle (6 cols) */}
+          {/* Right Column: High-Resolution Event Showcase Slider (6 cols) */}
           <div className="lg:col-span-6 relative">
-            {/* View Mode Toggle (Interactive 3D vs Real Gallery) */}
-            <div className="flex items-center justify-center sm:justify-end gap-2 mb-3">
-              <div className="inline-flex p-1 rounded-full bg-stone-200/70 dark:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-300">
-                <button
-                  type="button"
-                  onClick={() => setActiveView("3d")}
-                  className={`px-3.5 py-1.5 rounded-full transition-all ${
-                    activeView === "3d"
-                      ? "bg-white dark:bg-slate-900 text-amber-700 dark:text-amber-400 shadow-sm"
-                      : "hover:text-slate-900 dark:hover:text-white"
-                  }`}
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl border border-stone-200/80 bg-slate-100 dark:border-slate-800 dark:bg-slate-900 shadow-md">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentSlide}
+                  initial={{ opacity: 0, scale: 1.02 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="relative w-full h-full"
                 >
-                  Interactive 3D
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveView("photos")}
-                  className={`px-3.5 py-1.5 rounded-full transition-all ${
-                    activeView === "photos"
-                      ? "bg-white dark:bg-slate-900 text-amber-700 dark:text-amber-400 shadow-sm"
-                      : "hover:text-slate-900 dark:hover:text-white"
-                  }`}
-                >
-                  Live Photography
-                </button>
-              </div>
-            </div>
+                  <Image
+                    src={slides[currentSlide]?.imageUrl || "/grand_wedding_decor/3dce2ebd-b344-485c-80e0-88cad120d299.webp"}
+                    alt={slides[currentSlide]?.altText || "Verma Caterers authentic event"}
+                    fill
+                    priority
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 640px"
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent pointer-events-none" />
 
-            {activeView === "3d" ? (
-              <div className="relative rounded-3xl border border-stone-200/80 bg-gradient-to-b from-[#FCFBF7] to-[#F8F7F3] dark:border-slate-800 dark:from-slate-900/60 dark:to-slate-950/80 shadow-sm overflow-hidden p-2">
-                <HeroScene3D />
-                <div className="absolute bottom-4 left-0 right-0 text-center pointer-events-none">
-                  <span className="text-[11px] font-medium text-stone-500 dark:text-slate-400 bg-white/70 dark:bg-slate-900/70 backdrop-blur-sm px-3.5 py-1 rounded-full border border-stone-200/60 dark:border-slate-800 shadow-xs">
-                    ✦ Drag or swipe to interact with the 3D Gourmet Cloche
-                  </span>
-                </div>
-              </div>
-            ) : (
-              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl border border-stone-200/80 bg-slate-100 dark:border-slate-800 dark:bg-slate-900 shadow-sm">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={currentSlide}
-                    initial={{ opacity: 0, scale: 1.02 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="relative w-full h-full"
-                  >
-                    <Image
-                      src={slides[currentSlide]?.imageUrl || "/grand_wedding_decor/3dce2ebd-b344-485c-80e0-88cad120d299.webp"}
-                      alt={slides[currentSlide]?.altText || "Verma Caterers authentic event"}
-                      fill
-                      priority
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 640px"
-                      className="object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent pointer-events-none" />
-
-                    {slides[currentSlide]?.caption && (
-                      <div className="absolute bottom-4 left-4 right-4 rounded-xl bg-slate-900/75 p-3 text-xs font-medium text-white backdrop-blur-sm sm:text-sm">
-                        {slides[currentSlide].caption}
-                      </div>
-                    )}
-                  </motion.div>
-                </AnimatePresence>
-
-                {/* Slider Controls */}
-                {slides.length > 1 && (
-                  <>
-                    <button
-                      onClick={() => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)}
-                      aria-label="Previous slide"
-                      className="absolute left-3 top-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full bg-slate-950/50 text-white backdrop-blur-sm transition hover:bg-slate-950/80"
-                    >
-                      <ChevronLeft className="h-5 w-5" />
-                    </button>
-
-                    <button
-                      onClick={() => setCurrentSlide((prev) => (prev + 1) % slides.length)}
-                      aria-label="Next slide"
-                      className="absolute right-3 top-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full bg-slate-950/50 text-white backdrop-blur-sm transition hover:bg-slate-950/80"
-                    >
-                      <ChevronRight className="h-5 w-5" />
-                    </button>
-
-                    {/* Pagination Dots */}
-                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10 p-1">
-                      {slides.map((_, idx) => (
-                        <button
-                          key={idx}
-                          onClick={() => setCurrentSlide(idx)}
-                          aria-label={`Go to slide ${idx + 1}`}
-                          className={`h-1.5 rounded-full transition-all ${
-                            idx === currentSlide
-                              ? "w-5 bg-amber-400"
-                              : "w-1.5 bg-white/70 hover:bg-white"
-                          }`}
-                        />
-                      ))}
+                  {slides[currentSlide]?.caption && (
+                    <div className="absolute bottom-4 left-4 right-4 rounded-xl bg-slate-900/75 p-3 text-xs font-medium text-white backdrop-blur-sm sm:text-sm">
+                      {slides[currentSlide].caption}
                     </div>
-                  </>
-                )}
-              </div>
-            )}
+                  )}
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Slider Controls */}
+              {slides.length > 1 && (
+                <>
+                  <button
+                    onClick={() => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)}
+                    aria-label="Previous slide"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full bg-slate-950/50 text-white backdrop-blur-sm transition hover:bg-slate-950/80 cursor-pointer z-10"
+                  >
+                    <ChevronLeft className="h-5 w-5" />
+                  </button>
+
+                  <button
+                    onClick={() => setCurrentSlide((prev) => (prev + 1) % slides.length)}
+                    aria-label="Next slide"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full bg-slate-950/50 text-white backdrop-blur-sm transition hover:bg-slate-950/80 cursor-pointer z-10"
+                  >
+                    <ChevronRight className="h-5 w-5" />
+                  </button>
+
+                  {/* Pagination Dots */}
+                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10 p-1">
+                    {slides.map((_, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setCurrentSlide(idx)}
+                        aria-label={`Go to slide ${idx + 1}`}
+                        className={`h-1.5 rounded-full transition-all cursor-pointer ${
+                          idx === currentSlide
+                            ? "w-5 bg-amber-400"
+                            : "w-1.5 bg-white/70 hover:bg-white"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         </div>
 
