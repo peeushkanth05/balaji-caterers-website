@@ -43,3 +43,10 @@ export function isOwnerValueSet(val?: string | null): boolean {
   const trimmed = val.trim();
   return trimmed !== "" && !trimmed.startsWith("{{OWNER");
 }
+
+export function safeOwnerText(val?: string | null, fallback: string = ""): string {
+  if (!val) return fallback;
+  const trimmed = val.trim();
+  if (trimmed.startsWith("{{OWNER")) return fallback;
+  return trimmed;
+}

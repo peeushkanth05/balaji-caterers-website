@@ -60,20 +60,19 @@ export function HeroSection({
     hero?.floatingCards && hero.floatingCards.length >= 3
       ? hero.floatingCards.filter((c) => c.isEnabled).slice(0, 3)
       : [
-          { title: "Pure Veg & Gourmet", description: "Bespoke menus & live stations" },
+          { title: "Veg & Non-Veg Gourmet", description: "Bespoke menus & live stations" },
           { title: "Royal Event Decor", description: "Mandap & ambient styling" },
           { title: "Flawless Execution", description: "White-glove service staff" },
         ];
 
-  // Statistics counters
+  // Statistics counters (strictly 3 stats: Events, Experience, Families - no 100% stat)
   const statistics =
     hero?.statistics && hero.statistics.length > 0
-      ? hero.statistics.filter((s) => s.isEnabled)
+      ? hero.statistics.filter((s) => s.isEnabled && !s.title.toLowerCase().includes("satisfaction") && !s.number.includes("100%"))
       : [
           { id: "s1", icon: "", number: "500+", title: "Grand Events Executed", sortOrder: 1 },
           { id: "s2", icon: "", number: "15+", title: "Years Culinary Craft", sortOrder: 2 },
-          { id: "s3", icon: "", number: "1000+", title: "Delighted Families", sortOrder: 3 },
-          { id: "s4", icon: "", number: "100%", title: "Hygiene & Purity", sortOrder: 4 },
+          { id: "s3", icon: "", number: "1,000+", title: "Delighted Families", sortOrder: 3 },
         ];
 
   const slides =
