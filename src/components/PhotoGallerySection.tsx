@@ -209,7 +209,7 @@ export function PhotoGallerySection({ galleryItems }: PhotoGallerySectionProps) 
           href="/gallery"
           className="inline-flex items-center gap-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs py-3.5 px-8 rounded-xl shadow-md shadow-amber-500/20 transition-all active:scale-95 uppercase tracking-wider focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500"
         >
-          <span>Explore Full Gallery ({galleryItems.length} Photos)</span>
+          <span>Explore Full Gallery</span>
           <ChevronRight className="w-4 h-4 text-white" />
         </Link>
       </div>

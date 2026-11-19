@@ -8,20 +8,36 @@ import { ArrowRight, ExternalLink } from "lucide-react";
 const SERVICE_PAGE_MAP: Record<string, string> = {
   "catering services": "/catering-services-delhi-ncr",
   "wedding host": "/wedding-catering-dwarka",
+  "wedding": "/wedding-catering-dwarka",
   "birthday party": "/birthday-catering-dwarka",
+  "birthday": "/birthday-catering-dwarka",
   "puja & kirtan": "/puja-kirtan-catering-delhi-ncr",
-  "floral decoration": "/gallery",
-  "sound & dj setup": "/gallery",
+  "puja": "/puja-kirtan-catering-delhi-ncr",
+  "floral decoration": "/services/floral-decoration",
+  "floral": "/services/floral-decoration",
+  "sound & dj setup": "/services/sound-dj-lighting",
+  "sound": "/services/sound-dj-lighting",
+  "dj": "/services/sound-dj-lighting",
   "small gathering": "/small-gathering-catering-dwarka",
   "corporate catering": "/corporate-catering-gurugram",
+  "corporate": "/corporate-catering-gurugram",
+  "stall booking": "/services/add-ons",
+  "stall": "/services/add-ons",
+  "event anchoring": "/services/add-ons",
+  "anchoring": "/services/add-ons",
+  "cooler rental": "/services/add-ons",
+  "cooler": "/services/add-ons",
+  "mattress rental": "/services/add-ons",
+  "mattress": "/services/add-ons",
+  "event management": "/services",
 };
 
-function getServiceLandingUrl(title: string): string | null {
+function getServiceLandingUrl(title: string): string {
   const lower = title.toLowerCase();
   for (const [key, url] of Object.entries(SERVICE_PAGE_MAP)) {
     if (lower.includes(key)) return url;
   }
-  return null;
+  return "/services";
 }
 
 export function ServicesSection({
@@ -102,14 +118,18 @@ export function ServicesSection({
                 </div>
 
                 <div className="space-y-2 pt-2">
-                  <button
-                    onClick={() => handleEnquireService(service.title)}
+                  <a
+                    href={`/#contact?service=${encodeURIComponent(service.title)}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleEnquireService(service.title);
+                    }}
                     aria-label={`Enquire about ${service.title}`}
                     className="w-full py-2.5 px-4 rounded-full bg-amber-600 hover:bg-amber-700 text-white font-semibold text-xs flex items-center justify-center gap-1.5 transition-all shadow-xs active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600"
                   >
                     <span>Enquire Now</span>
                     <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
-                  </button>
+                  </a>
 
                   {landingUrl && (
                     <Link

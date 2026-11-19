@@ -271,10 +271,10 @@ export default async function HomePage() {
 
   const phone = settings?.phone || "+91 98104 83544";
   const whatsapp = settings?.whatsapp || "919810483544";
-  const email = settings?.email || "vermasandeep124@gmail.com";
+  const email = (settings?.email && settings.email !== "vermasandeep124@gmail.com") ? settings.email : "bookings@vermacaterersevents.com";
   const address = settings?.address || "Dwarka Sector 5, Madhu Vihar, New Delhi";
 
-  const heroBadge = settings?.heroBadge || "Delhi NCR's Premier Event Partner";
+  const heroBadge = settings?.heroBadge && !settings.heroBadge.includes("Premier") ? settings.heroBadge : "Delhi NCR's Event & Catering Partner";
   const heroTitle = settings?.heroTitle || "Every Celebration, Perfectly Crafted.";
   const heroSubtitle = settings?.heroSubtitle || "From grand weddings to intimate family gatherings — Verma Caterers brings you world-class catering, stunning floral décor, seamless sound, and complete event management.";
 

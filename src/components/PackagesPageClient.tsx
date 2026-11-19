@@ -152,7 +152,7 @@ Please send the complete customized menu options.`
               <span className="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-2 py-0.5 rounded font-bold">
                 ₹{activeRate}/plate
               </span>
-              <span>&bull; for {guests} guests (+ GST @ {BUSINESS_CONFIG.gstRate})</span>
+              <span>&bull; for {guests} guests (+ GST as applicable)</span>
             </div>
 
             <p className="text-[11px] text-slate-400 leading-normal">
@@ -264,7 +264,7 @@ Please send the complete customized menu options.`
                           <span className="text-xs text-slate-500 dark:text-slate-400">/ plate</span>
                         </div>
                         <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
-                          + GST @ {BUSINESS_CONFIG.gstRate}
+                          + GST as applicable
                         </div>
                         <span className="inline-block text-[10px] font-bold px-2 py-0.5 rounded bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800/60">
                           {pkg.discountType === "percentage" ? `${pkg.discountValue}% OFF` : `₹${pkg.discountValue} OFF`}
@@ -276,7 +276,7 @@ Please send the complete customized menu options.`
                           ₹{pkg.pricePerPerson} <span className="text-xs font-normal text-slate-500 dark:text-slate-400">/ plate</span>
                         </div>
                         <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium mt-0.5">
-                          + GST @ {BUSINESS_CONFIG.gstRate}
+                          + GST as applicable
                         </div>
                       </div>
                     )}

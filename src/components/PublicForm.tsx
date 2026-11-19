@@ -256,10 +256,12 @@ ${message ? "*Details:* " + message : ""}`.trim();
             const val = getState(field.id);
             const setter = getSetter(field.id);
 
+            const cleanLabel = field.label.replace(/\s*\*.*$/, "").trim();
+
             return (
               <div key={field.id} className={isWide ? "sm:col-span-2" : ""}>
                 <label htmlFor={`form-field-${field.id}`} className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
-                  {field.label.replace(/\s*\*\s*$/, "")} {field.required ? "*" : ""}
+                  {cleanLabel} {field.required ? "*" : ""}
                 </label>
 
                 {field.type === "textarea" ? (

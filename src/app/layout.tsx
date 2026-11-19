@@ -31,9 +31,6 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://vermacaterersevents.com",
   },
-  verification: {
-    google: "{{OWNER: GSC verification code}}",
-  },
   icons: {
     icon: [
       { url: "/favicon.ico" },

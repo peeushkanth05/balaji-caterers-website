@@ -82,7 +82,7 @@ interface SiteSettings {
 const DEFAULT_SETTINGS: HeaderSettings = {
   stickyHeader: true,
   topBarActive: true,
-  topBarText: "Delhi NCR's Premier Event & Catering Partner",
+  topBarText: "Delhi NCR's Event & Catering Partner",
   showSocials: true,
   showContact: true,
 };
@@ -232,8 +232,9 @@ export function Header() {
 
   const company = siteSettings?.companyName || "Verma Caterers";
   const logo = siteSettings?.logoUrl || "/new-logo.webp";
-  const phoneVal = siteSettings?.phone || "+91 98104 83544";
-  const emailVal = siteSettings?.email || "vermasandeep124@gmail.com";
+  const phoneVal = (siteSettings?.phone || "+91 98104 83544").replace(/\s+/g, "");
+  const phoneDisplay = siteSettings?.phone || "+91 98104 83544";
+  const emailVal = (siteSettings?.email && siteSettings.email !== "vermasandeep124@gmail.com") ? siteSettings.email : "bookings@vermacaterersevents.com";
 
   // Actions filter (Active status)
   const activeActions = actions.filter((a) => a.active);
@@ -257,7 +258,7 @@ export function Header() {
             {settings.showContact && (
               <div className="hidden md:flex items-center gap-4 text-slate-400">
                 <a href={`tel:${phoneVal}`} className="hover:text-white flex items-center gap-1 transition-colors">
-                  <Phone className="w-3 h-3 text-amber-500" /> {phoneVal}
+                  <Phone className="w-3 h-3 text-amber-500" /> {phoneDisplay}
                 </a>
                 <a href={`mailto:${emailVal}`} className="hover:text-white flex items-center gap-1 transition-colors">
                   <Mail className="w-3 h-3 text-amber-500" /> {emailVal}
