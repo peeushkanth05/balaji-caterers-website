@@ -238,7 +238,15 @@ export function HeroSection({
 
         {/* Minimalist Trust Statistics Strip */}
         {statistics.length > 0 && (
-          <div className="mt-12 sm:mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 rounded-3xl border border-stone-200/80 bg-white/80 backdrop-blur-sm p-6 sm:p-7 shadow-xs dark:border-slate-800 dark:bg-slate-900 transition-colors">
+          <div
+            className={`mt-12 sm:mt-16 grid gap-4 rounded-3xl border border-stone-200/80 bg-white/80 backdrop-blur-sm p-6 sm:p-7 shadow-xs dark:border-slate-800 dark:bg-slate-900 transition-colors ${
+              statistics.length === 3
+                ? "grid-cols-1 sm:grid-cols-3"
+                : statistics.length === 2
+                  ? "grid-cols-1 sm:grid-cols-2"
+                  : "grid-cols-2 md:grid-cols-4"
+            }`}
+          >
             {statistics.map((stat, sIdx) => (
               <div key={stat.id || sIdx} className="text-center p-2 sm:p-3">
                 <div className="text-2xl sm:text-3xl font-extrabold tracking-tight text-amber-600 dark:text-amber-500">
