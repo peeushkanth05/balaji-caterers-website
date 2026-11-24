@@ -97,12 +97,12 @@ export function HeroSection({
   const speed = hero?.sliderSpeed || 5000;
 
   useEffect(() => {
-    if (!autoPlay || slides.length <= 1 || activeView !== "photos") return;
+    if (!autoPlay || slides.length <= 1) return;
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, speed);
     return () => clearInterval(interval);
-  }, [autoPlay, speed, slides.length, activeView]);
+  }, [autoPlay, speed, slides.length]);
 
   if (!isEnabled) return null;
 
